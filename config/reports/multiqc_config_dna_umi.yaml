@@ -1,0 +1,204 @@
+title: "Clinical Genomics MultiQC Report (ctDNA)"
+subtitle: "Reference used: GRCh37"
+intro_text: "The MultiQC DNA report summarise analysis results from GMS560 panel data that been analysed by the Twist Solid pipeline (https://github.com/genomic-medicine-sweden/Twist_Solid). This version includes UMI-based consensus metrics."
+
+report_header_info:
+  - Contact E-mail: !ENV "${NAME:igp-klinsek-bioinfo}@${DOMAIN:lists.uu.se}"
+  - Application Type: "Bioinformatic analysis of GMS560 panel for solid cancers (ctDNA/UMI)"
+
+show_analysis_paths: True
+
+extra_fn_clean_exts:
+    - '.duplication_metrics'
+    - '.HsMetrics'
+    - '.alignment_summary_metrics'
+    - '.umi'
+    - '.family_sizes'
+    - '.duplex_family_sizes'
+    - '.duplex_yield_metrics'
+    - '.umi_counts'
+    - type: regex
+      pattern: '_fastq[12]'
+
+custom_content:
+  order:
+    - qc-stats
+    - fgbio
+    - fastqc
+    - fastp
+    - samtools
+    - picard
+
+custom_data:
+  contamination_table:
+    file_format: "tsv"
+    section_name: "Contamination"
+    description: "This data comes from files accompanied by a multiqc_config_dna.yaml file for configuration"
+    plot_type: "generalstats"
+    pconfig:
+      - contamination:
+          min: 0
+          max: 0.1
+          scale: "RdYlGn-rev"
+  duplex_yield_metrics:
+    file_format: "tsv"
+    section_name: "Duplex Yield Metrics"
+    description: "Summary of duplex consensus yield from fgbio"
+    plot_type: "generalstats"
+    pconfig:
+      - ds_fraction_duplexes:
+          title: "Duplex Yield"
+          description: "Fraction of original molecules that resulted in a duplex consensus"
+          min: 0
+          max: 100
+          scale: "RdYlGn"
+          suffix: "%"
+          format: "{:.2f}"
+      - ds_duplexes:
+          title: "Duplex Molecules"
+          suffix: "M"
+          format: "{:.1f}"
+      - percent_duplication:
+          title: "Duplication"
+          description: "Duplication rate calculated from read pairs and consensus families"
+          min: 0
+          max: 100
+          scale: "RdYlGn-rev"
+          suffix: "%"
+          format: "{:.2f}"
+
+sp:
+  contamination_table:
+    fn: "*.contamination.table"
+  duplex_yield_metrics:
+    fn: "*.duplex_yield_summary.txt"
+
+table_columns_visible:
+  contamination_table:
+    contamination: True
+  duplex_yield_metrics:
+    ds_fraction_duplexes: True
+    ds_duplexes: True
+    percent_duplication: True
+  "Picard: HsMetrics":
+    FOLD_ENRICHMENT: False
+    PCT_TARGET_BASES_30X: False
+  "Picard: InsertSizeMetrics":
+    summed_median: True
+    summed_mean: False
+  "Samtools: stats":
+    error_rate: False
+    non-primary_alignments: False
+    reads_mapped: True
+    reads_mapped_percent: True
+    reads_properly_paired_percent: False
+    reads_MQ0_percent: False
+    raw_total_sequences: False
+  FastQC:
+    percent_duplicates: False
+    percent_gc: False
+    avg_sequence_length: False
+    percent_fails: False
+    total_sequences: False
+    median_sequence_length: False
+
+multiqc_cgs:
+  "Samtools: stats":
+    reads_mapped:
+      title: "M Aligned reads"
+      description: "Number of million reads in bam from Samtools stats"
+      format: "{:.1f}"
+      shared_key: "read_count"
+  "Picard: HsMetrics":
+    PCT_SELECTED_BASES:
+      title: "Bases on exon target [%]"
+      description: "Bases on exon target [%] from Picard"
+      min: 0.3
+      max: 0.7
+      scale: "RdYlGn"
+      format: "{:.1%}"
+    PCT_USABLE_BASES_ON_TARGET:
+      title: "Usable bases [%]"
+      description: "Bases aligned, on exon target, and dedup [%] from Picard"
+      min: 0.0
+      max: 0.2
+      scale: "RdYlGn"
+      format: "{:.1%}"
+    PCT_TARGET_BASES_100X:
+      title: "Exon target bases over 100X [%]"
+      description: "Exon target bases over 100X [%] from Picard"
+      min: 0.9
+      max: 1.0
+      scale: "RdYlGn"
+      format: "{:.1%}"
+    PCT_TARGET_BASES_500X:
+      title: "Exon target bases over 500X [%]"
+      description: "Exon target bases over 500X [%] from Picard"
+      min: 0.0
+      max: 1.0
+      scale: "RdYlGn"
+      format: "{:.1%}"
+    MEAN_TARGET_COVERAGE:
+      title: "Mean exon target coverage"
+      description: "Mean exon target coverage from picard"
+      format: "{:.1f}"
+    MEDIAN_TARGET_COVERAGE:
+      title: "Median exon target coverage"
+      description: "Median exon target coverage from picard"
+      format: "{:.1f}"
+    AT_DROPOUT:
+      title: "AT-dropout [%]"
+      description: "AT-dropout [%] from Picard"
+      min: 0
+      max: 10
+      scale: "RdYlGn-rev"
+      format: "{:.3f}"
+    GC_DROPOUT:
+      title: "GC-dropout [%]"
+      description: "GC-dropout [%] from Picard"
+      min: 0
+      max: 10
+      scale: "RdYlGn-rev"
+      format: "{:.3f}"
+    ZERO_CVG_TARGETS_PCT:
+      title: "Target bases with zero coverage [%]"
+      description: "Target bases with zero coverage [%] from Picard"
+      min: 0
+      max: 0.1
+      scale: "RdYlGn-rev"
+      format: "{:.2%}"
+    FOLD_80_BASE_PENALTY:
+      title: "FOLD-80"
+      description: "FOLD-80 penalty from picard"
+      min: 1
+      max: 3
+      scale: "RdYlGn-rev"
+      format: "{:.1f}"
+  "Picard: InsertSizeMetrics":
+    summed_median:
+      title: "Median insert size"
+      description: "Median insert size from Picard"
+      min: 70
+      max: 200
+      scale: "RdYlGn"
+      format: "{:.1f}"
+
+table_columns_placement:
+  "Samtools: stats":
+    reads_mapped: 900
+    reads_mapped_percent: 910
+  "Custom content: duplex_yield_metrics":
+    ds_fraction_duplexes: 915
+    ds_duplexes: 916
+    percent_duplication: 917
+  "Picard: HsMetrics":
+    PCT_SELECTED_BASES: 930
+    PCT_USABLE_BASES_ON_TARGET: 940
+    PCT_TARGET_BASES_100X: 950
+    PCT_TARGET_BASES_500X: 955
+    MEAN_TARGET_COVERAGE: 960
+    MEDIAN_TARGET_COVERAGE: 970
+  "Picard: InsertSizeMetrics":
+    summed_median: 980
+  "Custom content: contamination_table":
+    contamination: 1000

@@ -27,10 +27,18 @@ jobs:
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: snakemake dry run
+      - name: snakemake dry run ffpe
         working-directory: .tests/integration
         run: |
           snakemake -n -s ../../workflow/Snakefile --configfiles ../../config/config.yaml config/config.yaml
+      - name: snakemake dry run ffpe with fgbio overlap consensus
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfiles ../../config/config.yaml config/config.yaml config/config_ffpe_fgbio.yaml
+      - name: snakemake dry run ctDNA
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfiles ../../config/config.yaml config/config.yaml config/config_ctDNA.yaml
       - name: snakemake dry run reference
         working-directory: .tests/integration
         run: | 

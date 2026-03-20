@@ -1,0 +1,5 @@
+run_ffpe_overlapping_consensus: True
+
+fgbio_call_overlapping_consensus_bases:
+  agrement_strategy: "Consensus"
+  disagrement_strategy: "MaskBoth"

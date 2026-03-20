@@ -91,6 +91,24 @@ hydra-genetics create-input-files -d path/to/fastq-files/
 
 **Note**: Sample names cannot include "_" (underscore)!
 
+## Profile and configuration
+When running the pipeline, multiple configuration files should be used depending on the sample type. These can be specified in a Snakemake profile or directly in the command line using `--configfiles`.
+
+### FFPE samples
+For FFPE samples, the following configuration files are required:
+- `config/config.yaml`
+- `config/config.data.<genome_build>.yaml`
+
+### ctDNA samples
+For ctDNA samples, an additional configuration file is required to enable UMI processing:
+- `config/config.yaml`
+- `config/config.data.<genome_build>.yaml`
+- `config/config.data.ctdna.<genome_build>.yaml`
+
+### Specific sequencer configuration (optional)
+For specific sequencers, an additional configuration file can be added:
+- `config/config.data.<genome_build>.<sequencer>.yaml` (e.g., `config/config.data.hg19.novaseqX.yaml`)
+
 ## Run command
 Using the activated python virtual environment created above, this is a basic command for running the pipeline:
 ```bash

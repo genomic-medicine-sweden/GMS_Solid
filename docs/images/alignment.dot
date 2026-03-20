@@ -1,32 +1,111 @@
 digraph snakemake_dag {
     rankdir=LR;
     graph[bgcolor=white, margin=0];
-    node[shape=box, style=rounded, fontname=sans,                 fontsize=10, penwidth=2];
+    node[shape=box, style=rounded, fontname=sans, fontsize=10, penwidth=2];
     edge[penwidth=2, color=grey];
-	0[label = "samtools_merge_bam", color = "0.64 0.6 0.85", style="rounded"];
-	1[label = "picard_mark_duplicates", color = "0.27 0.6 0.85", style="rounded"];
-	2[label = "samtools_extract_reads", color = "0.37 0.6 0.85", style="rounded"];
-	3[label = "samtools_sort", color = "0.53 0.6 0.85", style="rounded"];
-	4[label = "bwa_mem_merge", color = "0.31 0.6 0.85", style="rounded"];
-	5[label = "bwa_mem", color = "0.43 0.6 0.85", style="rounded"];
-	7[label = "samtools_index", color = "0.60 0.6 0.85", style="rounded"];
-	8[label = "trimmed fastq", color = "0.0 0.0 0.0", style="dotted"];
-	1 -> 0
-	2 -> 1
-	3 -> 2
-	7 -> 2
-	4 -> 3
-	5 -> 4
-	3 -> 7
-	8 -> 5
-	
-	// ctDNA specific
-	20[label = "fgbio_copy_umi", color = "0.70 0.6 0.85", style="rounded"];
-	21[label = "fgbio_group_reads", color = "0.75 0.6 0.85", style="rounded"];
-	22[label = "fgbio_call_consensus", color = "0.80 0.6 0.85", style="rounded"];
-	
-	5 -> 20
-	20 -> 21
-	21 -> 22
-	22 -> 3
-}            
+
+    // Source
+    8[label = "trimmed fastq", color = "0.0 0.0 0.0", style="dotted"];
+
+    // Common initial alignment
+    5[label = "bwa_mem", color = "0.43 0.6 0.85", style="rounded"];
+    4[label = "bwa_mem_merge", color = "0.31 0.6 0.85", style="rounded"];
+
+    8 -> 5
+    5 -> 4
+
+    subgraph cluster_ffpe {
+        label = "FFPE Path";
+        color = lightgrey;
+        style = dashed;
+
+        f1[label = "filter_reads", color = "0.1 0.6 0.85", style="rounded"];
+        f1f[label = "filter (fusions)", color = "0.1 0.6 0.85", style="rounded,dashed"];
+        s1[label = "sort (FFPE)", color = "0.53 0.6 0.85", style="rounded"];
+        s1f[label = "sort (fusions)", color = "0.53 0.6 0.85", style="rounded,dashed"];
+        i1[label = "index", color = "0.60 0.6 0.85", style="rounded"];
+        ex1[label = "extract", color = "0.37 0.6 0.85", style="rounded"];
+        o1[label = "overlapping_bases", color = "0.80 0.6 0.85", style="rounded"];
+        d1[label = "mark_duplicates (FFPE)", color = "0.27 0.6 0.85", style="rounded"];
+        d1f[label = "mark_duplicates (fusions)", color = "0.27 0.6 0.85", style="rounded,dashed"];
+        m1[label = "merge (all)", color = "0.64 0.6 0.85", style="rounded"];
+        
+        f1 -> s1
+        s1 -> i1
+        i1 -> ex1
+        ex1 -> o1
+        o1 -> d1
+        f1f -> s1f [style="dashed"]
+        s1f -> d1f [style="dashed"]
+        d1 -> m1
+        d1f -> m1 [style="dashed"]
+    }
+
+    subgraph cluster_umi {
+        label = "UMI (ctDNA) Path";
+        color = lightblue;
+        style = dashed;
+
+        f2f1[label = "filter (umi fusions 1)", color = "0.1 0.6 0.85", style="rounded,dashed"];
+        f2f2[label = "filter (umi fusions 2)", color = "0.1 0.6 0.85", style="rounded,dashed"];
+        s0[label = "sort (bwa_mem)", color = "0.53 0.6 0.85", style="rounded"];
+        20[label = "copy_umi", color = "0.70 0.6 0.85", style="rounded"];
+        21[label = "group_reads", color = "0.75 0.6 0.85", style="rounded"];
+        22[label = "call_consensus", color = "0.80 0.6 0.85", style="rounded"];
+        re_unm[label = "realign (unmapped)", color = "0.43 0.6 0.85", style="rounded"];
+        s_f1[label = "sort (fusions 1)", color = "0.53 0.6 0.85", style="rounded,dashed"];
+        s_f2[label = "sort (fusions 2)", color = "0.53 0.6 0.85", style="rounded,dashed"];
+        d_f1[label = "mark_duplicates (fusions 1)", color = "0.27 0.6 0.85", style="rounded,dashed"];
+        d_f2[label = "mark_duplicates (fusions 2)", color = "0.27 0.6 0.85", style="rounded,dashed"];
+        m2[label = "merge_umi", color = "0.64 0.6 0.85", style="rounded"];
+        s2[label = "sort (ctDNA)", color = "0.53 0.6 0.85", style="rounded"];
+        i2[label = "index (UMI)", color = "0.60 0.6 0.85", style="rounded"];
+        ex2[label = "extract (UMI)", color = "0.37 0.6 0.85", style="rounded"];
+        
+        s0 -> f2f1 [style="dashed"]
+        s0 -> f2f2 [style="dashed"]
+        s0 -> 20
+        20 -> 21
+        21 -> 22
+        22 -> re_unm
+        f2f1 -> s_f1 [style="dashed"]
+        f2f2 -> s_f2 [style="dashed"]
+        s_f1 -> d_f1 [style="dashed"]
+        s_f2 -> d_f2 [style="dashed"]
+        d_f1 -> m2 [style="dashed"]
+        d_f2 -> m2 [style="dashed"]
+        re_unm -> m2
+        m2 -> s2
+        s2 -> i2
+        i2 -> ex2
+    }
+
+    subgraph cluster_std {
+        label = "Standard Path (fgbio=false)";
+        color = lightgreen;
+        style = dashed;
+
+        s_std[label = "sort (coord)", color = "0.53 0.6 0.85", style="rounded"];
+        i_std[label = "index", color = "0.60 0.6 0.85", style="rounded"];
+        ex_std[label = "extract", color = "0.37 0.6 0.85", style="rounded"];
+        d_std[label = "mark_duplicates", color = "0.27 0.6 0.85", style="rounded"];
+
+        s_std -> i_std
+        i_std -> ex_std
+        ex_std -> d_std
+    }
+
+    // FFPE edges
+    4 -> f1 [label="fgbio=true"]
+    4 -> f1f [style="dashed"]
+    
+    // Standard edges
+    4 -> s_std [label="fgbio=false"]
+    
+    // UMI edges
+    4 -> s0
+
+    // Force extraction (umi) and Picard to the far right
+    { rank = same; d1; ex2; }
+}
+            

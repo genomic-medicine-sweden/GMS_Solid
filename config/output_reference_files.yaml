@@ -36,7 +36,7 @@ files:
     types:
       - N
   - name: BAM index
-    input: alignment/samtools_merge_bam/{sample}_{type}.bam.bai
+    input: "{get_deduplication_bam_input_bai}"
     output: result/bam_dna/{sample}_{type}.bam.bai
     types:
       - T

@@ -5,7 +5,7 @@ units: "units.tsv"
 #hydra_local_path: "PATH_TO_REPO"
 
 modules:
-  alignment: "v0.7.0"
+  alignment: "v0.8.0"
   annotation: "v1.3.1"
   biomarker: "v0.8.0"
   cnv_sv: "v3.0.0"
@@ -21,6 +21,7 @@ default_container: "docker://hydragenetics/common:3.1.1.1"
 
 trimmer_software: "fastp_pe"
 subsample: "None"
+run_ffpe_overlapping_consensus: false
 
 arriba:
   container: "docker://hydragenetics/arriba:2.3.0"
@@ -44,6 +45,7 @@ bcftools_annotate:
 
 bwa_mem:
   container: "docker://hydragenetics/bwa_mem:0.7.17"
+  extra: "-Y"
 
 bwa_mem_merge:
   extra: "-c -p"
@@ -139,11 +141,19 @@ fastqc:
 
 fgbio_call_and_filter_consensus_reads:
   container: "docker://hydragenetics/fgbio:2.1.0"
-  max_base_error_rate: "0.2"
+  max_base_error_rate: "0.1"
   min_reads_call: "1 0 0"
   min_reads_filter: "1 0 0"
   min_input_base_quality_call: 20
   min_input_base_quality_filter: 30
+
+fgbio_call_overlapping_consensus_bases:
+  container: "docker://hydragenetics/fgbio:2.1.0"
+  agrement_strategy: "Consensus"
+  disagrement_strategy: "Consensus"
+
+fgbio_collect_duplex_seq_metrics:
+  container: "docker://hydragenetics/fgbio:2.1.0"
 
 fgbio_copy_umi_from_read_name:
   container: "docker://hydragenetics/fgbio:2.1.0"
@@ -315,19 +325,19 @@ multiqc:
         - "qc/samtools_stats/{sample}_{type}.samtools-stats.txt"
         - "qc/gatk_calculate_contamination/{sample}_{type}.contamination.table"
     DNA_umi:
-      config: "config/reports/multiqc_config_dna.yaml"
+      config: "config/reports/multiqc_config_dna_umi.yaml"
       included_unit_types: ["N", "T"]
       deduplication: ["umi"]
       qc_files:
         - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq1_fastqc.zip"
         - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq2_fastqc.zip"
         - "qc/picard_collect_alignment_summary_metrics/{sample}_{type}.alignment_summary_metrics.txt"
-        - "qc/picard_collect_duplication_metrics/{sample}_{type}.duplication_metrics.txt"
         - "qc/picard_collect_hs_metrics/{sample}_{type}.HsMetrics.txt"
         - "qc/picard_collect_insert_size_metrics/{sample}_{type}.insert_size_metrics.txt"
         - "qc/samtools_stats/{sample}_{type}.samtools-stats.txt"
         - "qc/gatk_calculate_contamination/{sample}_{type}.contamination.table"
         - "alignment/fgbio_group_reads_by_umi/{sample}_{type}.umi.histo.tsv"
+        - "qc/fgbio_duplex_yield_summary/{sample}_{type}.duplex_yield_summary.txt"
     RNA:
       config: "config/reports/multiqc_config_rna.yaml"
       included_unit_types: ["R"]
@@ -390,6 +400,18 @@ report_gene_fuse:
 
 sample_mixup_check:
   match_cutoff: 0.7
+
+samtools_filter_reads:
+  extra: "-f 2"
+
+samtools_filter_reads_fusions:
+  extra: "-G 2"
+
+samtools_filter_reads_umi_fusions1:
+  extra: "-f 0x100"
+
+samtools_filter_reads_umi_fusions2:
+  extra: "-f 0x800"
 
 samtools_merge_bam:
   extra: "-c -p"

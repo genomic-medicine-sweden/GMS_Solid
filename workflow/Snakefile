@@ -26,11 +26,16 @@ rule all:
         unpack(compile_output_list),
 
 
-ruleorder: alignment_samtools_extract_reads_rna > alignment_samtools_extract_reads
-ruleorder: alignment_bwa_mem_merge > alignment_samtools_sort
-ruleorder: alignment_bwa_mem_merge_umi > alignment_samtools_sort_umi
-ruleorder: alignment_samtools_merge_bam > alignment_samtools_sort
+ruleorder: annotation_add_mosdepth_coverage_to_gvcf > snv_indels_bgzip
 ruleorder: annotation_annotate_cnv > snv_indels_bgzip
+ruleorder: alignment_bwa_mem_merge > alignment_samtools_sort
+ruleorder: alignment_bwa_mem_merge_umi > alignment_samtools_sort
+ruleorder: alignment_fgbio_call_and_filter_consensus_reads > alignment_samtools_sort
+ruleorder: alignment_fgbio_call_overlapping_consensus_bases_ffpe > alignment_samtools_sort
+ruleorder: alignment_fgbio_call_overlapping_consensus_bases_ffpe > alignment_samtools_index
+ruleorder: alignment_samtools_sort_ffpe_fgbio > alignment_samtools_sort
+ruleorder: alignment_samtools_sort_umi_only_query > alignment_samtools_sort
+ruleorder: alignment_samtools_merge_bam > alignment_samtools_sort
 ruleorder: filtering_bcftools_filter_include_region > snv_indels_bgzip
 ruleorder: qc_samtools_stats_rna > qc_samtools_stats
 ruleorder: qc_picard_collect_alignment_summary_metrics_rna > qc_picard_collect_alignment_summary_metrics
@@ -39,17 +44,18 @@ ruleorder: snv_indels_bcftools_sort > snv_indels_bgzip
 ruleorder: snv_indels_gatk_mutect2_gvcf > alignment_samtools_sort
 ruleorder: snv_indels_bgzip > cnv_sv_bgzip
 ruleorder: snv_indels_tabix > cnv_sv_tabix
-ruleorder: annotation_add_mosdepth_coverage_to_gvcf > snv_indels_bgzip
 
 
 wildcard_constraints:
     file="^(?!bam_dna|results|gvcf_dna).*",
+    sample="[^/]+",
+    type="T|N|R",
 
 
 use rule bcftools_id_snps as bcftools_id_snps_dna with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         bed=config.get("bcftools_id_snps", {}).get("snps_bed", "missing bcftools_id_snps snps_bed file"),
         ref=config.get("reference", {}).get("fasta", "missing reference fasta"),
     wildcard_constraints:
@@ -164,19 +170,26 @@ module alignment:
         config
 
 
-use rule * from alignment exclude bwa_mem_merge, samtools_merge_bam, all as alignment_*
+use rule * from alignment exclude bwa_mem_merge, samtools_sort_umi, samtools_merge_bam, bwa_mem_realign_consensus_reads, all as alignment_*
 
 
 use rule samtools_index from alignment as alignment_samtools_index with:
     output:
         bai="{file}.bam.bai",
     wildcard_constraints:
-        file="^snv_indels/.+|^alignment/.+|^fusions/.+|^bam_rna/.+",
+        file="^(?:snv_indels/|alignment/|fusions/|bam_rna/)(?:(?!_unsorted).)+",
 
 
 use rule samtools_sort from alignment as alignment_samtools_sort with:
     wildcard_constraints:
-        file="^snv_indels/.+|^alignment/.+|^fusions/.+",
+        file="^(?:snv_indels/|alignment/|fusions/)(?:(?!.*_unsorted).)+",
+
+
+use rule samtools_sort_umi from alignment as alignment_samtools_sort_ffpe_fgbio with:
+    input:
+        bam="alignment/samtools_filter_reads/{sample}_{type}_unsorted.bam",
+    output:
+        bam=temp("alignment/samtools_filter_reads/{sample}_{type}.bam"),
 
 
 use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam with:
@@ -186,6 +199,8 @@ use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam with:
         extra=config.get("samtools_merge_bam", {}).get("extra", ""),
     log:
         "alignment/samtools_merge_bam/{sample}_{type}.bam.log",
+    wildcard_constraints:
+        type="T|N",
     benchmark:
         repeat(
             "alignment/samtools_merge_bam/{sample}_{type}.bam.benchmark.tsv",
@@ -209,15 +224,262 @@ use rule bwa_mem_merge from alignment as alignment_bwa_mem_merge with:
 
 use rule bwa_mem_merge from alignment as alignment_bwa_mem_merge_umi with:
     output:
-        bam=temp("alignment/bwa_mem/{sample}_{type}_unsorted.bam"),
+        bam=temp("alignment/bwa_mem/{sample}_{type}.umi_unsorted.bam"),
     params:
-        config.get("bwa_mem_merge", {}).get("extra", ""),
+        extra=config.get("bwa_mem_merge", {}).get("extra", ""),
     log:
         "alignment/bwa_mem/{sample}_{type}_unsorted.umi.bam.log",
     benchmark:
         repeat(
             "alignment/bwa_mem/{sample}_{type}_unsorted.umi.bam.benchmark.tsv",
             config.get("bwa_mem_merge", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_sort_umi from alignment as alignment_samtools_sort_umi_only_query with:
+    input:
+        bam="alignment/bwa_mem/{sample}_{type}.umi_unsorted.bam",
+    output:
+        bam=temp("alignment/bwa_mem/{sample}_{type}.umi.query_sorted.bam"),
+    params:
+        extra="-n",
+
+
+use rule fgbio_copy_umi_from_read_name from alignment as alignment_fgbio_copy_umi_from_read_name with:
+    input:
+        bam="alignment/bwa_mem/{sample}_{type}.umi.query_sorted.bam",
+
+
+use rule fgbio_call_overlapping_consensus_bases from alignment as alignment_fgbio_call_overlapping_consensus_bases_ffpe with:
+    input:
+        bam="alignment/samtools_extract_reads/{sample}_{type}_{chr}.bam",
+        ref=config.get("reference", {}).get("fasta", ""),
+    output:
+        bam=temp("alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.bam"),
+        metrics=temp("alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.metrics.txt"),
+    log:
+        "alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.bam.log",
+    wildcard_constraints:
+        type="T|N",
+    benchmark:
+        repeat(
+            "alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.bam.benchmark.tsv",
+            config.get("fgbio_call_overlapping_consensus_bases", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_filter_reads from alignment as alignment_samtools_filter_reads with:
+    input:
+        bam="alignment/bwa_mem/{sample}_{type}.bam",
+    output:
+        bam=temp("alignment/samtools_filter_reads/{sample}_{type}_unsorted.bam"),
+    log:
+        "alignment/samtools_filter_reads/{sample}_{type}_unsorted.bam.log",
+    wildcard_constraints:
+        type="T|N",
+    benchmark:
+        repeat(
+            "alignment/samtools_filter_reads/{sample}_{type}_unsorted.bam.benchmark.tsv",
+            config.get("samtools_filter_reads", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_filter_reads from alignment as alignment_samtools_filter_reads_fusions with:
+    input:
+        bam="alignment/bwa_mem/{sample}_{type}.bam",
+    output:
+        bam=temp("alignment/samtools_filter_reads/{sample}_{type}.fusions_unsorted.bam"),
+    params:
+        extra=config.get("samtools_filter_reads_fusions", {}).get("extra", ""),
+    log:
+        "alignment/samtools_filter_reads/{sample}_{type}.fusions.bam.log",
+    wildcard_constraints:
+        type="T|N",
+    benchmark:
+        repeat(
+            "alignment/samtools_filter_reads/{sample}_{type}.fusions.bam.benchmark.tsv",
+            config.get("samtools_filter_reads", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_filter_reads from alignment as alignment_samtools_filter_reads_umi with:
+    input:
+        bam="alignment/bwa_mem/{sample}_{type}.umi.bam",
+    output:
+        bam=temp("alignment/samtools_filter_reads/{sample}_{type}.umi.bam"),
+    params:
+        extra=config.get("samtools_filter_reads_umi", {}).get("extra", ""),
+    log:
+        "alignment/samtools_filter_reads/{sample}_{type}.umi.bam.log",
+    benchmark:
+        repeat(
+            "alignment/samtools_filter_reads/{sample}_{type}.umi.bam.benchmark.tsv",
+            config.get("samtools_filter_reads", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_filter_reads from alignment as alignment_samtools_filter_reads_umi_fusions1 with:
+    input:
+        bam="alignment/bwa_mem/{sample}_{type}.umi.bam",
+    output:
+        bam=temp("alignment/samtools_filter_reads/{sample}_{type}.umi.fusions1_unsorted.bam"),
+    params:
+        extra=config.get("samtools_filter_reads_umi_fusions1", {}).get("extra", ""),
+    log:
+        "alignment/samtools_filter_reads/{sample}_{type}.umi.fusions1.bam.log",
+    benchmark:
+        repeat(
+            "alignment/samtools_filter_reads/{sample}_{type}.umi.fusions1.bam.benchmark.tsv",
+            config.get("samtools_filter_reads", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_filter_reads from alignment as alignment_samtools_filter_reads_umi_fusions2 with:
+    input:
+        bam="alignment/bwa_mem/{sample}_{type}.umi.bam",
+    output:
+        bam=temp("alignment/samtools_filter_reads/{sample}_{type}.umi.fusions2_unsorted.bam"),
+    params:
+        extra=config.get("samtools_filter_reads_umi_fusions2", {}).get("extra", ""),
+    log:
+        "alignment/samtools_filter_reads/{sample}_{type}.umi.fusions2.bam.log",
+    benchmark:
+        repeat(
+            "alignment/samtools_filter_reads/{sample}_{type}.umi.fusions2.bam.benchmark.tsv",
+            config.get("samtools_filter_reads", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates with:
+    input:
+        bams=lambda wildcards: "alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.bam"
+        if config.get("run_ffpe_overlapping_consensus", True)
+        else "alignment/samtools_extract_reads/{sample}_{type}_{chr}.bam",
+    output:
+        bam=temp("alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam"),
+        metrics=temp("alignment/picard_mark_duplicates/{sample}_{type}_{chr}.metrics.txt"),
+    log:
+        "alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.log",
+    wildcard_constraints:
+        type="T|N",
+    benchmark:
+        repeat(
+            "alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.benchmark.tsv",
+            config.get("picard_mark_duplicates", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates_ffpe_fusions with:
+    input:
+        bams="alignment/samtools_filter_reads/{sample}_{type}.fusions.bam",
+    output:
+        bam=temp("alignment/picard_mark_duplicates_ffpe_fusions/{sample}_{type}.bam"),
+        metrics=temp("alignment/picard_mark_duplicates_ffpe_fusions/{sample}_{type}.metrics.txt"),
+    log:
+        "alignment/picard_mark_duplicates_ffpe_fusions/{sample}_{type}.bam.log",
+    wildcard_constraints:
+        type="T|N",
+    benchmark:
+        repeat(
+            "alignment/picard_mark_duplicates_ffpe_fusions/{sample}_{type}.bam.benchmark.tsv",
+            config.get("picard_mark_duplicates", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_all_final with:
+    input:
+        bam=lambda wildcards: expand(
+            "alignment/picard_mark_duplicates/{{sample}}_{{type}}_{chr}.bam",
+            chr=extract_chr(
+                "%s.fai" % (config.get("reference", {}).get("fasta", "")),
+                filter_out=config.get("reference", {}).get("skip_chrs", []),
+            ),
+        )
+        + ["alignment/picard_mark_duplicates_ffpe_fusions/{sample}_{type}.bam"],
+    output:
+        bam="alignment/samtools_merge_bam_all_final/{sample}_{type}.bam",
+    log:
+        "alignment/samtools_merge_bam_all_final/{sample}_{type}.bam.log",
+    wildcard_constraints:
+        type="T|N",
+    benchmark:
+        repeat(
+            "alignment/samtools_merge_bam_all_final/{sample}_{type}.bam.benchmark.tsv",
+            config.get("samtools_merge_bam", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule fgbio_call_and_filter_consensus_reads from alignment as alignment_fgbio_call_and_filter_consensus_reads with:
+    output:
+        bam=temp("alignment/fgbio_call_and_filter_consensus_reads/{sample}_{type}.umi.unmapped_bam"),
+    log:
+        "alignment/fgbio_call_and_filter_consensus_reads/{sample}_{type}.umi.unmapped.bam.log",
+    benchmark:
+        repeat(
+            "alignment/fgbio_call_and_filter_consensus_reads/{sample}_{type}.umi.unmapped.bam.benchmark.tsv",
+            config.get("fgbio_call_and_filter_consensus_reads", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule bwa_mem_realign_consensus_reads from alignment as alignment_bwa_mem_realign_consensus_reads_unmapped with:
+    input:
+        bam="alignment/fgbio_call_and_filter_consensus_reads/{sample}_{type}.umi.unmapped_bam",
+    output:
+        bam=temp("alignment/bwa_mem_realign_consensus_reads_unmapped/{sample}_{type}.umi_unsorted.bam"),
+    log:
+        "alignment/bwa_mem_realign_consensus_reads_unmapped/{sample}_{type}.umi_unsorted.bam.log",
+    benchmark:
+        repeat(
+            "alignment/bwa_mem_realign_consensus_reads_unmapped/{sample}_{type}.umi_unsorted.bam.benchmark.tsv",
+            config.get("bwa_mem_realign_consensus_reads", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates_umi_fusions1 with:
+    input:
+        bams="alignment/samtools_filter_reads/{sample}_{type}.umi.fusions1.bam",
+    output:
+        bam=temp("alignment/picard_mark_duplicates_umi_fusions1/{sample}_{type}.umi.bam"),
+        metrics=temp("alignment/picard_mark_duplicates_umi_fusions1/{sample}_{type}.umi.metrics.txt"),
+    log:
+        "alignment/picard_mark_duplicates_umi_fusions1/{sample}_{type}.umi.bam.log",
+    benchmark:
+        repeat(
+            "alignment/picard_mark_duplicates_umi_fusions1/{sample}_{type}.umi.bam.benchmark.tsv",
+            config.get("picard_mark_duplicates", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates_umi_fusions2 with:
+    input:
+        bams="alignment/samtools_filter_reads/{sample}_{type}.umi.fusions2.bam",
+    output:
+        bam=temp("alignment/picard_mark_duplicates_umi_fusions2/{sample}_{type}.umi.bam"),
+        metrics=temp("alignment/picard_mark_duplicates_umi_fusions2/{sample}_{type}.umi.metrics.txt"),
+    log:
+        "alignment/picard_mark_duplicates_umi_fusions2/{sample}_{type}.umi.bam.log",
+    benchmark:
+        repeat(
+            "alignment/picard_mark_duplicates_umi_fusions2/{sample}_{type}.umi.bam.benchmark.tsv",
+            config.get("picard_mark_duplicates", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_umi with:
+    input:
+        bam=[
+            "alignment/bwa_mem_realign_consensus_reads_unmapped/{sample}_{type}.umi_unsorted.bam",
+            "alignment/picard_mark_duplicates_umi_fusions1/{sample}_{type}.umi.bam",
+            "alignment/picard_mark_duplicates_umi_fusions2/{sample}_{type}.umi.bam",
+        ],
+    output:
+        bam=temp("alignment/samtools_merge_bam_umi/{sample}_{type}_unsorted.bam"),
+    log:
+        "alignment/samtools_merge_bam_umi/{sample}_{type}.umi.merged_unsorted.bam.log",
+    benchmark:
+        repeat(
+            "alignment/samtools_merge_bam_umi/{sample}_{type}.umi.merged_unsorted.bam.benchmark.tsv",
+            config.get("samtools_merge_bam", {}).get("benchmark_repeats", 1),
         )
 
 
@@ -249,12 +511,28 @@ use rule samtools_sort from alignment as alignment_samtools_sort_rna with:
         )
 
 
-use rule samtools_extract_reads from alignment as alignment_samtools_extract_reads_rna with:
+use rule samtools_extract_reads from alignment as alignment_samtools_extract_reads with:
     input:
-        bam="alignment/star/{sample}_{type}.bam",
-        bai="alignment/star/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+    output:
+        bam=temp("alignment/samtools_extract_reads/{sample}_{type}_{chr}.bam"),
     wildcard_constraints:
-        type="R",
+        type="T|N|R",
+
+
+use rule samtools_extract_reads_umi from alignment as alignment_samtools_extract_reads_umi with:
+    input:
+        bam="alignment/samtools_merge_bam_umi/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam_umi/{sample}_{type}.bam.bai",
+    output:
+        bam=temp("alignment/samtools_extract_reads_umi/{sample}_{type}_{chr}.umi.bam"),
+
+
+use rule samtools_extract_reads_non_chr_umi from alignment as alignment_samtools_extract_reads_non_chr_umi with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
 
 
 use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_mutect2 with:
@@ -301,8 +579,8 @@ use rule bcftools_sort from snv_indels as snv_indels_bcftools_sort with:
 
 use rule vardict from snv_indels as snv_indels_vardict with:
     input:
-        bam=lambda wildcards: get_deduplication_bam_chr_input(wildcards),
-        bai=lambda wildcards: "%s%s" % (get_deduplication_bam_chr_input(wildcards), ".bai"),
+        bam=get_deduplication_bam_chr_input,
+        bai=get_deduplication_bam_chr_input_bai,
         reference=config["reference"]["fasta"],
         regions="snv_indels/bed_split/design_bedfile_{chr}.bed",
     params:
@@ -314,16 +592,16 @@ use rule vardict from snv_indels as snv_indels_vardict with:
 
 use rule gatk_mutect2 from snv_indels as snv_indels_gatk_mutect2 with:
     input:
-        map=lambda wildcards: get_deduplication_bam_chr_input(wildcards),
-        bai=lambda wildcards: "%s%s" % (get_deduplication_bam_chr_input(wildcards), ".bai"),
+        map=get_deduplication_bam_chr_input,
+        bai=get_deduplication_bam_chr_input_bai,
         fasta=config.get("reference", {}).get("fasta", ""),
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
 
 
 use rule gatk_mutect2_gvcf from snv_indels as snv_indels_gatk_mutect2_gvcf with:
     input:
-        map=lambda wildcards: get_deduplication_bam_chr_input(wildcards),
-        bai=lambda wildcards: "%s%s" % (get_deduplication_bam_chr_input(wildcards), ".bai"),
+        map=get_deduplication_bam_chr_input,
+        bai=get_deduplication_bam_chr_input_bai,
         fasta=config.get("reference", {}).get("fasta", ""),
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
 
@@ -445,10 +723,19 @@ use rule multiqc from qc as qc_multiqc with:
         data_json="qc/multiqc/multiqc_{report}_data/multiqc_data.json",
 
 
+use rule somalier_ungrouped_extract from qc as qc_somalier_ungrouped_extract with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+        sites=config.get("somalier_ungrouped_extract", {}).get("sites", ""),
+        fasta=config.get("reference", {}).get("fasta", ""),
+        fai=config.get("reference", {}).get("fasta", "") + ".fai",
+
+
 use rule mosdepth from qc as qc_mosdepth with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         bed=config.get("reference", {}).get("design_bed_rna", ""),
     wildcard_constraints:
         type="R",
@@ -456,25 +743,29 @@ use rule mosdepth from qc as qc_mosdepth with:
 
 use rule mosdepth_bed from qc as qc_mosdepth_bed with:
     input:
-        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
-        bai=lambda wildcards: "%s%s" % (get_deduplication_bam_input(wildcards), ".bai"),
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         bed=config.get("reference", {}).get("design_bed", ""),
 
 
 use rule samtools_stats from qc as qc_samtools_stats with:
+    input:
+        bam=get_deduplication_bam_input,
     wildcard_constraints:
         type="T|N",
 
 
 use rule samtools_stats from qc as qc_samtools_stats_rna with:
+    input:
+        bam=get_deduplication_bam_input,
     wildcard_constraints:
         type="R",
 
 
 use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics with:
     input:
-        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
-        bai=lambda wildcards: "%s%s" % (get_deduplication_bam_input(wildcards), ".bai"),
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         bait_intervals=config.get("reference", {}).get("design_intervals", ""),
         reference=config.get("reference", {}).get("fasta", ""),
         target_intervals=config.get("reference", {}).get("design_intervals", ""),
@@ -484,8 +775,8 @@ use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics with:
 
 use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics_rna with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         bait_intervals=config.get("reference", {}).get("design_intervals_rna", ""),
         reference=config.get("reference", {}).get("fasta", ""),
         target_intervals=config.get("reference", {}).get("design_intervals_rna", ""),
@@ -501,8 +792,8 @@ use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics_rna w
 
 use rule picard_collect_alignment_summary_metrics from qc as qc_picard_collect_alignment_summary_metrics with:
     input:
-        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
-        bai=lambda wildcards: "%s%s" % (get_deduplication_bam_input(wildcards), ".bai"),
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         ref=config.get("reference", {}).get("fasta", ""),
     wildcard_constraints:
         type="T|N",
@@ -510,8 +801,8 @@ use rule picard_collect_alignment_summary_metrics from qc as qc_picard_collect_a
 
 use rule picard_collect_alignment_summary_metrics from qc as qc_picard_collect_alignment_summary_metrics_rna with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         ref=config.get("reference", {}).get("fasta", ""),
     params:
         extra="%s %s"
@@ -523,15 +814,21 @@ use rule picard_collect_alignment_summary_metrics from qc as qc_picard_collect_a
         type="R",
 
 
+use rule picard_collect_duplication_metrics from qc as qc_picard_collect_duplication_metrics with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+
+
 use rule picard_collect_insert_size_metrics from qc as qc_picard_collect_insert_size_metrics with:
     input:
-        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
+        bam=get_deduplication_bam_input,
 
 
 use rule gatk_get_pileup_summaries from qc as qc_gatk_get_pileup_summaries with:
     input:
-        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
-        bai=lambda wildcards: "%s%s" % (get_deduplication_bam_input(wildcards), ".bai"),
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         sites=config.get("gatk_get_pileup_summaries", {}).get("sites", ""),
         variants=config.get("gatk_get_pileup_summaries", {}).get("variants", ""),
 
@@ -565,8 +862,8 @@ use rule msisensor_pro_filter_sites from biomarker as biomarker_msisensor_pro_fi
 
 use rule msisensor_pro from biomarker as biomarker_msisensor_pro_unfiltered with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         PoN="biomarker/msisensor_pro_filter_sites/{sample}_{type}.Msisensor_pro_reference.unfiltered.list_baseline",
     output:
         msi_score=temp("biomarker/msisensor_pro_unfiltered/{sample}_{type}"),
@@ -617,6 +914,34 @@ use rule tmb from biomarker as biomarker_tmb_umi with:
         vd_limit=config.get("tmb_umi", {}).get("vd_limit", 20),
 
 
+use rule finaletoolkit_end_motifs from biomarker as biomarker_finaletoolkit_end_motifs with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+        reference=config.get("reference", {}).get("fasta_2bit", ""),
+
+
+use rule finaletoolkit_interval_end_motifs from biomarker as biomarker_finaletoolkit_interval_end_motifs with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+        design_bed=config.get("reference", {}).get("design_bed", ""),
+        reference=config.get("reference", {}).get("fasta_2bit", ""),
+
+
+use rule finaletoolkit_frag_length_bins from biomarker as biomarker_finaletoolkit_frag_length_bins with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+
+
+use rule fragmentomics_fragment_length_patient_score from biomarker as biomarker_fragmentomics_fragment_length_patient_score with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+        reference_set=config.get("fragmentomics_fragment_length_patient_score", {}).get("reference_set", ""),
+
+
 module fusions:
     snakefile:
         get_module_snakefile(
@@ -630,6 +955,23 @@ module fusions:
 
 
 use rule * from fusions exclude all as fusions_*
+
+
+rule juli_call:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+
+
+rule fuseq_wes:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+        ref_json=config.get("fuseq_wes", {}).get("ref_json", ""),
+        gtfSqlite=config.get("fuseq_wes", {}).get("gtfSqlite", ""),
+        fusiondb=config.get("fuseq_wes", {}).get("fusiondb", ""),
+        paralogdb=config.get("fuseq_wes", {}).get("paralogdb", ""),
+        params=config.get("fuseq_wes", {}).get("params", ""),
 
 
 use rule fuseq_wes from fusions as fusions_fuseq_wes with:
@@ -672,17 +1014,26 @@ use rule * from cnv_sv exclude all as cnv_sv_*
 
 
 use rule manta_config_t from cnv_sv as cnv_sv_manta_config_t with:
+    input:
+        bam_t=get_deduplication_bam_input_manta,
+        bai_t=get_deduplication_bam_input_manta_bai,
+        ref=config["reference"]["fasta"],
     priority: 40
 
 
 use rule manta_run_workflow_t from cnv_sv as cnv_sv_manta_run_workflow_t with:
+    input:
+        bam_t=get_deduplication_bam_input_manta,
+        bai_t=get_deduplication_bam_input_manta_bai,
+        ref=config["reference"]["fasta"],
+        scrpt="cnv_sv/manta_run_workflow_t/{sample}/runWorkflow.py",
     priority: 40
 
 
 use rule cnvkit_batch from cnv_sv as cnv_sv_cnvkit_batch_hrd with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         reference=config.get("cnvkit_batch_hrd", {}).get("normal_reference_hrd", ""),
     output:
         antitarget_coverage=temp("cnv_sv/cnvkit_batch_hrd/{sample}/{sample}_{type}.antitargetcoverage.cnn"),
@@ -721,8 +1072,8 @@ use rule cnvkit_call from cnv_sv as cnv_sv_cnvkit_call_hrd with:
 
 use rule cnvkit_batch from cnv_sv as cnv_sv_cnvkit_batch with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         reference=config.get("cnvkit_batch", {}).get("normal_reference", ""),
 
 
@@ -738,8 +1089,8 @@ use rule cnvkit_call from cnv_sv as cnv_sv_cnvkit_call with:
 
 use rule jumble_run from cnv_sv as cnv_sv_jumble_run with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz",
 
 
@@ -762,15 +1113,15 @@ use rule cnvkit_scatter from cnv_sv as cnv_sv_cnvkit_scatter with:
 
 use rule gatk_collect_read_counts from cnv_sv as cnv_sv_gatk_collect_read_counts with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         interval=config.get("reference", {}).get("design_intervals_gatk_cnv", ""),
 
 
 use rule gatk_collect_allelic_counts from cnv_sv as cnv_sv_gatk_collect_allelic_counts with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
         interval=config.get("gatk_collect_allelic_counts", {}).get("SNP_interval", ""),
         ref=config["reference"]["fasta"],
 
@@ -798,6 +1149,9 @@ use rule purecn from cnv_sv as cnv_sv_purecn with:
 
 
 use rule purecn_coverage from cnv_sv as cnv_sv_purecn_coverage with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
     output:
         purecn=expand(
             "cnv_sv/purecn_coverage/{{sample}}_{{type}}{ext}",
@@ -808,6 +1162,13 @@ use rule purecn_coverage from cnv_sv as cnv_sv_purecn_coverage with:
                 "_coverage_loess_qc.txt",
             ],
         ),
+
+
+use rule scanitd from cnv_sv as cnv_sv_scanitd with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+        ref=config.get("reference", {}).get("fasta", ""),
 
 
 use rule purecn_copy_output from cnv_sv as cnv_sv_purecn_copy_output with:

@@ -31,7 +31,7 @@ from hydra_genetics.utils.software_versions import touch_software_version_file
 from hydra_genetics.utils.software_versions import use_container
 
 
-hydra_min_version("3.0.0")
+hydra_min_version("3.3.0")
 
 min_version("7.13.0")
 
@@ -73,6 +73,7 @@ with open(config["output"]) as output:
         raise ValueError(f"output specification should be JSON or YAML: {output.name}")
 
 validate(output_spec, schema="../schemas/output_files.schema.yaml")
+
 
 ### Load general report yaml file
 general_report_files_path = config["general_report"]
@@ -152,24 +153,52 @@ def get_hotspot_report_vcf_input(wildcards):
 
 
 def get_deduplication_bam_input(wildcards):
-    if config["deduplication"] == "umi":
-        return "alignment/bwa_mem_realign_consensus_reads/{sample}_{type}.umi.bam"
-    else:
-        return "alignment/samtools_merge_bam/{sample}_{type}.bam"
+    if wildcards.type == "R":
+        return f"alignment/star/{wildcards.sample}_{wildcards.type}.bam"
+
+    # If using UMIs, this is the gold standard
+    if config.get("deduplication") == "umi":
+        return f"alignment/samtools_merge_bam_umi/{wildcards.sample}_{wildcards.type}.bam"
+
+    # If not UMIs, but FFPE processing is on
+    if config.get("run_ffpe_overlapping_consensus", True):
+        return f"alignment/samtools_filter_reads/{wildcards.sample}_{wildcards.type}.bam"
+
+    # Standard BWA
+    return f"alignment/bwa_mem/{wildcards.sample}_{wildcards.type}.bam"
+
+
+# Repeat for the BAI index
+def get_deduplication_bam_input_bai(wildcards):
+    return get_deduplication_bam_input(wildcards) + ".bai"
 
 
 def get_deduplication_bam_input_manta(wildcards):
     if config["deduplication"] == "umi":
-        return "alignment/bwa_mem_realign_consensus_reads/{sample}_T.umi.bam"
+        return "alignment/samtools_merge_bam_umi/{sample}_{type}.bam"
+    elif config.get("run_ffpe_overlapping_consensus", True):
+        return "alignment/samtools_merge_bam_all_final/{sample}_T.bam"
     else:
-        return "alignment/samtools_merge_bam/{sample}_T.bam"
+        return "alignment/bwa_mem/{sample}_T.bam"
+
+
+def get_deduplication_bam_input_manta_bai(wildcards):
+    return get_deduplication_bam_input_manta(wildcards) + ".bai"
 
 
 def get_deduplication_bam_chr_input(wildcards):
-    if config["deduplication"] == "umi":
+    if wildcards.type == "R":
+        return "alignment/samtools_extract_reads/{sample}_{type}_{chr}.bam"
+    elif config.get("deduplication") == "umi":
         return "alignment/samtools_extract_reads_umi/{sample}_{type}_{chr}.umi.bam"
+    elif config.get("run_ffpe_overlapping_consensus", True):
+        return "alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam"
     else:
         return "alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam"
+
+
+def get_deduplication_bam_chr_input_bai(wildcards):
+    return get_deduplication_bam_chr_input(wildcards) + ".bai"
 
 
 def get_vardict_min_af(wildcards):
@@ -290,7 +319,10 @@ def generate_copy_code(workflow, output_spec):
         copy_container = config.get("_copy", {}).get("container", config["default_container"])
 
         code += f'@workflow.rule(name="{rule_name}")\n'
-        code += f'@workflow.input("{input_file}")\n'
+        if input_file.startswith("{") and input_file.endswith("}"):
+            code += f"@workflow.input({input_file[1:-1]})\n"
+        else:
+            code += f'@workflow.input("{input_file}")\n'
         code += f'@workflow.output("{output_file}")\n'
         code += f'@workflow.log("logs/{rule_name}_{result_file}.log")\n'
         code += f'@workflow.container("{copy_container}")\n'

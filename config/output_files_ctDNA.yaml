@@ -1,24 +1,24 @@
 files:
   - name: BAM
-    input: alignment/samtools_merge_bam/{sample}_{type}.bam
+    input: "{get_deduplication_bam_input}"
     output: bam_dna/{sample}_{type}.bam
     types:
       - T
       - N
   - name: BAM index
-    input: alignment/samtools_merge_bam/{sample}_{type}.bam.bai
+    input: "{get_deduplication_bam_input_bai}"
     output: bam_dna/{sample}_{type}.bam.bai
     types:
       - T
       - N
   - name: BAM umi
-    input: alignment/bwa_mem_realign_consensus_reads/{sample}_{type}.umi.bam
+    input: alignment/samtools_merge_bam_umi/{sample}_{type}.bam
     output: bam_dna/{sample}_{type}.umi.bam
     types:
       - T
       - N
   - name: BAM umi index
-    input: alignment/bwa_mem_realign_consensus_reads/{sample}_{type}.umi.bam.bai
+    input: alignment/samtools_merge_bam_umi/{sample}_{type}.bam.bai
     output: bam_dna/{sample}_{type}.umi.bam.bai
     types:
       - T
@@ -98,6 +98,24 @@ files:
   - name: Samtools stats
     input: qc/samtools_stats/{sample}_{type}.samtools-stats.txt
     output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.samtools-stats.txt
+    types:
+      - T
+      - N
+  - name: FGBIO Duplex family sizes
+    input: qc/fgbio_collect_duplex_seq_metrics/{sample}_{type}.duplex_family_sizes.txt
+    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.duplex_family_sizes.txt
+    types:
+      - T
+      - N
+  - name: FGBIO Duplex yield metrics
+    input: qc/fgbio_collect_duplex_seq_metrics/{sample}_{type}.duplex_yield_metrics.txt
+    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.duplex_yield_metrics.txt
+    types:
+      - T
+      - N
+  - name: FGBIO Duplex UMI counts
+    input: qc/fgbio_collect_duplex_seq_metrics/{sample}_{type}.umi_counts.txt
+    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.umi_counts.txt
     types:
       - T
       - N
@@ -379,6 +397,12 @@ files:
     types:
       - T
       - N
+  - name: MultiQC DNA UMI HTML
+    input: qc/multiqc/multiqc_DNA_umi.html
+    output: results/dna/qc/multiqc_DNA_umi.html
+    types:
+      - T
+      - N
   - name: Results report umi DNA HTML
     input: reports/general_html_report/{sample}_{type}.umi.general_report.html
     output: results/dna/{sample}_{type}/{sample}_{type}.umi.general_report.html
@@ -577,11 +601,6 @@ files:
     types:
       - T
       - N
-  - name: Manta VCF
-    input: cnv_sv/manta_run_workflow_t/{sample}/results/variants/tumorSV.vcf.gz
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.manta_tumorSV.vcf.gz
-    types:
-      - T
   - name: HLA optitype
     input: biomarker/optitype/{sample}_{type}/{sample}_{type}_hla_type_result.tsv
     output: results/dna/{sample}_{type}/hla/{sample}_{type}_hla_type_result.tsv
