@@ -294,6 +294,25 @@ module snv_indels:
 use rule * from snv_indels exclude all as snv_indels_*
 
 
+use rule whatshap_phase from snv_indels as snv_indels_whatshap_phase with:
+    input:
+        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
+        bai=lambda wildcards: "%s.bai" % get_deduplication_bam_input(wildcards),
+        fasta=config.get("reference", {}).get("fasta", ""),
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.vcf",
+    output:
+        vcf=temp(
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.phased.vcf"
+        ),
+    log:
+        "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.phased.vcf.log",
+    benchmark:
+        repeat(
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.phased.vcf.benchmark.tsv",
+            config.get("whatshap_phase", {}).get("benchmark_repeats", 1),
+        )
+
+
 use rule bcftools_sort from snv_indels as snv_indels_bcftools_sort with:
     input:
         vcf="{file}.vcf.gz",
