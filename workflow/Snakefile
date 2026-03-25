@@ -896,3 +896,4 @@ use rule merge_cnv_json from reports as reports_merge_cnv_json with:
         cnv_vcfs_tbi=config.get("merge_cnv_json", {}).get("unfiltered_cnv_vcfs_tbi", []),
         cytobands=config.get("merge_cnv_json", {}).get("cytobands", []),
         ref_genes=config.get("merge_cnv_json", {}).get("ref_genes", []),
+        cancer_genes=config.get("merge_cnv_json", {}).get("cancer_genes", []),

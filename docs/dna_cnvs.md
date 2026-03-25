@@ -264,6 +264,7 @@ cnv_html_report:
       path: "cnv_sv/svdb_query/{sample}_{type}.{tc_method}.cnv_loh_genes_all.cnv_chromosome_arms.tsv" 
 
 merge_cnv_json:
+  cancer_genes: "config/reports/cancer_genes.csv"
   filtered_cnv_vcfs:
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.filter.cnv_hard_filter_amp.fp_tag.vcf
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.filter.cnv_hard_filter_loh.fp_tag.annotate_fp.vcf
