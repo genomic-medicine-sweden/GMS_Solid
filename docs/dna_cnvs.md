@@ -75,7 +75,7 @@ The following steps are in included in the Jumble CNV calling:
 | run | Makes segmentation | [RDS reference](references.md#jumble_ref) | Panel of normal which can include data from different sequencing machines |
 | call | Calls CNVs | [Germline vcf](dna_cnvs.md#germline-vcf) | Vcf with germline variants called in the sample |
 | | | Tumor purity | Estimated purity from samples.tsv or from other sources |
-
+| jumble_gis_score | Extracts predicted GIS score | | Predicted Genomic Instability Score (GIS) for the sample's current tumor content (TC) |
 ## CNV call file conversion to vcf
 The CNVs call files from CNVkit and Jumble are converted to vcf format using the in-house scripts [cnvkit_vcf.py](https://github.com/hydra-genetics/cnv_sv/blob/develop/workflow/scripts/cnvkit_vcf.py) ([cnvkit_vcf](https://github.com/hydra-genetics/cnv_sv/blob/develop/workflow/rules/cnvkit.smk), [jumble_vcf](https://github.com/hydra-genetics/cnv_sv/blob/develop/workflow/rules/jumble.smk)) and GATK CNV by [gatk_to_vcf.py](https://github.com/hydra-genetics/cnv_sv/blob/develop/workflow/scripts/gatk_to_vcf.py) ([gatk_to_vcf](https://github.com/hydra-genetics/cnv_sv/blob/develop/workflow/rules/gatk.smk)). In all cases a vcf header is added followed by the following annotation for each field in the vcf file:
 

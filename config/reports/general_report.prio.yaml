@@ -30,6 +30,16 @@ files:
     description: MSI score (cut-off 10%)
     input: results/dna/{sample}_{type}/biomarker/{sample}_{type}.msisensor_pro.unfiltered.score.tsv
     nav_header: Biomarkers
+  - name: Jumble HRD GIS score
+    type: file_table
+    description: HRD Genomic Instability Score (GIS) predicted by Jumble
+    input: results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt
+    nav_header: Biomarkers
+  - name: Jumble HRD GIS complete table
+    type: file_table
+    description: Complete Genomic Instability Score (GIS) table from Jumble
+    input: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv
+    nav_header: Biomarkers
   
   - name: PureCN TC
     type: file_table

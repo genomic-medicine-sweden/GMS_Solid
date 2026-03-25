@@ -25,10 +25,10 @@ create_read_count_panel_of_normals:
   container: "docker://hydragenetics/gatk4:4.2.2.0"
 
 jumble_count:
-  container: "docker://hydragenetics/jumble:240530"
+  container: "docker://hydragenetics/jumble:260309"
 
 jumble_reference:
-  container: "docker://hydragenetics/jumble:240530"
+  container: "docker://hydragenetics/jumble:260309"
   annotation: "reference/jumble_dummy_annotation.txt"
 
 msisensor_pro_scan:

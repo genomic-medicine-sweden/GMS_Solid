@@ -11,10 +11,15 @@ digraph snakemake_dag {
 	
 	// Fragmentomics
 	112[label = "FinaleToolkit (Fragmentomics)", color = "0.37 0.6 0.85", style="rounded"];
+	// Jumble GIS
+	114[label = "cnv_sv_jumble_run", color = "0.40 0.6 0.85", style="rounded"];
+	115[label = "jumble_gis_score", color = "0.40 0.6 0.85", style="rounded"];
 	
 	200[label = "VCF: annotated", color = "0.0 0.0 0.0", style="dotted"];
 	201[label = "BAM", color = "0.0 0.0 0.0", style="dotted"];
 	202[label = "CNS: cnvkit", color = "0.0 0.0 0.0", style="dotted"];
+	203[label = "VCF: germline", color = "0.0 0.0 0.0", style="dotted"];
+	
 	200 -> 93
 	201 -> 97
 	202 -> 111
@@ -22,4 +27,8 @@ digraph snakemake_dag {
 	111 -> 110
 	
 	201 -> 112
+	
+	201 -> 114
+	203 -> 114
+	114 -> 115
 }            

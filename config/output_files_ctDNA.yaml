@@ -654,6 +654,24 @@ files:
     types:
       - T
       - N
+  - name: Jumble GIS HRD TC CSV
+    input: cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.jumble_gis.csv
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv
+    types:
+      - T
+      - N
+  - name: Jumble GIS HRD TC PNG
+    input: cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.gis.png
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.gis.png
+    types:
+      - T
+      - N
+  - name: Jumble Predicted GIS Score
+    input: cnv_sv/jumble_gis_score/{sample}_{type}.pathology_purecn.predicted_gis.txt
+    output: results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt
+    types:
+      - T
+      - N
   - name: Fragle ctDNA fraction
     input: biomarker/fragle/{sample}_{type}/Fragle.csv
     output: results/dna/{sample}_{type}/cnv/{sample}_{type}.ctDNA_fraction.fragle.csv

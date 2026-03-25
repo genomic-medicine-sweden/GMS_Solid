@@ -206,6 +206,17 @@ properties:
       required:
         - container
 
+  jumble_gis_score:
+    type: object
+    properties:
+      container:
+        type: string
+        description: name or path to a default docker/singularity container
+        pattern: >-
+            hydragenetics/common:3\.1\.1\.1$|hydragenetics__common_3\.1\.1\.1\.sif$
+    required:
+      - container
+
   manta_config_t:
     type: object
     properties:
@@ -444,6 +455,7 @@ required:
   - gatk_mutect2
   - gatk_mutect2_gvcf
   - gatk_model_segments
+  - jumble_gis_score
   - manta_config_t
   - manta_run_workflow_t
   - mosdepth_bed

@@ -23,7 +23,7 @@ Here is a brief overview of the entire pipeline. For details see subsections and
 9. **Biomarkers**  
   9.1 TMB using hydra-genetics biomarker module
   9.2 MSI score using MSIsensor-Pro  
-  9.3 HRD using CNVkit and ScarHRD  
+  9.3 HRD using CNVkit/ScarHRD and Jumble  
 10. **QC**  
   10.1 QC measures from Samtools, Picard, FastQC, GATK  
   10.2 MultiQC hmtl report  
@@ -51,6 +51,7 @@ Here is a brief overview of the entire pipeline. For details see subsections and
 8. **Biomarkers**  
   8.1 TMB using hydra-genetics biomarker module
   8.2 MSI score using MSIsensor-Pro
+  8.3 HRD using Jumble
 9. **Fragmentomics** using FinaleToolkit
 10. **QC**  
   10.1 QC measures from Samtools, Picard, FastQC, GATK  

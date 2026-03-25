@@ -120,6 +120,8 @@ digraph snakemake_dag {
 	115[label = "_result_contamination_table", color = "0.39 0.6 0.85", style="rounded"];
 	116[label = "_result_annotated_vcf", color = "0.07 0.6 0.85", style="rounded"];
 	117[label = "cnv_sv_purecn_copy_output", color = "0.13 0.6 0.85", style="rounded"];
+	118[label = "cnv_sv_jumble_run", color = "0.40 0.6 0.85", style="rounded"];
+	119[label = "jumble_gis_score", color = "0.40 0.6 0.85", style="rounded"];
 	84 -> 0
 	87 -> 0
 	98 -> 0
@@ -348,4 +350,8 @@ digraph snakemake_dag {
 	74 -> 115
 	16 -> 116
 	53 -> 117
+	4 -> 118
+	25 -> 118
+	118 -> 119
+	119 -> 0
 }            

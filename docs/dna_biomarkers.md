@@ -10,6 +10,9 @@ See the [biomarkers hydra-genetics module](https://hydra-genetics-biomarker.read
 * `results/dna/{sample}_{type}/msi/{sample}_{type}.msisensor_pro.score.tsv`
 * `results/dna/{sample}_{type}/hrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt`
 * `results/dna/{sample}_{type}/hrd/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt`
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.predicted_gis.txt`
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv`
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.gis.png`
 
 ## Tumor mutational burden (TMB)
 TMB is a measure of the frequency of somatic mutations and is usually measured as mutations per megabase. The size of design of the exons is approximately 1.55Mb. However, by validating the TMB for GMS560 against Foundation One and TSO500 TMB the effective design size is adjusted to 1.19Mb. This is based on the slope (0.84) of the correlation between TSO500 data and the number of variants in the TMB analysis. The TMB is calculated using the in-house script **[tmb.py](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/scripts/tmb.py)** ([rule](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/rules/tmb.smk)) which counts the number of nsSNVs and divide by the adjusted design size. Variants must fulfill the following criteria to be counted:
@@ -53,6 +56,15 @@ To determine MSS or MSI status of the samples the percentage of sites that have 
 ## Homologous recombination deficiency (HRD) - in development
 **OBS! The Homologous recombination deficiency score is still under development**  
 A homologous recombination deficiency score is calculated using **[scarHRD](https://github.com/sztup/scarHRD)** v20200825 using cnvkit segmentation files as input. The cnvkit panel of normal for HRD is created from a design file where the extra CNV-probes were removed as coverage in these regions tended to be more affected in low quality samples. The segmentation is sensitive to the estimated purity. Therefore, a score based on both the pathology and purecn estimated tumor content is reported. The cutoff for HRD is still to be determined but is somewhere around 50 which is slightly higher than the Myriad HRD score cutoff of 42.
+
+### Jumble GIS (HRD) score
+**[Jumble](https://github.com/UPP-ClinicalGenomics/Jumble)** also provides a Genomic Instability Score (GIS) which is a measure of HRD. The score is calculated based on various genomic features including LOH, TAI, and LST. The rule `jumble_gis_score` extracts the predicted GIS score for the sample's current tumor content (TC).
+
+#### Result files
+
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.{method}.predicted_gis.txt`
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv`
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.gis.png`
 
 ### Configuration
 
