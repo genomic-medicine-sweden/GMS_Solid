@@ -6,7 +6,7 @@ units: "units.tsv"
 
 modules:
   alignment: "v0.7.0"
-  annotation: "v1.3.1"
+  annotation: "v1.4.0"
   biomarker: "v0.8.0"
   cnv_sv: "v3.0.0"
   filtering: "v0.3.0"
@@ -14,7 +14,7 @@ modules:
   prealignment: "v1.3.0"
   qc: "v0.7.0"
   reports: "v1.0.3"
-  snv_indels: "v1.1.0"
+  snv_indels: "v2.1.0"
 
 output: "config/output_files_FFPE.yaml"
 default_container: "docker://hydragenetics/common:3.1.1.1"
@@ -502,3 +502,6 @@ vt_decompose:
 
 vt_normalize:
   container: "docker://hydragenetics/vt:2015.11.10"
+
+whatshap_phase:
+  container: "docker://hydragenetics/whatshap:2.8"
