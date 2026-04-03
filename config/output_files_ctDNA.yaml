@@ -654,6 +654,60 @@ files:
     types:
       - T
       - N
+  - name: Fragmentomics SE metrics
+    input: biomarker/fragmentomics_metrics/metrics/se/{sample}_{type}.SE.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.SE.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics depth metrics
+    input: biomarker/fragmentomics_metrics/metrics/depth/{sample}_{type}.depth.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.depth.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics fragment bins
+    input: biomarker/fragmentomics_metrics/metrics/frag_bins/{sample}_{type}.fragbins.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.fragbins.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics small fragments
+    input: biomarker/fragmentomics_metrics/metrics/small_frags/{sample}_{type}.smallfrag.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.smallfrag.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics full gene depth
+    input: biomarker/fragmentomics_metrics/metrics/full_gene_depth/{sample}_{type}.fullgenedepth.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.fullgenedepth.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics MDS entropy (metrics)
+    input: biomarker/fragmentomics_metrics/metrics/mds/{sample}_{type}_mds.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.metrics_mds.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics TFBS entropy
+    input: biomarker/fragmentomics_metrics/metrics/TFBS_entropy/{sample}_{type}_TFBS_entropy.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}_TFBS_entropy.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics ATAC entropy
+    input: biomarker/fragmentomics_metrics/metrics/ATAC_entropy/{sample}_{type}_ATAC_entropy.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}_ATAC_entropy.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics combined feature table
+    input: biomarker/fragmentomics_metrics/feature_tables/all_combined.rds
+    output: results/dna/fragmentomics/fragmentomics_metrics/all_combined.rds
+    types:
+      - T
+      - N
   - name: Jumble GIS HRD TC CSV
     input: cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.jumble_gis.csv
     output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv

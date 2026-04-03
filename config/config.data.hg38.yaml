@@ -116,6 +116,13 @@ fusioncatcher:
 fragle:
   design_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg38.split_fusion_genes.reannotated.230222.bed"
 
+fragmentomics_metrics:
+  canonical_cds_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_canonical_exons.hg38.bed"
+  exon_sizes: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/UCSC_hg38_exon_sizes.tsv"
+  tfbs_midpoints: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz"
+  atac_peaks: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg38.bed"
+  exon_strand_mapping: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_canonical_exons.hg38.bed"
+
 gatk_collect_allelic_counts:
   SNP_interval: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gnomad_SNP_0.001_target.annotated.hg38.interval_list"
 

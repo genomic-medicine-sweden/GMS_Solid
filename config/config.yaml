@@ -7,7 +7,7 @@ units: "units.tsv"
 modules:
   alignment: "v0.7.0"
   annotation: "v1.4.0"
-  biomarker: "v0.8.0"
+  biomarker: "87db1a1"
   cnv_sv: "v3.0.0"
   filtering: "v0.3.0"
   fusions: "v0.3.1"
@@ -191,9 +191,11 @@ fragle:
   genome_build: "hg19"
   mode: "T"
 
-
 fragmentomics_fragment_length_patient_score:
   container: "docker://hydragenetics/fragmentomics:0.1.0"
+
+fragmentomics_metrics:
+  container: "docker://hydragenetics/fragmentomics_metrics:260402"
 
 fuseq_wes:
   container: "docker://hydragenetics/fuseq_wes:1.0.1"
