@@ -42,9 +42,6 @@ fgbio_call_and_filter_consensus_reads:
 fgbio_group_reads_by_umi:
   time: "24:00:00"
 
-fragle:
-  threads: 2
-
 fuseq_wes:
   threads: 2
   mem_mb: 12288

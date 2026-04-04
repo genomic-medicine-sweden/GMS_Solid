@@ -672,9 +672,3 @@ files:
     types:
       - T
       - N
-  - name: Fragle ctDNA fraction
-    input: biomarker/fragle/{sample}_{type}/Fragle.csv
-    output: results/dna/{sample}_{type}/cnv/{sample}_{type}.ctDNA_fraction.fragle.csv
-    types:
-      - T
-      - N

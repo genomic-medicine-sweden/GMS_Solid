@@ -186,11 +186,6 @@ finaletoolkit_interval_mds:
 finaletoolkit_mds:
   container: "docker://hydragenetics/finaletoolkit:0.10.7"
 
-fragle:
-  container: "docker://hydragenetics/fragle:20260306"
-  genome_build: "hg19"
-  mode: "T"
-
 
 fragmentomics_fragment_length_patient_score:
   container: "docker://hydragenetics/fragmentomics:0.1.0"

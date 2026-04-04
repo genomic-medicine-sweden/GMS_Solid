@@ -97,18 +97,3 @@ Fragmentomics analysis is performed using **[FinaleToolkit](https://github.com/e
 * `results/dna/{sample}_{type}/fragmentomics/{sample}_{type}.frag-length-bins.tsv`
 * `results/dna/{sample}_{type}/fragmentomics/{sample}_{type}.fragment_length_score.txt`
 
-## ctDNA Fraction Estimation
-ctDNA fraction estimation is performed using **[Fragle](https://github.com/skandlab/FRAGLE)**. It calculates the ctDNA fraction based on fragment length proportions and machine learning models.
-
-### Configuration
-**Software settings**
-
-| **Options** | **Value** | **Description** |
-|-------------|-----------|-----------------|
-| design_bed | " " | Target BED file containing captured regions |
-| genome_build| "hg38" or "hg19" | The reference genome build |
-| model | "T" or "R" | panel or WGS |
-
-### Result files
-
-* `results/dna/{sample}_{type}/cnv/{sample}_{type}.ctDNA_fraction.fragle.csv`
