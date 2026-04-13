@@ -722,7 +722,7 @@ files:
       - T
       - N
   - name: Fragmentomics combined feature table
-    input: biomarker/fragmentomics_metrics_calculate_combined_feature_table/feature_tables/all_combined.rds
+    input: biomarker/fragmentomics_metrics_build_combined_ft/all_combined.rds
     output: results/dna/fragmentomics/fragmentomics_metrics/all_combined.rds
     types:
       - T
