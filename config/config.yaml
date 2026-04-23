@@ -442,8 +442,8 @@ scanitd:
 
 seqtk_subsample:
   container: "docker://hydragenetics/seqtk:1.4"
-  nr_reads: 100000000
-  nr_reads_rna: 100000000
+  nr_reads: 150000000
+  nr_reads_rna: 30000000
 
 somalier_ungrouped_extract:
   container: "docker://hydragenetics/somalier:0.2.18"
