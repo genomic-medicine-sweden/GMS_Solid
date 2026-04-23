@@ -29,7 +29,7 @@ jumble_count:
 
 jumble_reference:
   container: "docker://hydragenetics/jumble:260309"
-  annotation: "reference/jumble_dummy_annotation.txt"
+  annotation: "biomart"
 
 msisensor_pro_scan:
   container: "docker://hydragenetics/msisensor_pro:1.2.0"
