@@ -64,11 +64,17 @@
       compressed_checksum: 32824ce070546f51888077ab1999061d
       path: ref_data/fuseq_wes
       content_checksum:
-        ensmbl_paralogs_grch38.RData: 746f32f17502d3fdb21e8681960bd5ff
+        # ensmbl_paralogs_grch38.RData: 746f32f17502d3fdb21e8681960bd5ff
         Mitelman_fusiondb.RData: e4fbf81b5b02b9fe201161d324405822
         UCSC_hg38_wes_contigSize3000_bigLen130000_r100.json: 51e501095ddf5dbf276d4d322580430f
         UCSC_hg38_wes_contigSize3000_bigLen130000_r100.sqlite: 42412eaf583c2c6e6f5f2cd0fb11d435
       url: https://figshare.com/ndownloader/files/44328401?private_link=7084cf61820c148a23d2
+
+    paralogs:
+      checksum: f04dabcde121b2f5e95224c352be371a
+      path: ref_data/fuseq_wes/ensmbl_paralogs_grch38.RData
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/ensmbl_paralogs_grch38.RData
 
   gatk_get_pileup_summaries:
     sites:

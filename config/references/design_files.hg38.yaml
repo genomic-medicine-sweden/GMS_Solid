@@ -375,3 +375,50 @@
       path: GMS560/tmb/tmb_filter_genes.txt
       type: file
       url: https://raw.githubusercontent.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/v0.2.1/tmb/tmb_filter_genes.txt
+
+ gms_solid:
+    target_padded_bed:
+      checksum: 2481736fe9e92e37e9a371fa485b1a73
+      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.padded.bed
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.padded.bed
+    target_padded_interval_list:
+      checksum: bc6cdb1d43bf3f2075ed56e577bab4ea
+      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.padded.interval_list
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.padded.interval_list
+    target_padded_exons_bed:
+      checksum: 9fb9a6788904f4e4cb44a18f7ba485ff
+      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.padded_exons.bed
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.padded_exons.bed
+    id_snps_bed:
+      checksum: d41d8cd98f00b204e9800998ecf8427e
+      path: GMS-Solid/design/ID_SNPs_hg38_GMS-Solid.bed
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/ID_SNPs_hg38_GMS-Solid.bed
+    chromosome_arm_size:
+      checksum: 861c716641e7967d55d3e850e932df95
+      path: GMS-Solid/design/chromosome_arm_size_hg38.tsv
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/chromosome_arm_size_hg38.tsv
+    backbone_gnomad_sites:
+      checksum: 384cfcccb06e0750dfad68c0e6dbdcba
+      path: GMS-Solid/design/GMS_Solid_backbone_GnomAD_sites.fixed.interval_list
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_backbone_GnomAD_sites.fixed.interval_list
+    target_padded_bed_gz:
+      checksum: ef889edf318991a4800b353285cdbcf6
+      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.padded.bed.gz
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.padded.bed.gz
+    target_padded_bed_gz_tbi:
+      checksum: 49ac14a5ce831c293fe10b7a10d3e5c8
+      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.padded.bed.gz.tbi
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.padded.bed.gz.tbi
+    msi_bed:
+      checksum: a2f791f6f633a34305e49e1e7769211e
+      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.MSI.bed
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.MSI.bed
