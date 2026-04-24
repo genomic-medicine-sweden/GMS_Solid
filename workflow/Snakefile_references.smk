@@ -65,7 +65,12 @@ use rule background_annotation from annotation as annotation_background_annotati
 
 module misc:
     snakefile:
-        get_module_snakefile(config, "hydra-genetics/misc", path="workflow/Snakefile", tag="v0.2.0")
+        get_module_snakefile(
+            config,
+            "hydra-genetics/misc",
+            path="workflow/Snakefile",
+            tag=config["modules"]["misc"],
+        )
     config:
         config
 
@@ -82,7 +87,12 @@ use rule bgzip from misc as misc_bgzip with:
 
 module references:
     snakefile:
-        github("hydra-genetics/references", path="workflow/Snakefile", tag="dbbab9f")
+        get_module_snakefile(
+            config,
+            "hydra-genetics/references",
+            path="workflow/Snakefile",
+            tag=config["modules"]["references"],
+        )
     config:
         config
 

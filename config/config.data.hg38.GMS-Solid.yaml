@@ -21,10 +21,10 @@ reference:
   design_bed_rna: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_Design5.annotated.hg38.bed"
   design_intervals_rna: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_Design5.annotated.hg38.interval_list"
   merge_contigs:
+    - "chrM"
     - ".*_random"
     - "chrUn_.*"
     - "chrEBV"
-    - "chrM"
     - "MAP2K3_chr17_22578583_22605165"
     - "KCNJ18_chr17_22629421_22688415"
     - "KMT2C_.*"
@@ -32,7 +32,7 @@ reference:
 annotate_cnv:
   cnv_amp_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_amp_genes_hg38_240307.bed"
   cnv_loh_genes_validated: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_uppsala_genes_hg38.bed"
-  cnv_loh_genes_all: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes_hg38_240618.bed"
+  cnv_loh_genes_all: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes_240618_hg38.bed"
 
 arriba:
   assembly: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta"
