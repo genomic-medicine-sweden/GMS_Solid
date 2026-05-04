@@ -282,10 +282,10 @@
 
  merge_cnv_json:
    cytobands:
-     checksum: 1b87bbfe572064c2a40d79683ea7a6ad
-     path: GMS560/cnv/cytoBand.hg38.txt
+     checksum: a0905562bd040bc9ad45c79ef3026755
+     path: GMS560/cnv/cytoBand.hg38.no_alt_chr.txt
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.9.0/cnv/cytoBand.hg38.txt
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.1/cnv/cytoBand.hg38.no_alt_chr.txt
 
  msisensor_pro_filter_sites:
    msi_sites_bed:

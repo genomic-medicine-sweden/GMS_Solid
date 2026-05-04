@@ -171,7 +171,7 @@ merge_cnv_json:
   annotations:
     - "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_amp_genes_hg38_240307.bed"
     - "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes_hg38.bed"
-  cytobands: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cytoBand.hg38.txt"
+  cytobands: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cytoBand.hg38.no_alt_chr.txt"
   ref_genes: "{{PROJECT_REF_DATA}}/ref_data/refGene/hg38.refGene.gtf"
 
 msisensor_pro_filter_sites:
