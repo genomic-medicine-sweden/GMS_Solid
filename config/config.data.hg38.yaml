@@ -136,22 +136,22 @@ gene_fuse:
 
 hotspot_annotation:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
-  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260202_hg38.csv"
+  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260223_hg38.csv"
 
 hotspot_report:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
   hotspot_mutations: 
-    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260202_hg38.csv"
-    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260202_hg38.csv"
-    URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260202_hg38.csv"
-    CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260202_hg38.csv"
-    BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260202_hg38.csv"
-    GIS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Gist_20260202_hg38.csv"
-    LUN: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Lung_20260202_hg38.csv"
-    MEL: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Melanom_20260202_hg38.csv"
-    MTC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_MTC_20260202_hg38.csv"
-    VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260217_hg38.csv"
-    PIK: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_PIK_20260217_hg38.csv"
+    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260223_hg38.csv"
+    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260223_hg38.csv"
+    URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223_hg38.csv"
+    CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260504_hg38.csv"
+    BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260223_hg38.csv"
+    GIS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Gist_20260223_hg38.csv"
+    LUN: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Lung_20260223_hg38.csv"
+    MEL: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Melanom_20260305_hg38.csv"
+    TYR: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_MTC_20260223_hg38.csv"
+    VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260504_hg38.csv"
+    PIK: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_PIK_20260223_hg38.csv"
 
 juli_annotate:
   cosmic: "{{PROJECT_REF_DATA}}/ref_data/juli/CosmicFusionExport_V76.tsv"

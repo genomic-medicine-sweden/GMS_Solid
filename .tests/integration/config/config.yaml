@@ -123,7 +123,7 @@ hotspot_report:
     GIS: "DATA/Hotspots_combined.csv"
     LUN: "DATA/Hotspots_combined.csv"
     MEL: "DATA/Hotspots_combined.csv"
-    MTC: "DATA/Hotspots_combined.csv"
+    TYR: "DATA/Hotspots_combined.csv"
     VAS: "DATA/Hotspots_combined.csv"
     PIK: "DATA/Hotspots_combined.csv"
   report_config: "../../config/reports/config/reports/hotspot_report.yaml"
