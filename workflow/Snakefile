@@ -14,6 +14,7 @@ include: "rules/exon_skipping.smk"
 include: "rules/fix_vcf_ad_for_qci.smk"
 include: "rules/hotspot_report.smk"
 include: "rules/house_keeping_gene_coverage.smk"
+include: "rules/jumble_gis.smk"
 include: "rules/purecn_modify_vcf.smk"
 include: "rules/report_gene_fuse.smk"
 include: "rules/report_fusions.smk"
@@ -570,6 +571,25 @@ module snv_indels:
 
 
 use rule * from snv_indels exclude all as snv_indels_*
+
+
+use rule whatshap_phase from snv_indels as snv_indels_whatshap_phase with:
+    input:
+        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
+        bai=lambda wildcards: "%s.bai" % get_deduplication_bam_input(wildcards),
+        fasta=config.get("reference", {}).get("fasta", ""),
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.vcf",
+    output:
+        vcf=temp(
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.phased.vcf"
+        ),
+    log:
+        "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.phased.vcf.log",
+    benchmark:
+        repeat(
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.{tag}.phased.vcf.benchmark.tsv",
+            config.get("whatshap_phase", {}).get("benchmark_repeats", 1),
+        )
 
 
 use rule bcftools_sort from snv_indels as snv_indels_bcftools_sort with:
@@ -1257,3 +1277,4 @@ use rule merge_cnv_json from reports as reports_merge_cnv_json with:
         cnv_vcfs_tbi=config.get("merge_cnv_json", {}).get("unfiltered_cnv_vcfs_tbi", []),
         cytobands=config.get("merge_cnv_json", {}).get("cytobands", []),
         ref_genes=config.get("merge_cnv_json", {}).get("ref_genes", []),
+        cancer_genes=config.get("merge_cnv_json", {}).get("cancer_genes", []),

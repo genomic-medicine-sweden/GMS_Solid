@@ -54,7 +54,7 @@ files:
       - T
       - N
   - name: QCI umi VCF
-    input: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf 
+    input: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.phased.codon_snvs.sorted.vep_annotated.qci.vcf 
     output: results/dna/{sample}_{type}/vcf/{sample}_{type}.annotated.exon_only.filter.hard_filter.codon_snv.umi.qci.vcf
     types:
       - T
@@ -121,13 +121,13 @@ files:
       - N
   - name: Coverage and mutations all
     input: qc/hotspot_report/{sample}_{type}.all.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.tsv
     types:
       - T
       - N
   - name: Coverage and mutations ENC
     input: qc/hotspot_report/{sample}_{type}.ENC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.ENC.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.ENC.tsv
     types:
       - T
       - N
@@ -135,7 +135,7 @@ files:
       - "GMSENC"
   - name: Coverage and mutations ENC additional
     input: qc/hotspot_report/{sample}_{type}.ENC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.ENC.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.ENC.tsv
     types:
       - T
       - N
@@ -148,12 +148,12 @@ files:
       - "GMSGIS"
       - "GMSLUN"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
   - name: Coverage and mutations URO
     input: qc/hotspot_report/{sample}_{type}.URO.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.URO.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.URO.tsv
     types:
       - T
       - N
@@ -161,7 +161,7 @@ files:
       - "GMSURO"
   - name: Coverage and mutations URO additional
     input: qc/hotspot_report/{sample}_{type}.URO.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.URO.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.URO.tsv
     types:
       - T
       - N
@@ -174,12 +174,12 @@ files:
       - "GMSGIS"
       - "GMSLUN"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
   - name: Coverage and mutations BRC
     input: qc/hotspot_report/{sample}_{type}.BRC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.BRC.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.BRC.tsv
     types:
       - T
       - N
@@ -187,7 +187,7 @@ files:
       - "GMSBRC"
   - name: Coverage and mutations BRC additional
     input: qc/hotspot_report/{sample}_{type}.BRC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.BRC.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.BRC.tsv
     types:
       - T
       - N
@@ -200,12 +200,12 @@ files:
       - "GMSGIS"
       - "GMSLUN"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
   - name: Coverage and mutations CRC
     input: qc/hotspot_report/{sample}_{type}.CRC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.CRC.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.CRC.tsv
     types:
       - T
       - N
@@ -213,7 +213,7 @@ files:
       - "GMSCRC"
   - name: Coverage and mutations CRC additional
     input: qc/hotspot_report/{sample}_{type}.CRC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.CRC.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.CRC.tsv
     types:
       - T
       - N
@@ -226,12 +226,12 @@ files:
       - "GMSGIS"
       - "GMSLUN"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
   - name: Coverage and mutations GIS
     input: qc/hotspot_report/{sample}_{type}.GIS.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.GIS.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.GIS.tsv
     types:
       - T
       - N
@@ -239,7 +239,7 @@ files:
       - "GMSGIS"
   - name: Coverage and mutations GIS additional
     input: qc/hotspot_report/{sample}_{type}.GIS.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.GIS.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.GIS.tsv
     types:
       - T
       - N
@@ -252,12 +252,12 @@ files:
       - "GMSCRC"
       - "GMSLUN"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
   - name: Coverage and mutations LUN
     input: qc/hotspot_report/{sample}_{type}.LUN.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.LUN.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.LUN.tsv
     types:
       - T
       - N
@@ -265,7 +265,7 @@ files:
       - "GMSLUN"
   - name: Coverage and mutations LUN additional
     input: qc/hotspot_report/{sample}_{type}.LUN.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.LUN.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.LUN.tsv
     types:
       - T
       - N
@@ -278,12 +278,12 @@ files:
       - "GMSCRC"
       - "GMSGIS"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
   - name: Coverage and mutations MEL
     input: qc/hotspot_report/{sample}_{type}.MEL.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.MEL.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.MEL.tsv
     types:
       - T
       - N
@@ -291,7 +291,7 @@ files:
       - "GMSMEL"
   - name: Coverage and mutations MEL additional
     input: qc/hotspot_report/{sample}_{type}.MEL.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.MEL.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.MEL.tsv
     types:
       - T
       - N
@@ -304,20 +304,20 @@ files:
       - "GMSCRC"
       - "GMSGIS"
       - "GMSLUN"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
-  - name: Coverage and mutations MTC
-    input: qc/hotspot_report/{sample}_{type}.MTC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.MTC.tsv
+  - name: Coverage and mutations TYR
+    input: qc/hotspot_report/{sample}_{type}.TYR.aa_translated.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.TYR.tsv
     types:
       - T
       - N
     analyskod:
-      - "GMSMTC"
-  - name: Coverage and mutations MTC additional
-    input: qc/hotspot_report/{sample}_{type}.MTC.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.MTC.tsv
+      - "GMSTYR"
+  - name: Coverage and mutations TYR additional
+    input: qc/hotspot_report/{sample}_{type}.TYR.aa_translated.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.TYR.tsv
     types:
       - T
       - N
@@ -335,7 +335,7 @@ files:
       - "GMSPIK"
   - name: Coverage and mutations VAS
     input: qc/hotspot_report/{sample}_{type}.VAS.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.VAS.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.VAS.tsv
     types:
       - T
       - N
@@ -343,7 +343,7 @@ files:
       - "GMSVAS"
   - name: Coverage and mutations VAS additional
     input: qc/hotspot_report/{sample}_{type}.VAS.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.VAS.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.VAS.tsv
     types:
       - T
       - N
@@ -357,11 +357,11 @@ files:
       - "GMSGIS"
       - "GMSLUN"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSPIK"
   - name: Coverage and mutations PIK
     input: qc/hotspot_report/{sample}_{type}.PIK.aa_translated.tsv
-    output: results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.PIK.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.PIK.tsv
     types:
       - T
       - N
@@ -369,7 +369,7 @@ files:
       - "GMSPIK"
   - name: Coverage and mutations PIK additional
     input: qc/hotspot_report/{sample}_{type}.PIK.aa_translated.tsv
-    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.coverage_and_mutations.PIK.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.PIK.tsv
     types:
       - T
       - N
@@ -383,7 +383,7 @@ files:
       - "GMSGIS"
       - "GMSLUN"
       - "GMSMEL"
-      - "GMSMTC"
+      - "GMSTYR"
       - "GMSVAS"
   - name: Contamination table
     input: qc/gatk_calculate_contamination/{sample}_{type}.contamination.table
@@ -673,9 +673,75 @@ files:
     types:
       - T
       - N
-  - name: Fragle ctDNA fraction
-    input: biomarker/fragle/{sample}_{type}/Fragle.csv
-    output: results/dna/{sample}_{type}/cnv/{sample}_{type}.ctDNA_fraction.fragle.csv
+  - name: Fragmentomics SE metrics
+    input: biomarker/fragmentomics_metrics_calculate_SE/{sample}_{type}.SE.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.SE.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics depth metrics
+    input: biomarker/fragmentomics_metrics_calculate_normalized_depth/{sample}_{type}.depth.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.depth.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics fragment bins
+    input: biomarker/fragmentomics_metrics_calculate_fragment_bins/{sample}_{type}.fragbins.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.fragbins.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics small fragments
+    input: biomarker/fragmentomics_metrics_calculate_small_frags/{sample}_{type}.smallfrag.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.smallfrag.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics full gene depth
+    input: biomarker/fragmentomics_metrics_calculate_full_gene_depth/{sample}_{type}.fullgenedepth.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.fullgenedepth.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics MDS entropy (metrics)
+    input: biomarker/fragmentomics_metrics_calculate_MDS/{sample}_{type}_mds.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.metrics_mds.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics TFBS entropy
+    input: biomarker/fragmentomics_metrics_calculate_TFBS_entropy/{sample}_{type}_TFBS_entropy.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}_TFBS_entropy.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics ATAC entropy
+    input: biomarker/fragmentomics_metrics_calculate_ATAC_entropy/{sample}_{type}_ATAC_entropy.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}_ATAC_entropy.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics combined feature table
+    input: biomarker/fragmentomics_metrics_calculate_combined_feature_table/feature_tables/all_combined.rds
+    output: results/dna/fragmentomics/fragmentomics_metrics/all_combined.rds
+    types:
+      - T
+      - N
+  - name: Jumble GIS HRD TC CSV
+    input: cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.jumble_gis.csv
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv
+    types:
+      - T
+      - N
+  - name: Jumble GIS HRD TC PNG
+    input: cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.gis.png
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.gis.png
+    types:
+      - T
+      - N
+  - name: Jumble Predicted GIS Score
+    input: cnv_sv/jumble_gis_score/{sample}_{type}.pathology_purecn.predicted_gis.txt
+    output: results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt
     types:
       - T
       - N

@@ -252,6 +252,25 @@ properties:
             type: string
             description: Excel frienly text report with gene coverage information
 
+  jumble_gis_score:
+    type: object
+    description: input and output parameters for jumble_gis_score
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          gis_csv:
+            type: string
+            description: GIS csv file from jumble_run
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          gis_score:
+            type: string
+            description: Extracted predicted GIS score for current TC
+
   report_fusions:
     type: object
     description: input and output parameters for report_fusions

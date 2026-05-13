@@ -205,6 +205,28 @@ Take the output from hotspot report (coverage_and mutations) and translate the a
 
 #RESOURCESSCHEMA__hotspot_report_aa_translate#
 
+---
+
+## jumble_gis_score
+Extract the predicted Genomic Instability Score (GIS) from Jumble's output for the current sample's tumor content (TC). 
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__jumble_gis__jumble_gis_score#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__jumble_gis__jumble_gis_score#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__jumble_gis_score#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__jumble_gis_score#
 
 ---
 

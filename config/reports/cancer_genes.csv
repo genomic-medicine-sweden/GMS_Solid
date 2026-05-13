@@ -1,0 +1,1340 @@
+Gene,Role,Color
+MYD88,Oncogene (OG),#ff0000
+CSF3R,Oncogene (OG),#ff0000
+JAK3,Oncogene (OG),#ff0000
+ALK,Oncogene (OG),#ff0000
+CDK6,Oncogene (OG),#ff0000
+JAK2,Oncogene (OG),#ff0000
+KDM5A,Oncogene (OG),#ff0000
+FLT3,Oncogene (OG),#ff0000
+MYC,Oncogene (OG),#ff0000
+FGFR3,Oncogene (OG),#ff0000
+HGF,Oncogene (OG),#ff0000
+AKT1,Oncogene (OG),#ff0000
+ERBB2,Oncogene (OG),#ff0000
+ARAF,Oncogene (OG),#ff0000
+XPO1,Oncogene (OG),#ff0000
+CCND1,Oncogene (OG),#ff0000
+U2AF1,Oncogene (OG),#ff0000
+MAPK1,Oncogene (OG),#ff0000
+ABL1,Oncogene (OG),#ff0000
+ERBB3,Oncogene (OG),#ff0000
+SRC,Oncogene (OG),#ff0000
+NTRK2,Oncogene (OG),#ff0000
+PIK3CA,Oncogene (OG),#ff0000
+CTNNB1,Oncogene (OG),#ff0000
+NTRK3,Oncogene (OG),#ff0000
+CARD11,Oncogene (OG),#ff0000
+CD79A,Oncogene (OG),#ff0000
+CD79B,Oncogene (OG),#ff0000
+MTOR,Oncogene (OG),#ff0000
+ERG,Oncogene (OG),#ff0000
+FGFR2,Oncogene (OG),#ff0000
+AKT3,Oncogene (OG),#ff0000
+KIT,Oncogene (OG),#ff0000
+PDGFRA,Oncogene (OG),#ff0000
+IDH1,Oncogene (OG),#ff0000
+IDH2,Oncogene (OG),#ff0000
+MDM4,Oncogene (OG),#ff0000
+ROS1,Oncogene (OG),#ff0000
+EGFR,Oncogene (OG),#ff0000
+HRAS,Oncogene (OG),#ff0000
+PTPN11,Oncogene (OG),#ff0000
+BRD4,Oncogene (OG),#ff0000
+RICTOR,Oncogene (OG),#ff0000
+SYK,Oncogene (OG),#ff0000
+RET,Oncogene (OG),#ff0000
+MITF,Oncogene (OG),#ff0000
+BRAF,Oncogene (OG),#ff0000
+NRAS,Oncogene (OG),#ff0000
+CCND3,Oncogene (OG),#ff0000
+NSD2,Oncogene (OG),#ff0000
+MPL,Oncogene (OG),#ff0000
+PDGFRB,Oncogene (OG),#ff0000
+CALR,Oncogene (OG),#ff0000
+FGFR1,Oncogene (OG),#ff0000
+SF3B1,Oncogene (OG),#ff0000
+MYCN,Oncogene (OG),#ff0000
+BCL2,Oncogene (OG),#ff0000
+BCL6,Oncogene (OG),#ff0000
+CCND2,Oncogene (OG),#ff0000
+KDR,Oncogene (OG),#ff0000
+MAP2K2,Oncogene (OG),#ff0000
+MAP2K1,Oncogene (OG),#ff0000
+SOX2,Oncogene (OG),#ff0000
+AKT2,Oncogene (OG),#ff0000
+KRAS,Oncogene (OG),#ff0000
+MET,Oncogene (OG),#ff0000
+RAF1,Oncogene (OG),#ff0000
+GNAS,Oncogene (OG),#ff0000
+PDCD1LG2,Oncogene (OG),#ff0000
+AR,Oncogene (OG),#ff0000
+FGFR4,Oncogene (OG),#ff0000
+JUN,Oncogene (OG),#ff0000
+MDM2,Oncogene (OG),#ff0000
+CCNE1,Oncogene (OG),#ff0000
+SMO,Oncogene (OG),#ff0000
+MYCL,Oncogene (OG),#ff0000
+DDR2,Oncogene (OG),#ff0000
+STAT3,Oncogene (OG),#ff0000
+GNA11,Oncogene (OG),#ff0000
+GNAQ,Oncogene (OG),#ff0000
+CXCR4,Oncogene (OG),#ff0000
+CDK4,Oncogene (OG),#ff0000
+LYN,Oncogene (OG),#ff0000
+REL,Oncogene (OG),#ff0000
+RAC1,Oncogene (OG),#ff0000
+PIK3CB,Oncogene (OG),#ff0000
+IL7R,Oncogene (OG),#ff0000
+CRLF2,Oncogene (OG),#ff0000
+MSI2,Oncogene (OG),#ff0000
+GLI1,Oncogene (OG),#ff0000
+ETV1,Oncogene (OG),#ff0000
+FLT4,Oncogene (OG),#ff0000
+LMO1,Oncogene (OG),#ff0000
+YAP1,Oncogene (OG),#ff0000
+ACVR1,Oncogene (OG),#ff0000
+WWTR1,Oncogene (OG),#ff0000
+PPM1D,Oncogene (OG),#ff0000
+RRAS2,Oncogene (OG),#ff0000
+SOS1,Oncogene (OG),#ff0000
+CYSLTR2,Oncogene (OG),#ff0000
+USP8,Oncogene (OG),#ff0000
+SGK1,Oncogene (OG),#ff0000
+NT5C2,Oncogene (OG),#ff0000
+SETBP1,Oncogene (OG),#ff0000
+STAT6,Oncogene (OG),#ff0000
+PLCG1,Oncogene (OG),#ff0000
+HIF1A,Oncogene (OG),#ff0000
+UBR5,Oncogene (OG),#ff0000
+LCK,Oncogene (OG),#ff0000
+CD28,Oncogene (OG),#ff0000
+MYB,Oncogene (OG),#ff0000
+EWSR1,Oncogene (OG),#ff0000
+ETV4,Oncogene (OG),#ff0000
+ETV5,Oncogene (OG),#ff0000
+CD74,Oncogene (OG),#ff0000
+MLLT10,Oncogene (OG),#ff0000
+AFF4,Oncogene (OG),#ff0000
+FCGR2B,Oncogene (OG),#ff0000
+PAX3,Oncogene (OG),#ff0000
+ABL2,Oncogene (OG),#ff0000
+DEK,Oncogene (OG),#ff0000
+HOXA13,Oncogene (OG),#ff0000
+NUP98,Oncogene (OG),#ff0000
+MECOM,Oncogene (OG),#ff0000
+MN1,Oncogene (OG),#ff0000
+USP6,Oncogene (OG),#ff0000
+BCL9,Oncogene (OG),#ff0000
+BCL3,Oncogene (OG),#ff0000
+HIP1,Oncogene (OG),#ff0000
+PDGFB,Oncogene (OG),#ff0000
+FLI1,Oncogene (OG),#ff0000
+NR4A3,Oncogene (OG),#ff0000
+TNFRSF17,Oncogene (OG),#ff0000
+HMGA2,Oncogene (OG),#ff0000
+TAL1,Oncogene (OG),#ff0000
+ATF1,Oncogene (OG),#ff0000
+HMGA1,Oncogene (OG),#ff0000
+MAFB,Oncogene (OG),#ff0000
+TFE3,Oncogene (OG),#ff0000
+LMO2,Oncogene (OG),#ff0000
+TLX1,Oncogene (OG),#ff0000
+TLX3,Oncogene (OG),#ff0000
+TCL1A,Oncogene (OG),#ff0000
+CACNA1D,Oncogene (OG),#ff0000
+UBTF,Oncogene (OG),#ff0000
+KAT7,Oncogene (OG),#ff0000
+CREB1,Oncogene (OG),#ff0000
+RSPO3,Oncogene (OG),#ff0000
+PRKACA,Oncogene (OG),#ff0000
+IL6ST,Oncogene (OG),#ff0000
+BRD3,Oncogene (OG),#ff0000
+A1CF,Oncogene (OG),#ff0000
+TRIM27,Oncogene (OG),#ff0000
+DDX5,Oncogene (OG),#ff0000
+ELK4,Oncogene (OG),#ff0000
+CRTC1,Oncogene (OG),#ff0000
+RELA,Oncogene (OG),#ff0000
+CHD4,Oncogene (OG),#ff0000
+NSD3,Oncogene (OG),#ff0000
+RARA,Oncogene (OG),#ff0000
+GSK3B,Oncogene (OG),#ff0000
+CSF1R,Oncogene (OG),#ff0000
+PIM1,Oncogene (OG),#ff0000
+AURKA,Oncogene (OG),#ff0000
+AURKB,Oncogene (OG),#ff0000
+AXL,Oncogene (OG),#ff0000
+CDK8,Oncogene (OG),#ff0000
+CRKL,Oncogene (OG),#ff0000
+DOT1L,Oncogene (OG),#ff0000
+FGF19,Oncogene (OG),#ff0000
+FGF3,Oncogene (OG),#ff0000
+FGF4,Oncogene (OG),#ff0000
+FLT1,Oncogene (OG),#ff0000
+IGF1R,Oncogene (OG),#ff0000
+IKBKE,Oncogene (OG),#ff0000
+IRS2,Oncogene (OG),#ff0000
+MCL1,Oncogene (OG),#ff0000
+MEF2B,Oncogene (OG),#ff0000
+PDCD1,Oncogene (OG),#ff0000
+RPTOR,Oncogene (OG),#ff0000
+H3-3A,Oncogene (OG),#ff0000
+MST1R,Oncogene (OG),#ff0000
+PRKCI,Oncogene (OG),#ff0000
+VEGFA,Oncogene (OG),#ff0000
+TOP1,Oncogene (OG),#ff0000
+MALT1,Oncogene (OG),#ff0000
+SRSF2,Oncogene (OG),#ff0000
+EIF4A2,Oncogene (OG),#ff0000
+TSHR,Oncogene (OG),#ff0000
+H3C2,Oncogene (OG),#ff0000
+MAP3K14,Oncogene (OG),#ff0000
+PIK3CG,Oncogene (OG),#ff0000
+PLCG2,Oncogene (OG),#ff0000
+STAT5A,Oncogene (OG),#ff0000
+PREX2,Oncogene (OG),#ff0000
+KNSTRN,Oncogene (OG),#ff0000
+CD276,Oncogene (OG),#ff0000
+CDC42,Oncogene (OG),#ff0000
+CTLA4,Oncogene (OG),#ff0000
+DCUN1D1,Oncogene (OG),#ff0000
+DNMT1,Oncogene (OG),#ff0000
+E2F3,Oncogene (OG),#ff0000
+EGFL7,Oncogene (OG),#ff0000
+EIF4E,Oncogene (OG),#ff0000
+EPCAM,Oncogene (OG),#ff0000
+EZH1,Oncogene (OG),#ff0000
+FYN,Oncogene (OG),#ff0000
+GNB1,Oncogene (OG),#ff0000
+GREM1,Oncogene (OG),#ff0000
+H3C3,Oncogene (OG),#ff0000
+ICOSLG,Oncogene (OG),#ff0000
+IGF1,Oncogene (OG),#ff0000
+IGF2,Oncogene (OG),#ff0000
+INSR,Oncogene (OG),#ff0000
+IRS1,Oncogene (OG),#ff0000
+MAPK3,Oncogene (OG),#ff0000
+MSI1,Oncogene (OG),#ff0000
+NCOA3,Oncogene (OG),#ff0000
+NUF2,Oncogene (OG),#ff0000
+PAK1,Oncogene (OG),#ff0000
+PAK5,Oncogene (OG),#ff0000
+PGR,Oncogene (OG),#ff0000
+PIK3CD,Oncogene (OG),#ff0000
+RAB35,Oncogene (OG),#ff0000
+RAC2,Oncogene (OG),#ff0000
+RHEB,Oncogene (OG),#ff0000
+RIT1,Oncogene (OG),#ff0000
+RPS6KA4,Oncogene (OG),#ff0000
+RPS6KB2,Oncogene (OG),#ff0000
+RRAGC,Oncogene (OG),#ff0000
+RRAS,Oncogene (OG),#ff0000
+SHOC2,Oncogene (OG),#ff0000
+SMYD3,Oncogene (OG),#ff0000
+STK19,Oncogene (OG),#ff0000
+XIAP,Oncogene (OG),#ff0000
+YES1,Oncogene (OG),#ff0000
+AGO1,Oncogene (OG),#ff0000
+ATXN7,Oncogene (OG),#ff0000
+CYP19A1,Oncogene (OG),#ff0000
+EZHIP,Oncogene (OG),#ff0000
+GAB1,Oncogene (OG),#ff0000
+GAB2,Oncogene (OG),#ff0000
+KLF5,Oncogene (OG),#ff0000
+NADK,Oncogene (OG),#ff0000
+PGBD5,Oncogene (OG),#ff0000
+SCG5,Oncogene (OG),#ff0000
+BCR,Oncogene (OG),#ff0000
+HDAC1,Oncogene (OG),#ff0000
+GNA12,Oncogene (OG),#ff0000
+H1-4,Oncogene (OG),#ff0000
+H2AC17,Oncogene (OG),#ff0000
+HDAC7,Oncogene (OG),#ff0000
+NCSTN,Oncogene (OG),#ff0000
+TYK2,Oncogene (OG),#ff0000
+XBP1,Oncogene (OG),#ff0000
+VAV1,Oncogene (OG),#ff0000
+GTF2I,Oncogene (OG),#ff0000
+ARHGEF28,Oncogene (OG),#ff0000
+ARID3B,Oncogene (OG),#ff0000
+FURIN,Oncogene (OG),#ff0000
+KSR2,Oncogene (OG),#ff0000
+MGAM,Oncogene (OG),#ff0000
+NFE2,Oncogene (OG),#ff0000
+SETD1A,Oncogene (OG),#ff0000
+VAV2,Oncogene (OG),#ff0000
+MAF,Oncogene (OG),#ff0000
+BCL2L2,Oncogene (OG),#ff0000
+CD70,Oncogene (OG),#ff0000
+EMSY,Oncogene (OG),#ff0000
+FGF10,Oncogene (OG),#ff0000
+FGF23,Oncogene (OG),#ff0000
+FGF6,Oncogene (OG),#ff0000
+PDK1,Oncogene (OG),#ff0000
+ZNF217,Oncogene (OG),#ff0000
+NUTM1,Oncogene (OG),#ff0000
+GRM3,Oncogene (OG),#ff0000
+CUL4A,Oncogene (OG),#ff0000
+EPHB4,Oncogene (OG),#ff0000
+GABRA6,Oncogene (OG),#ff0000
+GATA6,Oncogene (OG),#ff0000
+HSD3B1,Oncogene (OG),#ff0000
+KEL,Oncogene (OG),#ff0000
+LTK,Oncogene (OG),#ff0000
+MERTK,Oncogene (OG),#ff0000
+PIK3C2B,Oncogene (OG),#ff0000
+SH3GL1,Oncogene (OG),#ff0000
+ATIC,Oncogene (OG),#ff0000
+HLF,Oncogene (OG),#ff0000
+MLLT3,Oncogene (OG),#ff0000
+ZNF521,Oncogene (OG),#ff0000
+PAX7,Oncogene (OG),#ff0000
+HOXC11,Oncogene (OG),#ff0000
+HOXC13,Oncogene (OG),#ff0000
+HOXD11,Oncogene (OG),#ff0000
+KAT6A,Oncogene (OG),#ff0000
+LASP1,Oncogene (OG),#ff0000
+PSIP1,Oncogene (OG),#ff0000
+NCOA2,Oncogene (OG),#ff0000
+NUP214,Oncogene (OG),#ff0000
+HOXD13,Oncogene (OG),#ff0000
+ELN,Oncogene (OG),#ff0000
+BCL11A,Oncogene (OG),#ff0000
+FSTL3,Oncogene (OG),#ff0000
+DDX6,Oncogene (OG),#ff0000
+FCRL4,Oncogene (OG),#ff0000
+COL1A1,Oncogene (OG),#ff0000
+JAZF1,Oncogene (OG),#ff0000
+FEV,Oncogene (OG),#ff0000
+TAF15,Oncogene (OG),#ff0000
+CREB3L2,Oncogene (OG),#ff0000
+SRSF3,Oncogene (OG),#ff0000
+LPP,Oncogene (OG),#ff0000
+DDIT3,Oncogene (OG),#ff0000
+PRDM16,Oncogene (OG),#ff0000
+HEY1,Oncogene (OG),#ff0000
+PAFAH1B2,Oncogene (OG),#ff0000
+TEC,Oncogene (OG),#ff0000
+HSP90AA1,Oncogene (OG),#ff0000
+POU2AF1,Oncogene (OG),#ff0000
+EML4,Oncogene (OG),#ff0000
+PBX1,Oncogene (OG),#ff0000
+PLAG1,Oncogene (OG),#ff0000
+SS18,Oncogene (OG),#ff0000
+SSX1,Oncogene (OG),#ff0000
+SSX2,Oncogene (OG),#ff0000
+SSX4,Oncogene (OG),#ff0000
+LYL1,Oncogene (OG),#ff0000
+RAP1GDS1,Oncogene (OG),#ff0000
+SET,Oncogene (OG),#ff0000
+TAL2,Oncogene (OG),#ff0000
+PICALM,Oncogene (OG),#ff0000
+ADGRA2,Oncogene (OG),#ff0000
+CAD,Oncogene (OG),#ff0000
+CEP43,Oncogene (OG),#ff0000
+CILK1,Oncogene (OG),#ff0000
+EPOR,Oncogene (OG),#ff0000
+FRS2,Oncogene (OG),#ff0000
+IL3,Oncogene (OG),#ff0000
+MAP3K7,Oncogene (OG),#ff0000
+MEF2C,Oncogene (OG),#ff0000
+MKI67,Oncogene (OG),#ff0000
+PAK3,Oncogene (OG),#ff0000
+PTK7,Oncogene (OG),#ff0000
+SOX10,Oncogene (OG),#ff0000
+STAT4,Oncogene (OG),#ff0000
+TAF1,Oncogene (OG),#ff0000
+TRG,Oncogene (OG),#ff0000
+KCNJ5,Oncogene (OG),#ff0000
+PRKCB,Oncogene (OG),#ff0000
+AFF3,Oncogene (OG),#ff0000
+SALL4,Oncogene (OG),#ff0000
+PAX8,Oncogene (OG),#ff0000
+TRRAP,Oncogene (OG),#ff0000
+SND1,Oncogene (OG),#ff0000
+PRCC,Oncogene (OG),#ff0000
+ERC1,Oncogene (OG),#ff0000
+KIAA1549,Oncogene (OG),#ff0000
+CANT1,Oncogene (OG),#ff0000
+HNRNPA2B1,Oncogene (OG),#ff0000
+TFEB,Oncogene (OG),#ff0000
+MAML2,Oncogene (OG),#ff0000
+POU5F1,Oncogene (OG),#ff0000
+IKBKB,Oncogene (OG),#ff0000
+CLIP1,Oncogene (OG),#ff0000
+LMNA,Oncogene (OG),#ff0000
+MYO5A,Oncogene (OG),#ff0000
+MTCP1,Oncogene (OG),#ff0000
+OLIG2,Oncogene (OG),#ff0000
+STIL,Oncogene (OG),#ff0000
+TRA,Oncogene (OG),#ff0000
+TRB,Oncogene (OG),#ff0000
+TRD,Oncogene (OG),#ff0000
+SIX1,Oncogene (OG),#ff0000
+WAS,Oncogene (OG),#ff0000
+AAMP,Oncogene (OG),#ff0000
+ABCB1,Oncogene (OG),#ff0000
+ABCC3,Oncogene (OG),#ff0000
+ACACA,Oncogene (OG),#ff0000
+ACSL4,Oncogene (OG),#ff0000
+ADARB2,Oncogene (OG),#ff0000
+ADHFE1,Oncogene (OG),#ff0000
+AGGF1,Oncogene (OG),#ff0000
+AGK,Oncogene (OG),#ff0000
+AKT1S1,Oncogene (OG),#ff0000
+ALDH1A3,Oncogene (OG),#ff0000
+ALDH1L2,Oncogene (OG),#ff0000
+ANKRD26,Oncogene (OG),#ff0000
+APEX1,Oncogene (OG),#ff0000
+APOBEC3B,Oncogene (OG),#ff0000
+ASCL1,Oncogene (OG),#ff0000
+ASXL3,Oncogene (OG),#ff0000
+AURKC,Oncogene (OG),#ff0000
+BAALC,Oncogene (OG),#ff0000
+BACH1,Oncogene (OG),#ff0000
+BIRC5,Oncogene (OG),#ff0000
+BRD2,Oncogene (OG),#ff0000
+BRD9,Oncogene (OG),#ff0000
+CCNB3,Oncogene (OG),#ff0000
+CD19,Oncogene (OG),#ff0000
+CDH2,Oncogene (OG),#ff0000
+CDH4,Oncogene (OG),#ff0000
+COL5A1,Oncogene (OG),#ff0000
+DDX4,Oncogene (OG),#ff0000
+DLL3,Oncogene (OG),#ff0000
+ECSIT,Oncogene (OG),#ff0000
+ERCC6,Oncogene (OG),#ff0000
+ESCO1,Oncogene (OG),#ff0000
+FGF1,Oncogene (OG),#ff0000
+FGF2,Oncogene (OG),#ff0000
+FGF5,Oncogene (OG),#ff0000
+FGF7,Oncogene (OG),#ff0000
+FGF8,Oncogene (OG),#ff0000
+FGF9,Oncogene (OG),#ff0000
+FOLH1,Oncogene (OG),#ff0000
+FOLR1,Oncogene (OG),#ff0000
+FOXN4,Oncogene (OG),#ff0000
+FSTL1,Oncogene (OG),#ff0000
+GRB7,Oncogene (OG),#ff0000
+GSTO1,Oncogene (OG),#ff0000
+HDAC2,Oncogene (OG),#ff0000
+HFE,Oncogene (OG),#ff0000
+ID1,Oncogene (OG),#ff0000
+IQGAP1,Oncogene (OG),#ff0000
+ITPKB,Oncogene (OG),#ff0000
+LGR5,Oncogene (OG),#ff0000
+LRP6,Oncogene (OG),#ff0000
+MAP3K21,Oncogene (OG),#ff0000
+MAP4K4,Oncogene (OG),#ff0000
+MASTL,Oncogene (OG),#ff0000
+MEF2D,Oncogene (OG),#ff0000
+MTHFD2,Oncogene (OG),#ff0000
+MYBL1,Oncogene (OG),#ff0000
+NQO1,Oncogene (OG),#ff0000
+OGA,Oncogene (OG),#ff0000
+OGT,Oncogene (OG),#ff0000
+ONECUT2,Oncogene (OG),#ff0000
+PHF19,Oncogene (OG),#ff0000
+POU2F2,Oncogene (OG),#ff0000
+POU3F2,Oncogene (OG),#ff0000
+POU3F4,Oncogene (OG),#ff0000
+PSMB2,Oncogene (OG),#ff0000
+REV3L,Oncogene (OG),#ff0000
+RIOK2,Oncogene (OG),#ff0000
+RNASEH2A,Oncogene (OG),#ff0000
+RPS15,Oncogene (OG),#ff0000
+RPS6KB1,Oncogene (OG),#ff0000
+SF3B2,Oncogene (OG),#ff0000
+SQSTM1,Oncogene (OG),#ff0000
+SRP72,Oncogene (OG),#ff0000
+TACSTD2,Oncogene (OG),#ff0000
+TCL1B,Oncogene (OG),#ff0000
+TIGAR,Oncogene (OG),#ff0000
+TNFSF13,Oncogene (OG),#ff0000
+TOP2A,Oncogene (OG),#ff0000
+TRIB3,Oncogene (OG),#ff0000
+TYMS,Oncogene (OG),#ff0000
+UBE2A,Oncogene (OG),#ff0000
+UCHL1,Oncogene (OG),#ff0000
+USP1,Oncogene (OG),#ff0000
+VEGFB,Oncogene (OG),#ff0000
+WWP1,Oncogene (OG),#ff0000
+YY1,Oncogene (OG),#ff0000
+ZBTB20,Oncogene (OG),#ff0000
+CCR4,Oncogene (OG),#ff0000
+CCR7,Oncogene (OG),#ff0000
+CHST11,Oncogene (OG),#ff0000
+ZEB1,Oncogene (OG),#ff0000
+H3F3B,Oncogene (OG),#ff0000
+ARHGAP5,Oncogene (OG),#ff0000
+TMSB4X,Oncogene (OG),#ff0000
+CTNNA2,Oncogene (OG),#ff0000
+H3F3A,Oncogene (OG),#ff0000
+HIST1H3B,Oncogene (OG),#ff0000
+RAP1B,Oncogene (OG),#ff0000
+MUC4,Oncogene (OG),#ff0000
+MUC16,Oncogene (OG),#ff0000
+MACC1,Oncogene (OG),#ff0000
+CDH17,Oncogene (OG),#ff0000
+SKI,Oncogene (OG),#ff0000
+BIRC6,Oncogene (OG),#ff0000
+BCL2L12,Oncogene (OG),#ff0000
+FOXR1,Oncogene (OG),#ff0000
+ROCK1,Oncogene (OG),#ff0000
+CTNND2,Oncogene (OG),#ff0000
+TNC,Oncogene (OG),#ff0000
+DGCR8,Oncogene (OG),#ff0000
+SIX2,Oncogene (OG),#ff0000
+ESR1,Dual role (OG and / or TSG),#ee82ee
+BTK,Dual role (OG and / or TSG),#ee82ee
+NKX2-1,Dual role (OG and / or TSG),#ee82ee
+ERBB4,Dual role (OG and / or TSG),#ee82ee
+IRF4,Dual role (OG and / or TSG),#ee82ee
+NPM1,Dual role (OG and / or TSG),#ee82ee
+NFE2L2,Dual role (OG and / or TSG),#ee82ee
+NTRK1,Dual role (OG and / or TSG),#ee82ee
+MAP3K13,Dual role (OG and / or TSG),#ee82ee
+TERT,Dual role (OG and / or TSG),#ee82ee
+FOXP1,Dual role (OG and / or TSG),#ee82ee
+GATA2,Dual role (OG and / or TSG),#ee82ee
+RHOA,Dual role (OG and / or TSG),#ee82ee
+STAT5B,Dual role (OG and / or TSG),#ee82ee
+FOXA1,Dual role (OG and / or TSG),#ee82ee
+SETDB1,Dual role (OG and / or TSG),#ee82ee
+RUNX1T1,Dual role (OG and / or TSG),#ee82ee
+TBL1XR1,Dual role (OG and / or TSG),#ee82ee
+ELF4,Dual role (OG and / or TSG),#ee82ee
+LEF1,Dual role (OG and / or TSG),#ee82ee
+BCL9L,Dual role (OG and / or TSG),#ee82ee
+NFATC2,Dual role (OG and / or TSG),#ee82ee
+FES,Dual role (OG and / or TSG),#ee82ee
+ACKR3,Dual role (OG and / or TSG),#ee82ee
+GPC3,Dual role (OG and / or TSG),#ee82ee
+KMT2A,Dual role (OG and / or TSG),#ee82ee
+RAD51,Dual role (OG and / or TSG),#ee82ee
+CD274,Dual role (OG and / or TSG),#ee82ee
+PPARG,Dual role (OG and / or TSG),#ee82ee
+FUBP1,Dual role (OG and / or TSG),#ee82ee
+PIK3R2,Dual role (OG and / or TSG),#ee82ee
+TCF7L2,Dual role (OG and / or TSG),#ee82ee
+MYOD1,Dual role (OG and / or TSG),#ee82ee
+P2RY8,Dual role (OG and / or TSG),#ee82ee
+RSPO2,Dual role (OG and / or TSG),#ee82ee
+AFDN,Dual role (OG and / or TSG),#ee82ee
+ELL,Dual role (OG and / or TSG),#ee82ee
+FUS,Dual role (OG and / or TSG),#ee82ee
+TPM3,Dual role (OG and / or TSG),#ee82ee
+DNM2,Dual role (OG and / or TSG),#ee82ee
+CDH11,Dual role (OG and / or TSG),#ee82ee
+YWHAE,Dual role (OG and / or TSG),#ee82ee
+RANBP2,Dual role (OG and / or TSG),#ee82ee
+NRG1,Dual role (OG and / or TSG),#ee82ee
+NCOA4,Dual role (OG and / or TSG),#ee82ee
+NAB2,Dual role (OG and / or TSG),#ee82ee
+BUB1B,Dual role (OG and / or TSG),#ee82ee
+CREBBP,Dual role (OG and / or TSG),#ee82ee
+RAD21,Dual role (OG and / or TSG),#ee82ee
+CBL,Dual role (OG and / or TSG),#ee82ee
+TP53,Dual role (OG and / or TSG),#ee82ee
+MAP3K1,Dual role (OG and / or TSG),#ee82ee
+KMT2D,Dual role (OG and / or TSG),#ee82ee
+CIC,Dual role (OG and / or TSG),#ee82ee
+DAXX,Dual role (OG and / or TSG),#ee82ee
+MAP2K4,Dual role (OG and / or TSG),#ee82ee
+PRKAR1A,Dual role (OG and / or TSG),#ee82ee
+KDM6A,Dual role (OG and / or TSG),#ee82ee
+CDKN1A,Dual role (OG and / or TSG),#ee82ee
+TBX3,Dual role (OG and / or TSG),#ee82ee
+FOXO1,Dual role (OG and / or TSG),#ee82ee
+TET1,Dual role (OG and / or TSG),#ee82ee
+RUNX1,Dual role (OG and / or TSG),#ee82ee
+SUZ12,Dual role (OG and / or TSG),#ee82ee
+TCF3,Dual role (OG and / or TSG),#ee82ee
+ELF3,Dual role (OG and / or TSG),#ee82ee
+BMPR1A,Dual role (OG and / or TSG),#ee82ee
+RECQL4,Dual role (OG and / or TSG),#ee82ee
+ARHGAP35,Dual role (OG and / or TSG),#ee82ee
+BCORL1,Dual role (OG and / or TSG),#ee82ee
+CUX1,Dual role (OG and / or TSG),#ee82ee
+BCL11B,Dual role (OG and / or TSG),#ee82ee
+QKI,Dual role (OG and / or TSG),#ee82ee
+ARHGEF12,Dual role (OG and / or TSG),#ee82ee
+MLF1,Dual role (OG and / or TSG),#ee82ee
+ARHGAP26,Dual role (OG and / or TSG),#ee82ee
+HOXA11,Dual role (OG and / or TSG),#ee82ee
+ACVR2A,Dual role (OG and / or TSG),#ee82ee
+DDB2,Dual role (OG and / or TSG),#ee82ee
+IKZF1,Tumor suppressor gene (TSG),#0000ff
+EPHA3,Tumor suppressor gene (TSG),#0000ff
+CDKN2B,Tumor suppressor gene (TSG),#0000ff
+CHEK1,Tumor suppressor gene (TSG),#0000ff
+INPP4B,Tumor suppressor gene (TSG),#0000ff
+MRE11,Tumor suppressor gene (TSG),#0000ff
+MSH3,Tumor suppressor gene (TSG),#0000ff
+NFKBIA,Tumor suppressor gene (TSG),#0000ff
+DIS3,Tumor suppressor gene (TSG),#0000ff
+ERRFI1,Tumor suppressor gene (TSG),#0000ff
+PARP1,Tumor suppressor gene (TSG),#0000ff
+PRKN,Tumor suppressor gene (TSG),#0000ff
+SOX9,Tumor suppressor gene (TSG),#0000ff
+XRCC2,Tumor suppressor gene (TSG),#0000ff
+NSD1,Tumor suppressor gene (TSG),#0000ff
+ZRSR2,Tumor suppressor gene (TSG),#0000ff
+RXRA,Tumor suppressor gene (TSG),#0000ff
+SMARCD1,Tumor suppressor gene (TSG),#0000ff
+PIK3R3,Tumor suppressor gene (TSG),#0000ff
+TRAF7,Tumor suppressor gene (TSG),#0000ff
+TGFBR1,Tumor suppressor gene (TSG),#0000ff
+HLA-A,Tumor suppressor gene (TSG),#0000ff
+DROSHA,Tumor suppressor gene (TSG),#0000ff
+PMS1,Tumor suppressor gene (TSG),#0000ff
+ABRAXAS1,Tumor suppressor gene (TSG),#0000ff
+ANKRD11,Tumor suppressor gene (TSG),#0000ff
+ARID5B,Tumor suppressor gene (TSG),#0000ff
+BBC3,Tumor suppressor gene (TSG),#0000ff
+BCL2L11,Tumor suppressor gene (TSG),#0000ff
+CCNQ,Tumor suppressor gene (TSG),#0000ff
+DNMT3B,Tumor suppressor gene (TSG),#0000ff
+DUSP4,Tumor suppressor gene (TSG),#0000ff
+ERF,Tumor suppressor gene (TSG),#0000ff
+GPS2,Tumor suppressor gene (TSG),#0000ff
+HLA-B,Tumor suppressor gene (TSG),#0000ff
+IFNGR1,Tumor suppressor gene (TSG),#0000ff
+INHA,Tumor suppressor gene (TSG),#0000ff
+INPPL1,Tumor suppressor gene (TSG),#0000ff
+KMT2B,Tumor suppressor gene (TSG),#0000ff
+MGA,Tumor suppressor gene (TSG),#0000ff
+MST1,Tumor suppressor gene (TSG),#0000ff
+NKX3-1,Tumor suppressor gene (TSG),#0000ff
+PMAIP1,Tumor suppressor gene (TSG),#0000ff
+PTPRS,Tumor suppressor gene (TSG),#0000ff
+RECQL,Tumor suppressor gene (TSG),#0000ff
+RTEL1,Tumor suppressor gene (TSG),#0000ff
+RYBP,Tumor suppressor gene (TSG),#0000ff
+SESN1,Tumor suppressor gene (TSG),#0000ff
+SESN2,Tumor suppressor gene (TSG),#0000ff
+SESN3,Tumor suppressor gene (TSG),#0000ff
+SH2D1A,Tumor suppressor gene (TSG),#0000ff
+SHQ1,Tumor suppressor gene (TSG),#0000ff
+SLX4,Tumor suppressor gene (TSG),#0000ff
+SOX17,Tumor suppressor gene (TSG),#0000ff
+SPRED1,Tumor suppressor gene (TSG),#0000ff
+TP53BP1,Tumor suppressor gene (TSG),#0000ff
+MTAP,Tumor suppressor gene (TSG),#0000ff
+SMARCE1,Tumor suppressor gene (TSG),#0000ff
+CMTR2,Tumor suppressor gene (TSG),#0000ff
+CTR9,Tumor suppressor gene (TSG),#0000ff
+ETAA1,Tumor suppressor gene (TSG),#0000ff
+HLA-C,Tumor suppressor gene (TSG),#0000ff
+REST,Tumor suppressor gene (TSG),#0000ff
+SLFN11,Tumor suppressor gene (TSG),#0000ff
+SMARCA2,Tumor suppressor gene (TSG),#0000ff
+SPRTN,Tumor suppressor gene (TSG),#0000ff
+NCOR2,Tumor suppressor gene (TSG),#0000ff
+CD58,Tumor suppressor gene (TSG),#0000ff
+DTX1,Tumor suppressor gene (TSG),#0000ff
+DUSP22,Tumor suppressor gene (TSG),#0000ff
+H1-3,Tumor suppressor gene (TSG),#0000ff
+IRF1,Tumor suppressor gene (TSG),#0000ff
+IRF8,Tumor suppressor gene (TSG),#0000ff
+PTPN2,Tumor suppressor gene (TSG),#0000ff
+SMC3,Tumor suppressor gene (TSG),#0000ff
+TRAF3,Tumor suppressor gene (TSG),#0000ff
+TRAF5,Tumor suppressor gene (TSG),#0000ff
+ETNK1,Tumor suppressor gene (TSG),#0000ff
+SETD1B,Tumor suppressor gene (TSG),#0000ff
+ACTG1,Tumor suppressor gene (TSG),#0000ff
+ARID3A,Tumor suppressor gene (TSG),#0000ff
+ARID4A,Tumor suppressor gene (TSG),#0000ff
+ARID4B,Tumor suppressor gene (TSG),#0000ff
+ATP6V1B2,Tumor suppressor gene (TSG),#0000ff
+ATXN2,Tumor suppressor gene (TSG),#0000ff
+BACH2,Tumor suppressor gene (TSG),#0000ff
+CRBN,Tumor suppressor gene (TSG),#0000ff
+EGR1,Tumor suppressor gene (TSG),#0000ff
+EP400,Tumor suppressor gene (TSG),#0000ff
+ESCO2,Tumor suppressor gene (TSG),#0000ff
+H1-5,Tumor suppressor gene (TSG),#0000ff
+HIRA,Tumor suppressor gene (TSG),#0000ff
+MOB3B,Tumor suppressor gene (TSG),#0000ff
+PDS5B,Tumor suppressor gene (TSG),#0000ff
+PIGA,Tumor suppressor gene (TSG),#0000ff
+PTPN1,Tumor suppressor gene (TSG),#0000ff
+ROBO1,Tumor suppressor gene (TSG),#0000ff
+SAMHD1,Tumor suppressor gene (TSG),#0000ff
+SETDB2,Tumor suppressor gene (TSG),#0000ff
+SMG1,Tumor suppressor gene (TSG),#0000ff
+SP140,Tumor suppressor gene (TSG),#0000ff
+TET3,Tumor suppressor gene (TSG),#0000ff
+FANCL,Tumor suppressor gene (TSG),#0000ff
+FGF14,Tumor suppressor gene (TSG),#0000ff
+KLHL6,Tumor suppressor gene (TSG),#0000ff
+SLC34A2,Tumor suppressor gene (TSG),#0000ff
+GATA4,Tumor suppressor gene (TSG),#0000ff
+IRF2,Tumor suppressor gene (TSG),#0000ff
+PPP2R2A,Tumor suppressor gene (TSG),#0000ff
+CLTCL1,Tumor suppressor gene (TSG),#0000ff
+MYH9,Tumor suppressor gene (TSG),#0000ff
+CLTC,Tumor suppressor gene (TSG),#0000ff
+EPS15,Tumor suppressor gene (TSG),#0000ff
+ABI1,Tumor suppressor gene (TSG),#0000ff
+CDX2,Tumor suppressor gene (TSG),#0000ff
+MYH11,Tumor suppressor gene (TSG),#0000ff
+RPL22,Tumor suppressor gene (TSG),#0000ff
+PER1,Tumor suppressor gene (TSG),#0000ff
+DDX10,Tumor suppressor gene (TSG),#0000ff
+ZBTB16,Tumor suppressor gene (TSG),#0000ff
+BCL7A,Tumor suppressor gene (TSG),#0000ff
+PTPN6,Tumor suppressor gene (TSG),#0000ff
+ECT2L,Tumor suppressor gene (TSG),#0000ff
+EBF1,Tumor suppressor gene (TSG),#0000ff
+CREB3L1,Tumor suppressor gene (TSG),#0000ff
+RHOH,Tumor suppressor gene (TSG),#0000ff
+NDRG1,Tumor suppressor gene (TSG),#0000ff
+ATG5,Tumor suppressor gene (TSG),#0000ff
+BRSK1,Tumor suppressor gene (TSG),#0000ff
+SOCS3,Tumor suppressor gene (TSG),#0000ff
+ATP2B3,Tumor suppressor gene (TSG),#0000ff
+KNL1,Tumor suppressor gene (TSG),#0000ff
+KAT6B,Tumor suppressor gene (TSG),#0000ff
+CNBP,Tumor suppressor gene (TSG),#0000ff
+PTPRB,Tumor suppressor gene (TSG),#0000ff
+COL2A1,Tumor suppressor gene (TSG),#0000ff
+EIF3E,Tumor suppressor gene (TSG),#0000ff
+PTPRK,Tumor suppressor gene (TSG),#0000ff
+BAX,Tumor suppressor gene (TSG),#0000ff
+SFRP4,Tumor suppressor gene (TSG),#0000ff
+POLG,Tumor suppressor gene (TSG),#0000ff
+LARP4B,Tumor suppressor gene (TSG),#0000ff
+PATZ1,Tumor suppressor gene (TSG),#0000ff
+ZNF331,Tumor suppressor gene (TSG),#0000ff
+CCNB1IP1,Tumor suppressor gene (TSG),#0000ff
+ALDH2,Tumor suppressor gene (TSG),#0000ff
+FAT4,Tumor suppressor gene (TSG),#0000ff
+LRIG3,Tumor suppressor gene (TSG),#0000ff
+SFPQ,Tumor suppressor gene (TSG),#0000ff
+TRIM33,Tumor suppressor gene (TSG),#0000ff
+CCDC6,Tumor suppressor gene (TSG),#0000ff
+RMI2,Tumor suppressor gene (TSG),#0000ff
+KLF6,Tumor suppressor gene (TSG),#0000ff
+CNOT3,Tumor suppressor gene (TSG),#0000ff
+PTPRC,Tumor suppressor gene (TSG),#0000ff
+RPL10,Tumor suppressor gene (TSG),#0000ff
+EXT2,Tumor suppressor gene (TSG),#0000ff
+FANCI,Tumor suppressor gene (TSG),#0000ff
+PRF1,Tumor suppressor gene (TSG),#0000ff
+SBDS,Tumor suppressor gene (TSG),#0000ff
+ACP3,Tumor suppressor gene (TSG),#0000ff
+AIM2,Tumor suppressor gene (TSG),#0000ff
+AJUBA,Tumor suppressor gene (TSG),#0000ff
+ALOX15B,Tumor suppressor gene (TSG),#0000ff
+APCDD1,Tumor suppressor gene (TSG),#0000ff
+ATMIN,Tumor suppressor gene (TSG),#0000ff
+ATRIP,Tumor suppressor gene (TSG),#0000ff
+CCAR1,Tumor suppressor gene (TSG),#0000ff
+CDKN1C,Tumor suppressor gene (TSG),#0000ff
+CHTF8,Tumor suppressor gene (TSG),#0000ff
+CTDNEP1,Tumor suppressor gene (TSG),#0000ff
+DDX41,Tumor suppressor gene (TSG),#0000ff
+EGR2,Tumor suppressor gene (TSG),#0000ff
+EIF2B1,Tumor suppressor gene (TSG),#0000ff
+ERCC1,Tumor suppressor gene (TSG),#0000ff
+GSTP1,Tumor suppressor gene (TSG),#0000ff
+HSD17B2,Tumor suppressor gene (TSG),#0000ff
+HTATIP2,Tumor suppressor gene (TSG),#0000ff
+ING1,Tumor suppressor gene (TSG),#0000ff
+INTS6,Tumor suppressor gene (TSG),#0000ff
+KLF2,Tumor suppressor gene (TSG),#0000ff
+KLF3,Tumor suppressor gene (TSG),#0000ff
+LZTS1,Tumor suppressor gene (TSG),#0000ff
+MAGI2,Tumor suppressor gene (TSG),#0000ff
+MAL2,Tumor suppressor gene (TSG),#0000ff
+MBD4,Tumor suppressor gene (TSG),#0000ff
+MBD6,Tumor suppressor gene (TSG),#0000ff
+MIDEAS,Tumor suppressor gene (TSG),#0000ff
+MLH3,Tumor suppressor gene (TSG),#0000ff
+PHLPP1,Tumor suppressor gene (TSG),#0000ff
+PHLPP2,Tumor suppressor gene (TSG),#0000ff
+POLH,Tumor suppressor gene (TSG),#0000ff
+PRPF8,Tumor suppressor gene (TSG),#0000ff
+PTPN14,Tumor suppressor gene (TSG),#0000ff
+RNASEH2B,Tumor suppressor gene (TSG),#0000ff
+SFRP1,Tumor suppressor gene (TSG),#0000ff
+SLIT3,Tumor suppressor gene (TSG),#0000ff
+WEE1,Tumor suppressor gene (TSG),#0000ff
+XRCC1,Tumor suppressor gene (TSG),#0000ff
+XRCC3,Tumor suppressor gene (TSG),#0000ff
+ZFP36L1,Tumor suppressor gene (TSG),#0000ff
+ZFP36L2,Tumor suppressor gene (TSG),#0000ff
+ZNF292,Tumor suppressor gene (TSG),#0000ff
+ZNF750,Tumor suppressor gene (TSG),#0000ff
+CARS,Tumor suppressor gene (TSG),#0000ff
+FBLN2,Tumor suppressor gene (TSG),#0000ff
+ARHGEF10,Tumor suppressor gene (TSG),#0000ff
+ROBO2,Tumor suppressor gene (TSG),#0000ff
+WNK2,Tumor suppressor gene (TSG),#0000ff
+CASP9,Tumor suppressor gene (TSG),#0000ff
+MGMT,Tumor suppressor gene (TSG),#0000ff
+PRDM2,Tumor suppressor gene (TSG),#0000ff
+CNTNAP2,Tumor suppressor gene (TSG),#0000ff
+SIRPA,Tumor suppressor gene (TSG),#0000ff
+GPC5,Tumor suppressor gene (TSG),#0000ff
+CPEB3,Tumor suppressor gene (TSG),#0000ff
+N4BP2,Tumor suppressor gene (TSG),#0000ff
+RFWD3,Tumor suppressor gene (TSG),#0000ff
+LEPROTL1,Tumor suppressor gene (TSG),#0000ff
+USP44,Tumor suppressor gene (TSG),#0000ff
+ARHGEF10L,Tumor suppressor gene (TSG),#0000ff
+IGF2BP2,Tumor suppressor gene (TSG),#0000ff
+CDH10,Tumor suppressor gene (TSG),#0000ff
+SOX21,Tumor suppressor gene (TSG),#0000ff
+CASP3,Tumor suppressor gene (TSG),#0000ff
+CSMD3,Tumor suppressor gene (TSG),#0000ff
+CCNC,Tumor suppressor gene (TSG),#0000ff
+BAZ1A,Tumor suppressor gene (TSG),#0000ff
+FEN1,Tumor suppressor gene (TSG),#0000ff
+CBFB,Tumor suppressor gene (TSG),#0000ff
+DNMT3A,Tumor suppressor gene (TSG),#0000ff
+CEBPA,Tumor suppressor gene (TSG),#0000ff
+STAG2,Tumor suppressor gene (TSG),#0000ff
+BARD1,Tumor suppressor gene (TSG),#0000ff
+BRCA2,Tumor suppressor gene (TSG),#0000ff
+CDKN1B,Tumor suppressor gene (TSG),#0000ff
+ID3,Tumor suppressor gene (TSG),#0000ff
+RNF43,Tumor suppressor gene (TSG),#0000ff
+PPP2R1A,Tumor suppressor gene (TSG),#0000ff
+ARID1A,Tumor suppressor gene (TSG),#0000ff
+KDM5C,Tumor suppressor gene (TSG),#0000ff
+SETD2,Tumor suppressor gene (TSG),#0000ff
+PBRM1,Tumor suppressor gene (TSG),#0000ff
+MSH6,Tumor suppressor gene (TSG),#0000ff
+SMAD2,Tumor suppressor gene (TSG),#0000ff
+EP300,Tumor suppressor gene (TSG),#0000ff
+MSH2,Tumor suppressor gene (TSG),#0000ff
+MLH1,Tumor suppressor gene (TSG),#0000ff
+AXIN1,Tumor suppressor gene (TSG),#0000ff
+FBXW7,Tumor suppressor gene (TSG),#0000ff
+APC,Tumor suppressor gene (TSG),#0000ff
+SMAD4,Tumor suppressor gene (TSG),#0000ff
+ETV6,Tumor suppressor gene (TSG),#0000ff
+PRDM1,Tumor suppressor gene (TSG),#0000ff
+CTCF,Tumor suppressor gene (TSG),#0000ff
+ATR,Tumor suppressor gene (TSG),#0000ff
+TNFRSF14,Tumor suppressor gene (TSG),#0000ff
+SDHA,Tumor suppressor gene (TSG),#0000ff
+PIK3R1,Tumor suppressor gene (TSG),#0000ff
+CDKN2C,Tumor suppressor gene (TSG),#0000ff
+PTEN,Tumor suppressor gene (TSG),#0000ff
+TGFBR2,Tumor suppressor gene (TSG),#0000ff
+HNF1A,Tumor suppressor gene (TSG),#0000ff
+SOCS1,Tumor suppressor gene (TSG),#0000ff
+CDH1,Tumor suppressor gene (TSG),#0000ff
+EED,Tumor suppressor gene (TSG),#0000ff
+SMARCB1,Tumor suppressor gene (TSG),#0000ff
+TNFAIP3,Tumor suppressor gene (TSG),#0000ff
+TET2,Tumor suppressor gene (TSG),#0000ff
+ASXL1,Tumor suppressor gene (TSG),#0000ff
+SUFU,Tumor suppressor gene (TSG),#0000ff
+CDKN2A,Tumor suppressor gene (TSG),#0000ff
+NF2,Tumor suppressor gene (TSG),#0000ff
+TENT5C,Tumor suppressor gene (TSG),#0000ff
+NF1,Tumor suppressor gene (TSG),#0000ff
+KEAP1,Tumor suppressor gene (TSG),#0000ff
+STK11,Tumor suppressor gene (TSG),#0000ff
+SMARCA4,Tumor suppressor gene (TSG),#0000ff
+BRCA1,Tumor suppressor gene (TSG),#0000ff
+MUTYH,Tumor suppressor gene (TSG),#0000ff
+ATRX,Tumor suppressor gene (TSG),#0000ff
+CDC73,Tumor suppressor gene (TSG),#0000ff
+MEN1,Tumor suppressor gene (TSG),#0000ff
+SPOP,Tumor suppressor gene (TSG),#0000ff
+TSC2,Tumor suppressor gene (TSG),#0000ff
+TSC1,Tumor suppressor gene (TSG),#0000ff
+VHL,Tumor suppressor gene (TSG),#0000ff
+BCOR,Tumor suppressor gene (TSG),#0000ff
+RB1,Tumor suppressor gene (TSG),#0000ff
+CDK12,Tumor suppressor gene (TSG),#0000ff
+PTCH1,Tumor suppressor gene (TSG),#0000ff
+SPEN,Tumor suppressor gene (TSG),#0000ff
+ATM,Tumor suppressor gene (TSG),#0000ff
+MED12,Tumor suppressor gene (TSG),#0000ff
+BAP1,Tumor suppressor gene (TSG),#0000ff
+AMER1,Tumor suppressor gene (TSG),#0000ff
+BRIP1,Tumor suppressor gene (TSG),#0000ff
+CHEK2,Tumor suppressor gene (TSG),#0000ff
+FANCA,Tumor suppressor gene (TSG),#0000ff
+FANCC,Tumor suppressor gene (TSG),#0000ff
+FLCN,Tumor suppressor gene (TSG),#0000ff
+PALB2,Tumor suppressor gene (TSG),#0000ff
+SDHB,Tumor suppressor gene (TSG),#0000ff
+SDHC,Tumor suppressor gene (TSG),#0000ff
+SDHD,Tumor suppressor gene (TSG),#0000ff
+POLE,Tumor suppressor gene (TSG),#0000ff
+POLD1,Tumor suppressor gene (TSG),#0000ff
+FH,Tumor suppressor gene (TSG),#0000ff
+CASP8,Tumor suppressor gene (TSG),#0000ff
+RAD51B,Tumor suppressor gene (TSG),#0000ff
+RBM10,Tumor suppressor gene (TSG),#0000ff
+CUL3,Tumor suppressor gene (TSG),#0000ff
+ERCC4,Tumor suppressor gene (TSG),#0000ff
+NBN,Tumor suppressor gene (TSG),#0000ff
+PMS2,Tumor suppressor gene (TSG),#0000ff
+RAD51C,Tumor suppressor gene (TSG),#0000ff
+RAD51D,Tumor suppressor gene (TSG),#0000ff
+RAD50,Tumor suppressor gene (TSG),#0000ff
+POT1,Tumor suppressor gene (TSG),#0000ff
+B2M,Tumor suppressor gene (TSG),#0000ff
+PHF6,Tumor suppressor gene (TSG),#0000ff
+ARID2,Tumor suppressor gene (TSG),#0000ff
+BCL10,Tumor suppressor gene (TSG),#0000ff
+KMT2C,Tumor suppressor gene (TSG),#0000ff
+GRIN2A,Tumor suppressor gene (TSG),#0000ff
+BLM,Tumor suppressor gene (TSG),#0000ff
+NCOR1,Tumor suppressor gene (TSG),#0000ff
+ARID1B,Tumor suppressor gene (TSG),#0000ff
+SMAD3,Tumor suppressor gene (TSG),#0000ff
+AXIN2,Tumor suppressor gene (TSG),#0000ff
+CYLD,Tumor suppressor gene (TSG),#0000ff
+ZFHX3,Tumor suppressor gene (TSG),#0000ff
+PTPRT,Tumor suppressor gene (TSG),#0000ff
+PTPRD,Tumor suppressor gene (TSG),#0000ff
+RASA1,Tumor suppressor gene (TSG),#0000ff
+LATS2,Tumor suppressor gene (TSG),#0000ff
+PPP6C,Tumor suppressor gene (TSG),#0000ff
+ASXL2,Tumor suppressor gene (TSG),#0000ff
+SH2B3,Tumor suppressor gene (TSG),#0000ff
+PHOX2B,Tumor suppressor gene (TSG),#0000ff
+FAT1,Tumor suppressor gene (TSG),#0000ff
+MAX,Tumor suppressor gene (TSG),#0000ff
+DICER1,Tumor suppressor gene (TSG),#0000ff
+LATS1,Tumor suppressor gene (TSG),#0000ff
+ERCC2,Tumor suppressor gene (TSG),#0000ff
+ERCC3,Tumor suppressor gene (TSG),#0000ff
+ERCC5,Tumor suppressor gene (TSG),#0000ff
+SDHAF2,Tumor suppressor gene (TSG),#0000ff
+TMEM127,Tumor suppressor gene (TSG),#0000ff
+NTHL1,Tumor suppressor gene (TSG),#0000ff
+ZNRF3,Tumor suppressor gene (TSG),#0000ff
+LZTR1,Tumor suppressor gene (TSG),#0000ff
+BTG1,Tumor suppressor gene (TSG),#0000ff
+FAS,Tumor suppressor gene (TSG),#0000ff
+SMC1A,Tumor suppressor gene (TSG),#0000ff
+DDX3X,Tumor suppressor gene (TSG),#0000ff
+FBXO11,Tumor suppressor gene (TSG),#0000ff
+CIITA,Tumor suppressor gene (TSG),#0000ff
+FANCD2,Tumor suppressor gene (TSG),#0000ff
+STAG1,Tumor suppressor gene (TSG),#0000ff
+CTNNA1,Tumor suppressor gene (TSG),#0000ff
+BTG2,Tumor suppressor gene (TSG),#0000ff
+FANCG,Tumor suppressor gene (TSG),#0000ff
+ACVR1B,Tumor suppressor gene (TSG),#0000ff
+CBFA2T3,Tumor suppressor gene (TSG),#0000ff
+PML,Tumor suppressor gene (TSG),#0000ff
+LRP1B,Tumor suppressor gene (TSG),#0000ff
+ZMYM3,Tumor suppressor gene (TSG),#0000ff
+CAMTA1,Tumor suppressor gene (TSG),#0000ff
+CHD2,Tumor suppressor gene (TSG),#0000ff
+FHIT,Tumor suppressor gene (TSG),#0000ff
+FANCE,Tumor suppressor gene (TSG),#0000ff
+FANCF,Tumor suppressor gene (TSG),#0000ff
+CBLB,Tumor suppressor gene (TSG),#0000ff
+NFKBIE,Tumor suppressor gene (TSG),#0000ff
+PTPN13,Tumor suppressor gene (TSG),#0000ff
+RAD17,Tumor suppressor gene (TSG),#0000ff
+WIF1,Tumor suppressor gene (TSG),#0000ff
+RPL5,Tumor suppressor gene (TSG),#0000ff
+EXT1,Tumor suppressor gene (TSG),#0000ff
+FANCM,Tumor suppressor gene (TSG),#0000ff
+WRN,Tumor suppressor gene (TSG),#0000ff
+XPA,Tumor suppressor gene (TSG),#0000ff
+XPC,Tumor suppressor gene (TSG),#0000ff
+EPHB1,Dual role (OG and / or TSG),#ee82ee
+ALOX12B,Dual role (OG and / or TSG),#ee82ee
+NOTCH3,Dual role (OG and / or TSG),#ee82ee
+EPHA7,Dual role (OG and / or TSG),#ee82ee
+GATA1,Dual role (OG and / or TSG),#ee82ee
+INHBA,Dual role (OG and / or TSG),#ee82ee
+EPAS1,Dual role (OG and / or TSG),#ee82ee
+COP1,Dual role (OG and / or TSG),#ee82ee
+HOXB13,Dual role (OG and / or TSG),#ee82ee
+NOTCH4,Dual role (OG and / or TSG),#ee82ee
+APLNR,Dual role (OG and / or TSG),#ee82ee
+FOXF1,Dual role (OG and / or TSG),#ee82ee
+MAD2L2,Dual role (OG and / or TSG),#ee82ee
+TRIP13,Dual role (OG and / or TSG),#ee82ee
+GNA13,Dual role (OG and / or TSG),#ee82ee
+HDAC4,Dual role (OG and / or TSG),#ee82ee
+JARID2,Dual role (OG and / or TSG),#ee82ee
+LTB,Dual role (OG and / or TSG),#ee82ee
+ZBTB7A,Dual role (OG and / or TSG),#ee82ee
+MRTFA,Dual role (OG and / or TSG),#ee82ee
+RBM15,Dual role (OG and / or TSG),#ee82ee
+FOXO3,Dual role (OG and / or TSG),#ee82ee
+FOXO4,Dual role (OG and / or TSG),#ee82ee
+ARNT,Dual role (OG and / or TSG),#ee82ee
+HOXA9,Dual role (OG and / or TSG),#ee82ee
+TRIM24,Dual role (OG and / or TSG),#ee82ee
+NFKB2,Dual role (OG and / or TSG),#ee82ee
+CCN6,Dual role (OG and / or TSG),#ee82ee
+ETS1,Dual role (OG and / or TSG),#ee82ee
+PRKDC,Dual role (OG and / or TSG),#ee82ee
+SMARCA1,Dual role (OG and / or TSG),#ee82ee
+ANK1,Dual role (OG and / or TSG),#ee82ee
+IRS4,Dual role (OG and / or TSG),#ee82ee
+POLQ,Dual role (OG and / or TSG),#ee82ee
+PTK6,Dual role (OG and / or TSG),#ee82ee
+AIP,Dual role (OG and / or TSG),#ee82ee
+ALOX5,Dual role (OG and / or TSG),#ee82ee
+CASR,Dual role (OG and / or TSG),#ee82ee
+CAV1,Dual role (OG and / or TSG),#ee82ee
+CHUK,Dual role (OG and / or TSG),#ee82ee
+D2HGDH,Dual role (OG and / or TSG),#ee82ee
+DHX15,Dual role (OG and / or TSG),#ee82ee
+DIS3L2,Dual role (OG and / or TSG),#ee82ee
+ELL2,Dual role (OG and / or TSG),#ee82ee
+FZR1,Dual role (OG and / or TSG),#ee82ee
+KDM5D,Dual role (OG and / or TSG),#ee82ee
+LRP5,Dual role (OG and / or TSG),#ee82ee
+NHERF1,Dual role (OG and / or TSG),#ee82ee
+SFRP2,Dual role (OG and / or TSG),#ee82ee
+PABPC1,Dual role (OG and / or TSG),#ee82ee
+MALAT1,Dual role (OG and / or TSG),#ee82ee
+JAK1,Dual role (OG and / or TSG),#ee82ee
+GATA3,Dual role (OG and / or TSG),#ee82ee
+EZH2,Dual role (OG and / or TSG),#ee82ee
+FOXL2,Dual role (OG and / or TSG),#ee82ee
+NOTCH2,Dual role (OG and / or TSG),#ee82ee
+PAX5,Dual role (OG and / or TSG),#ee82ee
+NOTCH1,Dual role (OG and / or TSG),#ee82ee
+WT1,Dual role (OG and / or TSG),#ee82ee
+BIRC3,Dual role (OG and / or TSG),#ee82ee
+TP63,Dual role (OG and / or TSG),#ee82ee
+KLF4,Dual role (OG and / or TSG),#ee82ee
+IKZF3,Dual role (OG and / or TSG),#ee82ee
+ATP1A1,Dual role (OG and / or TSG),#ee82ee
+TMPRSS2,Unclassified,#4d4d4d
+PRKD1,Unclassified,#4d4d4d
+DNAJB1,Unclassified,#4d4d4d
+MLLT1,Unclassified,#4d4d4d
+EZR,Unclassified,#4d4d4d
+SDC4,Unclassified,#4d4d4d
+AFF1,Unclassified,#4d4d4d
+GPHN,Unclassified,#4d4d4d
+MLLT6,Unclassified,#4d4d4d
+MSN,Unclassified,#4d4d4d
+RNF213,Unclassified,#4d4d4d
+TPM4,Unclassified,#4d4d4d
+ZNF384,Unclassified,#4d4d4d
+PRRX1,Unclassified,#4d4d4d
+RPN1,Unclassified,#4d4d4d
+TRIP11,Unclassified,#4d4d4d
+CHIC2,Unclassified,#4d4d4d
+CLP1,Unclassified,#4d4d4d
+FNBP1,Unclassified,#4d4d4d
+GMPS,Unclassified,#4d4d4d
+MNX1,Unclassified,#4d4d4d
+ACSL6,Unclassified,#4d4d4d
+GAS7,Unclassified,#4d4d4d
+OMD,Unclassified,#4d4d4d
+NUMA1,Unclassified,#4d4d4d
+KDSR,Unclassified,#4d4d4d
+MUC1,Unclassified,#4d4d4d
+IGL,Unclassified,#4d4d4d
+IGK,Unclassified,#4d4d4d
+RABEP1,Unclassified,#4d4d4d
+MDS2,Unclassified,#4d4d4d
+IGH,Unclassified,#4d4d4d
+NIN,Unclassified,#4d4d4d
+PDE4DIP,Unclassified,#4d4d4d
+CNTRL,Unclassified,#4d4d4d
+ZMYM2,Unclassified,#4d4d4d
+HSP90AB1,Unclassified,#4d4d4d
+IL21R,Unclassified,#4d4d4d
+LCP1,Unclassified,#4d4d4d
+NACA,Unclassified,#4d4d4d
+TFRC,Unclassified,#4d4d4d
+KIF5B,Unclassified,#4d4d4d
+TFG,Unclassified,#4d4d4d
+PCM1,Unclassified,#4d4d4d
+ITK,Unclassified,#4d4d4d
+SNX29,Unclassified,#4d4d4d
+RALGDS,Unclassified,#4d4d4d
+TFPT,Unclassified,#4d4d4d
+HERPUD1,Unclassified,#4d4d4d
+NFIB,Unclassified,#4d4d4d
+MLLT11,Unclassified,#4d4d4d
+NCOA1,Unclassified,#4d4d4d
+ASPSCR1,Unclassified,#4d4d4d
+STRN,Unclassified,#4d4d4d
+WDCP,Unclassified,#4d4d4d
+NUTM2B,Unclassified,#4d4d4d
+NUTM2D,Unclassified,#4d4d4d
+TCF12,Unclassified,#4d4d4d
+GOPC,Unclassified,#4d4d4d
+FIP1L1,Unclassified,#4d4d4d
+DCTN1,Unclassified,#4d4d4d
+IL2,Unclassified,#4d4d4d
+NONO,Unclassified,#4d4d4d
+HOOK3,Unclassified,#4d4d4d
+KTN1,Unclassified,#4d4d4d
+TPR,Unclassified,#4d4d4d
+GOLGA5,Unclassified,#4d4d4d
+ACSL3,Unclassified,#4d4d4d
+KLK2,Unclassified,#4d4d4d
+SLC45A3,Unclassified,#4d4d4d
+CHCHD7,Unclassified,#4d4d4d
+LIFR,Unclassified,#4d4d4d
+TCEA1,Unclassified,#4d4d4d
+CRTC3,Unclassified,#4d4d4d
+PPFIBP1,Unclassified,#4d4d4d
+SS18L1,Unclassified,#4d4d4d
+NCKIPSD,Unclassified,#4d4d4d
+SEPT5,Unclassified,#4d4d4d
+SEPT6,Unclassified,#4d4d4d
+SEPT9,Unclassified,#4d4d4d
+THRAP3,Unclassified,#4d4d4d
+PLEC,Unclassified,#4d4d4d
+USP9X,Unclassified,#4d4d4d
+VTI1A,Unclassified,#4d4d4d
+SPECC1,Unclassified,#4d4d4d
+COL3A1,Unclassified,#4d4d4d
+LHFPL6,Unclassified,#4d4d4d
+S100A7,Unclassified,#4d4d4d
+FGFR1OP,Unclassified,#4d4d4d
+HIST1H4I,Unclassified,#4d4d4d
+TNRC18,Unclassified,#4d4d4d
+AKAP9,Unclassified,#4d4d4d
+FAM131B,Unclassified,#4d4d4d
+SRGAP3,Unclassified,#4d4d4d
+C15orf65,Unclassified,#4d4d4d
+HMGN2P46,Unclassified,#4d4d4d
+CEP89,Unclassified,#4d4d4d
+LSM14A,Unclassified,#4d4d4d
+PWWP2A,Unclassified,#4d4d4d
+SHTN1,Unclassified,#4d4d4d
+ZCCHC8,Unclassified,#4d4d4d
+COX6C,Unclassified,#4d4d4d
+BCL2L1,Unclassified,#4d4d4d
+PIK3C2G,Unclassified,#4d4d4d
+RAD52,Unclassified,#4d4d4d
+RAD54L,Unclassified,#4d4d4d
+TEK,Unclassified,#4d4d4d
+EPHA5,Unclassified,#4d4d4d
+H1-2,Unclassified,#4d4d4d
+NUP93,Unclassified,#4d4d4d
+TRAF2,Unclassified,#4d4d4d
+EIF1AX,Unclassified,#4d4d4d
+AGO2,Unclassified,#4d4d4d
+BABAM1,Unclassified,#4d4d4d
+CARM1,Unclassified,#4d4d4d
+CENPA,Unclassified,#4d4d4d
+CSDE1,Unclassified,#4d4d4d
+ELOC,Unclassified,#4d4d4d
+H2BC5,Unclassified,#4d4d4d
+H3-3B,Unclassified,#4d4d4d
+H3-4,Unclassified,#4d4d4d
+H3-5,Unclassified,#4d4d4d
+H3C1,Unclassified,#4d4d4d
+H3C10,Unclassified,#4d4d4d
+H3C11,Unclassified,#4d4d4d
+H3C12,Unclassified,#4d4d4d
+H3C13,Unclassified,#4d4d4d
+H3C14,Unclassified,#4d4d4d
+H3C4,Unclassified,#4d4d4d
+H3C6,Unclassified,#4d4d4d
+H3C7,Unclassified,#4d4d4d
+H3C8,Unclassified,#4d4d4d
+IL10,Unclassified,#4d4d4d
+INPP4A,Unclassified,#4d4d4d
+KMT5A,Unclassified,#4d4d4d
+MAPKAP1,Unclassified,#4d4d4d
+MDC1,Unclassified,#4d4d4d
+NEGR1,Unclassified,#4d4d4d
+PDPK1,Unclassified,#4d4d4d
+PIK3C3,Unclassified,#4d4d4d
+PLK2,Unclassified,#4d4d4d
+PNRC1,Unclassified,#4d4d4d
+PPP4R2,Unclassified,#4d4d4d
+PRDM14,Unclassified,#4d4d4d
+PTP4A1,Unclassified,#4d4d4d
+STK40,Unclassified,#4d4d4d
+TAP1,Unclassified,#4d4d4d
+TAP2,Unclassified,#4d4d4d
+UPF1,Unclassified,#4d4d4d
+VTCN1,Unclassified,#4d4d4d
+ALB,Unclassified,#4d4d4d
+KBTBD4,Unclassified,#4d4d4d
+SERPINB3,Unclassified,#4d4d4d
+SERPINB4,Unclassified,#4d4d4d
+PCBP1,Unclassified,#4d4d4d
+H2AC11,Unclassified,#4d4d4d
+H2AC16,Unclassified,#4d4d4d
+H2AC6,Unclassified,#4d4d4d
+H2BC11,Unclassified,#4d4d4d
+H2BC12,Unclassified,#4d4d4d
+H2BC17,Unclassified,#4d4d4d
+H2BC4,Unclassified,#4d4d4d
+U2AF2,Unclassified,#4d4d4d
+ARID3C,Unclassified,#4d4d4d
+ARID5A,Unclassified,#4d4d4d
+ATP6AP1,Unclassified,#4d4d4d
+H2BC8,Unclassified,#4d4d4d
+MPEG1,Unclassified,#4d4d4d
+SETD3,Unclassified,#4d4d4d
+SETD4,Unclassified,#4d4d4d
+SETD5,Unclassified,#4d4d4d
+SETD6,Unclassified,#4d4d4d
+SETD7,Unclassified,#4d4d4d
+ARFRP1,Unclassified,#4d4d4d
+CD22,Unclassified,#4d4d4d
+GID4,Unclassified,#4d4d4d
+PTPRO,Unclassified,#4d4d4d
+ZNF703,Unclassified,#4d4d4d
+CYP17A1,Unclassified,#4d4d4d
+DDR1,Unclassified,#4d4d4d
+FGF12,Unclassified,#4d4d4d
+MKNK1,Unclassified,#4d4d4d
+PARP2,Unclassified,#4d4d4d
+PARP3,Unclassified,#4d4d4d
+SNCAIP,Unclassified,#4d4d4d
+TERC,Unclassified,#4d4d4d
+TIPARP,Unclassified,#4d4d4d
+TYRO3,Unclassified,#4d4d4d
+ACTB,Unclassified,#4d4d4d
+APH1A,Unclassified,#4d4d4d
+ASMTL,Unclassified,#4d4d4d
+BTLA,Unclassified,#4d4d4d
+CARS1,Unclassified,#4d4d4d
+CCT6B,Unclassified,#4d4d4d
+CD36,Unclassified,#4d4d4d
+CHN1,Unclassified,#4d4d4d
+CKS1B,Unclassified,#4d4d4d
+CPS1,Unclassified,#4d4d4d
+CSF1,Unclassified,#4d4d4d
+DUSP2,Unclassified,#4d4d4d
+DUSP9,Unclassified,#4d4d4d
+ELP2,Unclassified,#4d4d4d
+EXOSC6,Unclassified,#4d4d4d
+FAF1,Unclassified,#4d4d4d
+FBXO31,Unclassified,#4d4d4d
+FLYWCH1,Unclassified,#4d4d4d
+GADD45B,Unclassified,#4d4d4d
+GTSE1,Unclassified,#4d4d4d
+H4C9,Unclassified,#4d4d4d
+HOXA3,Unclassified,#4d4d4d
+IKZF2,Unclassified,#4d4d4d
+INPP5D,Unclassified,#4d4d4d
+KDM2B,Unclassified,#4d4d4d
+KDM4C,Unclassified,#4d4d4d
+LRRK2,Unclassified,#4d4d4d
+MAGED1,Unclassified,#4d4d4d
+MAP3K6,Unclassified,#4d4d4d
+MIB1,Unclassified,#4d4d4d
+MYO18A,Unclassified,#4d4d4d
+NBEAP1,Unclassified,#4d4d4d
+NOD1,Unclassified,#4d4d4d
+NUTM2A,Unclassified,#4d4d4d
+PAG1,Unclassified,#4d4d4d
+PASK,Unclassified,#4d4d4d
+PC,Unclassified,#4d4d4d
+PCLO,Unclassified,#4d4d4d
+PCSK7,Unclassified,#4d4d4d
+PDCD11,Unclassified,#4d4d4d
+PHF1,Unclassified,#4d4d4d
+PPP1CB,Unclassified,#4d4d4d
+PRSS8,Unclassified,#4d4d4d
+RASGEF1A,Unclassified,#4d4d4d
+RELN,Unclassified,#4d4d4d
+RNF217-AS1,Unclassified,#4d4d4d
+RUNX2,Unclassified,#4d4d4d
+S1PR2,Unclassified,#4d4d4d
+SEC31A,Unclassified,#4d4d4d
+SEPTIN5,Unclassified,#4d4d4d
+SEPTIN6,Unclassified,#4d4d4d
+SEPTIN9,Unclassified,#4d4d4d
+SERP2,Unclassified,#4d4d4d
+SLC1A2,Unclassified,#4d4d4d
+SOCS2,Unclassified,#4d4d4d
+TLL2,Unclassified,#4d4d4d
+TMEM30A,Unclassified,#4d4d4d
+TMSB4XP8,Unclassified,#4d4d4d
+TNFRSF11A,Unclassified,#4d4d4d
+TTL,Unclassified,#4d4d4d
+TUSC3,Unclassified,#4d4d4d
+WDR90,Unclassified,#4d4d4d
+YPEL5,Unclassified,#4d4d4d
+YY1AP1,Unclassified,#4d4d4d
+ZNF24,Unclassified,#4d4d4d
+CBLC,Unclassified,#4d4d4d
+ADAR,Unclassified,#4d4d4d
+ADGRG4,Unclassified,#4d4d4d
+BABAM2,Unclassified,#4d4d4d
+CREM,Unclassified,#4d4d4d
+CTC1,Unclassified,#4d4d4d
+DAZAP1,Unclassified,#4d4d4d
+DKK1,Unclassified,#4d4d4d
+DKK2,Unclassified,#4d4d4d
+DKK3,Unclassified,#4d4d4d
+DKK4,Unclassified,#4d4d4d
+DPYD,Unclassified,#4d4d4d
+FANCB,Unclassified,#4d4d4d
+FBXW2,Unclassified,#4d4d4d
+GEN1,Unclassified,#4d4d4d
+H3C15,Unclassified,#4d4d4d
+H3P6,Unclassified,#4d4d4d
+H4C6,Unclassified,#4d4d4d
+HNF1B,Unclassified,#4d4d4d
+IFNAR1,Unclassified,#4d4d4d
+L1TD1,Unclassified,#4d4d4d
+MDH2,Unclassified,#4d4d4d
+MS4A1,Unclassified,#4d4d4d
+MTHFR,Unclassified,#4d4d4d
+PRSS1,Unclassified,#4d4d4d
+PUM1,Unclassified,#4d4d4d
+SAMD9,Unclassified,#4d4d4d
+SAMD9L,Unclassified,#4d4d4d
+SLIT2,Unclassified,#4d4d4d
+STAT1,Unclassified,#4d4d4d
+STAT2,Unclassified,#4d4d4d
+SZT2,Unclassified,#4d4d4d
+TLE1,Unclassified,#4d4d4d
+TLE2,Unclassified,#4d4d4d
+TLE3,Unclassified,#4d4d4d
+TLE4,Unclassified,#4d4d4d
+TNFRSF9,Unclassified,#4d4d4d
+TONSL,Unclassified,#4d4d4d
+TOX,Unclassified,#4d4d4d
+TPMT,Unclassified,#4d4d4d
+UBA1,Unclassified,#4d4d4d
+CRNKL1,Unclassified,#4d4d4d
+FADD,Unclassified,#4d4d4d
+ASPM,Unclassified,#4d4d4d
+GOLPH3,Unclassified,#4d4d4d
+DCAF12L2,Unclassified,#4d4d4d
+DCC,Unclassified,#4d4d4d
+ITGB1,Unclassified,#4d4d4d
+RGPD3,Unclassified,#4d4d4d
+NR2F2,Unclassified,#4d4d4d
+MUC6,Unclassified,#4d4d4d
+CNBD1,Unclassified,#4d4d4d
+ZNF429,Unclassified,#4d4d4d
+FKBP9,Unclassified,#4d4d4d
+CTNND1,Unclassified,#4d4d4d
+ITGAV,Unclassified,#4d4d4d
+NBEA,Unclassified,#4d4d4d
+MB21D2,Unclassified,#4d4d4d
+SUB1,Unclassified,#4d4d4d
+ZNF479,Unclassified,#4d4d4d
+BMP5,Unclassified,#4d4d4d
+CYP2C8,Unclassified,#4d4d4d
+ISX,Unclassified,#4d4d4d
+RGS7,Unclassified,#4d4d4d
+FAM47C,Unclassified,#4d4d4d
+PRPF40B,Unclassified,#4d4d4d
+BCLAF1,Unclassified,#4d4d4d
+POLR2A,Unclassified,#4d4d4d
+FLNA,Unclassified,#4d4d4d
+CD209,Unclassified,#4d4d4d
+FAT3,Unclassified,#4d4d4d
+FAM135B,Unclassified,#4d4d4d
