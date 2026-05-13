@@ -1,16 +1,4 @@
 files:
-  - name: BAM
-    input: "{get_deduplication_bam_input}"
-    output: bam_dna/{sample}_{type}.bam
-    types:
-      - T
-      - N
-  - name: BAM index
-    input: "{get_deduplication_bam_input_bai}"
-    output: bam_dna/{sample}_{type}.bam.bai
-    types:
-      - T
-      - N
   - name: BAM umi
     input: alignment/samtools_merge_bam_umi/{sample}_{type}.bam
     output: bam_dna/{sample}_{type}.umi.bam
@@ -686,7 +674,7 @@ files:
       - T
       - N
   - name: Fragmentomics fragment bins
-    input: biomarker/fragmentomics_metrics_calculate_fragment_bins/{sample}_{type}.fragbins.tsv
+    input: biomarker/fragmentomics_metrics_calculate_frag_bins/{sample}_{type}.fragbins.tsv
     output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.fragbins.tsv
     types:
       - T
