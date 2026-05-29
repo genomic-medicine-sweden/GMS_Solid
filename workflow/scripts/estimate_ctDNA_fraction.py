@@ -87,30 +87,10 @@ def read_bedfile(filter_regions_dict, in_bed_filename):
     return filter_regions_dict
 
 
-def read_snv_vcf_and_find_max_af(input_snv_vcf, segment_dict, max_somatic_af, gnomAD_AF_limit,
-                                 filter_regions_dict, germline_dict):
-    """
-    Read a VCF file and find the somatic SNV with the highest AF. Return TC based on AF (TC = 2 * AF).
-    Variant filters:
-        Only consider SNVs.
-        Keep only SNVs called by both Vardict and Mutect2.
-        Check if SNV is in CNA and skip if AF > 25% or in Amplification (likely germline).
-        Skip SNVs found in GnomAD (likely Germline).
-        Skip high AF SNVs (> max_somatic_af, likely Germline).
-        Only keep SNVs affecting the amino acid sequence (Looking for main clone driver SNVs).
-        Skip variants overlapping problematic regions.
-
-    param input_snv_vcf: File handle to vcf file
-    param segment_dict: Dict created by the read_segments function and updated by the read_germline_vcf function
-    param max_somatic_af: Float with maximum AF to be counted as a somatic
-    param gnomAD_AF_limit: Float with maximum population AF to be counted as a somatic
-    param filter_regions_dict: Dict with problematic regions created by the read_bedfile function
-    param germline_dict: Dict created by the read_germline_vcf function
-    return tc_snv: 2 * AF of SNV with max AF. 0 if no somatic SNV found.
-    """
+def read_snv_vcf_and_find_max_af(input_snv_vcf, filter_dict):
     snv_vcf = pysam.VariantFile(input_snv_vcf)
-    snv_list = []
-    snv_vcf_list = []
+
+    best_variant = []
 
     # Create VEP annotation header dict
     vep_fields = {}
@@ -121,94 +101,64 @@ def read_snv_vcf_and_find_max_af(input_snv_vcf, segment_dict, max_somatic_af, gn
 
     # Iterate over the VCF file
     for record in snv_vcf.fetch():
-        chrom = record.chrom
-        pos = record.pos
-        ref = record.ref
-        alt = record.alts[0]
-        # Only keep variants called by both callers
-        try:
-            CALLERS = record.info["CALLERS"]
-        except KeyError:
-            continue
-        if "vardict" not in CALLERS or "gatk_mutect2" not in CALLERS:
-            continue
-        # Only keep SNVs
-        if len(ref) > 1 or len(alt) > 1:
-            continue
-        # Check if SNVs is in segment with clear CNA based on copy number
-        # Skip the SNV if AF > 25% (Likely germline) or in amplification (due to over estimation of TC)
-        CNA = False
-        if chrom not in segment_dict:
-            continue
-        for seg in segment_dict[chrom]:
-            if pos >= seg[0] and pos <= seg[1]:
-                if seg[2] < 1.6:
-                    CNA = "Del"
-                    break
-                if seg[2] > 2.4:
-                    CNA = "Amp"
-                    break
-        AF = record.samples.items()[0][1]["AF"][0]
-        if CNA and AF > 0.25 or CNA == "Amp":
-            continue
-        # Check if SNVs is in region with CNA based on closest germline SNPs (Filter germline SNPs)
-        # Skip the SNV if AF > 25% (Likely germline)
-        germline_AF1 = 0.5
-        germline_AF2 = 0.5
-        if chrom in germline_dict:
-            for germline in germline_dict[chrom]:
-                germline_pos = germline[0]
-                germline_AF = germline[1]
-                if germline_pos < pos:
-                    germline_AF1 = germline_AF
-                else:
-                    germline_AF2 = germline_AF
-                    break
-        germline_diff = max(abs(germline_AF1 - 0.5), abs(germline_AF2 - 0.5))
-        if germline_diff > 0.1 and AF > 0.25:
-            continue
-        # Skip SNVs if found in GnomAD (Likely Germline or not drivers)
-        gnomAD_AF = record.info["CSQ"][0].split("|")[vep_fields["gnomAD_AF"]]
-        if gnomAD_AF == "":
-            gnomAD_AF = 0
-        else:
-            gnomAD_AF = float(gnomAD_AF)
-        if gnomAD_AF > gnomAD_AF_limit:
-            continue
-        # Skip really high AF somatic SNVs
-        if AF > max_somatic_af:
-            continue
-        # Remove everything not annotated as SNV by Vardict
-        variant_type = record.info["TYPE"]
-        if variant_type != "SNV":
-            continue
-        # Only keep variants in exons (Likely drivers)
-        consequence = record.info["CSQ"][0].split("|")[vep_fields["Consequence"]].split("&")
-        if not (
-                "missense_variant" in consequence or
-                "synonymous_variant" in consequence or
-                "stop_lost" in consequence or
-                "stop_gained" in consequence or
-                "stop_retained_variant" in consequence
-        ):
-            continue
-        # Skip variants in problematic regions
-        filter_region = False
-        if chrom in filter_regions_dict:
-            for region in filter_regions_dict[chrom]:
-                if pos >= region[0] and pos <= region[1]:
-                    filter_region = True
-                    break
-            if filter_region:
-                continue
+        vep = record.info["CSQ"][0]
+        vep_dict = dict(zip(vep_fields.keys(), vep.split("|")))
 
-        snv_list.append(AF)
-        snv_vcf_list.append([chrom, pos, ref, alt, record.info])
+        filtered = False
+        for filter in filter_dict:
+            if filter in record.info:
+                if filter == "Artifact":
+                    a1 = int(record.info[filter][0])
+                    a2 = int(record.info[filter][1])
+                    if a1 > filter_dict[filter][1] or a2 > filter_dict[filter][1] or a1 == -1 or a2 == -1:
+                        filtered = True
+                elif filter == "AF":
+                    if record.info[filter][0] > filter_dict[filter][1]:
+                        filtered = True
+                elif filter_dict[filter][0] == "min":
+                    if record.info[filter] < filter_dict[filter][1]:
+                        filtered = True
+                elif filter_dict[filter][0] == "max":
+                    if record.info[filter] > filter_dict[filter][1]:
+                        filtered = True
+                elif filter_dict[filter][0] == "present":
+                    if filter_dict[filter][1] not in record.info[filter]:
+                        filtered = True
+            elif filter in vep_dict:
+                if vep_dict[filter] == "":
+                    continue
+                if filter_dict[filter][0] == "min":
+                    if float(vep_dict[filter]) < filter_dict[filter][1]:
+                        filtered = True
+                elif filter_dict[filter][0] == "max":
+                    if float(vep_dict[filter]) > filter_dict[filter][1]:
+                        filtered = True
+                elif filter_dict[filter][0] == "exact":
+                    if vep_dict[filter] in filter_dict[filter][1]:
+                        filtered = True
+            elif filter == "Other":
+                if not (vep_dict["IMPACT"] == "HIGH" or
+                        vep_dict["Existing_variation"].count("COSV") > 1 or
+                        vep_dict["CLIN_SIG"].find("drug_response") != -1 or
+                        vep_dict["CLIN_SIG"].find("pathogenic") != -1 or
+                        ("Hotspot" in record.info and (
+                            record.info["Hotspot"] == "3-check" or
+                            record.info["Hotspot"] == "1-hotspot"
+                        ))
+                        ):
+                    filtered = True
+            elif filter == "CHIP_genes":
+                if vep_dict["SYMBOL"] in filter_dict[filter][1]:
+                    filtered = True
 
-    if len(snv_list) > 0:
-        return 2 * max(snv_list), snv_vcf_list
-    else:
+        if not filtered:
+            best_variant.append([record.info["AF"][0], str(record)])
+
+    if not best_variant:
         return 0, []
+
+    best_variant.sort(key=lambda x: x[0], reverse=True)
+    return best_variant[0][0] * 2, best_variant
 
 
 def baf_to_tc(abs_value_seg_median, CN, CN_list, median_noise_level):
@@ -417,11 +367,9 @@ def write_ctDNA_fraction_info(output_file_name, seg_list, snv_list):
     for seg in seg_list:
         output.write(f"{seg[0][0]*100:.1f}%\t{seg[1]}\t{seg[0][2]}\t{seg[0][1][0]}\t{seg[0][1][1]}\n")
     output.write("\nSNVs passing all filtering\n")
+    output.write("ctDNA_percentage\tVCF_record\n")
     for snv in snv_list:
-        output.write(f"{snv[0]}\t{snv[1]}\t{snv[2]}\t{snv[3]}\t")
-        for key in snv[4].keys():
-            output.write(f"{key}={snv[4][key]}|")
-        output.write("\n")
+        output.write(f"{snv[0]*2*100:.1f}%\t{snv[1]}")
     output.close()
 
 
@@ -432,13 +380,35 @@ if __name__ == "__main__":
     output_ctDNA_fraction = snakemake.output.ctDNA_fraction
     output_ctDNA_fraction_info = snakemake.output.ctDNA_fraction_info
 
-    gnomAD_AF_limit = float(snakemake.params.gnomAD_AF_limit)
     min_germline_af = float(snakemake.params.min_germline_af)
-    max_somatic_af = float(snakemake.params.max_somatic_af)
     min_nr_SNPs_per_segment = int(snakemake.params.min_nr_SNPs_per_segment)
     min_segment_length = int(snakemake.params.min_segment_length)
-    problematic_regions_beds = snakemake.params.problematic_regions_beds
     vaf_baseline = float(snakemake.params.vaf_baseline)
+
+    callers = snakemake.params.callers
+    if isinstance(callers, list):
+        callers = callers[0]
+
+    # Building filter_dict from snakemake.params
+    filter_dict = {
+        "PositionNrSD": ["min", snakemake.params.min_position_nr_sd],
+        "PanelMedian": ["max", snakemake.params.max_panel_median],
+        "Artifact": ["max", snakemake.params.artifact_limit],
+        "CALLERS": ["present", callers],
+        "MQ": ["min", snakemake.params.min_mq],
+        "MSI": ["max", snakemake.params.max_msi],
+        "NM": ["max", snakemake.params.max_nm],
+        "ODDRATIO": ["max", snakemake.params.max_odd_ratio],
+        "PMEAN": ["min", snakemake.params.min_pmean],
+        "QUAL": ["min", snakemake.params.min_qual],
+        "SBF": ["min", snakemake.params.min_sbf],
+        "SN": ["min", snakemake.params.min_sn],
+        "AF": ["max", snakemake.params.max_af],
+        "MAX_AF": ["max", snakemake.params.max_gnomad_af],
+        "Consequence": ["exact", snakemake.params.excluded_consequences],
+        "CHIP_genes": ["", snakemake.params.chip_genes],
+        "Other": ["", []]
+    }
 
     # Read CNV segments
     segment_dict = read_segments(input_segments)
@@ -446,12 +416,8 @@ if __name__ == "__main__":
     segment_dict_AF, germline_dict = read_germline_vcf(input_germline_vcf, segment_dict, min_germline_af)
     # Calculate TC based on BAF germline values
     tc_cnv, seg_list = calculate_cnv_tc(segment_dict_AF, min_nr_SNPs_per_segment, vaf_baseline, min_segment_length)
-    # Read SNV filter beds and SNVs from vcf and then report TC based on max VAF of somatic SNV.
-    filter_regions_dict = {}
-    for bed_filename in problematic_regions_beds:
-        filter_regions_dict = read_bedfile(filter_regions_dict, bed_filename)
-    tc_snv, snv_list = read_snv_vcf_and_find_max_af(input_vcf, segment_dict, max_somatic_af, gnomAD_AF_limit,
-                                                    filter_regions_dict, germline_dict)
+    # Read SNVs from vcf and then report TC based on max VAF of somatic SNV.
+    tc_snv, snv_list = read_snv_vcf_and_find_max_af(input_vcf, filter_dict)
     write_tc(output_ctDNA_fraction, tc_cnv, tc_snv)
     # Write additional info regarding which chromosomes have deletions
     # Write additional info regarding additional SNVs found

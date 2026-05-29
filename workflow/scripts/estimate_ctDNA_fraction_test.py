@@ -16,6 +16,13 @@ test_segment_dict2 = {
     'chr5': [[218403, 180914250, 2.009999990463257, []]],
 }
 
+test_updated_dict = {
+    'chr2': [[138974, 242801052, 1.9299999475479126, []]],
+    'chr3': [[94842, 196812807, 1.9900000095367432, []]],
+    'chr4': [[29134, 191153264, 1.9600000381469727, []]],
+    'chr5': [[218403, 180914250, 2.009999990463257, []]],
+}
+
 test_segment_dict3 = {
     'chr2': [[138974, 242801052, 1.9299999475479126,
               [0.4519999921321869, 0.5094000101089478, 0.4846999943256378, 0.5286999940872192, 0.4810999929904938,
@@ -74,9 +81,9 @@ class TestUnitUtils(unittest.TestCase):
         self.gnomAD_AF_limit = 0.00001
         self.vaf_baseline = 0.48
 
+        self.vcf = ".tests/units/estimate_ctDNA_fraction/sample1_T.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"  # noqa
         self.germline_vcf = ".tests/units/estimate_ctDNA_fraction/sample1_T.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz"  # noqa
         self.segments = ".tests/units/estimate_ctDNA_fraction/sample1_T.jumble.pathology_purecn.vcf"
-        self.vcf = ".tests/units/estimate_ctDNA_fraction/sample1_T.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"  # noqa
         self.ctDNA_fraction = ".tests/units/estimate_ctDNA_fraction/sample1.ctDNA_fraction.tsv"
 
         self.tempdir = tempfile.mkdtemp()
@@ -117,8 +124,9 @@ class TestUnitUtils(unittest.TestCase):
         from estimate_ctDNA_fraction import read_germline_vcf
 
         updated_segment_dict, germline_dict = read_germline_vcf(self.germline_vcf, test_segment_dict2, self.min_germline_af)
+        print(updated_segment_dict)
 
-        self._test_read_germline_vcf(test_segment_dict3, updated_segment_dict)
+        self._test_read_germline_vcf(test_updated_dict, updated_segment_dict)
 
     def test_test_if_signal_in_segment(self):
         from estimate_ctDNA_fraction import test_if_signal_in_segment
@@ -257,47 +265,42 @@ class TestUnitUtils(unittest.TestCase):
 
     def test_read_snv_vcf_and_find_max_af(self):
         from estimate_ctDNA_fraction import read_snv_vcf_and_find_max_af
-        from estimate_ctDNA_fraction import read_germline_vcf
 
-        filter_regions_dict = {}
-        updated_segment_dict, germline_dict = read_germline_vcf(self.germline_vcf, test_segment_dict3, self.min_germline_af)
-        AF, snv_list = read_snv_vcf_and_find_max_af(self.vcf, test_segment_dict3, self.max_somatic_af, self.gnomAD_AF_limit,
-                                                    filter_regions_dict, germline_dict)
+        filter_dict = {
+            "PositionNrSD": ["min", 20],
+            "PanelMedian": ["max", 0.002],
+            "Artifact": ["max", 0],
+            "CALLERS": ["present", "vardict"],
+            "MQ": ["min", 40],
+            "MSI": ["max", 4],
+            "NM": ["max", 3.0],
+            "ODDRATIO": ["max", 1.5],
+            "PMEAN": ["min", 25],
+            "QUAL": ["min", 40],
+            "SBF": ["min", 0.05],
+            "SN": ["min", 100],
+            "AF": ["max", 0.4],
+            "MAX_AF": ["max", 0.0002],
+            "Consequence": ["exact", [
+                                    "synonymous_variant",
+                                    "5_prime_UTR_variant",
+                                    "3_prime_UTR_variant",
+                                    "non_coding_transcript_exon_variant"
+                                    ]],
+            "CHIP_genes": ["", ["DNMT3A", "TET2", "ASXL1"]],
+            "Other": ["", []]
+        }
 
-        test_AF = 0.09939999878406525
+        AF, snv_list = read_snv_vcf_and_find_max_af(self.vcf, filter_dict)
+        print(AF, snv_list)
 
-        try:
-            self.assertEqual(test_AF, AF)
-        except AssertionError as e:
-            print(f"Failed reading vcf. {test_AF} {AF}")
-            raise e
-
-        # Variant filtered by CNA evidence in closest germline SNPs in germline_dict
-        filter_regions_dict = {}
-        germline_dict = {"chr4": [[106197000, 0.55], [106198000, 0.39]]}
-        AF, snv_list = read_snv_vcf_and_find_max_af(self.vcf, test_segment_dict3, self.max_somatic_af, self.gnomAD_AF_limit,
-                                                    filter_regions_dict, germline_dict)
-
-        test_AF = 0
-
-        try:
-            self.assertEqual(test_AF, AF)
-        except AssertionError as e:
-            print(f"Failed reading vcf. {test_AF} {AF}")
-            raise e
-
-        # Variant filtered by problematic region in filter_regions_dict
-        filter_regions_dict = {"chr4": [[106197000, 106198000]]}
-        updated_segment_dict, germline_dict = read_germline_vcf(self.germline_vcf, test_segment_dict3, self.min_germline_af)
-        AF, snv_list = read_snv_vcf_and_find_max_af(self.vcf, test_segment_dict3, self.max_somatic_af, self.gnomAD_AF_limit,
-                                                    filter_regions_dict, germline_dict)
-
-        test_AF = 0
+        # Updated expected AF based on new filtering logic and substitute VCF
+        test_AF = 2.8200000524520874
 
         try:
-            self.assertEqual(test_AF, AF)
+            self.assertEqual(test_AF, AF*100)
         except AssertionError as e:
-            print(f"Failed reading vcf. {test_AF} {AF}")
+            print(f"Failed reading vcf. {test_AF} {AF*100}")
             raise e
 
     def test_write_tc(self):

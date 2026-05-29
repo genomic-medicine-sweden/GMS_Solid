@@ -699,33 +699,75 @@ properties:
     type: object
     description: parameters for estimate_ctdna_fraction
     properties:
+      artifact_limit:
+        type: integer
+        description: Maximum number of allowed artifacts for a variant
       benchmark_repeats:
         type: integer
         description: set number of times benchmark should be repeated
+      callers:
+        type: array
+        description: List of callers that must have identified the variant (e.g. vardict)
+        items:
+          type: string
+      chip_genes:
+        type: array
+        description: List of genes associated with Clonal Hematopoiesis of Indeterminate Potential (CHIP) to potentially filter out
+        items:
+          type: string
       container:
         type: string
         description: name or path to docker/singularity container
-      gnomAD_AF_limit:
+      excluded_consequences:
+        type: array
+        description: List of VEP consequences to exclude from driver consideration
+        items:
+          type: string
+      max_af:
         type: number
-        description: additional filtering based on existence in GnomAD (removes germline)
-      max_somatic_af:
+        description: Maximum allowed allele frequency for a somatic variant
+      max_gnomad_af:
         type: number
-        description: additional filtering based on maximal allowed allele frequency (removes germline)
+        description: Maximum allowed population allele frequency in gnomAD
+      max_msi:
+        type: number
+        description: Maximum allowed MSIsensor-pro score
+      max_nm:
+        type: number
+        description: Maximum allowed number of mismatches (NM)
+      max_odd_ratio:
+        type: number
+        description: Maximum allowed odd ratio
+      max_panel_median:
+        type: number
+        description: Maximum allowed panel median VAF
       min_germline_af:
         type: number
         description: minimial germline allele frequency to be included in density calculations (removes somatic)
+      min_mq:
+        type: number
+        description: Minimum mapping quality (MQ)
       min_nr_SNPs_per_segment:
         type: integer
         description: minimal number of germline SNPs in segments to be used for ctDNA estimation
+      min_position_nr_sd:
+        type: number
+        description: Minimum positional read count SD
+      min_pmean:
+        type: number
+        description: Minimum mean position of variant in reads
+      min_qual:
+        type: number
+        description: Minimum variant quality (QUAL)
+      min_sbf:
+        type: number
+        description: Minimum strand bias Fisher p-value
       min_segment_length:
         type: integer
         description: minimal length of segments to be used for ctDNA estimation
-      problematic_regions_beds:
-        type: array
-        description: list of bedfiles
-        items:
-          type: string
-          description: BED file with chromosomal regions that should be used to filter out potential artifact variants
+      min_sn:
+        type: number
+        description: Minimum signal-to-noise ratio
       vaf_baseline:
         type: number
         description: Sets the VAF-baseline. In theory BAF-baseline is 0.5 (50% for each SNP), however in practice this is slightly shifted downwards due to reference bias in alignment

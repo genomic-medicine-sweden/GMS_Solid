@@ -118,12 +118,28 @@ ctat_splicing_call:
   container: "docker://hydragenetics/ctat-splicing:0.0.3"
 
 estimate_ctdna_fraction:
-  gnomAD_AF_limit: 0.00001
-  max_somatic_af: 0.4
+  # CNV parameters
   min_germline_af: 0.1
   min_nr_SNPs_per_segment: 35
   min_segment_length: 10000000
   vaf_baseline: 0.48
+  # SNV filter parameters
+  artifact_limit: 0
+  callers: ["vardict"]
+  max_af: 0.4
+  max_gnomad_af: 0.0002
+  max_msi: 4
+  max_nm: 3.0
+  max_odd_ratio: 1.5
+  max_panel_median: 0.002
+  min_mq: 40
+  min_position_nr_sd: 10
+  min_pmean: 25
+  min_qual: 40
+  min_sbf: 0.05
+  min_sn: 50
+  chip_genes: ["DNMT3A", "TET2", "ASXL1"]
+  excluded_consequences: ["synonymous_variant", "5_prime_UTR_variant", "3_prime_UTR_variant", "non_coding_transcript_exon_variant"]
 
 fastp_pe:
   container: "docker://hydragenetics/fastp:0.20.1"
