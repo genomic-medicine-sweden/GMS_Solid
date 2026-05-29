@@ -5,6 +5,7 @@ rerun-incomplete: True
 use-singularity: True
 singularity-args: "-e --cleanenv -B /home/jenkins -B /beegfs-storage -B /beegfs-storage/temp:/tmp -B $HOME "
 singularity-prefix: "/beegfs-storage/singularity_cache"
+wrapper-prefix: "git+file://beegfs-storage/snakemake-wrappers"
 drmaa: " -A wp1 -N 1-1 -t {resources.time} -n {resources.threads} --mem={resources.mem_mb} --mem-per-cpu={resources.mem_per_cpu} --mem-per-cpu={resources.mem_per_cpu} --partition={resources.partition} -J {rule} -e slurm_out/{rule}_%j.err -o slurm_out/{rule}_%j.out"
 drmaa-log-dir: "slurm_out"
 configfiles: ["config/config.yaml", "config/config.data.hg19.yaml"]

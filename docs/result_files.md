@@ -43,7 +43,7 @@ Files defined in `output_files_FFPE.yaml`.
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.GIS.tsv` | Coverage and mutations GIS |
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.LUN.tsv` | Coverage and mutations LUN |
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.MEL.tsv` | Coverage and mutations MEL |
-| `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.MTC.tsv` | Coverage and mutations MTC |
+| `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.TYR.tsv` | Coverage and mutations TYR |
 | `results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.contamination.table` | Contamination table |
 | `results/dna/qc/multiqc_DNA.html` | MultiQC DNA HTML |
 

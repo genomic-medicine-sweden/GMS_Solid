@@ -234,6 +234,8 @@ def resolve_dynamic_analyskod_path(wildcards, file_def):
     Calculates and returns the fully resolved path for the 'analyskod' file.
     """
     analyskod = get_sample(samples, wildcards)["analyskod"][3:]
+    if analyskod == "MTC":
+        analyskod = "TYR"
     full_path = file_def["input"].format(sample=wildcards.sample, type=wildcards.type, analyskod_placeholder=analyskod)
     return full_path
 

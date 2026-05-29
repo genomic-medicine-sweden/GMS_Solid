@@ -20,7 +20,9 @@ mkdir ${PIPELINE_NAME}_${TAG_OR_BRANCH}
 # clone the required version of the pipeline
 git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}
 # install the requirements for the pipeline
-./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env/bin/pip3 install -I -r ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/requirements.txt 
+unset PYTHONPATH
+export PYTHONNOUSERSITE=1
+./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env/bin/pip3 install --no-cache-dir -I -r ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/requirements.txt 
 # pack the environment with the requriements installed
 conda pack --prefix ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env -o ${PIPELINE_NAME}_${TAG_OR_BRANCH}/env.tar.gz
 
@@ -52,22 +54,32 @@ git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} ${PIPELINE_NAME}_${TA
 
 # Set pipeline version in config paths
 export TAG_OR_BRANCH=${TAG_OR_BRANCH}
-envsubst < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production/config.yaml \
+envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production/config.yaml \
 	> ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production/config.yaml.tmp \
 	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production/config.yaml.tmp \
 	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production/config.yaml
 
-envsubst < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_ctDNA/config.yaml \
+envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_novaseqX/config.yaml \
+	> ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_novaseqX/config.yaml.tmp \
+	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_novaseqX/config.yaml.tmp \
+	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_novaseqX/config.yaml
+
+envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_ctDNA/config.yaml \
 	> ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_ctDNA/config.yaml.tmp \
 	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_ctDNA/config.yaml.tmp \
 	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_ctDNA/config.yaml
 
-envsubst < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio/config.yaml \
+envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio/config.yaml \
 	> ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio/config.yaml.tmp \
 	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio/config.yaml.tmp \
 	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio/config.yaml
 
-envsubst < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/config/Miarka/config_production_pipeline_miarka.yaml \
+envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio_novaseqX/config.yaml \
+	> ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio_novaseqX/config.yaml.tmp \
+	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio_novaseqX/config.yaml.tmp \
+	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/production_prio_novaseqX/config.yaml
+
+envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/config/Miarka/config_production_pipeline_miarka.yaml \
 	> ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/config/Miarka/config_production_pipeline_miarka.yaml.tmp \
 	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/config/Miarka/config_production_pipeline_miarka.yaml.tmp \
 	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/config/Miarka/config_production_pipeline_miarka.yaml

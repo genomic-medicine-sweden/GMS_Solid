@@ -84,7 +84,6 @@ estimate_ctdna_fraction:
   problematic_regions_beds:
     - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/ENCODE_problematic_regions.bed"
     - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/self_aligned_regions.bed"
     - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions.bed"
     - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions.bed"
 
@@ -113,9 +112,6 @@ fuseq_wes:
 fusioncatcher:
   genome_path: "{{PROJECT_REF_DATA}}/ref_data/fusioncatcher/human_v102/"
 
-fragle:
-  design_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg19.split_fusion_genes.reannotated.230222.bed"
-
 gatk_collect_allelic_counts:
   SNP_interval: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gnomad_SNP_0.001_target.annotated.interval_list"
 
@@ -132,22 +128,22 @@ gene_fuse:
 
 hotspot_annotation:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg19"
-  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260223.csv"
+  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260304.csv"
 
 hotspot_report:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg19"
   hotspot_mutations: 
-    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260223.csv"
-    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260223.csv"
+    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260304.csv"
+    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260302.csv"
     URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223.csv"
-    CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260223.csv"
+    CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260504.csv"
     BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260223.csv"
-    GIS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Gist_20260223.csv"
+    GIS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Gist_20260304.csv"
     LUN: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Lung_20260223.csv"
-    MEL: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Melanom_20260223.csv"
-    MTC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_MTC_20260223.csv"
-    VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260223.csv"
+    MEL: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Melanom_20260305.csv"
+    TYR: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_MTC_20260223.csv"
     PIK: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_PIK_20260223.csv"
+    VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260504.csv"
 
 juli_annotate:
   cosmic: "{{PROJECT_REF_DATA}}/ref_data/juli/CosmicFusionExport_V76.tsv"
@@ -171,9 +167,6 @@ merge_cnv_json:
     - "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes.bed"
   cytobands: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cytoBand.hg19.txt"
   ref_genes: "{{PROJECT_REF_DATA}}/ref_data/juli/refGene_hg19.txt"
-
-mosdepth:
-  extra: "--no-per-base --fast-mode"
 
 msisensor_pro_filter_sites:
   PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_nextseq_36.list_baseline"
@@ -215,15 +208,6 @@ svdb_query:
 
 tmb:
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
-
-tmb_umi:
-  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"
-  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
-  filter_regions:
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/ENCODE_problematic_regions.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions.bed"
 
 vep:
   vep_cache:  "{{PROJECT_REF_DATA}}/ref_data/vep/105"

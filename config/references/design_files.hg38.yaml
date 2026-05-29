@@ -177,10 +177,10 @@
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.1/design/Mutations_Breast_20260223_hg38.csv
    hotspot_mutations_CRC: 
-     checksum: a69180e17025da82672bb8c7ca1e8b60
-     path: GMS560/reports/Mutations_Colon_20260223_hg38.csv
+     checksum: 4e3bf38dacb5f4a49e584fe895e973f3
+     path: GMS560/reports/Mutations_Colon_20260504_hg38.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.1/design/Mutations_Colon_20260223_hg38.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.2/design/Mutations_Colon_20260504_hg38.csv
    hotspot_mutations_GIS:
      checksum: 61d91cbee78c4a2f95c54122df88cf73
      path: GMS560/reports/Mutations_Gist_20260304_hg38.csv
@@ -196,16 +196,16 @@
      path: GMS560/reports/Mutations_Melanom_20260305_hg38.csv
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.3/design/Mutations_Melanom_20260305_hg38.csv
-   hotspot_mutations_MTC:
+   hotspot_mutations_MTC_or_TYR:
      checksum: a96ea81e472874d17f4ebbdaa3b44e82
      path: GMS560/reports/Mutations_MTC_20260223_hg38.csv
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.1/design/Mutations_MTC_20260223_hg38.csv
    hotspot_mutations_VAS:
-     checksum: a098c34514fb504df6ce4774d7640bef
-     path: GMS560/reports/Mutations_VAS_20260223_hg38.csv
+     checksum: 76e2179996ae050d427949f4780491e5
+     path: GMS560/reports/Mutations_VAS_20260504_hg38.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.1/design/Mutations_VAS_20260223_hg38.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.2/design/Mutations_VAS_20260504_hg38.csv
    hotspot_mutations_PIK:
      checksum: 2e420c032de73588d1b91916cd632a47
      path: GMS560/reports/Mutations_PIK_20260223_hg38.csv

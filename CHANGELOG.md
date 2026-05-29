@@ -1,5 +1,58 @@
 # Changelog
 
+## [1.4.2](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.4.1...v1.4.2) (2026-05-04)
+
+
+### Bug Fixes
+
+* rm duplicate tmb_umi ([4a817bd](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/4a817bd402bc833a38f9b9cc6d0362bc851bf43d))
+* update config to newest versions of cov and mut ([c320a13](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c320a13c4d4bf66d2a372fb6dfcd4139a5ee8905))
+* update config to newest versions of cov and mut ([c6068cb](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c6068cbdda60bf99b8fa22799bd9af005e6d3715))
+* updated cov and mut files for GMSCRC and GMSVAS ([82ff4e0](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/82ff4e07ccd6ea8e28440180921b07ea5132b7f7))
+* updated cov and mut files for GMSCRC and GMSVAS ([ba19da3](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/ba19da3685f529865d608637125a50da6500873b))
+
+## [1.4.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.3.0...v1.4.0) (2026-04-14)
+
+
+### Features
+
+* rm Fragle that did not work ([b47d0b8](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/b47d0b8a03e4fa6a6ef9123c527c9b77b10129dc))
+
+
+### Bug Fixes
+
+* Cnv report filtering ([f65576b](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/f65576b6f41b2566a17ef55fd0c6a61afe307ef7))
+* filter out Jumble copy neutral ([1b0cece](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/1b0cecefebb773951a84b421542664d4328c23ea))
+* filter out Jumble copy neutral ([5994081](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/5994081d6fbc3c73094c31367ec961122ad77796))
+* update reports to v1.1.1 to fix plot missing bug in cnv-report ([2ba1bd5](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/2ba1bd5978e5885bad803a684eb218341a6516b6))
+* update reports to v1.1.1 to fix plot missing bug in cnv-report ([8cc66a8](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/8cc66a8cb67675260ffb6b02fe3b3ba96c1496b2))
+
+## [1.3.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.2.1...v1.3.0) (2026-04-02)
+
+
+### Features
+
+* added phased vcfs ([db31353](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/db313538772bbdef03ce5f8bb7bb7a29858cd091))
+* coverage and mutations files in new folder ([f3b440f](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/f3b440f9d65df85565e8691fb4560739b65668b3))
+* coverage and mutations files in new folder ([6fac2d3](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/6fac2d34d9a37cef56c81da2f5798389a6f18acf))
+* Oncogenes in cnv html report ([1f552fc](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/1f552fce9274cdd5f7473a7747d41d4e34c4db3c))
+* updated jumble with hg38 and HRD score ([c792aac](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c792aacab3e9f58d24ebc7455b14d5357772b33e))
+* updated report with additional highlighting features ([c02b149](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c02b1494a51d34ef0d213b5e7c748cee302a4ab5))
+
+
+### Bug Fixes
+
+* path updated in general report ([50d4941](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/50d49416b19485a4593602da5f0447d3e2165537))
+* report version update fixing error bar bug ([6771096](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/67710964e86c4bf565cfeb157c419c25b48bdde8))
+* update report hash ([eb53419](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/eb5341991a6b5c027e884cbecd4eb80b9e2b33b8))
+* Update singularity.schema.yaml ([2cced7e](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/2cced7ec8358b0988aa7403ccc12c0e3f8669ebd))
+* updated cancer gene file with new annotations ([4bc4ceb](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/4bc4ceb662b06391e4eb0e9cf527f3863ed1446d))
+
+
+### Documentation
+
+* added documentation ([a841c28](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/a841c28d37bc079aae31754019a1fb5607a9c23d))
+
 ## [1.2.1](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.2.0...v1.2.1) (2026-03-23)
 
 
