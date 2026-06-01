@@ -1,24 +1,12 @@
 files:
-  - name: BAM
-    input: alignment/samtools_merge_bam/{sample}_{type}.bam
-    output: bam_dna/{sample}_{type}.bam
-    types:
-      - T
-      - N
-  - name: BAM index
-    input: alignment/samtools_merge_bam/{sample}_{type}.bam.bai
-    output: bam_dna/{sample}_{type}.bam.bai
-    types:
-      - T
-      - N
   - name: BAM umi
-    input: alignment/bwa_mem_realign_consensus_reads/{sample}_{type}.umi.bam
+    input: alignment/samtools_merge_bam_umi/{sample}_{type}.bam
     output: bam_dna/{sample}_{type}.umi.bam
     types:
       - T
       - N
   - name: BAM umi index
-    input: alignment/bwa_mem_realign_consensus_reads/{sample}_{type}.umi.bam.bai
+    input: alignment/samtools_merge_bam_umi/{sample}_{type}.bam.bai
     output: bam_dna/{sample}_{type}.umi.bam.bai
     types:
       - T
@@ -98,6 +86,24 @@ files:
   - name: Samtools stats
     input: qc/samtools_stats/{sample}_{type}.samtools-stats.txt
     output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.samtools-stats.txt
+    types:
+      - T
+      - N
+  - name: FGBIO Duplex family sizes
+    input: qc/fgbio_collect_duplex_seq_metrics/{sample}_{type}.duplex_family_sizes.txt
+    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.duplex_family_sizes.txt
+    types:
+      - T
+      - N
+  - name: FGBIO Duplex yield metrics
+    input: qc/fgbio_collect_duplex_seq_metrics/{sample}_{type}.duplex_yield_metrics.txt
+    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.duplex_yield_metrics.txt
+    types:
+      - T
+      - N
+  - name: FGBIO Duplex UMI counts
+    input: qc/fgbio_collect_duplex_seq_metrics/{sample}_{type}.umi_counts.txt
+    output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.umi_counts.txt
     types:
       - T
       - N
@@ -379,6 +385,12 @@ files:
     types:
       - T
       - N
+  - name: MultiQC DNA UMI HTML
+    input: qc/multiqc/multiqc_DNA_umi.html
+    output: results/dna/qc/multiqc_DNA_umi.html
+    types:
+      - T
+      - N
   - name: Results report umi DNA HTML
     input: reports/general_html_report/{sample}_{type}.umi.general_report.html
     output: results/dna/{sample}_{type}/{sample}_{type}.umi.general_report.html
@@ -577,11 +589,6 @@ files:
     types:
       - T
       - N
-  - name: Manta VCF
-    input: cnv_sv/manta_run_workflow_t/{sample}/results/variants/tumorSV.vcf.gz
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.manta_tumorSV.vcf.gz
-    types:
-      - T
   - name: HLA optitype
     input: biomarker/optitype/{sample}_{type}/{sample}_{type}_hla_type_result.tsv
     output: results/dna/{sample}_{type}/hla/{sample}_{type}_hla_type_result.tsv
@@ -651,6 +658,60 @@ files:
   - name: Fragmentomics fragment length score
     input: biomarker/fragmentomics_fragment_length_patient_score/{sample}_{type}.fragment_length_patient_score.txt
     output: results/dna/{sample}_{type}/fragmentomics/{sample}_{type}.fragment_length_score.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics SE metrics
+    input: biomarker/fragmentomics_metrics_calculate_SE/{sample}_{type}.SE.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.SE.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics depth metrics
+    input: biomarker/fragmentomics_metrics_calculate_normalized_depth/{sample}_{type}.depth.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.depth.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics fragment bins
+    input: biomarker/fragmentomics_metrics_calculate_frag_bins/{sample}_{type}.fragbins.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.fragbins.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics small fragments
+    input: biomarker/fragmentomics_metrics_calculate_small_frags/{sample}_{type}.smallfrag.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.smallfrag.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics full gene depth
+    input: biomarker/fragmentomics_metrics_calculate_full_gene_depth/{sample}_{type}.fullgenedepth.tsv
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.fullgenedepth.tsv
+    types:
+      - T
+      - N
+  - name: Fragmentomics MDS entropy (metrics)
+    input: biomarker/fragmentomics_metrics_calculate_MDS/{sample}_{type}_mds.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}.metrics_mds.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics TFBS entropy
+    input: biomarker/fragmentomics_metrics_calculate_TFBS_entropy/{sample}_{type}_TFBS_entropy.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}_TFBS_entropy.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics ATAC entropy
+    input: biomarker/fragmentomics_metrics_calculate_ATAC_entropy/{sample}_{type}_ATAC_entropy.txt
+    output: results/dna/{sample}_{type}/fragmentomics/fragmentomics_metrics/{sample}_{type}_ATAC_entropy.txt
+    types:
+      - T
+      - N
+  - name: Fragmentomics combined feature table
+    input: biomarker/fragmentomics_metrics_build_combined_ft/all_combined.rds
+    output: results/dna/fragmentomics/fragmentomics_metrics/all_combined.rds
     types:
       - T
       - N

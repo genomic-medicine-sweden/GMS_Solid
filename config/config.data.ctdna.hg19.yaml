@@ -21,6 +21,10 @@ cnvkit_batch_hrd:
 fragmentomics_fragment_length_patient_score:
   reference_set: "{{PROJECT_REF_DATA}}/GMS560/design/vessies_reference_set.txt"
 
+fgbio_call_overlapping_consensus_bases:
+  agrement_strategy: "Consensus"
+  disagrement_strategy: "Consensus"
+
 gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_nextseq2000_24.hdf5"
 

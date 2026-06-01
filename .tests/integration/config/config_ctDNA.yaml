@@ -1,0 +1,7 @@
+output: "../../config/output_files_ctDNA.yaml"
+general_report: "../../config/reports/general_report.umi.yaml"
+deduplication: "umi"
+
+fgbio_call_overlapping_consensus_bases:
+  agrement_strategy: "Consensus"
+  disagrement_strategy: "Consensus"

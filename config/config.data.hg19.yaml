@@ -112,6 +112,13 @@ fuseq_wes:
 fusioncatcher:
   genome_path: "{{PROJECT_REF_DATA}}/ref_data/fusioncatcher/human_v102/"
 
+fragmentomics_metrics:
+  canonical_cds_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_specific_cds.hg19.bed"
+  exon_sizes: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/UCSC_hg19_exon_sizes.tsv"
+  tfbs_midpoints: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/Homo_sapiens_meta_clusters_hg19_midpoint_top5k_sorted.bed.gz"
+  atac_peaks: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg19.bed"
+  exon_strand_mapping: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_specific_cds.hg19.bed"
+
 gatk_collect_allelic_counts:
   SNP_interval: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gnomad_SNP_0.001_target.annotated.interval_list"
 

@@ -146,6 +146,33 @@
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.21.0/design/vessies_reference_set.txt
 
+ fragmentomics_metrics:
+   canonical_cds_bed:
+     checksum: 0f48866160533f8cc85f336e0544fff9
+     path: GMS560/annotation/GMS560_specific_cds.hg19.bed
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/GMS560_specific_cds.hg19.bed
+   exon_sizes:
+     checksum: ca2614de8d3ed56da9cf1f5c200888e5
+     path: GMS560/annotation/UCSC_hg19_exon_sizes.tsv
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/UCSC_hg19_exon_sizes.tsv
+   tfbs_midpoints:
+     checksum: 3b22aefacd4acde858bc00987d5eb38a
+     path: GMS560/annotation/Homo_sapiens_meta_clusters_hg19_midpoint_top5k_sorted.bed.gz
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/Homo_sapiens_meta_clusters_hg19_midpoint_top5k_sorted.bed.gz
+   atac_peaks:
+     checksum: d07d7655a77d93d89c3edac5af2495f0
+     path: GMS560/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg19.bed
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg19.bed
+   exon_strand_mapping:
+     checksum: 0f48866160533f8cc85f336e0544fff9
+     path: GMS560/annotation/GMS560_specific_cds.hg19.bed
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/GMS560_specific_cds.hg19.bed
+
  fuseq_wes:
    params:
      checksum: d2e6d449027c49e24f026261082fa5bb
