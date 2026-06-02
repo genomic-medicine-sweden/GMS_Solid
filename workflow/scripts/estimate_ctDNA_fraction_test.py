@@ -49,6 +49,7 @@ test_segment = [0.6001999735832214, 0.3828999936580658, 0.690200012922287, 0.347
                 0.37929999232292175, 0.634500002861023, 0.6522000193595886, 0.3812999963760376, 0.3706000089645386,
                 0.6550000071525574, 0.3221000075340271, 0.3345000088214874, 0.3458000063896179]
 
+test_segment_no_variance = [0.1445000022649765] * 59
 
 test_segment_dict4 = {
     'chr2': [[138974, 242801052, 1.9299999475479126,
@@ -146,6 +147,17 @@ class TestUnitUtils(unittest.TestCase):
         signal_bool = test_if_signal_in_segment(test_segment, 1, 0, self.vaf_baseline)
 
         test_signal_bool = True
+
+        try:
+            self.assertEqual(test_signal_bool, signal_bool)
+        except AssertionError as e:
+            print(f"Failed testing signal in segment. {test_signal_bool} {signal_bool}")
+            raise e
+
+        # Test no signal in segment when all values are the same
+        signal_bool = test_if_signal_in_segment(test_segment_no_variance, 1, 0, self.vaf_baseline)
+
+        test_signal_bool = False
 
         try:
             self.assertEqual(test_signal_bool, signal_bool)

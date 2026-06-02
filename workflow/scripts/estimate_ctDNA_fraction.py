@@ -219,6 +219,10 @@ def test_if_signal_in_segment(segment, abs_value_seg_median, median_noise_level,
                                                                germline SNPs on both sides of the VAF baseline)
         * both the minimum maximum ratio (min / max1 and min / max2) is lower than 0.85
     '''
+    # KDE cannot estimate a density for segments without variance
+    if len(set(segment)) < 2:
+        return False
+
     # Get VAF for max density on the lower AF half of the BAF plot
     kde1 = stats.gaussian_kde(segment)
     kde1.set_bandwidth(bw_method=kde1.factor / 2.)
