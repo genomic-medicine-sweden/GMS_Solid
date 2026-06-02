@@ -26,7 +26,7 @@ filters:
     soft_filter: "True"
   ad:
     description: "Soft filter variants with few observations (AD lower than 20)"
-    expression: "(FORMAT:AD:1 < 20 and !exist[1-hotspot, INFO:Hotspot] and VEP:SYMBOL != TERT)"
+    expression: "(FORMAT:AD:1 < 20 and !exist[1-hotspot, INFO:Hotspot])"
     soft_filter_flag: "AD_lt_20"
     soft_filter: "True"
   ad_hotspot:
