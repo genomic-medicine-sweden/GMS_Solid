@@ -962,6 +962,12 @@ use rule fragmentomics_fragment_length_patient_score from biomarker as biomarker
         reference_set=config.get("fragmentomics_fragment_length_patient_score", {}).get("reference_set", ""),
 
 
+use rule fragmentomics_metrics_get_bed_from_bam from biomarker as biomarker_fragmentomics_metrics_get_bed_from_bam with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+
+
 module fusions:
     snakefile:
         get_module_snakefile(
