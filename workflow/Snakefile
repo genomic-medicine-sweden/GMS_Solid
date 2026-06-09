@@ -9,6 +9,7 @@ include: "rules/bcftools.smk"
 include: "rules/call_small_cnv_deletions.smk"
 include: "rules/call_small_cnv_amplifications.smk"
 include: "rules/cnv_tsv_report.smk"
+include: "rules/chip_annotation.smk"
 include: "rules/estimate_ctdna_fraction.smk"
 include: "rules/exon_skipping.smk"
 include: "rules/fix_vcf_ad_for_qci.smk"
@@ -909,7 +910,7 @@ use rule optitype from biomarker as biomarker_optitype with:
 
 use rule tmb from biomarker as biomarker_tmb_umi with:
     input:
-        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.vcf.gz",
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.chip_annotated.filter.snv_hard_filter_umi.vcf.gz",
     output:
         tmb=temp("biomarker/tmb/{sample}_{type}.umi.TMB.txt"),
     params:

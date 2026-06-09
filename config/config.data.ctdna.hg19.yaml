@@ -2,7 +2,6 @@
 PROJECT_DESIGN_DATA: ""
 PROJECT_PON_DATA: ""
 PROJECT_REF_DATA: ""
-
 deduplication: "umi"
 general_report: "config/reports/general_report.umi.yaml"
 output: "config/output_files_ctDNA.yaml"
@@ -47,6 +46,11 @@ purecn_coverage:
  
 svdb_query:
   db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/all_TN_292_svdb_0.8_20220505.vcf --out_frq Twist_AF --out_occ Twist_OCC"
+
+chip_annotation:
+  chip_genes_file: "{{PROJECT_REF_DATA}}/chip/chip_genes.yaml"
+  cosmic_hemato_vcf: "{{PROJECT_REF_DATA}}/chip/cosmic97_hemato.hg19.vcf.gz"
+  chip_hotspot_vcf: ""
 
 tmb_umi:
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"

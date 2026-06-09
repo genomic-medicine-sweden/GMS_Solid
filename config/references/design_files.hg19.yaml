@@ -1,5 +1,12 @@
 ---
 
+ chip_annotation:
+   chip_genes:
+     checksum: 15009012663bb2a0420fb915dcc8c8b7
+     path: chip/chip_genes.yaml
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.29.0/chip/chip_genes.yaml
+
  annotate_cnv:
    cnv_amp_genes:
      path: GMS560/cnv/cnv_amp_genes_240307.bed
