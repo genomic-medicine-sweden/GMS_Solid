@@ -45,7 +45,6 @@ bcftools_annotate:
 
 bwa_mem:
   container: "docker://hydragenetics/bwa_mem:0.7.17"
-  extra: "-Y"
 
 bwa_mem_merge:
   extra: "-c -p"

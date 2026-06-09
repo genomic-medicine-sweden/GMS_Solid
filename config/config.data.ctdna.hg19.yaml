@@ -4,6 +4,7 @@ PROJECT_PON_DATA: ""
 PROJECT_REF_DATA: ""
 
 deduplication: "umi"
+
 general_report: "config/reports/general_report.umi.yaml"
 output: "config/output_files_ctDNA.yaml"
 
@@ -11,6 +12,9 @@ reference:
   background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_cfDNA_nextseq2000_24.tsv"
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_nextseq2000_24.tsv"
   design_intervals_gatk_cnv: "{{PROJECT_DESIGN_DATA}}/GMS560/design/gatk.preprocessed.cfDNA_nextseq2000_24.interval_list"
+
+bwa_mem:
+  extra: "-Y"
 
 cnvkit_batch:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_cfDNA_nextseq2000_24.cnn"
