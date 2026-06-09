@@ -113,6 +113,33 @@ files:
     types:
       - T
       - N
+  - name: Coverage and mutations CNS
+    input: qc/hotspot_report/{sample}_{type}.CNS.aa_translated.tsv
+    output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.CNS.tsv
+    types:
+      - T
+      - N
+    analyskod:
+      - "GMSCNS"
+  - name: Coverage and mutations CNS additional
+    input: qc/hotspot_report/{sample}_{type}.CNS.aa_translated.tsv
+    output: results/dna/{sample}_{type}/additional_files/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.CNS.tsv
+    types:
+      - T
+      - N
+    analyskod:
+      - ""
+      - "GMS560"
+      - "GMSENC"
+      - "GMSURO"
+      - "GMSBRC"
+      - "GMSCRC"
+      - "GMSGIS"
+      - "GMSLUN"
+      - "GMSMEL"
+      - "GMSTYR"
+      - "GMSVAS"
+      - "GMSPIK"
   - name: Coverage and mutations ENC
     input: qc/hotspot_report/{sample}_{type}.ENC.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.ENC.tsv
@@ -139,6 +166,7 @@ files:
       - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations URO
     input: qc/hotspot_report/{sample}_{type}.URO.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.URO.tsv
@@ -165,6 +193,7 @@ files:
       - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations BRC
     input: qc/hotspot_report/{sample}_{type}.BRC.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.BRC.tsv
@@ -191,6 +220,7 @@ files:
       - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations CRC
     input: qc/hotspot_report/{sample}_{type}.CRC.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.CRC.tsv
@@ -217,6 +247,7 @@ files:
       - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations GIS
     input: qc/hotspot_report/{sample}_{type}.GIS.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.GIS.tsv
@@ -243,6 +274,7 @@ files:
       - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations LUN
     input: qc/hotspot_report/{sample}_{type}.LUN.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.LUN.tsv
@@ -269,6 +301,7 @@ files:
       - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations MEL
     input: qc/hotspot_report/{sample}_{type}.MEL.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.MEL.tsv
@@ -295,6 +328,7 @@ files:
       - "GMSTYR"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations TYR
     input: qc/hotspot_report/{sample}_{type}.TYR.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.TYR.tsv
@@ -321,6 +355,7 @@ files:
       - "GMSMEL"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations VAS
     input: qc/hotspot_report/{sample}_{type}.VAS.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.VAS.tsv
@@ -347,6 +382,7 @@ files:
       - "GMSMEL"
       - "GMSTYR"
       - "GMSPIK"
+      - "GMSCNS"
   - name: Coverage and mutations PIK
     input: qc/hotspot_report/{sample}_{type}.PIK.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.PIK.tsv
@@ -373,6 +409,7 @@ files:
       - "GMSMEL"
       - "GMSTYR"
       - "GMSVAS"
+      - "GMSCNS"
   - name: Contamination table
     input: qc/gatk_calculate_contamination/{sample}_{type}.contamination.table
     output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.contamination.table
