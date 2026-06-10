@@ -136,30 +136,30 @@
     
  fragmentomics_metrics:
    canonical_cds_bed:
-     checksum: 120349fbe7d559980a283cc2839c559a
-     path: GMS560/annotation/GMS560_canonical_exons.hg38.bed
+     checksum: 805167b34f2209b951b055ba74f1ad9c
+     path: GMS560/fragmentomics_measures/GMS560_canonical_exons.hg38.bed
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/GMS560_canonical_exons.hg38.bed
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.32.0/fragmentomics_measures/GMS560_canonical_exons.hg38.bed
    exon_sizes:
      checksum: 574cd9ef055856edc6ba8e158cb5e25f
-     path: GMS560/annotation/UCSC_hg38_exon_sizes.tsv
+     path: GMS560/fragmentomics_measures/UCSC_hg38_exon_sizes.tsv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/UCSC_hg38_exon_sizes.tsv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.32.0/fragmentomics_measures/UCSC_hg38_exon_sizes.tsv
    tfbs_midpoints:
      checksum: 3b37b9eacd4acde858bc00987d5eb38a
-     path: GMS560/annotation/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz
+     path: GMS560/fragmentomics_measures/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.32.0/fragmentomics_measures/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz
+   tfbs_midpoints_tbi:
+     checksum: 5a525b7d14d04a5741ee6606ffb07c3f
+     path: GMS560/fragmentomics_measures/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz.tbi
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.32.0/fragmentomics_measures/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz.tbi
    atac_peaks:
      checksum: 435826e6002b4ab1ea10a2c66097097e
-     path: GMS560/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg38.bed
+     path: GMS560/fragmentomics_measures/TCGA_ATAC_peak.all.probeMap.simple.hg38.bed
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg38.bed
-   exon_strand_mapping:
-     checksum: 120349fbe7d559980a283cc2839c559a
-     path: GMS560/annotation/GMS560_canonical_exons.hg38.bed
-     type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/GMS560_canonical_exons.hg38.bed
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.32.0/fragmentomics_measures/TCGA_ATAC_peak.all.probeMap.simple.hg38.bed
 
  fuseq_wes:
    params:
@@ -184,10 +184,10 @@
 
  hotspot_report:
    hotspot_mutations:
-     checksum: dec0824cd72114452f0a1fab6b0d55c1
-     path: GMS560/reports/Hotspots_combined_regions_nodups.20260609_hg38.csv
+     checksum: e590d3b798992b750f1d41bd9dd565be
+     path: GMS560/reports/Hotspots_combined_regions_nodups.20260610_hg38.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.30.0/design/Hotspots_combined_regions_nodups.20260609_hg38.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.31.0/design/Hotspots_combined_regions_nodups.20260610_hg38.csv
    hotspot_mutations_CNS:
      checksum: c67e1f42b8a13d24bb7af672814e0710
      path: GMS560/reports/Mutations_CNS_20260605_hg38.csv
@@ -233,11 +233,16 @@
      path: GMS560/reports/Mutations_MTC_20260223_hg38.csv
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.1/design/Mutations_MTC_20260223_hg38.csv
-   hotspot_mutations_VAS:
-     checksum: 76e2179996ae050d427949f4780491e5
-     path: GMS560/reports/Mutations_VAS_20260504_hg38.csv
+   hotspot_mutations_GMS560:
+     checksum: fa4d831d871cb58a509ef9f81377a2a9
+     path: GMS560/reports/Mutations_GMS560_202606010_hg38.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.2/design/Mutations_VAS_20260504_hg38.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.31.0/design/Mutations_GMS560_202606010_hg38.csv
+   hotspot_mutations_VAS:
+     checksum: a58c28a6aa4d5ac40e9209dd9bb6746d
+     path: GMS560/reports/Mutations_VAS_20260610_hg38.csv
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.31.0/design/Mutations_VAS_20260610_hg38.csv
    hotspot_mutations_PIK:
      checksum: 2e420c032de73588d1b91916cd632a47
      path: GMS560/reports/Mutations_PIK_20260223_hg38.csv
