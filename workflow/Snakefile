@@ -352,6 +352,23 @@ use rule samtools_filter_reads from alignment as alignment_samtools_filter_reads
         )
 
 
+use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates_rna with:
+    input:
+        bams="alignment/star/{sample}_{type}.bam",
+    output:
+        bam=temp("alignment/picard_mark_duplicates_rna/{sample}_{type}.bam"),
+        metrics=temp("alignment/picard_mark_duplicates_rna/{sample}_{type}.metrics.txt"),
+    log:
+        "alignment/picard_mark_duplicates_rna/{sample}_{type}.bam.log",
+    wildcard_constraints:
+        type="R",
+    benchmark:
+        repeat(
+            "alignment/picard_mark_duplicates_rna/{sample}_{type}.bam.benchmark.tsv",
+            config.get("picard_mark_duplicates", {}).get("benchmark_repeats", 1),
+        )
+
+
 use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates with:
     input:
         bams=lambda wildcards: "alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.bam"
@@ -767,8 +784,8 @@ use rule somalier_ungrouped_extract from qc as qc_somalier_ungrouped_extract wit
 
 use rule mosdepth from qc as qc_mosdepth with:
     input:
-        bam=get_deduplication_bam_input,
-        bai=get_deduplication_bam_input_bai,
+        bam="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam",
+        bai="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam.bai",
         bed=config.get("reference", {}).get("design_bed_rna", ""),
     wildcard_constraints:
         type="R",
