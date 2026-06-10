@@ -1,12 +1,12 @@
 files:
   - name: BAM umi
-    input: alignment/samtools_merge_bam_umi/{sample}_{type}.bam
+    input: "{get_deduplication_bam_input}"
     output: bam_dna/{sample}_{type}.umi.bam
     types:
       - T
       - N
   - name: BAM umi index
-    input: alignment/samtools_merge_bam_umi/{sample}_{type}.bam.bai
+    input: "{get_deduplication_bam_input_bai}"
     output: bam_dna/{sample}_{type}.umi.bam.bai
     types:
       - T

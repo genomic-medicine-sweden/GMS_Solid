@@ -160,12 +160,8 @@ def get_deduplication_bam_input(wildcards):
     if config.get("deduplication") == "umi":
         return f"alignment/samtools_merge_bam_umi/{wildcards.sample}_{wildcards.type}.bam"
 
-    # If not UMIs, but FFPE processing is on
-    if config.get("run_ffpe_overlapping_consensus", True):
-        return f"alignment/samtools_filter_reads/{wildcards.sample}_{wildcards.type}.bam"
-
-    # Standard BWA
-    return f"alignment/bwa_mem/{wildcards.sample}_{wildcards.type}.bam"
+    # All FFPE modes: post-picard merged BAM
+    return f"alignment/samtools_merge_bam_all_final/{wildcards.sample}_{wildcards.type}.bam"
 
 
 # Repeat for the BAI index
@@ -176,10 +172,8 @@ def get_deduplication_bam_input_bai(wildcards):
 def get_deduplication_bam_input_manta(wildcards):
     if config["deduplication"] == "umi":
         return "alignment/samtools_merge_bam_umi/{sample}_{type}.bam"
-    elif config.get("run_ffpe_overlapping_consensus", True):
-        return "alignment/samtools_merge_bam_all_final/{sample}_T.bam"
     else:
-        return "alignment/bwa_mem/{sample}_T.bam"
+        return "alignment/samtools_merge_bam_all_final/{sample}_T.bam"
 
 
 def get_deduplication_bam_input_manta_bai(wildcards):

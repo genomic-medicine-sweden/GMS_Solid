@@ -37,6 +37,7 @@ ruleorder: alignment_fgbio_call_overlapping_consensus_bases_ffpe > alignment_sam
 ruleorder: alignment_samtools_sort_ffpe_fgbio > alignment_samtools_sort
 ruleorder: alignment_samtools_sort_umi_only_query > alignment_samtools_sort
 ruleorder: alignment_samtools_merge_bam > alignment_samtools_sort
+ruleorder: alignment_samtools_merge_bam_all_final > alignment_samtools_sort
 ruleorder: filtering_bcftools_filter_include_region > snv_indels_bgzip
 ruleorder: qc_samtools_stats_rna > qc_samtools_stats
 ruleorder: qc_picard_collect_alignment_summary_metrics_rna > qc_picard_collect_alignment_summary_metrics
@@ -396,7 +397,11 @@ use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_all_f
                 filter_out=config.get("reference", {}).get("skip_chrs", []),
             ),
         )
-        + ["alignment/picard_mark_duplicates_ffpe_fusions/{sample}_{type}.bam"],
+        + (
+            [f"alignment/picard_mark_duplicates_ffpe_fusions/{wildcards.sample}_{wildcards.type}.bam"]
+            if config.get("run_ffpe_overlapping_consensus", True)
+            else []
+        ),
     output:
         bam="alignment/samtools_merge_bam_all_final/{sample}_{type}.bam",
     log:
@@ -514,8 +519,16 @@ use rule samtools_sort from alignment as alignment_samtools_sort_rna with:
 
 use rule samtools_extract_reads from alignment as alignment_samtools_extract_reads with:
     input:
-        bam=get_deduplication_bam_input,
-        bai=get_deduplication_bam_input_bai,
+        bam=lambda wildcards: (
+            f"alignment/star/{wildcards.sample}_{wildcards.type}.bam"
+            if wildcards.type == "R"
+            else f"alignment/bwa_mem/{wildcards.sample}_{wildcards.type}.bam"
+        ),
+        bai=lambda wildcards: (
+            f"alignment/star/{wildcards.sample}_{wildcards.type}.bam.bai"
+            if wildcards.type == "R"
+            else f"alignment/bwa_mem/{wildcards.sample}_{wildcards.type}.bam.bai"
+        ),
     output:
         bam=temp("alignment/samtools_extract_reads/{sample}_{type}_{chr}.bam"),
     wildcard_constraints:
