@@ -2,6 +2,7 @@ output: "../../config/output_files_FFPE.yaml"
 singularity_schema: "../../config/singularity.schema.yaml"
 general_report: "../../config/reports/general_report.yaml"
 deduplication: "markduplicates"
+run_ffpe_overlapping_consensus: false
 
 annotate_cnv:
   cnv_amp_genes: "reference/cnv_amp_genes.bed"
@@ -116,6 +117,7 @@ hotspot_annotation:
 hotspot_report:
   hotspot_mutations: 
     all: "DATA/Hotspots_combined.csv"
+    CNS: "DATA/Hotspots_combined.csv"
     ENC: "DATA/Hotspots_combined.csv"
     URO: "DATA/Hotspots_combined.csv"
     BRC: "DATA/Hotspots_combined.csv"

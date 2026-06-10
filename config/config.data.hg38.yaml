@@ -113,6 +113,13 @@ fuseq_wes:
 fusioncatcher:
   genome_path: "{{PROJECT_REF_DATA}}/ref_data/fusioncatcher/human_v102/"
 
+fragmentomics_metrics:
+  canonical_cds_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_canonical_exons.hg38.bed"
+  exon_sizes: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/UCSC_hg38_exon_sizes.tsv"
+  tfbs_midpoints: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz"
+  atac_peaks: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg38.bed"
+  exon_strand_mapping: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_canonical_exons.hg38.bed"
+
 gatk_collect_allelic_counts:
   SNP_interval: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gnomad_SNP_0.001_target.annotated.hg38.interval_list"
 
@@ -129,13 +136,14 @@ gene_fuse:
 
 hotspot_annotation:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
-  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260223_hg38.csv"
+  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260609_hg38.csv"
 
 hotspot_report:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
-  hotspot_mutations: 
-    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260223_hg38.csv"
-    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260223_hg38.csv"
+  hotspot_mutations:
+    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260609_hg38.csv"
+    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260605_hg38.csv"
+    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260609_hg38.csv"
     URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223_hg38.csv"
     CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260504_hg38.csv"
     BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260223_hg38.csv"

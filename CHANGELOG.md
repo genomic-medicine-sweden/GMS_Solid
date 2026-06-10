@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.4.2](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.4.1...v1.4.2) (2026-05-04)
+
+
+### Bug Fixes
+
+* rm duplicate tmb_umi ([4a817bd](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/4a817bd402bc833a38f9b9cc6d0362bc851bf43d))
+* update config to newest versions of cov and mut ([c320a13](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c320a13c4d4bf66d2a372fb6dfcd4139a5ee8905))
+* update config to newest versions of cov and mut ([c6068cb](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c6068cbdda60bf99b8fa22799bd9af005e6d3715))
+* updated cov and mut files for GMSCRC and GMSVAS ([82ff4e0](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/82ff4e07ccd6ea8e28440180921b07ea5132b7f7))
+* updated cov and mut files for GMSCRC and GMSVAS ([ba19da3](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/ba19da3685f529865d608637125a50da6500873b))
+
 ## [1.4.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.3.0...v1.4.0) (2026-04-14)
 
 

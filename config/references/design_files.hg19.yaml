@@ -146,6 +146,33 @@
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.21.0/design/vessies_reference_set.txt
 
+ fragmentomics_metrics:
+   canonical_cds_bed:
+     checksum: 0f48866160533f8cc85f336e0544fff9
+     path: GMS560/annotation/GMS560_specific_cds.hg19.bed
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/GMS560_specific_cds.hg19.bed
+   exon_sizes:
+     checksum: ca2614de8d3ed56da9cf1f5c200888e5
+     path: GMS560/annotation/UCSC_hg19_exon_sizes.tsv
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/UCSC_hg19_exon_sizes.tsv
+   tfbs_midpoints:
+     checksum: 3b22aefacd4acde858bc00987d5eb38a
+     path: GMS560/annotation/Homo_sapiens_meta_clusters_hg19_midpoint_top5k_sorted.bed.gz
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/Homo_sapiens_meta_clusters_hg19_midpoint_top5k_sorted.bed.gz
+   atac_peaks:
+     checksum: d07d7655a77d93d89c3edac5af2495f0
+     path: GMS560/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg19.bed
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg19.bed
+   exon_strand_mapping:
+     checksum: 0f48866160533f8cc85f336e0544fff9
+     path: GMS560/annotation/GMS560_specific_cds.hg19.bed
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/annotation/GMS560_specific_cds.hg19.bed
+
  fuseq_wes:
    params:
      checksum: d2e6d449027c49e24f026261082fa5bb
@@ -169,15 +196,20 @@
 
  hotspot_report:
    hotspot_mutations:
-     checksum: 81e25cf7a0f6b1aafb4353b042233d10
-     path: GMS560/reports/Hotspots_combined_regions_nodups.20260304.csv
+     checksum: d249bec818eb42f3716261c8fd0b9182
+     path: GMS560/reports/Hotspots_combined_regions_nodups.20260609.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.2/design/Hotspots_combined_regions_nodups.20260304.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.30.0/design/Hotspots_combined_regions_nodups.20260609.csv
+   hotspot_mutations_CNS:
+     checksum: 583e55811bed6232b1f3d261ba04934a
+     path: GMS560/reports/Mutations_CNS_20260605.csv
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.30.0/design/Mutations_CNS_20260605.csv
    hotspot_mutations_ENC:
-     checksum: 05da69a9555b91472b8a51f5ff8afdad
-     path: GMS560/reports/Mutations_ENC_20260302.csv
+     checksum: 699f38bd0f90efc7401557dd68534404
+     path: GMS560/reports/Mutations_ENC_20260609.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.1/design/Mutations_ENC_20260302.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.30.0/design/Mutations_ENC_20260609.csv
    hotspot_mutations_URO:
      checksum: a431ad444b1b682b377860d051a2dfc0
      path: GMS560/reports/Mutations_URO_20260223.csv
@@ -289,12 +321,12 @@
      checksum: a19ef4a67f3d370daaac4890fae25097
      path: GMS560/purecn/targets_twist-gms-st_hg19_25000_novaseqX_24_updated_intervals.txt 
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/52731440?private_link=88202740beb6fcbac09d
+     url: https://figshare.scilifelab.se/ndownloader/files/60373418?private_link=88202740beb6fcbac09d
    intervals_novaseqX_cfDNA: 
      checksum: a19ef4a67f3d370daaac4890fae25097
      path: GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_novaseqX_intervals.txt 
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/52731440?private_link=88202740beb6fcbac09d
+     url: https://figshare.scilifelab.se/ndownloader/files/60373415?private_link=88202740beb6fcbac09d
 
  report_fusions:
    annotation_bed:

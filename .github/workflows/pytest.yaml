@@ -27,5 +27,7 @@ jobs:
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: pytest
+      - name: pytest1
         run: pytest .tests/units/
+      - name: pytest2
+        run: pytest workflow/scripts/*_test.py
