@@ -160,7 +160,7 @@ def get_deduplication_bam_input(wildcards):
     if config.get("deduplication") == "umi":
         return f"alignment/samtools_merge_bam_umi/{wildcards.sample}_{wildcards.type}.bam"
 
-    # For all FFPE modes, use the post-picard merged BAM
+    # All FFPE modes: post-picard merged BAM
     return f"alignment/samtools_merge_bam_all_final/{wildcards.sample}_{wildcards.type}.bam"
 
 
