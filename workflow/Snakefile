@@ -801,15 +801,6 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed with:
 use rule samtools_stats from qc as qc_samtools_stats with:
     input:
         bam=get_deduplication_bam_input,
-    wildcard_constraints:
-        type="T|N",
-
-
-use rule samtools_stats from qc as qc_samtools_stats_rna with:
-    input:
-        bam=get_deduplication_bam_input,
-    wildcard_constraints:
-        type="R",
 
 
 use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics with:
