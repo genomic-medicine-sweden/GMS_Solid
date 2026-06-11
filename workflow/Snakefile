@@ -868,6 +868,16 @@ use rule picard_collect_duplication_metrics from qc as qc_picard_collect_duplica
     input:
         bam=get_deduplication_bam_input,
         bai=get_deduplication_bam_input_bai,
+    wildcard_constraints:
+        type="T|N",
+
+
+use rule picard_collect_duplication_metrics from qc as qc_picard_collect_duplication_metrics_rna with:
+    input:
+        bam="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam",
+        bai="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam.bai",
+    wildcard_constraints:
+        type="R",
 
 
 use rule picard_collect_insert_size_metrics from qc as qc_picard_collect_insert_size_metrics with:
