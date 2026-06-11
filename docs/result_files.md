@@ -37,6 +37,7 @@ Files defined in `output_files_FFPE.yaml`.
 | `results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.samtools-stats.txt` | Samtools stats |
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.tsv` | Coverage and mutations all |
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.CNS.tsv` | Coverage and mutations CNS |
+| `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.GMS560.tsv` | Coverage and mutations GMS560 |
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.ENC.tsv` | Coverage and mutations ENC |
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.URO.tsv` | Coverage and mutations URO |
 | `results/dna/{sample}_{type}/qc/{sample}_{type}.coverage_and_mutations.BRC.tsv` | Coverage and mutations BRC |

@@ -119,6 +119,7 @@ hotspot_report:
     all: "DATA/Hotspots_combined.csv"
     CNS: "DATA/Hotspots_combined.csv"
     ENC: "DATA/Hotspots_combined.csv"
+    GMS560: "DATA/Hotspots_combined.csv"
     URO: "DATA/Hotspots_combined.csv"
     BRC: "DATA/Hotspots_combined.csv"
     CRC: "DATA/Hotspots_combined.csv"
