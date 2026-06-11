@@ -39,7 +39,6 @@ ruleorder: alignment_samtools_sort_umi_only_query > alignment_samtools_sort
 ruleorder: alignment_samtools_merge_bam > alignment_samtools_sort
 ruleorder: alignment_samtools_merge_bam_all_final > alignment_samtools_sort
 ruleorder: filtering_bcftools_filter_include_region > snv_indels_bgzip
-ruleorder: qc_samtools_stats_rna > qc_samtools_stats
 ruleorder: qc_picard_collect_alignment_summary_metrics_rna > qc_picard_collect_alignment_summary_metrics
 ruleorder: qc_picard_collect_hs_metrics_rna > qc_picard_collect_hs_metrics
 ruleorder: snv_indels_bcftools_sort > snv_indels_bgzip
