@@ -4,15 +4,20 @@ files:
     input: results/dna/{sample}_{type}/vcf/{sample}_{type}.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf
     description: File link to vcf with SNVs and INDELs
     nav_header: Small variants
-  - name: Coverage and mutations
-    type: file_link
-    input: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.tsv
-    description: File link to coverage and mutations
-    nav_header: Small variants
   - name: Coverage and mutations based on analysis type (analyskod)
     type: file_link
     input: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.{analyskod_placeholder}.tsv
     description: File link to coverage and mutations based on analysis
+    nav_header: Small variants
+  - name: Coverage and mutations GMS560
+    type: file_link
+    input: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.GMS560.tsv
+    description: File link to coverage and mutations GMS560
+    nav_header: Small variants
+  - name: Coverage and mutations
+    type: file_link
+    input: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.tsv
+    description: File link to coverage and mutations
     nav_header: Small variants
 
   - name: TMB

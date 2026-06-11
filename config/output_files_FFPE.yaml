@@ -117,8 +117,6 @@ files:
     types:
       - T
       - N
-    analyskod:
-      - "GMS560"
   - name: Coverage and mutations CNS
     input: qc/hotspot_report/{sample}_{type}.CNS.aa_translated.tsv
     output: results/dna/{sample}_{type}/coverage_and_mutations/{sample}_{type}.coverage_and_mutations.CNS.tsv
