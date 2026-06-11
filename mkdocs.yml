@@ -17,6 +17,7 @@ nav:
     - CNVs: dna_cnvs.md
     - Fusions: dna_fusions.md
     - Biomarkers: dna_biomarkers.md
+    - CHIP Annotation: dna_chip_annotation.md
     - QC: dna_qc.md
   - RNA Pipeline:
     - Fusions: rna_fusions.md
