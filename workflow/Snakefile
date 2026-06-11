@@ -815,8 +815,8 @@ use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics with:
 
 use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics_rna with:
     input:
-        bam=get_deduplication_bam_input,
-        bai=get_deduplication_bam_input_bai,
+        bam="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam",
+        bai="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam.bai",
         bait_intervals=config.get("reference", {}).get("design_intervals_rna", ""),
         reference=config.get("reference", {}).get("fasta", ""),
         target_intervals=config.get("reference", {}).get("design_intervals_rna", ""),
@@ -841,8 +841,8 @@ use rule picard_collect_alignment_summary_metrics from qc as qc_picard_collect_a
 
 use rule picard_collect_alignment_summary_metrics from qc as qc_picard_collect_alignment_summary_metrics_rna with:
     input:
-        bam=get_deduplication_bam_input,
-        bai=get_deduplication_bam_input_bai,
+        bam="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam",
+        bai="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
     params:
         extra="%s %s"
