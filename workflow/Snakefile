@@ -39,7 +39,6 @@ ruleorder: alignment_samtools_sort_umi_only_query > alignment_samtools_sort
 ruleorder: alignment_samtools_merge_bam > alignment_samtools_sort
 ruleorder: alignment_samtools_merge_bam_all_final > alignment_samtools_sort
 ruleorder: filtering_bcftools_filter_include_region > snv_indels_bgzip
-ruleorder: qc_samtools_stats_rna > qc_samtools_stats
 ruleorder: qc_picard_collect_alignment_summary_metrics_rna > qc_picard_collect_alignment_summary_metrics
 ruleorder: qc_picard_collect_hs_metrics_rna > qc_picard_collect_hs_metrics
 ruleorder: snv_indels_bcftools_sort > snv_indels_bgzip
@@ -801,15 +800,6 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed with:
 use rule samtools_stats from qc as qc_samtools_stats with:
     input:
         bam=get_deduplication_bam_input,
-    wildcard_constraints:
-        type="T|N",
-
-
-use rule samtools_stats from qc as qc_samtools_stats_rna with:
-    input:
-        bam=get_deduplication_bam_input,
-    wildcard_constraints:
-        type="R",
 
 
 use rule picard_collect_hs_metrics from qc as qc_picard_collect_hs_metrics with:
@@ -868,6 +858,16 @@ use rule picard_collect_duplication_metrics from qc as qc_picard_collect_duplica
     input:
         bam=get_deduplication_bam_input,
         bai=get_deduplication_bam_input_bai,
+    wildcard_constraints:
+        type="T|N",
+
+
+use rule picard_collect_duplication_metrics from qc as qc_picard_collect_duplication_metrics_rna with:
+    input:
+        bam="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam",
+        bai="alignment/picard_mark_duplicates_rna/{sample}_{type}.bam.bai",
+    wildcard_constraints:
+        type="R",
 
 
 use rule picard_collect_insert_size_metrics from qc as qc_picard_collect_insert_size_metrics with:
