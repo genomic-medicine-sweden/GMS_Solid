@@ -593,6 +593,7 @@ use rule whatshap_phase from snv_indels as snv_indels_whatshap_phase with:
 
 
 if config.get("deduplication") == "umi":
+
     include: "rules/chip_annotation.smk"
 
 
