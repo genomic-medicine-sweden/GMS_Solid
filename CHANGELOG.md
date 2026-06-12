@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.5.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.4.2...v1.5.0) (2026-06-11)
+
+
+### Features
+
+* added fragmentomics_measure from biomarker ([#763](https://github.com/genomic-medicine-sweden/GMS_Solid/issues/763)) ([25b67c9](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/25b67c9159bc80037b5d4a470c70786c071124c1))
+* added gms560 analyskod and fragmentomics ref files ([cfd4c44](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/cfd4c44ac8abbd897dc4d7ba0026adb362ce86c8))
+* added gms560 analyskod and fragmentomics ref files ([a2053e9](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/a2053e996629e8c0b24e24cfe6a7e234120bef15))
+* added GMS560 cov&mut file to prio report ([b8feae4](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/b8feae4252f309f15e596c0d894b13c8f6bd7854))
+* added GMSCNS ([ec52caf](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/ec52cafe215dabed72db37f8f2370843a245ea5f))
+* added GMSCNS ([4d93732](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/4d9373208bece8b476d917ce7654801cc9e69ba8))
+* Improved SNV/INDEL ctDNA estimation ([dcad07a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/dcad07ac2df95059de3ba7a72706dda0678a60ae))
+
+
+### Bug Fixes
+
+* build script updates ([5deeaea](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/5deeaea3471cf14f07df337e38806477775728e0))
+* build script updates ([5a355ad](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/5a355ad24f5364a67b4485fa3dd216e321c19c5f))
+* dedup RNA in qc ([579d71a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/579d71aa882413cd0cc8ab8636474ba0325d3257))
+* dedup RNA in qc ([d55c5bd](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/d55c5bd9688cb7ccd61eed6bd5063fcc7990bc61))
+* fix 0% dups in RNA ([a6ab4d3](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/a6ab4d3eddf9850cbbdd7e0c63fa5c9c9a8a59aa))
+* fix circular dependency ([07d748a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/07d748abd50a47ee5cf7b3fcadae7e6ffeed4ba9))
+* fix non-duplicate bams files ([740ca33](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/740ca33360db33f38279853f647c1aa179d24d7b))
+* fix non-duplicate bams files ([227895e](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/227895e47ebdfe483166c45a918e2b8a3f1ccca9))
+* handle AF segments without variance ([0c293aa](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/0c293aa742ba2167f2022a902f56983716b42889))
+* more deduplicated stats ([520f4ea](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/520f4ea60d6a8d593ac382c411d19077c52587ed))
+* more deduplicated stats ([0dedd46](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/0dedd46aa636507399134bcd9fbe85d490d816e7))
+* MultiQC and main jenkins test ([84e640c](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/84e640c38a8e10adfd8a7e2eed6bda6e126e725c))
+* mv bwa_mem -Y flag to ctDNA config only ([e106289](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/e106289c3aa4e9566d8735fd9a80f955a1361c83))
+* mv bwa_mem -Y flag to ctDNA config only ([627599a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/627599afe6077b4a1322fd13f2584442c0506b4d))
+* skip segments without variance in AF ([0f69771](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/0f69771e2b04eb3c829a615bcee55d4ca17934b9))
+* update filter so that TERT non-hotspot are filtered ([8ec0787](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/8ec0787225f42fe53b3eb7a4ae3b47c9667d5619))
+* update filter so that TERT non-hotspot are filtered ([70bc9fa](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/70bc9faa5aa4d33f557d7cbb48af2b3a557369a9))
+* update to the latest reports for updated general report and cnv-… ([7b1b230](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/7b1b230610a7be852c4afe561a0714357290a2a1))
+* update to the latest reports for updated general report and cnv-report ([de6d5cf](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/de6d5cfa95c7b957c62b8c72ff41fad73f3be174))
+
 ## [1.4.2](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.4.1...v1.4.2) (2026-05-04)
 
 
