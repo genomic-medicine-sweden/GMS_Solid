@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule chip_annotation:
     input:
-        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.vcf",
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.vcf.gz",
         bam=get_deduplication_bam_input,
         bai=lambda wildcards: get_deduplication_bam_input(wildcards) + ".bai",
         chip_genes_file=config.get("chip_annotation", {}).get("chip_genes_file", ""),
@@ -19,7 +19,7 @@ rule chip_annotation:
         if config.get("chip_annotation", {}).get("cosmic_hemato_vcf", "")
         else [],
     output:
-        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.chip_annotated.vcf",
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.vcf",
     params:
         min_alt_reads=config.get("chip_annotation", {}).get("min_alt_reads", 5),
         frag_diff_threshold=config.get("chip_annotation", {}).get("frag_diff_threshold", 15),
@@ -42,6 +42,25 @@ rule chip_annotation:
     container:
         config.get("chip_annotation", {}).get("container", config["default_container"])
     wildcard_constraints:
-        type="T",
+        type="T|N",
     script:
         "../scripts/chip_annotation.py"
+
+
+use rule whatshap_phase from snv_indels as snv_indels_whatshap_phase_chip_annotated with:
+    input:
+        bam=lambda wildcards: get_deduplication_bam_input(wildcards),
+        bai=lambda wildcards: "%s.bai" % get_deduplication_bam_input(wildcards),
+        fasta=config.get("reference", {}).get("fasta", ""),
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.{tag}.vcf",
+    output:
+        vcf=temp(
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.{tag}.phased.vcf"
+        ),
+    log:
+        "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.{tag}.phased.vcf.log",
+    benchmark:
+        repeat(
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.{tag}.phased.vcf.benchmark.tsv",
+            config.get("whatshap_phase", {}).get("benchmark_repeats", 1),
+        )

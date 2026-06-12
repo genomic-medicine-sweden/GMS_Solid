@@ -75,7 +75,7 @@ def pileup_at_variant(bam, chrom, pos, ref, alt):
     is_snv = len(ref) == 1 and len(alt) == 1
 
     for col in bam.pileup(chrom, pos - 1, pos, truncate=True,
-                           min_base_quality=0, stepper="nofilter"):
+                          min_base_quality=0, stepper="nofilter"):
         if col.reference_pos != pos - 1:
             continue
         for pread in col.pileups:
@@ -138,7 +138,7 @@ def chip_vaf_flag(rec):
 
 
 def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_diff_threshold,
-                             frag_abs_threshold, sbs_min_ratio):
+                            frag_abs_threshold, sbs_min_ratio):
     alts = [a for a in rec.alts if a != "<NON_REF>"] if rec.alts else []
     if not alts:
         return None, None, None, None

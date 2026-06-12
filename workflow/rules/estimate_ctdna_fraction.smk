@@ -9,7 +9,11 @@ rule estimate_ctdna_fraction:
         germline_vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz",
         germline_vcf_tabix="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz.tbi",
         segments="cnv_sv/jumble_vcf/{sample}_{type}.pathology_purecn.vcf",
-        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.chip_annotated.filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf",
+        vcf=lambda wildcards: (
+            "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"
+            if config.get("deduplication") == "umi"
+            else "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.phased.codon_snvs.sorted.vep_annotated.qci.vcf"
+        ).format(sample=wildcards.sample, type=wildcards.type),
     output:
         ctDNA_fraction=temp("cnv_sv/estimate_ctdna_fraction/{sample}_{type}.ctDNA_fraction.tsv"),
         ctDNA_fraction_info=temp("cnv_sv/estimate_ctdna_fraction/{sample}_{type}.ctDNA_fraction_info.tsv"),
