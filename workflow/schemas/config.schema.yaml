@@ -695,6 +695,32 @@ properties:
         type: number
         description: relatedness cutoff for considering two samples a match (default 0.7)
 
+  chip_annotation:
+    type: object
+    description: parameters for CHIP (Clonal Haematopoiesis of Indeterminate Potential) annotation (ctDNA/UMI mode only)
+    properties:
+      chip_genes_file:
+        type: string
+        description: path to YAML file with major/minor/lof/missense CHIP gene lists
+      chip_hotspot_vcf:
+        type: string
+        description: bgzipped+tabix VCF of known CHIP hotspot positions (Bick et al. 2020)
+      cosmic_hemato_vcf:
+        type: string
+        description: bgzipped+tabix VCF of COSMIC haematological SNVs (CNT>=10)
+      min_alt_reads:
+        type: integer
+        description: minimum alt-supporting reads for fragment length analysis (default 5)
+      frag_diff_threshold:
+        type: number
+        description: minimum alt-ref fragment length difference to flag as CHIP (default 15 bp)
+      frag_abs_threshold:
+        type: number
+        description: minimum absolute alt fragment length to flag as hematopoietic origin (default 150 bp)
+      container:
+        type: string
+        description: container for the chip_annotation rule
+
   estimate_ctdna_fraction:
     type: object
     description: parameters for estimate_ctdna_fraction

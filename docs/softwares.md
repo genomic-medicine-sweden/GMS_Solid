@@ -390,3 +390,25 @@ Takes the somalier relate pairs output and finds the best DNA-DNA match for each
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__somalier_dna_dna_report#
+
+
+## chip_annotation
+Annotates ctDNA variants with CHIP (Clonal Haematopoiesis of Indeterminate Potential) flags using fragment length analysis, gene membership, VAF range, population hotspots and COSMIC haematological recurrence. Only active in UMI/ctDNA mode (`deduplication: umi`). See [CHIP annotation](dna_chip_annotation.md) for full details.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__chip_annotation__chip_annotation#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__chip_annotation__chip_annotation#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__chip_annotation#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__chip_annotation#
