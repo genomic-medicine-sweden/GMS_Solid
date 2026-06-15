@@ -140,14 +140,14 @@ def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_diff_threshold,
                             frag_abs_threshold):
     alts = [a for a in rec.alts if a != "<NON_REF>"] if rec.alts else []
     if not alts:
-        return None, None, None, None
+        return None, None, None
 
     alt_lens, ref_lens, alt_fwd, alt_rev = pileup_at_variant(
         bam, rec.contig, rec.pos, rec.ref, alts[0]
     )
 
     if len(alt_lens) < min_alt_reads:
-        return None, None, None, None
+        return None, None, None
 
     alt_mean = float(np.mean(alt_lens))
     ref_mean = float(np.mean(ref_lens)) if ref_lens else None
