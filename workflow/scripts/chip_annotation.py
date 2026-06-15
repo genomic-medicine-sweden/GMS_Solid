@@ -20,8 +20,9 @@ NEW_INFO = [
      "CHIP VAF tier: 0=outside range, 1=0-10%, 2=1-3%"),
     ("CHIP_FRAG", "1", "Integer",
      "CHIP fragment length flag: 1=alt reads both above absolute length threshold (frag_abs_threshold) "
-     "and above length ratio relative to ref reads (frag_ratio_threshold), "
-     "0=not flagged, missing if fewer than min_alt_reads supporting reads or no ref reads"),
+     "and above length ratio relative to ref reads (frag_ratio_threshold); "
+     "-1=alt reads below short fragment threshold (frag_short_threshold), suggesting tumour-derived origin; "
+     "0=not flagged; missing if fewer than min_alt_reads supporting reads or no ref reads"),
     ("CHIP_FRAG_ALT", "1", "Float",
      "Mean fragment length of alt-supporting reads"),
     ("CHIP_FRAG_REF", "1", "Float",
@@ -33,9 +34,10 @@ NEW_INFO = [
     ("CHIP_CONSEQUENCE", "1", "Integer",
      "1 if LoF consequence in a LoF-CHIP gene or missense in a missense-CHIP gene"),
     ("CHIP_SCORE", "1", "Integer",
-     "CHIP combined score (0-10): CHIP_GENE (0-2) + CHIP_VAF (0-2) + CHIP_FRAG (0-1) + "
+     "CHIP combined score: CHIP_GENE (0-2) + CHIP_VAF (0-2) + CHIP_FRAG (0-1) + "
      "CHIP_HOTSPOT (0-4) + CHIP_COSMIC_HEMATO (0-4) + CHIP_CONSEQUENCE (0-1). "
-     "CHIP_HOTSPOT and CHIP_COSMIC_HEMATO do not co-occur in practice (practical max ~10). "
+     "Theoretical max 14; practical max ~11 as CHIP_HOTSPOT and CHIP_COSMIC_HEMATO "
+     "co-occur at well-known CHIP loci (e.g. DNMT3A R882). "
      "Filter threshold: >= 5"),
 ]
 
@@ -136,7 +138,7 @@ def chip_vaf_flag(rec):
     return 0
 
 
-def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold):
+def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold, frag_short_threshold):
     alts = [a for a in rec.alts if a != "<NON_REF>"] if rec.alts else []
     if not alts:
         return None, None, None
@@ -151,9 +153,12 @@ def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_abs_threshold, frag_ra
     alt_mean = float(np.mean(alt_lens))
     ref_mean = float(np.mean(ref_lens)) if ref_lens else None
 
-    abs_flag = alt_mean > frag_abs_threshold
-    ratio_flag = ref_mean is not None and (alt_mean / ref_mean) > frag_ratio_threshold
-    chip_frag = 1 if (abs_flag and ratio_flag) else 0
+    if alt_mean < frag_short_threshold:
+        chip_frag = -1
+    elif ref_mean is not None and (alt_mean / ref_mean) > frag_ratio_threshold and alt_mean > frag_abs_threshold:
+        chip_frag = 1
+    else:
+        chip_frag = 0
     frag_alt_out = round(alt_mean, 1)
     frag_ref_out = round(ref_mean, 1) if ref_mean is not None else None
 
@@ -210,6 +215,7 @@ def main(snakemake):
     min_alt_reads = snakemake.params.min_alt_reads
     frag_abs_threshold = snakemake.params.frag_abs_threshold
     frag_ratio_threshold = snakemake.params.frag_ratio_threshold
+    frag_short_threshold = snakemake.params.frag_short_threshold
 
     vcf_in = pysam.VariantFile(snakemake.input.vcf)
     bam = pysam.AlignmentFile(snakemake.input.bam, "rb")
@@ -258,7 +264,7 @@ def main(snakemake):
             )
             if prelim_score >= 3:
                 chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
-                    rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold
+                    rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold, frag_short_threshold
                 )
             else:
                 chip_frag, frag_alt, frag_ref = None, None, None
