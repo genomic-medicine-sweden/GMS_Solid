@@ -275,4 +275,5 @@ def main(snakemake):
             vcf_out.write(rec)
 
 
-main(snakemake)
+if "snakemake" in dir():
+    main(snakemake)
