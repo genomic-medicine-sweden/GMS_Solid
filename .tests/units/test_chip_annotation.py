@@ -197,38 +197,45 @@ class TestChipFragFlag(unittest.TestCase):
     def tearDownClass(cls):
         cls._vcf.close()
 
-    def _call(self, alt_lens, ref_lens, min_alt=3, diff_thr=15, abs_thr=150):
+    def _call(self, alt_lens, ref_lens, min_alt=3, abs_thr=150, ratio_thr=1.1):
         with patch("chip_annotation.pileup_at_variant", return_value=(alt_lens, ref_lens, 0, 0)):
-            return chip_frag_and_sbs_flags(self._recs[0], MagicMock(), min_alt, diff_thr, abs_thr)
+            return chip_frag_and_sbs_flags(self._recs[0], MagicMock(), min_alt, abs_thr, ratio_thr)
 
     def test_no_alts_returns_none(self):
-        result = chip_frag_and_sbs_flags(self._recs[1], MagicMock(), 3, 15, 150)
+        result = chip_frag_and_sbs_flags(self._recs[1], MagicMock(), 3, 150, 1.1)
         self.assertEqual(result, (None, None, None))
 
     def test_too_few_alt_reads(self):
         result = self._call([160], [120, 125], min_alt=5)
         self.assertEqual(result, (None, None, None))
 
-    def test_above_abs_threshold(self):
-        chip_frag, frag_alt, frag_ref = self._call([160, 165, 170], [120, 125, 130])
+    def test_both_criteria_met(self):
+        # alt_mean=165, ref_mean=140 → abs > 150, ratio=1.18 > 1.1
+        chip_frag, frag_alt, frag_ref = self._call([160, 165, 170], [135, 140, 145])
         self.assertEqual(chip_frag, 1)
         self.assertAlmostEqual(frag_alt, 165.0)
-        self.assertAlmostEqual(frag_ref, 125.0)
+        self.assertAlmostEqual(frag_ref, 140.0)
 
-    def test_diff_exceeds_threshold(self):
-        # alt_mean=145, ref_mean=125 → diff=20 > 15
-        chip_frag, frag_alt, frag_ref = self._call([140, 145, 150], [120, 125, 130])
-        self.assertEqual(chip_frag, 1)
+    def test_abs_met_ratio_not(self):
+        # Germline-like: alt_mean=183, ref_mean=183 → abs > 150 but ratio=1.0 < 1.1
+        chip_frag, frag_alt, frag_ref = self._call([180, 183, 186], [180, 183, 186])
+        self.assertEqual(chip_frag, 0)
 
-    def test_neither_flag(self):
-        # alt_mean=130, ref_mean=120 → diff=10 < 15, abs < 150
-        chip_frag, frag_alt, frag_ref = self._call([125, 130, 135], [115, 120, 125])
+    def test_ratio_met_abs_not(self):
+        # alt_mean=140, ref_mean=120 → ratio=1.17 > 1.1 but abs < 150
+        chip_frag, frag_alt, frag_ref = self._call([135, 140, 145], [115, 120, 125])
+        self.assertEqual(chip_frag, 0)
+
+    def test_neither_criterion_met(self):
+        # alt_mean=130, ref_mean=125 → abs < 150, ratio < 1.1
+        chip_frag, frag_alt, frag_ref = self._call([125, 130, 135], [120, 125, 130])
         self.assertEqual(chip_frag, 0)
 
     def test_no_ref_reads(self):
+        # No ref reads → ratio cannot be assessed → chip_frag=0
         chip_frag, frag_alt, frag_ref = self._call([160, 165, 170], [])
         self.assertIsNone(frag_ref)
-        self.assertEqual(chip_frag, 1)  # abs threshold exceeded
+        self.assertEqual(chip_frag, 0)
 
 
 class TestChipHotspotFlag(unittest.TestCase):

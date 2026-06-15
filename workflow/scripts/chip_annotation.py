@@ -17,10 +17,11 @@ NEW_INFO = [
     ("CHIP_GENE", "1", "Integer",
      "CHIP gene tier: 0=not CHIP gene, 1=minor CHIP gene, 2=major CHIP gene (DNMT3A/TET2/ASXL1)"),
     ("CHIP_VAF", "1", "Integer",
-     "CHIP VAF tier: 0=outside range, 1=0.5-10%, 2=1-3%"),
+     "CHIP VAF tier: 0=outside range, 1=0-10%, 2=1-3%"),
     ("CHIP_FRAG", "1", "Integer",
-     "CHIP fragment length flag: 1=alt reads significantly longer than ref or in hematopoietic range (>150 bp), "
-     "0=not flagged, missing if fewer than min_alt_reads supporting reads"),
+     "CHIP fragment length flag: 1=alt reads both above absolute length threshold (frag_abs_threshold) "
+     "and above length ratio relative to ref reads (frag_ratio_threshold), "
+     "0=not flagged, missing if fewer than min_alt_reads supporting reads or no ref reads"),
     ("CHIP_FRAG_ALT", "1", "Float",
      "Mean fragment length of alt-supporting reads"),
     ("CHIP_FRAG_REF", "1", "Float",
@@ -131,13 +132,12 @@ def chip_vaf_flag(rec):
         return 0
     if 0.01 <= af <= 0.03:
         return 2
-    if 0.005 <= af <= 0.10:
+    if af <= 0.10:
         return 1
     return 0
 
 
-def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_diff_threshold,
-                            frag_abs_threshold):
+def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold):
     alts = [a for a in rec.alts if a != "<NON_REF>"] if rec.alts else []
     if not alts:
         return None, None, None
@@ -152,9 +152,9 @@ def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_diff_threshold,
     alt_mean = float(np.mean(alt_lens))
     ref_mean = float(np.mean(ref_lens)) if ref_lens else None
 
-    diff_flag = ref_mean is not None and (alt_mean - ref_mean) > frag_diff_threshold
     abs_flag = alt_mean > frag_abs_threshold
-    chip_frag = 1 if (diff_flag or abs_flag) else 0
+    ratio_flag = ref_mean is not None and (alt_mean / ref_mean) > frag_ratio_threshold
+    chip_frag = 1 if (abs_flag and ratio_flag) else 0
     frag_alt_out = round(alt_mean, 1)
     frag_ref_out = round(ref_mean, 1) if ref_mean is not None else None
 
@@ -209,8 +209,8 @@ def main(snakemake):
     lof_genes = set(chip_genes.get("lof_chip_genes", []))
     missense_genes = set(chip_genes.get("missense_chip_genes", []))
     min_alt_reads = snakemake.params.min_alt_reads
-    frag_diff_threshold = snakemake.params.frag_diff_threshold
     frag_abs_threshold = snakemake.params.frag_abs_threshold
+    frag_ratio_threshold = snakemake.params.frag_ratio_threshold
 
     vcf_in = pysam.VariantFile(snakemake.input.vcf)
     bam = pysam.AlignmentFile(snakemake.input.bam, "rb")
@@ -259,7 +259,7 @@ def main(snakemake):
             )
             if prelim_score >= 3:
                 chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
-                    rec, bam, min_alt_reads, frag_diff_threshold, frag_abs_threshold
+                    rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold
                 )
             else:
                 chip_frag, frag_alt, frag_ref = None, None, None

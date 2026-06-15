@@ -22,8 +22,8 @@ rule chip_annotation:
         vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.vcf",
     params:
         min_alt_reads=config.get("chip_annotation", {}).get("min_alt_reads", 5),
-        frag_diff_threshold=config.get("chip_annotation", {}).get("frag_diff_threshold", 15),
         frag_abs_threshold=config.get("chip_annotation", {}).get("frag_abs_threshold", 150),
+        frag_ratio_threshold=config.get("chip_annotation", {}).get("frag_ratio_threshold", 1.1),
     log:
         "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.chip_annotated.vcf.log",
     benchmark:
