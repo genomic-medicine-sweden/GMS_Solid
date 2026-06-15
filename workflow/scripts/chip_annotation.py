@@ -122,12 +122,11 @@ def chip_gene_flag(rec, symbol_idx, major_genes, minor_genes):
 
 
 def chip_vaf_flag(rec):
-    sample = rec.samples[0]
-    if "AF" not in sample:
+    if "AF" not in rec.info:
         return 0
-    af = sample["AF"]
+    af = rec.info["AF"]
     if isinstance(af, (tuple, list)):
-        af = max((a for a in af[:-1] if a is not None), default=None)
+        af = af[0] if af else None
     if af is None:
         return 0
     if 0.01 <= af <= 0.03:

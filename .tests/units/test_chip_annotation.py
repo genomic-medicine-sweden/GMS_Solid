@@ -25,8 +25,8 @@ from chip_annotation import (  # noqa: E402
 _VCF_HEADER = (
     "##fileformat=VCFv4.2\n"
     '##INFO=<ID=CSQ,Number=.,Type=String,Description="VEP. Format: Allele|Consequence|SYMBOL">\n'
+    '##INFO=<ID=AF,Number=1,Type=Float,Description="Allele frequency">\n'
     "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n"
-    "##FORMAT=<ID=AF,Number=A,Type=Float,Description=\"Allele frequency\">\n"
     "##contig=<ID=chr2,length=243199373>\n"
     "##contig=<ID=chr17,length=81195210>\n"
     "##contig=<ID=chr7,length=159138663>\n"
@@ -150,13 +150,12 @@ class TestChipGeneFlag(unittest.TestCase):
 class TestChipVafFlag(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Two alts (real + dummy) so AF is a tuple; af[:-1] picks the first value
         path = _make_vcf([
-            "chr2\t1\t.\tC\tT,A\t.\t.\t.\tGT:AF\t0/1:0.02,0.0",   # 2% → tier 2
-            "chr2\t2\t.\tC\tT,A\t.\t.\t.\tGT:AF\t0/1:0.05,0.0",   # 5% → tier 1
-            "chr2\t3\t.\tC\tT,A\t.\t.\t.\tGT:AF\t0/1:0.20,0.0",   # 20% → tier 0
-            "chr2\t4\t.\tC\tT,A\t.\t.\t.\tGT:AF\t0/1:0.006,0.0",  # 0.6% → tier 1 (near lower boundary)
-            "chr2\t5\t.\tC\tT,A\t.\t.\t.\tGT\t0/1",               # no AF field → 0
+            "chr2\t1\t.\tC\tT\t.\t.\tAF=0.02\tGT\t0/1",   # 2% → tier 2
+            "chr2\t2\t.\tC\tT\t.\t.\tAF=0.05\tGT\t0/1",   # 5% → tier 1
+            "chr2\t3\t.\tC\tT\t.\t.\tAF=0.20\tGT\t0/1",   # 20% → tier 0
+            "chr2\t4\t.\tC\tT\t.\t.\tAF=0.006\tGT\t0/1",  # 0.6% → tier 1 (near lower boundary)
+            "chr2\t5\t.\tC\tT\t.\t.\t.\tGT\t0/1",         # no AF in INFO → 0
         ])
         cls._vcf = pysam.VariantFile(path)
         cls._recs = list(cls._vcf)
