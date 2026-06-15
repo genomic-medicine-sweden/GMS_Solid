@@ -257,7 +257,7 @@ def main(snakemake):
                 + min(chip_cosmic, 4)
                 + chip_consequence
             )
-            if prelim_score >= 4:
+            if prelim_score >= 3:
                 chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
                     rec, bam, min_alt_reads, frag_diff_threshold, frag_abs_threshold
                 )
