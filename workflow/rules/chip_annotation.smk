@@ -24,7 +24,6 @@ rule chip_annotation:
         min_alt_reads=config.get("chip_annotation", {}).get("min_alt_reads", 5),
         frag_diff_threshold=config.get("chip_annotation", {}).get("frag_diff_threshold", 15),
         frag_abs_threshold=config.get("chip_annotation", {}).get("frag_abs_threshold", 150),
-        sbs_min_ratio=config.get("chip_annotation", {}).get("sbs_min_ratio", 0.2),
     log:
         "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.chip_annotated.vcf.log",
     benchmark:
