@@ -109,3 +109,8 @@ filters:
     expression: "INFO:CALLERS:0 = gatk_mutect2"
     soft_filter_flag: "only_mutect2"
     soft_filter: "True"
+  chip_candidate:
+    description: "Soft filter variants with strong CHIP signal (CHIP_SCORE >= 5)"
+    expression: "(INFO:CHIP_SCORE >= 5)"
+    soft_filter_flag: "CHIP_candidate"
+    soft_filter: "True"
