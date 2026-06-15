@@ -15,7 +15,7 @@ LOF_CONSEQUENCES = frozenset({
 
 NEW_INFO = [
     ("CHIP_GENE", "1", "Integer",
-     "CHIP gene tier: 0=not CHIP gene, 1=minor CHIP gene, 2=major CHIP gene (DNMT3A/TET2/ASXL1/TP53)"),
+     "CHIP gene tier: 0=not CHIP gene, 1=minor CHIP gene, 2=major CHIP gene (DNMT3A/TET2/ASXL1)"),
     ("CHIP_VAF", "1", "Integer",
      "CHIP VAF tier: 0=outside range, 1=0.5-10%, 2=1-3%"),
     ("CHIP_FRAG", "1", "Integer",
@@ -31,12 +31,11 @@ NEW_INFO = [
      "Count of haematological tumour samples with this variant in COSMIC (0 if not found)"),
     ("CHIP_CONSEQUENCE", "1", "Integer",
      "1 if LoF consequence in a LoF-CHIP gene or missense in a missense-CHIP gene"),
-    ("CHIP_SBS", "1", "Integer",
-     "1 if alt-supporting reads show balanced strand representation (low strand bias), "
-     "missing if fewer than min_alt_reads supporting reads"),
     ("CHIP_SCORE", "1", "Integer",
-     "CHIP combined score (0-15): CHIP_GENE (0-2) + CHIP_VAF (0-2) + CHIP_FRAG (0-1) + "
-     "CHIP_HOTSPOT (0-4) + CHIP_COSMIC_HEMATO (0-4) + CHIP_CONSEQUENCE (0-1) + CHIP_SBS (0-1)"),
+     "CHIP combined score (0-10): CHIP_GENE (0-2) + CHIP_VAF (0-2) + CHIP_FRAG (0-1) + "
+     "CHIP_HOTSPOT (0-4) + CHIP_COSMIC_HEMATO (0-4) + CHIP_CONSEQUENCE (0-1). "
+     "CHIP_HOTSPOT and CHIP_COSMIC_HEMATO do not co-occur in practice (practical max ~10). "
+     "Filter threshold: >= 5"),
 ]
 
 
@@ -138,7 +137,7 @@ def chip_vaf_flag(rec):
 
 
 def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_diff_threshold,
-                            frag_abs_threshold, sbs_min_ratio):
+                            frag_abs_threshold):
     alts = [a for a in rec.alts if a != "<NON_REF>"] if rec.alts else []
     if not alts:
         return None, None, None, None
@@ -159,11 +158,7 @@ def chip_frag_and_sbs_flags(rec, bam, min_alt_reads, frag_diff_threshold,
     frag_alt_out = round(alt_mean, 1)
     frag_ref_out = round(ref_mean, 1) if ref_mean is not None else None
 
-    total_alt = alt_fwd + alt_rev
-    ratio = min(alt_fwd, alt_rev) / total_alt if total_alt > 0 else 0
-    chip_sbs = 1 if ratio >= sbs_min_ratio else 0
-
-    return chip_frag, frag_alt_out, frag_ref_out, chip_sbs
+    return chip_frag, frag_alt_out, frag_ref_out
 
 
 def chip_hotspot_flag(rec, hotspot_tabix):
@@ -216,7 +211,6 @@ def main(snakemake):
     min_alt_reads = snakemake.params.min_alt_reads
     frag_diff_threshold = snakemake.params.frag_diff_threshold
     frag_abs_threshold = snakemake.params.frag_abs_threshold
-    sbs_min_ratio = snakemake.params.sbs_min_ratio
 
     vcf_in = pysam.VariantFile(snakemake.input.vcf)
     bam = pysam.AlignmentFile(snakemake.input.bam, "rb")
@@ -247,8 +241,8 @@ def main(snakemake):
 
             chip_gene = chip_gene_flag(rec, symbol_idx, major_genes, minor_genes)
             chip_vaf = chip_vaf_flag(rec)
-            chip_frag, frag_alt, frag_ref, chip_sbs = chip_frag_and_sbs_flags(
-                rec, bam, min_alt_reads, frag_diff_threshold, frag_abs_threshold, sbs_min_ratio
+            chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
+                rec, bam, min_alt_reads, frag_diff_threshold, frag_abs_threshold
             )
             chip_hotspot = chip_hotspot_flag(rec, hotspot_tabix)
             chip_cosmic = chip_cosmic_hemato_flag(rec, cosmic_tabix)
@@ -263,7 +257,6 @@ def main(snakemake):
                 + min(chip_hotspot * 4, 4)
                 + min(chip_cosmic, 4)
                 + chip_consequence
-                + (chip_sbs if chip_sbs is not None else 0)
             )
 
             rec.info["CHIP_GENE"] = chip_gene
@@ -277,8 +270,6 @@ def main(snakemake):
             rec.info["CHIP_HOTSPOT"] = chip_hotspot
             rec.info["CHIP_COSMIC_HEMATO"] = chip_cosmic
             rec.info["CHIP_CONSEQUENCE"] = chip_consequence
-            if chip_sbs is not None:
-                rec.info["CHIP_SBS"] = chip_sbs
             rec.info["CHIP_SCORE"] = score
 
             vcf_out.write(rec)
