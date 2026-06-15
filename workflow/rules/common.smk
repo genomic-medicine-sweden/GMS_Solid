@@ -31,7 +31,7 @@ from hydra_genetics.utils.software_versions import touch_software_version_file
 from hydra_genetics.utils.software_versions import use_container
 
 
-hydra_min_version("3.3.0")
+hydra_min_version("4.1.0")
 
 min_version("7.13.0")
 
