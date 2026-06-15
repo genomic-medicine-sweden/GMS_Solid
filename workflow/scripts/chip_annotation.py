@@ -241,32 +241,36 @@ def main(snakemake):
 
             chip_gene = chip_gene_flag(rec, symbol_idx, major_genes, minor_genes)
             chip_vaf = chip_vaf_flag(rec)
-            chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
-                rec, bam, min_alt_reads, frag_diff_threshold, frag_abs_threshold
-            )
             chip_hotspot = chip_hotspot_flag(rec, hotspot_tabix)
             chip_cosmic = chip_cosmic_hemato_flag(rec, cosmic_tabix)
             chip_consequence = chip_consequence_flag(
                 rec, symbol_idx, consequence_idx, lof_genes, missense_genes
             )
 
-            score = (
+            # Only run the expensive BAM pileup if the preliminary score
+            # (without CHIP_FRAG) could reach the filter threshold of 5
+            # when CHIP_FRAG contributes its maximum of 1.
+            prelim_score = (
                 chip_gene
                 + chip_vaf
-                + (chip_frag if chip_frag is not None else 0)
                 + min(chip_hotspot * 4, 4)
                 + min(chip_cosmic, 4)
                 + chip_consequence
             )
+            if prelim_score >= 4:
+                chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
+                    rec, bam, min_alt_reads, frag_diff_threshold, frag_abs_threshold
+                )
+            else:
+                chip_frag, frag_alt, frag_ref = None, None, None
+
+            score = prelim_score + (chip_frag if chip_frag is not None else 0)
 
             rec.info["CHIP_GENE"] = chip_gene
             rec.info["CHIP_VAF"] = chip_vaf
-            if chip_frag is not None:
-                rec.info["CHIP_FRAG"] = chip_frag
-            if frag_alt is not None:
-                rec.info["CHIP_FRAG_ALT"] = frag_alt
-            if frag_ref is not None:
-                rec.info["CHIP_FRAG_REF"] = frag_ref
+            rec.info["CHIP_FRAG"] = chip_frag
+            rec.info["CHIP_FRAG_ALT"] = frag_alt
+            rec.info["CHIP_FRAG_REF"] = frag_ref
             rec.info["CHIP_HOTSPOT"] = chip_hotspot
             rec.info["CHIP_COSMIC_HEMATO"] = chip_cosmic
             rec.info["CHIP_CONSEQUENCE"] = chip_consequence
