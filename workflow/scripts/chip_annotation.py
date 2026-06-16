@@ -17,7 +17,8 @@ NEW_INFO = [
     ("CHIP_GENE", "1", "Integer",
      "CHIP gene tier: 0=not CHIP gene, 1=minor CHIP gene, 2=major CHIP gene (DNMT3A/TET2/ASXL1)"),
     ("CHIP_VAF", "1", "Integer",
-     "CHIP VAF tier: 0=outside range, 1=0-10%, 2=1-3%"),
+     "CHIP VAF tier: 0=outside range; 1=vaf_tier1_min to vaf_tier1_max (default 0-10%); "
+     "2=vaf_tier2_min to vaf_tier2_max (default 1-3%)"),
     ("CHIP_FRAG", "1", "Integer",
      "CHIP fragment length flag: 1=alt reads both above absolute length threshold (frag_abs_threshold) "
      "and above length ratio relative to ref reads (frag_ratio_threshold); "
@@ -123,7 +124,7 @@ def chip_gene_flag(rec, symbol_idx, major_genes, minor_genes):
     return best
 
 
-def chip_vaf_flag(rec):
+def chip_vaf_flag(rec, vaf_tier1_min, vaf_tier1_max, vaf_tier2_min, vaf_tier2_max):
     if "AF" not in rec.info:
         return 0
     af = rec.info["AF"]
@@ -131,9 +132,9 @@ def chip_vaf_flag(rec):
         af = af[0] if af else None
     if af is None:
         return 0
-    if 0.01 <= af <= 0.03:
+    if vaf_tier2_min <= af <= vaf_tier2_max:
         return 2
-    if af <= 0.10:
+    if vaf_tier1_min <= af <= vaf_tier1_max:
         return 1
     return 0
 
@@ -224,6 +225,10 @@ def main(snakemake):
     frag_ratio_threshold = snakemake.params.frag_ratio_threshold
     frag_short_threshold = snakemake.params.frag_short_threshold
     cosmic_min_count = snakemake.params.cosmic_min_count
+    vaf_tier1_min = snakemake.params.vaf_tier1_min
+    vaf_tier1_max = snakemake.params.vaf_tier1_max
+    vaf_tier2_min = snakemake.params.vaf_tier2_min
+    vaf_tier2_max = snakemake.params.vaf_tier2_max
 
     vcf_in = pysam.VariantFile(snakemake.input.vcf)
     bam = pysam.AlignmentFile(snakemake.input.bam, "rb")
@@ -253,7 +258,7 @@ def main(snakemake):
                 continue
 
             chip_gene = chip_gene_flag(rec, symbol_idx, major_genes, minor_genes)
-            chip_vaf = chip_vaf_flag(rec)
+            chip_vaf = chip_vaf_flag(rec, vaf_tier1_min, vaf_tier1_max, vaf_tier2_min, vaf_tier2_max)
             chip_hotspot = chip_hotspot_flag(rec, hotspot_tabix)
             chip_cosmic = chip_cosmic_hemato_flag(rec, cosmic_tabix, symbol_idx, cosmic_exclude_genes, cosmic_min_count)
             chip_consequence = chip_consequence_flag(

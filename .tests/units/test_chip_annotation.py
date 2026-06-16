@@ -165,20 +165,27 @@ class TestChipVafFlag(unittest.TestCase):
     def tearDownClass(cls):
         cls._vcf.close()
 
+    def _call(self, rec, t1min=0.0, t1max=0.10, t2min=0.01, t2max=0.03):
+        return chip_vaf_flag(rec, t1min, t1max, t2min, t2max)
+
     def test_tier2_range(self):
-        self.assertEqual(chip_vaf_flag(self._recs[0]), 2)
+        self.assertEqual(self._call(self._recs[0]), 2)
 
     def test_tier1_range(self):
-        self.assertEqual(chip_vaf_flag(self._recs[1]), 1)
+        self.assertEqual(self._call(self._recs[1]), 1)
 
     def test_too_high(self):
-        self.assertEqual(chip_vaf_flag(self._recs[2]), 0)
+        self.assertEqual(self._call(self._recs[2]), 0)
 
     def test_lower_boundary_tier1(self):
-        self.assertEqual(chip_vaf_flag(self._recs[3]), 1)
+        self.assertEqual(self._call(self._recs[3]), 1)
 
     def test_no_af_field(self):
-        self.assertEqual(chip_vaf_flag(self._recs[4]), 0)
+        self.assertEqual(self._call(self._recs[4]), 0)
+
+    def test_tier1_min_excludes_below(self):
+        # With tier1_min=0.008, AF=0.006 is below the minimum → tier 0
+        self.assertEqual(self._call(self._recs[3], t1min=0.008), 0)
 
 
 class TestChipFragFlag(unittest.TestCase):

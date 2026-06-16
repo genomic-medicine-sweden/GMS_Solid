@@ -710,13 +710,31 @@ properties:
         description: bgzipped+tabix VCF of COSMIC haematological SNVs (CNT>=10)
       min_alt_reads:
         type: integer
-        description: minimum alt-supporting reads for fragment length analysis (default 5)
-      frag_diff_threshold:
-        type: number
-        description: minimum alt-ref fragment length difference to flag as CHIP (default 15 bp)
+        description: minimum alt-supporting reads required for fragment length analysis (default 5)
       frag_abs_threshold:
         type: number
-        description: minimum absolute alt fragment length to flag as hematopoietic origin (default 150 bp)
+        description: minimum mean alt fragment length (bp) to flag as hematopoietic origin (default 150)
+      frag_ratio_threshold:
+        type: number
+        description: minimum ratio of alt/ref mean fragment length to flag as hematopoietic (default 1.1)
+      frag_short_threshold:
+        type: number
+        description: mean alt fragment length (bp) below which CHIP_FRAG=-1 (tumour-like, default 145)
+      cosmic_min_count:
+        type: integer
+        description: minimum COSMIC haematological CNT to contribute to score at runtime (default 20)
+      vaf_tier1_min:
+        type: number
+        description: minimum AF for CHIP_VAF tier 1 (default 0.0)
+      vaf_tier1_max:
+        type: number
+        description: maximum AF for CHIP_VAF tier 1 (default 0.10)
+      vaf_tier2_min:
+        type: number
+        description: minimum AF for CHIP_VAF tier 2 (default 0.01)
+      vaf_tier2_max:
+        type: number
+        description: maximum AF for CHIP_VAF tier 2 (default 0.03)
       container:
         type: string
         description: container for the chip_annotation rule

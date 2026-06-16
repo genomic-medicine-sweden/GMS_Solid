@@ -65,6 +65,17 @@ call_small_cnv_amplifications:
   min_nr_stdev_diff: 8
   min_log_odds_diff: 0.4
 
+chip_annotation:
+  min_alt_reads: 5
+  frag_abs_threshold: 150
+  frag_ratio_threshold: 1.1
+  frag_short_threshold: 145
+  cosmic_min_count: 20
+  vaf_tier1_min: 0.0
+  vaf_tier1_max: 0.10
+  vaf_tier2_min: 0.01
+  vaf_tier2_max: 0.03
+
 cnvkit_batch:
   container: "docker://hydragenetics/cnvkit:0.9.11"
   extra: "--drop-low-coverage"

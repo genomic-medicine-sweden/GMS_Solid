@@ -26,6 +26,10 @@ rule chip_annotation:
         frag_ratio_threshold=config.get("chip_annotation", {}).get("frag_ratio_threshold", 1.1),
         frag_short_threshold=config.get("chip_annotation", {}).get("frag_short_threshold", 145),
         cosmic_min_count=config.get("chip_annotation", {}).get("cosmic_min_count", 20),
+        vaf_tier1_min=config.get("chip_annotation", {}).get("vaf_tier1_min", 0.0),
+        vaf_tier1_max=config.get("chip_annotation", {}).get("vaf_tier1_max", 0.10),
+        vaf_tier2_min=config.get("chip_annotation", {}).get("vaf_tier2_min", 0.01),
+        vaf_tier2_max=config.get("chip_annotation", {}).get("vaf_tier2_max", 0.03),
     log:
         "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.chip_annotated.vcf.log",
     benchmark:

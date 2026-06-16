@@ -5,7 +5,7 @@
      checksum: 4e99d06b06a526349a9f37546697ca43
      path: chip/chip_genes.yaml
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.0/chip/chip_genes.yaml
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.1/chip/chip_genes.yaml
    cosmic_hemato:
      checksum: e3634d1673f628fbadc5951695fe0818
      path: chip/cosmic97_hemato_hg19_20260611.vcf.gz
