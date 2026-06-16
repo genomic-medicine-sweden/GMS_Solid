@@ -25,6 +25,7 @@ rule chip_annotation:
         frag_abs_threshold=config.get("chip_annotation", {}).get("frag_abs_threshold", 150),
         frag_ratio_threshold=config.get("chip_annotation", {}).get("frag_ratio_threshold", 1.1),
         frag_short_threshold=config.get("chip_annotation", {}).get("frag_short_threshold", 145),
+        cosmic_min_count=config.get("chip_annotation", {}).get("cosmic_min_count", 20),
     log:
         "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.chip_annotated.vcf.log",
     benchmark:

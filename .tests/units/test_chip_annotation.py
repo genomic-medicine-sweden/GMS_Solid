@@ -276,9 +276,14 @@ class TestChipHotspotFlag(unittest.TestCase):
 class TestChipCosmicHematoFlag(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        path = _make_vcf(["chr2\t100\t.\tC\tT\t.\t.\t.\tGT\t0/1"])
+        path = _make_vcf([
+            "chr2\t100\t.\tC\tT\t.\t.\tCSQ=T|missense_variant|DNMT3A\tGT\t0/1",
+            "chr17\t100\t.\tC\tT\t.\t.\tCSQ=T|missense_variant|TP53\tGT\t0/1",
+        ])
         cls._vcf = pysam.VariantFile(path)
-        cls._rec = list(cls._vcf)[0]
+        recs = list(cls._vcf)
+        cls._rec_dnmt3a = recs[0]
+        cls._rec_tp53 = recs[1]
         os.unlink(path)
 
     @classmethod
@@ -288,20 +293,40 @@ class TestChipCosmicHematoFlag(unittest.TestCase):
     def test_cnt_returned(self):
         tabix = MagicMock()
         tabix.fetch.return_value = iter(["chr2\t100\t.\tC\tT\t.\t.\tCNT=42"])
-        self.assertEqual(chip_cosmic_hemato_flag(self._rec, tabix), 42)
+        self.assertEqual(chip_cosmic_hemato_flag(self._rec_dnmt3a, tabix, SYMBOL_IDX, set(), 20), 42)
 
-    def test_no_cnt_field_returns_1(self):
+    def test_cnt_below_min_returns_0(self):
+        tabix = MagicMock()
+        tabix.fetch.return_value = iter(["chr2\t100\t.\tC\tT\t.\t.\tCNT=12"])
+        self.assertEqual(chip_cosmic_hemato_flag(self._rec_dnmt3a, tabix, SYMBOL_IDX, set(), 20), 0)
+
+    def test_cnt_at_min_returned(self):
+        tabix = MagicMock()
+        tabix.fetch.return_value = iter(["chr2\t100\t.\tC\tT\t.\t.\tCNT=20"])
+        self.assertEqual(chip_cosmic_hemato_flag(self._rec_dnmt3a, tabix, SYMBOL_IDX, set(), 20), 20)
+
+    def test_no_cnt_field_returns_0(self):
         tabix = MagicMock()
         tabix.fetch.return_value = iter(["chr2\t100\t.\tC\tT\t.\t.\tGENE=DNMT3A"])
-        self.assertEqual(chip_cosmic_hemato_flag(self._rec, tabix), 1)
+        self.assertEqual(chip_cosmic_hemato_flag(self._rec_dnmt3a, tabix, SYMBOL_IDX, set(), 20), 0)
 
     def test_not_found_returns_0(self):
         tabix = MagicMock()
         tabix.fetch.return_value = iter([])
-        self.assertEqual(chip_cosmic_hemato_flag(self._rec, tabix), 0)
+        self.assertEqual(chip_cosmic_hemato_flag(self._rec_dnmt3a, tabix, SYMBOL_IDX, set(), 20), 0)
 
     def test_cosmic_tabix_none(self):
-        self.assertEqual(chip_cosmic_hemato_flag(self._rec, None), 0)
+        self.assertEqual(chip_cosmic_hemato_flag(self._rec_dnmt3a, None, SYMBOL_IDX, set(), 20), 0)
+
+    def test_excluded_gene_returns_0(self):
+        tabix = MagicMock()
+        tabix.fetch.return_value = iter(["chr17\t100\t.\tC\tT\t.\t.\tCNT=456"])
+        self.assertEqual(chip_cosmic_hemato_flag(self._rec_tp53, tabix, SYMBOL_IDX, {"TP53"}, 20), 0)
+
+    def test_excluded_gene_not_queried(self):
+        tabix = MagicMock()
+        chip_cosmic_hemato_flag(self._rec_tp53, tabix, SYMBOL_IDX, {"TP53"}, 20)
+        tabix.fetch.assert_not_called()
 
 
 class TestChipConsequenceFlag(unittest.TestCase):

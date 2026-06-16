@@ -26,3 +26,6 @@ missense_chip_genes:
   - "GNB1"
   - "SF3B1"
   - "DNMT3A"
+
+cosmic_exclude_genes:
+  - "TP53"

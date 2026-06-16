@@ -2,7 +2,7 @@
 
  chip_annotation:
    chip_genes:
-     checksum: b96dd099faec6974823e65a3d1402c37
+     checksum: 4e99d06b06a526349a9f37546697ca43
      path: chip/chip_genes.yaml
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.0/chip/chip_genes.yaml

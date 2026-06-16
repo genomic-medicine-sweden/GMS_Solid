@@ -172,20 +172,26 @@ def chip_hotspot_flag(rec, hotspot_tabix):
     return 1 if lookup_tabix_vcf(hotspot_tabix, rec.contig, rec.pos, rec.ref, alts[0]) is not None else 0
 
 
-def chip_cosmic_hemato_flag(rec, cosmic_tabix):
+def chip_cosmic_hemato_flag(rec, cosmic_tabix, symbol_idx, cosmic_exclude_genes, cosmic_min_count):
     alts = [a for a in rec.alts if a != "<NON_REF>"] if rec.alts else []
     if not alts or cosmic_tabix is None:
         return 0
+    if cosmic_exclude_genes and symbol_idx is not None and "CSQ" in rec.info:
+        for csq in rec.info["CSQ"]:
+            parts = csq.split("|")
+            if len(parts) > symbol_idx and parts[symbol_idx] in cosmic_exclude_genes:
+                return 0
     info_str = lookup_tabix_vcf(cosmic_tabix, rec.contig, rec.pos, rec.ref, alts[0])
     if info_str is None:
         return 0
     for field in info_str.split(";"):
         if field.startswith("CNT="):
             try:
-                return int(field[4:])
+                cnt = int(field[4:])
+                return cnt if cnt >= cosmic_min_count else 0
             except ValueError:
                 pass
-    return 1
+    return 0
 
 
 def chip_consequence_flag(rec, symbol_idx, consequence_idx, lof_genes, missense_genes):
@@ -212,10 +218,13 @@ def main(snakemake):
     minor_genes = set(chip_genes.get("minor_chip_genes", []))
     lof_genes = set(chip_genes.get("lof_chip_genes", []))
     missense_genes = set(chip_genes.get("missense_chip_genes", []))
+    cosmic_exclude_genes = set(chip_genes.get("cosmic_exclude_genes", []))
     min_alt_reads = snakemake.params.min_alt_reads
     frag_abs_threshold = snakemake.params.frag_abs_threshold
     frag_ratio_threshold = snakemake.params.frag_ratio_threshold
     frag_short_threshold = snakemake.params.frag_short_threshold
+    cosmic_min_count = snakemake.params.cosmic_min_count
+
 
     vcf_in = pysam.VariantFile(snakemake.input.vcf)
     bam = pysam.AlignmentFile(snakemake.input.bam, "rb")
@@ -247,7 +256,7 @@ def main(snakemake):
             chip_gene = chip_gene_flag(rec, symbol_idx, major_genes, minor_genes)
             chip_vaf = chip_vaf_flag(rec)
             chip_hotspot = chip_hotspot_flag(rec, hotspot_tabix)
-            chip_cosmic = chip_cosmic_hemato_flag(rec, cosmic_tabix)
+            chip_cosmic = chip_cosmic_hemato_flag(rec, cosmic_tabix, symbol_idx, cosmic_exclude_genes, cosmic_min_count)
             chip_consequence = chip_consequence_flag(
                 rec, symbol_idx, consequence_idx, lof_genes, missense_genes
             )
