@@ -225,7 +225,6 @@ def main(snakemake):
     frag_short_threshold = snakemake.params.frag_short_threshold
     cosmic_min_count = snakemake.params.cosmic_min_count
 
-
     vcf_in = pysam.VariantFile(snakemake.input.vcf)
     bam = pysam.AlignmentFile(snakemake.input.bam, "rb")
 
