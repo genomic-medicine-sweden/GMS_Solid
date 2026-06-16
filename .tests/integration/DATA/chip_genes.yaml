@@ -29,3 +29,6 @@ missense_chip_genes:
 
 cosmic_exclude_genes:
   - "TP53"
+
+clonal_context_genes:
+  - "TP53"

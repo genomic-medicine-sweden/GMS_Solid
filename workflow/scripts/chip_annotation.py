@@ -34,12 +34,14 @@ NEW_INFO = [
      "Count of haematological tumour samples with this variant in COSMIC (0 if not found)"),
     ("CHIP_CONSEQUENCE", "1", "Integer",
      "1 if LoF consequence in a LoF-CHIP gene or missense in a missense-CHIP gene"),
+    ("CHIP_SAME_CLONE", "1", "Integer",
+     "1 if this variant is in a clonal_context_gene (e.g. TP53) and co-occurs in this sample "
+     "with a CHIP-gene variant at a similar VAF (within vaf_clonal_tolerance), "
+     "indicating evidence of a shared haematopoietic clone. Contributes 3 to CHIP_SCORE."),
     ("CHIP_SCORE", "1", "Integer",
-     "CHIP combined score: CHIP_GENE (0-2) + CHIP_VAF (0-2) + CHIP_FRAG (0-1) + "
-     "CHIP_HOTSPOT (0-4) + CHIP_COSMIC_HEMATO (0-4) + CHIP_CONSEQUENCE (0-1). "
-     "Theoretical max 14; practical max ~11 as CHIP_HOTSPOT and CHIP_COSMIC_HEMATO "
-     "co-occur at well-known CHIP loci (e.g. DNMT3A R882). "
-     "Filter threshold: >= 5"),
+     "CHIP combined score: CHIP_GENE (0-2) + CHIP_VAF (0-2) + CHIP_FRAG (-1/0/1) + "
+     "min(CHIP_HOTSPOT*4, 4) + min(CHIP_COSMIC_HEMATO, 4) + CHIP_CONSEQUENCE (0-1) + "
+     "CHIP_SAME_CLONE*3. Filter threshold: >= 5"),
 ]
 
 
@@ -212,6 +214,38 @@ def chip_consequence_flag(rec, symbol_idx, consequence_idx, lof_genes, missense_
     return 0
 
 
+def get_af(rec):
+    """Return raw AF from INFO field, or None if absent."""
+    if "AF" not in rec.info:
+        return None
+    af = rec.info["AF"]
+    if isinstance(af, (tuple, list)):
+        af = af[0] if af else None
+    return af
+
+
+def is_in_gene_set(rec, symbol_idx, gene_set):
+    """Return True if any CSQ transcript for this record has SYMBOL in gene_set."""
+    if not gene_set or symbol_idx is None or "CSQ" not in rec.info:
+        return False
+    for csq in rec.info["CSQ"]:
+        parts = csq.split("|")
+        if len(parts) > symbol_idx and parts[symbol_idx] in gene_set:
+            return True
+    return False
+
+
+def chip_same_clone_flag(vaf, chip_partners, tolerance):
+    """Return 1 if a CHIP-gene variant exists at a similar VAF (shared clone evidence)."""
+    if vaf is None or vaf <= 0:
+        return 0
+    for partner_vaf, _ in chip_partners:
+        if partner_vaf is not None and partner_vaf > 0:
+            if abs(vaf - partner_vaf) / max(vaf, partner_vaf) <= tolerance:
+                return 1
+    return 0
+
+
 def main(snakemake):
     with open(snakemake.input.chip_genes_file) as fh:
         chip_genes = yaml.safe_load(fh)
@@ -220,6 +254,7 @@ def main(snakemake):
     lof_genes = set(chip_genes.get("lof_chip_genes", []))
     missense_genes = set(chip_genes.get("missense_chip_genes", []))
     cosmic_exclude_genes = set(chip_genes.get("cosmic_exclude_genes", []))
+    clonal_context_genes = set(chip_genes.get("clonal_context_genes", []))
     min_alt_reads = snakemake.params.min_alt_reads
     frag_abs_threshold = snakemake.params.frag_abs_threshold
     frag_ratio_threshold = snakemake.params.frag_ratio_threshold
@@ -229,6 +264,8 @@ def main(snakemake):
     vaf_tier1_max = snakemake.params.vaf_tier1_max
     vaf_tier2_min = snakemake.params.vaf_tier2_min
     vaf_tier2_max = snakemake.params.vaf_tier2_max
+    vaf_clonal_tolerance = snakemake.params.vaf_clonal_tolerance
+    chip_partner_min_score = snakemake.params.chip_partner_min_score
 
     vcf_in = pysam.VariantFile(snakemake.input.vcf)
     bam = pysam.AlignmentFile(snakemake.input.bam, "rb")
@@ -251,48 +288,75 @@ def main(snakemake):
     symbol_idx = get_vep_field_index(vcf_in.header, "SYMBOL")
     consequence_idx = get_vep_field_index(vcf_in.header, "Consequence")
 
+    # --- Pass 1: annotate all records, collect CHIP-gene variants for same-clone check ---
+    records = []  # (rec, is_non_ref, raw_vaf, chip_gene, in_clonal_context)
+
+    for rec in vcf_in:
+        if rec.alts and all(a == "<NON_REF>" for a in rec.alts):
+            records.append((rec, True, None, 0, False, 0))
+            continue
+
+        raw_vaf = get_af(rec)
+        in_clonal_context = is_in_gene_set(rec, symbol_idx, clonal_context_genes)
+        chip_gene = chip_gene_flag(rec, symbol_idx, major_genes, minor_genes)
+        chip_vaf = chip_vaf_flag(rec, vaf_tier1_min, vaf_tier1_max, vaf_tier2_min, vaf_tier2_max)
+        chip_hotspot = chip_hotspot_flag(rec, hotspot_tabix)
+        chip_cosmic = chip_cosmic_hemato_flag(rec, cosmic_tabix, symbol_idx, cosmic_exclude_genes, cosmic_min_count)
+        chip_consequence = chip_consequence_flag(rec, symbol_idx, consequence_idx, lof_genes, missense_genes)
+
+        prelim_score = (
+            chip_gene
+            + chip_vaf
+            + min(chip_hotspot * 4, 4)
+            + min(chip_cosmic, 4)
+            + chip_consequence
+        )
+        # Run pileup if prelim_score is high enough OR variant is in a clonal_context_gene
+        # (e.g. TP53) so CHIP_FRAG is always available for same-clone candidates.
+        if prelim_score >= 3 or in_clonal_context:
+            chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
+                rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold, frag_short_threshold
+            )
+        else:
+            chip_frag, frag_alt, frag_ref = None, None, None
+
+        score = prelim_score + (chip_frag if chip_frag is not None else 0)
+
+        rec.info["CHIP_GENE"] = chip_gene
+        rec.info["CHIP_VAF"] = chip_vaf
+        rec.info["CHIP_FRAG"] = chip_frag
+        rec.info["CHIP_FRAG_ALT"] = frag_alt
+        rec.info["CHIP_FRAG_REF"] = frag_ref
+        rec.info["CHIP_HOTSPOT"] = chip_hotspot
+        rec.info["CHIP_COSMIC_HEMATO"] = chip_cosmic
+        rec.info["CHIP_CONSEQUENCE"] = chip_consequence
+        rec.info["CHIP_SAME_CLONE"] = 0  # updated in pass 2
+        rec.info["CHIP_SCORE"] = score   # updated in pass 2
+
+        records.append((rec, False, raw_vaf, chip_gene, in_clonal_context, score))
+
+    bam.close()
+
+    # Build partner list: only confirmed CHIP_candidates (score >= chip_partner_min_score)
+    # with CHIP_GENE > 0 and a valid VAF. Using only high-confidence CHIP variants as
+    # evidence prevents noise-floor variants from triggering the same-clone flag.
+    chip_partners = [
+        (vaf, gene) for _, is_nr, vaf, gene, _, sc in records
+        if not is_nr and gene > 0 and sc >= chip_partner_min_score
+        and vaf is not None and vaf > 0
+    ]
+
+    # --- Pass 2: compute same-clone flag and write output ---
     with pysam.VariantFile(snakemake.output.vcf, "w", header=vcf_in.header) as vcf_out:
-        for rec in vcf_in:
-            if rec.alts and all(a == "<NON_REF>" for a in rec.alts):
+        for rec, is_non_ref, raw_vaf, chip_gene, in_clonal_context, _ in records:
+            if is_non_ref:
                 vcf_out.write(rec)
                 continue
 
-            chip_gene = chip_gene_flag(rec, symbol_idx, major_genes, minor_genes)
-            chip_vaf = chip_vaf_flag(rec, vaf_tier1_min, vaf_tier1_max, vaf_tier2_min, vaf_tier2_max)
-            chip_hotspot = chip_hotspot_flag(rec, hotspot_tabix)
-            chip_cosmic = chip_cosmic_hemato_flag(rec, cosmic_tabix, symbol_idx, cosmic_exclude_genes, cosmic_min_count)
-            chip_consequence = chip_consequence_flag(
-                rec, symbol_idx, consequence_idx, lof_genes, missense_genes
-            )
-
-            # Only run the expensive BAM pileup if the preliminary score
-            # (without CHIP_FRAG) could reach the filter threshold of 5
-            # when CHIP_FRAG contributes its maximum of 1.
-            prelim_score = (
-                chip_gene
-                + chip_vaf
-                + min(chip_hotspot * 4, 4)
-                + min(chip_cosmic, 4)
-                + chip_consequence
-            )
-            if prelim_score >= 3:
-                chip_frag, frag_alt, frag_ref = chip_frag_and_sbs_flags(
-                    rec, bam, min_alt_reads, frag_abs_threshold, frag_ratio_threshold, frag_short_threshold
-                )
-            else:
-                chip_frag, frag_alt, frag_ref = None, None, None
-
-            score = prelim_score + (chip_frag if chip_frag is not None else 0)
-
-            rec.info["CHIP_GENE"] = chip_gene
-            rec.info["CHIP_VAF"] = chip_vaf
-            rec.info["CHIP_FRAG"] = chip_frag
-            rec.info["CHIP_FRAG_ALT"] = frag_alt
-            rec.info["CHIP_FRAG_REF"] = frag_ref
-            rec.info["CHIP_HOTSPOT"] = chip_hotspot
-            rec.info["CHIP_COSMIC_HEMATO"] = chip_cosmic
-            rec.info["CHIP_CONSEQUENCE"] = chip_consequence
-            rec.info["CHIP_SCORE"] = score
+            same_clone = chip_same_clone_flag(raw_vaf, chip_partners, vaf_clonal_tolerance) \
+                if in_clonal_context else 0
+            rec.info["CHIP_SAME_CLONE"] = same_clone
+            rec.info["CHIP_SCORE"] = rec.info["CHIP_SCORE"] + same_clone * 3
 
             vcf_out.write(rec)
 

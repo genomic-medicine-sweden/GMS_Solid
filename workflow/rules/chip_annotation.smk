@@ -30,6 +30,8 @@ rule chip_annotation:
         vaf_tier1_max=config.get("chip_annotation", {}).get("vaf_tier1_max", 0.10),
         vaf_tier2_min=config.get("chip_annotation", {}).get("vaf_tier2_min", 0.01),
         vaf_tier2_max=config.get("chip_annotation", {}).get("vaf_tier2_max", 0.03),
+        vaf_clonal_tolerance=config.get("chip_annotation", {}).get("vaf_clonal_tolerance", 0.5),
+        chip_partner_min_score=config.get("chip_annotation", {}).get("chip_partner_min_score", 5),
     log:
         "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.chip_annotated.vcf.log",
     benchmark:

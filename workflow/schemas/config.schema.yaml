@@ -735,6 +735,12 @@ properties:
       vaf_tier2_max:
         type: number
         description: maximum AF for CHIP_VAF tier 2 (default 0.03)
+      vaf_clonal_tolerance:
+        type: number
+        description: relative VAF tolerance for CHIP_SAME_CLONE matching (default 0.5, i.e. within 50%)
+      chip_partner_min_score:
+        type: integer
+        description: minimum CHIP_SCORE for a variant to qualify as a same-clone partner (default 5)
       container:
         type: string
         description: container for the chip_annotation rule

@@ -26,7 +26,8 @@ The annotation is only applied in **ctDNA mode** (UMI deduplication).
 | `CHIP_HOTSPOT` | 0/1 | 1 = variant found in Bick et al. 2020 CHIP population data (contributes 4 to score) |
 | `CHIP_COSMIC_HEMATO` | 0–N | Count of haematological tumour samples in COSMIC v97 with this variant (capped at 4 in score; 0 if below cosmic_min_count or excluded gene) |
 | `CHIP_CONSEQUENCE` | 0/1 | 1 = LoF in a LoF-CHIP gene or missense in a missense-CHIP gene |
-| `CHIP_SCORE` | integer | Combined score; practical max ~11; filter threshold ≥5 |
+| `CHIP_SAME_CLONE` | 0/1 | 1 = variant is in a `clonal_context_gene` (e.g. TP53) AND a CHIP-gene variant exists in the same sample at a similar VAF, indicating a shared haematopoietic clone; contributes 3 to score |
+| `CHIP_SCORE` | integer | Combined score; filter threshold ≥5 |
 
 ## Scoring
 
@@ -37,10 +38,18 @@ CHIP_SCORE = CHIP_GENE (0-2)
            + min(CHIP_HOTSPOT × 4, 4)
            + min(CHIP_COSMIC_HEMATO, 4)
            + CHIP_CONSEQUENCE (0-1)
+           + CHIP_SAME_CLONE × 3
 ```
 
-CHIP_HOTSPOT and CHIP_COSMIC_HEMATO co-occur at well-known loci (e.g. DNMT3A R882),
-giving a practical maximum of ~11. The filter threshold is ≥5.
+`CHIP_SAME_CLONE` is computed in a second pass. It applies **only** to genes
+listed in `clonal_context_genes` (default: TP53) — genes that are CHIP-relevant
+but excluded from the standard gene tier scoring because they also occur commonly
+as solid tumour drivers. When such a variant co-occurs with a CHIP-gene mutation
+at a similar VAF, the shared clone is strong evidence of CHIP origin.
+
+A VAF match is `|VAF_a − VAF_b| / max(VAF_a, VAF_b) ≤ vaf_clonal_tolerance`
+(default 0.5). CHIP_FRAG is always computed for `clonal_context_genes` variants
+regardless of preliminary score. The filter threshold is ≥5.
 
 ## Reference Data
 
@@ -51,8 +60,7 @@ Curated lists of CHIP genes split into tiers:
 - **Minor genes** (CHIP_GENE=1): JAK2, SF3B1, PPM1D, CBL, GNB1, BCOR, SRSF2
 - **LoF-CHIP genes** (for CHIP_CONSEQUENCE): DNMT3A, TET2, ASXL1, BCOR, CBL, PPM1D, SRSF2
 - **Missense-CHIP genes** (for CHIP_CONSEQUENCE): JAK2, GNB1, SF3B1, DNMT3A
-- **COSMIC exclude genes**: TP53 (excluded because TP53 mutations are common in all
-  haematological cancers, not specifically in CHIP)
+- **COSMIC exclude genes**: TP53 (excluded because TP53 mutations are common in all cancers, not specifically in CHIP)
 
 Source: `Twist_Solid_pipeline_files/chip/chip_genes.yaml`
 
@@ -92,3 +100,4 @@ All parameters are set under `chip_annotation:` in the pipeline config.
 | `vaf_tier1_max` | 0.10 | Maximum AF for CHIP_VAF tier 1 |
 | `vaf_tier2_min` | 0.01 | Minimum AF for CHIP_VAF tier 2 |
 | `vaf_tier2_max` | 0.03 | Maximum AF for CHIP_VAF tier 2 |
+| `vaf_clonal_tolerance` | 0.5 | Relative VAF tolerance for CHIP_SAME_CLONE matching |

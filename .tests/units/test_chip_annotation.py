@@ -18,6 +18,9 @@ from chip_annotation import (  # noqa: E402
     chip_frag_and_sbs_flags,
     chip_hotspot_flag,
     chip_cosmic_hemato_flag,
+    get_af,
+    chip_same_clone_flag,
+    is_in_gene_set,
     chip_consequence_flag,
 )
 
@@ -383,6 +386,83 @@ class TestChipConsequenceFlag(unittest.TestCase):
 
     def test_consequence_idx_none(self):
         self.assertEqual(chip_consequence_flag(self._recs[0], SYMBOL_IDX, None, LOF_GENES, MISSENSE_GENES), 0)
+
+
+class TestGetAf(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        path = _make_vcf([
+            "chr2\t1\t.\tC\tT\t.\t.\tAF=0.05\tGT\t0/1",
+            "chr2\t2\t.\tC\tT\t.\t.\t.\tGT\t0/1",
+        ])
+        cls._vcf = pysam.VariantFile(path)
+        cls._recs = list(cls._vcf)
+        os.unlink(path)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._vcf.close()
+
+    def test_returns_af(self):
+        self.assertAlmostEqual(get_af(self._recs[0]), 0.05, places=4)
+
+    def test_missing_returns_none(self):
+        self.assertIsNone(get_af(self._recs[1]))
+
+
+class TestIsInGeneSet(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        path = _make_vcf([
+            "chr17\t100\t.\tC\tT\t.\t.\tCSQ=T|missense_variant|TP53\tGT\t0/1",
+            "chr2\t100\t.\tC\tT\t.\t.\tCSQ=T|missense_variant|DNMT3A\tGT\t0/1",
+            "chr2\t101\t.\tC\tT\t.\t.\t.\tGT\t0/1",
+        ])
+        cls._vcf = pysam.VariantFile(path)
+        cls._recs = list(cls._vcf)
+        os.unlink(path)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._vcf.close()
+
+    def test_gene_in_set(self):
+        self.assertTrue(is_in_gene_set(self._recs[0], SYMBOL_IDX, {"TP53"}))
+
+    def test_gene_not_in_set(self):
+        self.assertFalse(is_in_gene_set(self._recs[1], SYMBOL_IDX, {"TP53"}))
+
+    def test_no_csq(self):
+        self.assertFalse(is_in_gene_set(self._recs[2], SYMBOL_IDX, {"TP53"}))
+
+    def test_empty_gene_set(self):
+        self.assertFalse(is_in_gene_set(self._recs[0], SYMBOL_IDX, set()))
+
+
+class TestChipSameCloneFlag(unittest.TestCase):
+    def _partners(self, vafs):
+        return [(v, 1) for v in vafs]
+
+    def test_partner_within_tolerance(self):
+        # vaf=0.026, partner=0.022 → diff/max=0.004/0.026=0.15 ≤ 0.5
+        self.assertEqual(chip_same_clone_flag(0.026, self._partners([0.022]), 0.5), 1)
+
+    def test_partner_outside_tolerance(self):
+        # vaf=0.003, partner=0.235 → mismatch
+        self.assertEqual(chip_same_clone_flag(0.003, self._partners([0.235]), 0.5), 0)
+
+    def test_no_partners(self):
+        self.assertEqual(chip_same_clone_flag(0.02, [], 0.5), 0)
+
+    def test_first_match_returns_1(self):
+        # Binary: multiple matches still return 1
+        self.assertEqual(chip_same_clone_flag(0.001, self._partners([0.001, 0.001, 0.001]), 0.5), 1)
+
+    def test_none_vaf_returns_0(self):
+        self.assertEqual(chip_same_clone_flag(None, self._partners([0.02]), 0.5), 0)
+
+    def test_zero_vaf_returns_0(self):
+        self.assertEqual(chip_same_clone_flag(0.0, self._partners([0.02]), 0.5), 0)
 
 
 if __name__ == "__main__":
