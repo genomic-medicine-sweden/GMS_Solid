@@ -1,3 +1,6 @@
+samtools_sort:
+  extra: "--template-coordinate"
+
 default_resources:
   threads: 1
   time: "12:00:00"
