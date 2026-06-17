@@ -4,6 +4,11 @@ PROJECT_PON_DATA: ""
 PROJECT_REF_DATA: ""
 deduplication: "umi"
 general_report: "config/reports/general_report.umi.yaml"
+
+hotspot_report:
+  report_config:
+    - "config/reports/hotspot_report.yaml"
+    - "config/reports/hotspot_report.umi.yaml"
 output: "config/output_files_ctDNA.yaml"
 
 reference:

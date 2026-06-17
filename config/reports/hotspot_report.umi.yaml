@@ -1,0 +1,22 @@
+columns:
+  CHIP_SCORE:
+    from: 'function'
+    name: 'get_info_field'
+    variables:
+      - 'var'
+      - 'CHIP_SCORE'
+    order: 27
+  CHIP_GENE:
+    from: 'function'
+    name: 'get_info_field'
+    variables:
+      - 'var'
+      - 'CHIP_GENE'
+    order: 28
+  CHIP_SAME_CLONE:
+    from: 'function'
+    name: 'get_info_field'
+    variables:
+      - 'var'
+      - 'CHIP_SAME_CLONE'
+    order: 29
