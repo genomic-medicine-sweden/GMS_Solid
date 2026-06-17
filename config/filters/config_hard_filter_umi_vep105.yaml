@@ -87,7 +87,3 @@ filters:
     description: "Hard filter variants only called by mutect2"
     expression: "INFO:CALLERS:0 = gatk_mutect2"
     soft_filter: "False"
-  chip_candidate:
-    description: "Hard filter variants with strong CHIP signal (CHIP_SCORE > 4)"
-    expression: "(INFO:CHIP_SCORE > 4)"
-    soft_filter: "False"

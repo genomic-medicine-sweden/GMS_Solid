@@ -27,7 +27,7 @@ The annotation is only applied in **ctDNA mode** (UMI deduplication).
 | `CHIP_COSMIC_HEMATO` | 0–N | Count of haematological tumour samples in COSMIC v97 with this variant (capped at 4 in score; 0 if below cosmic_min_count or excluded gene) |
 | `CHIP_CONSEQUENCE` | 0/1 | 1 = LoF in a LoF-CHIP gene or missense in a missense-CHIP gene |
 | `CHIP_SAME_CLONE` | 0/1 | 1 = variant is in a `clonal_context_gene` (e.g. TP53) AND a CHIP-gene variant exists in the same sample at a similar VAF, indicating a shared haematopoietic clone; contributes 3 to score |
-| `CHIP_SCORE` | integer | Combined score; filter threshold ≥5 |
+| `CHIP_SCORE` | integer | Combined score; ≥5 indicates a likely CHIP variant (informational, not filtered) |
 
 ## Scoring
 
@@ -49,7 +49,11 @@ at a similar VAF, the shared clone is strong evidence of CHIP origin.
 
 A VAF match is `|VAF_a − VAF_b| / max(VAF_a, VAF_b) ≤ vaf_clonal_tolerance`
 (default 0.5). CHIP_FRAG is always computed for `clonal_context_genes` variants
-regardless of preliminary score. The filter threshold is ≥5.
+regardless of preliminary score.
+
+CHIP_SCORE ≥5 indicates a likely CHIP variant. Variants are **not filtered** on
+CHIP_SCORE — the annotation is informational, allowing clinical review of all
+variants alongside their CHIP evidence.
 
 ## Reference Data
 

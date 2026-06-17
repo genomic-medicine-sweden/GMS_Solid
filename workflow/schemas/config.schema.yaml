@@ -740,7 +740,7 @@ properties:
         description: relative VAF tolerance for CHIP_SAME_CLONE matching (default 0.5, i.e. within 50%)
       chip_partner_min_score:
         type: integer
-        description: minimum CHIP_SCORE for a variant to qualify as a same-clone partner (default 5)
+        description: minimum CHIP_SCORE for a variant to qualify as a CHIP_SAME_CLONE partner (default 5, the likely-CHIP threshold)
       container:
         type: string
         description: container for the chip_annotation rule
