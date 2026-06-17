@@ -111,6 +111,37 @@ properties:
             type: string
             description: File where large CNVs are reported. Used for extra table in CNV-html report.
 
+  chip_annotation:
+    type: object
+    description: input and output parameters for chip_annotation (ctDNA/UMI mode only)
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: Region-filtered VCF (include.exon.vcf.gz) to annotate
+          bam:
+            type: string
+            description: Deduplicated BAM for fragment length analysis
+          chip_genes_file:
+            type: string
+            description: YAML file with CHIP gene lists
+          chip_hotspot_vcf:
+            type: string
+            description: Tabix-indexed VCF of known CHIP hotspot positions
+          cosmic_hemato_vcf:
+            type: string
+            description: Tabix-indexed VCF of COSMIC haematological variants
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: VCF annotated with CHIP_GENE, CHIP_VAF, CHIP_FRAG (-1/0/1/.), CHIP_FRAG_ALT, CHIP_FRAG_REF, CHIP_HOTSPOT, CHIP_COSMIC_HEMATO, CHIP_CONSEQUENCE, CHIP_SAME_CLONE, CHIP_SCORE INFO fields
+
   estimate_ctdna_fraction:
     type: object
     description: input and output parameters for estimate_ctdna_fraction

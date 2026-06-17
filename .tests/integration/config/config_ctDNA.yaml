@@ -2,6 +2,11 @@ output: "../../config/output_files_ctDNA.yaml"
 general_report: "../../config/reports/general_report.umi.yaml"
 deduplication: "umi"
 
+chip_annotation:
+  chip_genes_file: "DATA/chip_genes.yaml"
+  chip_hotspot_vcf: "DATA/chip_hotspot.vcf.gz"
+  cosmic_hemato_vcf: "DATA/cosmic_hemato.vcf.gz"
+
 fgbio_call_overlapping_consensus_bases:
   agrement_strategy: "Consensus"
   disagrement_strategy: "Consensus"

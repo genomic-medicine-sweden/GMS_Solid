@@ -36,13 +36,13 @@ files:
       - T
       - N
   - name: Exon-only soft-filtered VCF UMI
-    input: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_soft_filter_umi.vcf
+    input: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.snv_soft_filter_umi.vcf
     output: results/dna/{sample}_{type}/additional_files/vcf/{sample}_{type}.annotated.exon_only.filter.soft_filter.umi.vcf
     types:
       - T
       - N
   - name: QCI umi VCF
-    input: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.phased.codon_snvs.sorted.vep_annotated.qci.vcf 
+    input: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.snv_hard_filter_umi.phased.codon_snvs.sorted.vep_annotated.qci.vcf
     output: results/dna/{sample}_{type}/vcf/{sample}_{type}.annotated.exon_only.filter.hard_filter.codon_snv.umi.qci.vcf
     types:
       - T

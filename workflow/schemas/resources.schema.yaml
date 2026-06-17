@@ -108,6 +108,26 @@ properties:
         type: integer
         description:  number of threads to be available
 
+  chip_annotation:
+    type: object
+    description: resource definitions for chip_annotation (ctDNA/UMI mode only)
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      threads:
+        type: integer
+        description: number of threads to be available
+      time:
+        type: string
+        description: max execution time
+
   estimate_ctdna_fraction:
     type: object
     description: resource definitions for estimate_ctdna_fraction

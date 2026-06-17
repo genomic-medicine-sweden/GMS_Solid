@@ -1,0 +1,34 @@
+major_chip_genes:
+  - "DNMT3A"
+  - "TET2"
+  - "ASXL1"
+
+minor_chip_genes:
+  - "JAK2"
+  - "SF3B1"
+  - "PPM1D"
+  - "CBL"
+  - "GNB1"
+  - "BCOR"
+  - "SRSF2"
+
+lof_chip_genes:
+  - "DNMT3A"
+  - "TET2"
+  - "ASXL1"
+  - "BCOR"
+  - "CBL"
+  - "PPM1D"
+  - "SRSF2"
+
+missense_chip_genes:
+  - "JAK2"
+  - "GNB1"
+  - "SF3B1"
+  - "DNMT3A"
+
+cosmic_exclude_genes:
+  - "TP53"
+
+clonal_context_genes:
+  - "TP53"

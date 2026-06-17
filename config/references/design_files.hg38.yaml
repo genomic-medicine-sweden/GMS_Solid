@@ -1,5 +1,32 @@
 ---
 
+ chip_annotation:
+   chip_genes:
+     checksum: 0168ecd47af60303139dfe08f380bc2e
+     path: chip/chip_genes.yaml
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.2/chip/chip_genes.yaml
+   cosmic_hemato:
+     checksum: daf2becb8e9af27aac59174709aeeb19
+     path: chip/cosmic97_hemato_hg38_20260611.vcf.gz
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.0/chip/cosmic97_hemato_hg38_20260611.vcf.gz
+   cosmic_hemato_tbi:
+     checksum: 94651f3b75431b56569ec23f967a4d82
+     path: chip/cosmic97_hemato_hg38_20260611.vcf.gz.tbi
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.0/chip/cosmic97_hemato_hg38_20260611.vcf.gz.tbi
+   chip_hotspot:
+     checksum: 393f8d84e267b640e28903423f2f50ea
+     path: chip/chip_hotspot_hg38_20260611.vcf.gz
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.0/chip/chip_hotspot_hg38_20260611.vcf.gz
+   chip_hotspot_tbi:
+     checksum: f9ee243858ef29c8d8954cbdc24e7d84
+     path: chip/chip_hotspot_hg38_20260611.vcf.gz.tbi
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.0/chip/chip_hotspot_hg38_20260611.vcf.gz.tbi
+
  annotate_cnv:
    cnv_amp_genes:
      path: GMS560/cnv/cnv_amp_genes_hg38_240307.bed

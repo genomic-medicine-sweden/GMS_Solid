@@ -621,6 +621,11 @@ use rule whatshap_phase from snv_indels as snv_indels_whatshap_phase with:
         )
 
 
+if config.get("deduplication") == "umi":
+
+    include: "rules/chip_annotation.smk"
+
+
 use rule bcftools_sort from snv_indels as snv_indels_bcftools_sort with:
     input:
         vcf="{file}.vcf.gz",
@@ -939,7 +944,7 @@ use rule optitype from biomarker as biomarker_optitype with:
 
 use rule tmb from biomarker as biomarker_tmb_umi with:
     input:
-        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.vcf.gz",
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.chip_annotated.filter.snv_hard_filter_umi.vcf.gz",
     output:
         tmb=temp("biomarker/tmb/{sample}_{type}.umi.TMB.txt"),
     params:

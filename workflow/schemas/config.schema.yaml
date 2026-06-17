@@ -695,6 +695,56 @@ properties:
         type: number
         description: relatedness cutoff for considering two samples a match (default 0.7)
 
+  chip_annotation:
+    type: object
+    description: parameters for CHIP (Clonal Haematopoiesis of Indeterminate Potential) annotation (ctDNA/UMI mode only)
+    properties:
+      chip_genes_file:
+        type: string
+        description: path to YAML file with major/minor/lof/missense CHIP gene lists
+      chip_hotspot_vcf:
+        type: string
+        description: bgzipped+tabix VCF of known CHIP hotspot positions (Bick et al. 2020)
+      cosmic_hemato_vcf:
+        type: string
+        description: bgzipped+tabix VCF of COSMIC haematological SNVs (CNT>=10)
+      min_alt_reads:
+        type: integer
+        description: minimum alt-supporting reads required for fragment length analysis (default 5)
+      frag_abs_threshold:
+        type: number
+        description: minimum mean alt fragment length (bp) to flag as hematopoietic origin (default 150)
+      frag_ratio_threshold:
+        type: number
+        description: minimum ratio of alt/ref mean fragment length to flag as hematopoietic (default 1.1)
+      frag_short_threshold:
+        type: number
+        description: mean alt fragment length (bp) below which CHIP_FRAG=-1 (tumour-like, default 145)
+      cosmic_min_count:
+        type: integer
+        description: minimum COSMIC haematological CNT to contribute to score at runtime (default 20)
+      vaf_tier1_min:
+        type: number
+        description: minimum AF for CHIP_VAF tier 1 (default 0.0)
+      vaf_tier1_max:
+        type: number
+        description: maximum AF for CHIP_VAF tier 1 (default 0.10)
+      vaf_tier2_min:
+        type: number
+        description: minimum AF for CHIP_VAF tier 2 (default 0.01)
+      vaf_tier2_max:
+        type: number
+        description: maximum AF for CHIP_VAF tier 2 (default 0.03)
+      vaf_clonal_tolerance:
+        type: number
+        description: relative VAF tolerance for CHIP_SAME_CLONE matching (default 0.5, i.e. within 50%)
+      chip_partner_min_score:
+        type: integer
+        description: minimum CHIP_SCORE for a variant to qualify as a CHIP_SAME_CLONE partner (default 5, the likely-CHIP threshold)
+      container:
+        type: string
+        description: container for the chip_annotation rule
+
   estimate_ctdna_fraction:
     type: object
     description: parameters for estimate_ctdna_fraction
