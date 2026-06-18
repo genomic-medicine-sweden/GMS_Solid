@@ -14,7 +14,8 @@ modules:
   prealignment: "v1.3.0"
   qc: "v0.7.0"
   reports: "v1.3.0"
-  snv_indels: "v2.1.0"
+  #snv_indels: "v2.1.0"
+  snv_indels: "dbab268"
 
 output: "config/output_files_FFPE.yaml"
 default_container: "docker://hydragenetics/common:3.1.1.1"
@@ -255,6 +256,9 @@ gatk_mutect2_gvcf:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 gatk_mutect2_merge_stats:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+gatk_selectvariants_gvcf_to_vcf:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 gene_fuse:
