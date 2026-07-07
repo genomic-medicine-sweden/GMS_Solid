@@ -135,13 +135,13 @@ gene_fuse:
 
 hotspot_annotation:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg19"
-  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260610.csv"
+  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260706.csv"
 
 hotspot_report:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg19"
   hotspot_mutations:
-    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260610.csv"
-    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260605.csv"
+    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260706.csv"
+    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260706.csv"
     ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260609.csv"
     GMS560: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_GMS560_202606010.csv"
     URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223.csv"
