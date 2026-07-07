@@ -656,9 +656,6 @@ use rule gatk_mutect2_gvcf from snv_indels as snv_indels_gatk_mutect2_gvcf with:
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
 
 
-use rule gatk_selectvariants_gvcf_to_vcf from snv_indels as snv_indels_gatk_selectvariants_gvcf_to_vcf
-
-
 module annotation:
     snakefile:
         get_module_snakefile(
