@@ -15,7 +15,7 @@ modules:
   qc: "v0.7.0"
   reports: "v1.3.0"
   #snv_indels: "v2.1.0"
-  snv_indels: "734460d"
+  snv_indels: "7fad5b6"
 
 output: "config/output_files_FFPE.yaml"
 default_container: "docker://hydragenetics/common:3.1.1.1"
