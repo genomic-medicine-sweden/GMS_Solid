@@ -1,6 +1,3 @@
-samtools_sort:
-  extra: "--template-coordinate"
-
 default_resources:
   threads: 1
   time: "12:00:00"
@@ -55,6 +52,12 @@ mutect2:
   threads: 8
   mem_mb: 15200
   time: "8:00:00"
+
+samtools_sort:
+  # Force samtools sort to spill to disk (external merge sort) instead of
+  # sorting entirely in one in-memory block, which was producing
+  # run-to-run-inconsistent tie-break order for reads at the same position.
+  mem_mb: 100
 
 star:
   threads: 8
