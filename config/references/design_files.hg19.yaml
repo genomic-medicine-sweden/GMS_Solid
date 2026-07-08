@@ -196,15 +196,15 @@
 
  hotspot_report:
    hotspot_mutations:
-     checksum: 597e877e05108eb1b61f6afc36a2e510
-     path: GMS560/reports/Hotspots_combined_regions_nodups.20260706.csv
+     checksum: 7d45e0362e641b3df0cabf700820adba
+     path: GMS560/reports/Hotspots_combined_regions_nodups.20260708.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.4/design/Hotspots_combined_regions_nodups.20260706.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.5/design/Hotspots_combined_regions_nodups.20260708.csv
    hotspot_mutations_CNS:
-     checksum: beed93dfe6382f55075eab8029eda29b
-     path: GMS560/reports/Mutations_CNS_20260706.csv
+     checksum: 9e07950585cfd284136d54fdd37294df
+     path: GMS560/reports/Mutations_CNS_20260708.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.4/design/Mutations_CNS_20260706.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.5/design/Mutations_CNS_20260708.csv
    hotspot_mutations_ENC:
      checksum: 699f38bd0f90efc7401557dd68534404
      path: GMS560/reports/Mutations_ENC_20260609.csv
@@ -246,10 +246,10 @@
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.0/design/Mutations_MTC_20260223.csv
    hotspot_mutations_GMS560:
-     checksum: b8618cdcfdf33ad634744116b3eb3ca5
-     path: GMS560/reports/Mutations_GMS560_202606010.csv
+     checksum: 7e38d515f3bb0b7f707705e1189891c8
+     path: GMS560/reports/Mutations_GMS560_20260708.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.31.0/design/Mutations_GMS560_202606010.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.6/design/Mutations_GMS560_20260708.csv
    hotspot_mutations_VAS:
      checksum: 3a38f267b81f63260245c76c9fccdedf
      path: GMS560/reports/Mutations_VAS_20260610.csv

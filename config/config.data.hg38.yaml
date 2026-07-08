@@ -136,15 +136,15 @@ gene_fuse:
 
 hotspot_annotation:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
-  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260706_hg38.csv"
+  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"
 
 hotspot_report:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
   hotspot_mutations:
-    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260706_hg38.csv"
-    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260706_hg38.csv"
+    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"
+    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260708_hg38.csv"
     ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260609_hg38.csv"
-    GMS560: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_GMS560_202606010_hg38.csv"
+    GMS560: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_GMS560_20260708_hg38.csv"
     URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223_hg38.csv"
     CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260504_hg38.csv"
     BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260223_hg38.csv"
