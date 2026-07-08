@@ -6,7 +6,7 @@ units: "units.tsv"
 
 modules:
   alignment: "v0.8.0"
-  annotation: "v1.4.0"
+  annotation: "v1.4.1"
   biomarker: "v0.9.0"
   cnv_sv: "v3.0.0"
   filtering: "v0.3.0"
