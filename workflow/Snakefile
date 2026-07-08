@@ -524,6 +524,8 @@ use rule samtools_sort from alignment as alignment_samtools_sort_rna with:
         bam="fusions/star_fusion/{path_file}.out.bam",
     output:
         bam=temp("fusions/star_fusion/{path_file}.out.sorted.bam"),
+    params:
+        extra=config.get("samtools_sort_rna", {}).get("extra", ""),
     log:
         "fusions/star_fusion/{path_file}.bam.sort.log",
     benchmark:
