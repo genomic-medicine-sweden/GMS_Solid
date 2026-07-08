@@ -6,7 +6,7 @@ properties:
     type: string
     description: name or path to a default docker/singularity container
     pattern: >-
-        hydragenetics/common:3\.1\.1\.1$|hydragenetics__common_3\.1\.1\.1\.sif$|
+        hydragenetics/common:4\.1\.1$|hydragenetics__common_4\.1\.1\.sif$|
 
   bcbio_variation_recall_ensemble:
     type: object
@@ -205,17 +205,6 @@ properties:
             hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
       required:
         - container
-
-  jumble_gis_score:
-    type: object
-    properties:
-      container:
-        type: string
-        description: name or path to a default docker/singularity container
-        pattern: >-
-            hydragenetics/common:3\.1\.1\.1$|hydragenetics__common_3\.1\.1\.1\.sif$
-    required:
-      - container
 
   manta_config_t:
     type: object
