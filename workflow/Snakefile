@@ -1292,7 +1292,7 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
             workflow.get_rule("reports_cnv_html_report").input.css_files[1],
         ],
         tc_file=get_tc_file,
-        ploidy_file=reports.get_ploidy_file,
+        ploidy_file=lambda wildcards: f"cnv_sv/purecn/{wildcards.sample}_{wildcards.type}.csv",
         extra_table_files=[t["path"] for t in config.get("cnv_html_report", {}).get("extra_tables", [])],
     params:
         extra_tables=config.get("cnv_html_report", {}).get("extra_tables", []),
