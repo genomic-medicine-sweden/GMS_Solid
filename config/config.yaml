@@ -17,7 +17,7 @@ modules:
   snv_indels: "v2.1.0"
 
 output: "config/output_files_FFPE.yaml"
-default_container: "docker://hydragenetics/common:3.1.1.1"
+default_container: "docker://hydragenetics/common:4.1.1"
 
 trimmer_software: "fastp_pe"
 subsample: "None"
