@@ -1261,7 +1261,7 @@ use rule general_json_report from reports as reports_general_json_report with:
         pipeline_version=pipeline_version,
         pipeline_name=pipeline_name,
         tc=reports.get_tc_general_report,
-        units=units,
+        units=lambda wildcards: units[units["sample"] == wildcards.sample],
         reference_genome=config.get("reference", {}).get("fasta", ""),
 
 
