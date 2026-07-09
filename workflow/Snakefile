@@ -1292,12 +1292,14 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
             workflow.get_rule("reports_cnv_html_report").input.css_files[1],
         ],
         tc_file=get_tc_file,
+        ploidy_file=reports.get_ploidy_file,
         extra_table_files=[t["path"] for t in config.get("cnv_html_report", {}).get("extra_tables", [])],
     params:
         extra_tables=config.get("cnv_html_report", {}).get("extra_tables", []),
         include_table=config.get("cnv_html_report", {}).get("show_table", True),
         include_cytobands=config.get("cnv_html_report", {}).get("cytobands", True),
         tc=get_tc,
+        ploidy=reports.get_ploidy,
         tc_method=lambda wildcards: wildcards.tc_method,
         wide_plot_width=config.get("cnv_html_report", {}).get("wide_plot_width", False),
 
