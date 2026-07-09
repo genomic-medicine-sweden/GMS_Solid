@@ -38,10 +38,10 @@ results/dna/VAL2022-2-5M_T/cnv/VAL2022-2-5M_T.pathology_purecn.amp_all_del_valid
 results/dna/VAL2022-2-5M_T/cnv/VAL2022-2-5M_T.purecn_purity_ploidity.csv	0050574ef98f770b838706ab3ce6791e
 results/dna/VAL2022-2-5M_T/fusion/VAL2022-2-5M_T.fuseq_wes.report.csv	ada3432e93dd1ff64f9254d8c83c91c5
 results/dna/VAL2022-2-5M_T/fusion/VAL2022-2-5M_T.juli.filtered.fusions.txt	b22f102dc7ddecf31efd149d2072f7d5
-results/dna/VAL2022-2-5M_T/coverage_and_mutations/VAL2022-2-5M_T.coverage_and_mutations.tsv	afd3954952ff005e9da40aa231cdb551
-results/dna/VAL2022-2-5M_T/additional_files/coverage_and_mutations/VAL2022-2-5M_T.coverage_and_mutations.ENC.tsv	4bb378e155c1ba54af62146b2f50321e
-results/dna/VAL2022-2-5M_T/vcf/VAL2022-2-5M_T.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf	6007d14b286ff71f123849b6d6a3f9f1
-results/dna/VAL2022-2-5M_T/vcf/VAL2022-2-5M_T.annotated.exon_only.filter.hard_filter.codon_snv.vcf	66027dde64880052c15a5f1c8abbea83
+results/dna/VAL2022-2-5M_T/coverage_and_mutations/VAL2022-2-5M_T.coverage_and_mutations.tsv	f1737fe792792c1c9039fe07962082f1
+results/dna/VAL2022-2-5M_T/additional_files/coverage_and_mutations/VAL2022-2-5M_T.coverage_and_mutations.ENC.tsv	9eec310d7385b2385a88c0a011d357c1
+results/dna/VAL2022-2-5M_T/vcf/VAL2022-2-5M_T.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf	632e60ce9f688bcd94101f0c2342f9e6
+results/dna/VAL2022-2-5M_T/vcf/VAL2022-2-5M_T.annotated.exon_only.filter.hard_filter.codon_snv.vcf	0d0abe180e025673e35dab5f75ec2cfc
 results/rna/SeraSeq-NTRK-FFPE-2-5M_R/additional_files/fusion/SeraSeq-NTRK-FFPE-2-5M_R.arriba.fusions.tsv	eedffe64014818557f8fd9ea2c21fa7c
 results/rna/SeraSeq-NTRK-FFPE-2-5M_R/additional_files/fusion/SeraSeq-NTRK-FFPE-2-5M_R.fusioncatcher.fusion_predictions.txt	43be5d6575176d9170d81cd5589ec56c
 results/rna/SeraSeq-NTRK-FFPE-2-5M_R/fusion/SeraSeq-NTRK-FFPE-2-5M_R.exon_skipping.tsv	70b9661bfcb1c30b17f2f175ef937b3b

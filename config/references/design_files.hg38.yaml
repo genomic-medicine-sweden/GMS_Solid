@@ -184,15 +184,15 @@
 
  hotspot_report:
    hotspot_mutations:
-     checksum: e590d3b798992b750f1d41bd9dd565be
-     path: GMS560/reports/Hotspots_combined_regions_nodups.20260610_hg38.csv
+     checksum: 3d8af393dd0687d17384adb1841f39f7
+     path: GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.31.0/design/Hotspots_combined_regions_nodups.20260610_hg38.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.5/design/Hotspots_combined_regions_nodups.20260708_hg38.csv
    hotspot_mutations_CNS:
-     checksum: c67e1f42b8a13d24bb7af672814e0710
-     path: GMS560/reports/Mutations_CNS_20260605_hg38.csv
+     checksum: 22a724ed4888b0d3accde8e203c2943b
+     path: GMS560/reports/Mutations_CNS_20260708_hg38.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.30.0/design/Mutations_CNS_20260605_hg38.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.5/design/Mutations_CNS_20260708_hg38.csv
    hotspot_mutations_ENC:
      checksum: 0ff42ae6593374308f640d701e9dc55a
      path: GMS560/reports/Mutations_ENC_20260609_hg38.csv
@@ -235,9 +235,9 @@
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.1/design/Mutations_MTC_20260223_hg38.csv
    hotspot_mutations_GMS560:
      checksum: fa4d831d871cb58a509ef9f81377a2a9
-     path: GMS560/reports/Mutations_GMS560_202606010_hg38.csv
+     path: GMS560/reports/Mutations_GMS560_20260708_hg38.csv
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.31.0/design/Mutations_GMS560_202606010_hg38.csv
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.6/design/Mutations_GMS560_20260708_hg38.csv
    hotspot_mutations_VAS:
      checksum: a58c28a6aa4d5ac40e9209dd9bb6746d
      path: GMS560/reports/Mutations_VAS_20260610_hg38.csv
