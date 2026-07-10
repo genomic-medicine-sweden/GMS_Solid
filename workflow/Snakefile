@@ -1302,6 +1302,10 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
         ploidy=reports.get_ploidy,
         tc_method=lambda wildcards: wildcards.tc_method,
         wide_plot_width=config.get("cnv_html_report", {}).get("wide_plot_width", False),
+        default_simulate_purity=config.get("cnv_html_report", {}).get("default_simulate_purity", False),
+        default_absolute_copy_number=config.get("cnv_html_report", {}).get("default_absolute_copy_number", False),
+        default_gene_focus=config.get("cnv_html_report", {}).get("default_gene_focus", False),
+        default_show_all_datapoints=config.get("cnv_html_report", {}).get("default_show_all_datapoints", False),
 
 
 use rule merge_cnv_json from reports as reports_merge_cnv_json with:
