@@ -2,7 +2,12 @@ amplification:
   all_of:
     - {field: adjusted_cn, operator: ">=", value: 6.0}
     - {field: Twist_AF, operator: "<=", value: 0.15}
-loss:
+duplication:
+  filter: false
+  all_of:
+    - {field: adjusted_cn, operator: ">", value: 2.5}
+    - {field: adjusted_cn, operator: "<", value: 6.0}
+deletion:
   all_of:
     - not:
         all_of:
