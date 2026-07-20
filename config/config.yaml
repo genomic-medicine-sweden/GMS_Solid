@@ -13,7 +13,7 @@ modules:
   fusions: "v0.3.1"
   prealignment: "v1.3.0"
   qc: "v0.7.0"
-  reports: "8b56498"
+  reports: "e18abaa"
   snv_indels: "v2.1.0"
 
 output: "config/output_files_FFPE.yaml"
@@ -300,9 +300,6 @@ merge_af_complex_variants:
 
 merge_cnv_json:
   cancer_genes: "config/reports/cancer_genes.csv"
-  filtered_cnv_vcfs:
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.filter.cnv_hard_filter_amp.fp_tag.vcf
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.filter.cnv_hard_filter_loh.fp_tag.annotate_fp.vcf
   germline_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz
   unfiltered_cnv_vcfs:
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.fp_tag.vcf.gz
@@ -310,6 +307,9 @@ merge_cnv_json:
   unfiltered_cnv_vcfs_tbi:
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.fp_tag.vcf.gz.tbi
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.fp_tag.vcf.gz.tbi
+  extra_info_fields:
+    - Twist_AF
+  table_filter_config: "config/filters/config_table_filter.yaml"
 
 mosdepth:
   container: "docker://hydragenetics/mosdepth:0.3.2"

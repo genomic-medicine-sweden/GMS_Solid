@@ -5,7 +5,7 @@ filters:
     soft_filter: "False"
   copy_number:
     description: "Hard filter cnvs with over 1.4 copies if the BAF is close to 0.5 as well as all amplifications. Jumble sets BAF to 0.0."
-    expression: "(INFO:CORR_CN > 1.4 and ((INFO:BAF > 0.3 and INFO:BAF < 0.7) or INFO:CALLER = Jumble) or (INFO:CORR_CN > 2.5))"
+    expression: "(INFO:CORR_CN > 1.4 and ((INFO:BAF > 0.3 and INFO:BAF < 0.7) or INFO:CALLER = jumble) or (INFO:CORR_CN > 2.5))"
     soft_filter: "False"
   loh_gene:
     description: "Only keep variants with gene annotations"
