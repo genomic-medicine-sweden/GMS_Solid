@@ -15,7 +15,7 @@ deletion:
           - {field: length, operator: "<", value: 10000000}
     - {field: adjusted_cn, operator: "<", value: 1.4}
 loh:
-  label: "Copy-neutral LOH"
+  label: "CN-LOH"
   all_of:
     - not:
         all_of:
