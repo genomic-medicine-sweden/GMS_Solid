@@ -1,7 +1,7 @@
 amplification:
   all_of:
     - {field: adjusted_cn, operator: ">=", value: 6.0}
-    - {field: Twist_AF, operator: "<=", value: 0.15}
+    - {field: Twist_AF, operator: "<=", value: 0.15, default: 0}
 duplication:
   filter: false
   all_of:
@@ -11,7 +11,7 @@ deletion:
   all_of:
     - not:
         all_of:
-          - {field: Twist_AF, operator: ">", value: 0.15}
+          - {field: Twist_AF, operator: ">", value: 0.15, default: 0}
           - {field: length, operator: "<", value: 10000000}
     - {field: adjusted_cn, operator: "<", value: 1.4}
 loh:
@@ -19,7 +19,7 @@ loh:
   all_of:
     - not:
         all_of:
-          - {field: Twist_AF, operator: ">", value: 0.15}
+          - {field: Twist_AF, operator: ">", value: 0.15, default: 0}
           - {field: length, operator: "<", value: 10000000}
     - {field: adjusted_cn, operator: ">=", value: 1.4}
     - {field: adjusted_cn, operator: "<=", value: 2.5}
