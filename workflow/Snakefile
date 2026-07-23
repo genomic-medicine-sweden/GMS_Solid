@@ -1286,7 +1286,6 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
             workflow.get_rule("reports_cnv_html_report").input.js_files[3],
             workflow.get_rule("reports_cnv_html_report").input.js_files[4],
             workflow.get_rule("reports_cnv_html_report").input.js_files[5],
-            workflow.get_rule("reports_cnv_html_report").input.js_files[6],
         ],
         css_files=[
             workflow.get_rule("reports_cnv_html_report").input.css_files[0],
