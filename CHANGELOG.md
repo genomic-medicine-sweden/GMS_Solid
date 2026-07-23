@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.6.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.5.1...v1.6.0) (2026-07-22)
+
+
+### Features
+
+* bumbped common, hydra, and snakemake versions ([ebb12aa](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/ebb12aa6f54e1974efe74685dbe8a5ff0977311e))
+* bumbped common, hydra, and snakemake versions ([c9981b7](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c9981b7fb6f286b0e36fd8279f7fbea0d19f458e))
+
+
+### Bug Fixes
+
+* annotation mobule bump - AF in INFO field for multi codon ([35cf44d](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/35cf44d0a2a29244f9bb9012f59ad22da1506138))
+* annotation mobule bump - AF in INFO field for multi codon ([4b82d98](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/4b82d98fba81b18af000c379a0f949e6add67390))
+* corrected CNS files ([1430470](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/143047044eb6a6482ca030631e8625c7eba27086))
+* corrected CNS files ([946dbc4](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/946dbc4d5e0a6c11268ef775804156211bac36d6))
+* updated CNS cov&mut files ([d6fa14a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/d6fa14a0079d94f4fd63c16a4180c098322cc628))
+
 ## [1.5.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.4.2...v1.5.0) (2026-06-11)
 
 
