@@ -410,7 +410,8 @@ use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_all_f
             "alignment/picard_mark_duplicates/{{sample}}_{{type}}_{chr}.bam",
             chr=extract_chr(
                 "%s.fai" % (config.get("reference", {}).get("fasta", "")),
-                filter_out=config.get("reference", {}).get("skip_chrs", []),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
             ),
         )
         + (
