@@ -571,7 +571,8 @@ use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_mutec
             "snv_indels/gatk_mutect2/{{sample}}_{{type}}_{chr}.unfiltered.bam",
             chr=extract_chr(
                 "%s.fai" % (config.get("reference", {}).get("fasta", "")),
-                filter_out=config.get("reference", {}).get("merge_contigs", []) + config.get("reference", {}).get("skip_chrs", []),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
             ),
         ),
     output:
@@ -661,14 +662,16 @@ use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat with:
             "{{file}}_{chr}.{{vcf}}.gz",
             chr=extract_chr(
                 "%s.fai" % (config.get("reference", {}).get("fasta", "")),
-                filter_out=config.get("reference", {}).get("merge_contigs", []) + config.get("reference", {}).get("skip_chrs", []),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
             ),
         ),
         index=expand(
             "{{file}}_{chr}.{{vcf}}.gz.tbi",
             chr=extract_chr(
                 "%s.fai" % (config.get("reference", {}).get("fasta", "")),
-                filter_out=config.get("reference", {}).get("merge_contigs", []) + config.get("reference", {}).get("skip_chrs", []),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
             ),
         ),
 
@@ -679,7 +682,8 @@ use rule gatk_mutect2_merge_stats from snv_indels as snv_indels_gatk_mutect2_mer
             "snv_indels/gatk_mutect2/{{sample}}_{{type}}_{chr}.unfiltered.vcf.gz.stats",
             chr=extract_chr(
                 "%s.fai" % (config.get("reference", {}).get("fasta", "")),
-                filter_out=config.get("reference", {}).get("merge_contigs", []) + config.get("reference", {}).get("skip_chrs", []),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
             ),
         ),
 

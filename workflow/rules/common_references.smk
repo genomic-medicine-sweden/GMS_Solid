@@ -115,8 +115,17 @@ def generate_copy_code(workflow, output_spec):
 generate_copy_code(workflow, output_spec)
 
 
+def get_reference_bam_input(sample: str, type: str) -> str:
+    # Mirrors get_deduplication_bam_input() in rules/common.smk: the reference
+    # pipeline must build PoN/background/PureCN/etc. from the same final,
+    # deduplicated bam the main pipeline actually reports on.
+    if config.get("deduplication") == "umi":
+        return "alignment/samtools_merge_bam_umi/%s_%s.bam" % (sample, type)
+    return "alignment/samtools_merge_bam_all_final/%s_%s.bam" % (sample, type)
+
+
 def get_bams(units: pandas.DataFrame, name: str) -> typing.List[str]:
-    return get_files(units, name, "alignment/samtools_merge_bam/%s_%s.bam")
+    return get_files(units, name, get_reference_bam_input)
 
 
 def get_counts(units: pandas.DataFrame, name: str) -> typing.List[str]:
@@ -147,13 +156,14 @@ def get_cnvkit_antitarget(units: pandas.DataFrame, name: str) -> typing.List[str
     return get_files(units, name, "%s_%s.antitargetcoverage.cnn")
 
 
-def get_files(units: pandas.DataFrame, name: str, string_path: str):
+def get_files(units: pandas.DataFrame, name: str, string_path):
     types = []
     sample_list = get_samples(samples)
     for i in output_spec["files"]:
         if i["name"] == name:
             types = i["types"]
-    data = [string_path % (t.sample, t.type) for t in units[units["type"].isin(types)].itertuples() if t.sample in sample_list]
+    to_path = string_path if callable(string_path) else lambda sample, type: string_path % (sample, type)
+    data = [to_path(t.sample, t.type) for t in units[units["type"].isin(types)].itertuples() if t.sample in sample_list]
     if not data:
         log.warning(f"No files matching the output files found for rules using name: {name}, {string_path}")
     return set(data)
