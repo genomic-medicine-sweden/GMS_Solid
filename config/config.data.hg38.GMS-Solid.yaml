@@ -141,9 +141,11 @@ hotspot_report:
   hotspot_mutations: 
     all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260304_hg38.csv"
     BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260223_hg38.csv"
+    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260708_hg38.csv"
     CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260223_hg38.csv"
     ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260302_hg38.csv"
     GIS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Gist_20260304_hg38.csv"
+    GMS560: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_GMS560_20260708_hg38.csv"
     LUN: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Lung_20260223_hg38.csv"
     MEL: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Melanom_20260305_hg38.csv"
     PIK: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_PIK_20260223_hg38.csv"
