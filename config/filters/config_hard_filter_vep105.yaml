@@ -9,7 +9,7 @@ filters:
     soft_filter: "False"
   artifacts:
     description: "Hard filter variants found in more than 3 normal samples"
-    expression: "(INFO:Artifact:0 > 3 or INFO:Artifact:1 > 3)"
+    expression: "((INFO:Artifact:0 > 3 and INFO:ArtifactNrSD:0 < 5) or (INFO:Artifact:1 > 3 and INFO:ArtifactNrSD:1 < 5))"
     soft_filter: "False"
   background:
     description: "Hard filter position with where backgound distribution overlaps variant (lower than 4 SD from median)"

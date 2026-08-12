@@ -174,7 +174,7 @@ Use **[bcftools filter -R](https://samtools.github.io/bcftools/bcftools.html)** 
 * [Bed file](references.md#bcftools_filter) with exonic regions including 20 bp padding
 
 ### Hard filter vcf (FFPE)
-The exonic vcf files for FFPE samples are filtered using the **hydra-genetics filtering** functionality. The filters are specified in the config file `config_hard_filter_uppsala_vep105.yaml` and consists of the following filters:
+The exonic vcf files for FFPE samples are filtered using the **hydra-genetics filtering** functionality. The filters are specified in the config file `config_hard_filter_vep105.yaml` and consists of the following filters:
 
 #### Configuration
 

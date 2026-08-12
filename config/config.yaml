@@ -178,17 +178,6 @@ fgbio_group_reads_by_umi:
   container: "docker://hydragenetics/fgbio:2.1.0"
   umi_strategy: paired
 
-filter_vcf:
-  snv_soft_filter: "config/filters/config_soft_filter_uppsala_vep105.yaml"
-  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
-  snv_hard_filter: "config/filters/config_hard_filter_uppsala_vep105.yaml"
-  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
-  snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
-  cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
-  cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
-  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
-  itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
-
 filter_fuseq_wes:
   min_support: 50
   filter_on_fusiondb: True

@@ -7,6 +7,17 @@ deduplication: "markduplicates"
 general_report: "config/reports/general_report.yaml"
 output: "config/output_files_FFPE.yaml"
 
+filter_vcf:
+  snv_soft_filter: "config/filters/config_soft_filter_vep105.yaml"
+  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
+  snv_hard_filter: "config/filters/config_hard_filter_vep105.yaml"
+  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
+  cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
+  cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
+  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
+  itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
+
 reference:
   background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_nextseq_noUmea_27_dp500_af015.tsv"
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"
