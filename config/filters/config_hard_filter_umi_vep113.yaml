@@ -21,7 +21,7 @@ filters:
     soft_filter: "False"
   germline:
     description: "Hard filter germline"
-    expression: "(VEP:gnomAD_AF > 0.005)"
+    expression: "(VEP:gnomADe_AF > 0.005)"
     soft_filter: "False"
   af_snv:
     description: "Hard filter SNV variants with low vaf"

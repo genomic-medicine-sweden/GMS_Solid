@@ -26,7 +26,7 @@ filters:
     soft_filter: "True"
   germline:
     description: "Hard filter germline"
-    expression: "(VEP:gnomAD_AF > 0.005)"
+    expression: "(VEP:gnomADe_AF > 0.005)"
     soft_filter_flag: "germline_gnomad"
     soft_filter: "True"
   af_snv:
