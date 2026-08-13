@@ -3,6 +3,10 @@ filters:
     description: "Hard filter germline"
     expression: "(VEP:gnomADe_AF < 0.05 or VEP:gnomADe_AF > 0.95)"
     soft_filter: "False"
+  af:
+    description: "Hard filter variants with low or high AF (AF lower than 0.05 or higher than 0.95)"
+    expression: "(FORMAT:AF:0 < 0.05 or FORMAT:AF:0 > 0.95)"
+    soft_filter: "False"
   ad:
     description: "Hard filter variants with few observations (AD lower than 20)"
     expression: "(FORMAT:AD:1 < 20 or FORMAT:AD:0 < 20)"
