@@ -1,0 +1,111 @@
+filters:
+  intron:
+    description: "Hard filter intronic variants"
+    expression: "(exist[intron_variant, VEP:Consequence] and !exist[splice, VEP:Consequence] and VEP:SYMBOL != MET and VEP:SYMBOL != TERT and !exist[COSV[0-9]+, VEP:Existing_variation])"
+    soft_filter_flag: "intron"
+    soft_filter: "True"
+  noisy_gene:
+    description: "Hard filter variants in noisy genes"
+    expression: "VEP:SYMBOL = MUC6 or VEP:SYMBOL = CDC27 or VEP:SYMBOL = KMT2B or VEP:SYMBOL = KMT2C or VEP:SYMBOL = KMT2D or VEP:SYMBOL = HLA-A or VEP:SYMBOL = HLA-B or VEP:SYMBOL = HLA-C"
+    soft_filter_flag: "noisy_gene"
+    soft_filter: "True"
+  artifacts_SNVs:
+    description: "Hard filter SNVs found in 3 or more normal samples"
+    expression: "(exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:0 < 6) or (INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:1 < 6)))"
+    soft_filter_flag: "Artifact_gt_2_SNV"
+    soft_filter: "True"
+  artifacts_INDELs:
+    description: "Hard filter INDELs found in 3 or more normal samples"
+    expression: "(!exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:0 < 6) or (INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:1 < 6)))"
+    soft_filter_flag: "Artifact_gt_2_INDEL"
+    soft_filter: "True"
+  background:
+    description: "Hard filter variants with AF not over background noise"
+    expression: "INFO:PositionNrSD < 6"
+    soft_filter_flag: "Background_lt_6SD"
+    soft_filter: "True"
+  germline:
+    description: "Hard filter germline"
+    expression: "(VEP:gnomAD_AF > 0.005)"
+    soft_filter_flag: "germline_gnomad"
+    soft_filter: "True"
+  af_snv:
+    description: "Hard filter SNV variants with low vaf"
+    expression: "((FORMAT:AF:0 < 0.003 or FORMAT:AF:0 > 0.997) and exist[SNV, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "af_snv"
+    soft_filter: "True"
+  ad_snv:
+    description: "Hard filter SNV variants with low ad"
+    expression: "((FORMAT:AD:1 < 10 or FORMAT:AD:0 < 10) and exist[SNV, VEP:VARIANT_CLASS] and !exist[1-hotspot, INFO:Hotspot])"
+    soft_filter_flag: "ad_snv"
+    soft_filter: "True"
+  af_insertion:
+    description: "Hard filter Insertion variants with low vaf"
+    expression: "((FORMAT:AF:0 < 0.005 or FORMAT:AF:0 > 0.995) and exist[insertion, VEP:VARIANT_CLASS] and !exist[1-hotspot, INFO:Hotspot])"
+    soft_filter_flag: "af_insertion"
+    soft_filter: "True"
+  af_snv_hotspot:
+    description: "Hard filter SNV variants with low vaf"
+    expression: "((FORMAT:AF:0 < 0.0025 or FORMAT:AF:0 > 0.9975) and exist[SNV, VEP:VARIANT_CLASS] and exist[1-hotspot, INFO:Hotspot])"
+    soft_filter_flag: "af_snv_hotspot"
+    soft_filter: "True"
+  ad_snv_hotspot:
+    description: "Hard filter SNV variants with low ad"
+    expression: "((FORMAT:AD:1 < 6 or FORMAT:AD:0 < 6) and exist[SNV, VEP:VARIANT_CLASS] and exist[1-hotspot, INFO:Hotspot])"
+    soft_filter_flag: "ad_snv_hotspot"
+    soft_filter: "True"
+  ad_insertion:
+    description: "Hard filter Insertion variants with low ad"
+    expression: "((FORMAT:AD:1 < 10 or FORMAT:AD:0 < 10) and exist[insertion, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "ad_insertion"
+    soft_filter: "True"
+  af_deletion:
+    description: "Hard filter Deletion variants with low vaf"
+    expression: "((FORMAT:AF:0 < 0.005 or FORMAT:AF:0 > 0.995) and exist[deletion, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "af_deletion"
+    soft_filter: "True"
+  ad_deletion:
+    description: "Hard filter Deletion variants with low ad"
+    expression: "((FORMAT:AD:1 < 10 or FORMAT:AD:0 < 10) and exist[deletion, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "ad_deletion"
+    soft_filter: "True"
+  af_complex:
+    description: "Hard filter complex variants with low vaf"
+    expression: "((FORMAT:AF:0 < 0.009 or FORMAT:AF:0 > 0.991) and exist[indel, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "af_complex"
+    soft_filter: "True"
+  ad_complex:
+    description: "Hard filter complex variants with low ad"
+    expression: "((FORMAT:AD:1 < 20 or FORMAT:AD:0 < 20) and exist[indel, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "ad_complex"
+    soft_filter: "True"
+  af_substitution:
+    description: "Hard filter substitution variants with low vaf"
+    expression: "((FORMAT:AF:0 < 0.006 or FORMAT:AF:0 > 0.994) and exist[substitution, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "af_substitution"
+    soft_filter: "True"
+  ad_substitution:
+    description: "Hard filter substitution variants with low ad"
+    expression: "((FORMAT:AD:1 < 15 or FORMAT:AD:0 < 15) and exist[substitution, VEP:VARIANT_CLASS])"
+    soft_filter_flag: "ad_substitution"
+    soft_filter: "True"
+  ald:
+    description: "Hard filter variants with skewed distribution between strands"
+    expression: "(FORMAT:ALD:0 < 3 or FORMAT:ALD:1 < 3)"
+    soft_filter_flag: "ald_skewed"
+    soft_filter: "True"
+  sbf:
+    description: "Hard filter variants with skewed distribution between strands"
+    expression: "INFO:SBF < 0.01 and INFO:ODDRATIO > 1.5"
+    soft_filter_flag: "sbf_strand_bias"
+    soft_filter: "True"
+  pmean:
+    description: "Hard filter variants found only in start of reads"
+    expression: "INFO:PMEAN < 15.0"
+    soft_filter_flag: "start_of_read"
+    soft_filter: "True"
+  callers:
+    description: "Hard filter variants only called by mutect2"
+    expression: "INFO:CALLERS:0 = gatk_mutect2"
+    soft_filter_flag: "only_mutect2"
+    soft_filter: "True"

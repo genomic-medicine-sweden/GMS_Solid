@@ -150,6 +150,7 @@ hotspot_annotation:
   hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"
 
 hotspot_report:
+  report_config: "config/reports/hotspot_report_vep105.yaml"
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
   hotspot_mutations:
     all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"

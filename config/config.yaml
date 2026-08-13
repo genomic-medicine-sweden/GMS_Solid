@@ -272,7 +272,6 @@ jumble_vcf:
   hom_del_limit: 0.5
 
 hotspot_report:
-  report_config: "config/reports/hotspot_report.yaml"
   levels:
     - [200, "ok", "yes"]
     - [30, "low", "yes"]

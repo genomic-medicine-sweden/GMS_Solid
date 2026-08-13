@@ -9,9 +9,9 @@ output: "config/output_files_FFPE.yaml"
 
 filter_vcf:
   snv_soft_filter: "config/filters/config_soft_filter_vep113.yaml"
-  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
+  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep113.yaml"
   snv_hard_filter: "config/filters/config_hard_filter_vep113.yaml"
-  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep113.yaml"
   snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
   cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
   cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
@@ -148,8 +148,9 @@ hotspot_annotation:
   hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260304_hg38.csv"
 
 hotspot_report:
+  report_config: "config/reports/hotspot_report_vep113.yaml"
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
-  hotspot_mutations: 
+  hotspot_mutations:
     all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260304_hg38.csv"
     BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260223_hg38.csv"
     CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260708_hg38.csv"

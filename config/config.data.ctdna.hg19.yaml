@@ -19,6 +19,9 @@ filter_vcf:
   germline: "config/filters/config_hard_filter_germline_vep105.yaml"
   itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
 
+hotspot_report:
+  report_config: "config/reports/hotspot_report_vep105.yaml"
+
 reference:
   background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_cfDNA_nextseq2000_24.tsv"
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_nextseq2000_24.tsv"
