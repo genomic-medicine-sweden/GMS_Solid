@@ -99,8 +99,16 @@ def read_snv_vcf_and_find_max_af(input_snv_vcf, filter_dict):
             if record['ID'] == "CSQ":
                 vep_fields = {v: c for c, v in enumerate(record['Description'].split("Format: ")[1].split('">')[0].split("|"))}
 
+    if not vep_fields:
+        raise ValueError(f"No VEP CSQ annotation found in the header of {input_snv_vcf}")
+
     # Iterate over the VCF file
     for record in snv_vcf.fetch():
+        # Symbolic/structural ALT alleles (e.g. <DEL>) aren't annotated by VEP, so this
+        # specific record has no CSQ value even though CSQ is declared in the header -
+        # skip it rather than treat it as a missing/broken annotation.
+        if "CSQ" not in record.info:
+            continue
         vep = record.info["CSQ"][0]
         vep_dict = dict(zip(vep_fields.keys(), vep.split("|")))
 
