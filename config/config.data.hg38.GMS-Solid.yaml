@@ -72,7 +72,7 @@ bcftools_filter_include_region:
   exon: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded_exons.bed"
 
 bcftools_filter_exclude_region:
-  blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20240613_hg38.bed"
+  blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20260424_hg38_GMS-Solid.bed"
 
 bcftools_id_snps:
   snps_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/ID_SNPs_hg38_GMS-Solid.bed"

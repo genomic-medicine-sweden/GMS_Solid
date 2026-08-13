@@ -1,11 +1,15 @@
 filters:
   germline:
     description: "Hard filter germline"
-    expression: "(VEP:gnomADe_AF < 0.001)"
+    expression: "(VEP:gnomADe_AF < 0.05 or VEP:gnomADe_AF > 0.95)"
     soft_filter: "False"
   ad:
     description: "Hard filter variants with few observations (AD lower than 20)"
     expression: "(FORMAT:AD:1 < 20 or FORMAT:AD:0 < 20)"
+    soft_filter: "False"
+  dp:
+    description: "Hard filter variants with low depth (DP lower than 100)"
+    expression: "(FORMAT:DP < 100)"
     soft_filter: "False"
   snp_type:
     description: "Hard filter variants that are not SNVs"
