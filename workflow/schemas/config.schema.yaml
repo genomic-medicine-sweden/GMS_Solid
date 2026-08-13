@@ -578,6 +578,14 @@ properties:
         items:
             type: string
         description: list of chromosomes that should be skipped, used when determining which chr bam files will be merged
+      skip_contigs:
+        type: array
+        items:
+            type: string
+        description: >
+          list of contig name regex patterns to exclude from the reports module's CNV HTML report
+          (e.g. decoy/unplaced contigs); hydra-genetics' shared, regex-capable convention, distinct
+          from merge_contigs which only twist_solid's own alignment/merge rules read
     required:
       - artifacts
       - background

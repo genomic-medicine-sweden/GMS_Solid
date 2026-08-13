@@ -3,7 +3,7 @@ resources_references: "config/resources_references.yaml"
 output: "config/output_reference_files.yaml"
 
 modules:
-  references: "v1.0.1"
+  references: "v1.1.0"
   misc: "v0.2.0"
 
 cnvkit_create_targets:

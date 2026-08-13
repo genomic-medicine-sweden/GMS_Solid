@@ -39,6 +39,15 @@ reference:
     - "MAP2K3_chr17_22578583_22605165"
     - "KCNJ18_chr17_22629421_22688415"
     - "KMT2C_.*"
+  # Same contigs as merge_contigs above for the CNV html-report. Skip_chrs is being repleaced by skip_contigs.
+  skip_contigs:
+    - "chrM"
+    - ".*_random"
+    - "chrUn_.*"
+    - "chrEBV"
+    - "MAP2K3_chr17_22578583_22605165"
+    - "KCNJ18_chr17_22629421_22688415"
+    - "KMT2C_.*"
 
 annotate_cnv:
   cnv_amp_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_amp_genes_hg38_240307.bed"
