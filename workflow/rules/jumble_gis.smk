@@ -1,6 +1,7 @@
 rule jumble_gis_score:
     input:
         gis_csv="cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.jumble_gis.csv",
+        tc_file=get_tc_file,
     output:
         gis_score=temp("cnv_sv/jumble_gis_score/{sample}_{type}.{tc_method}.predicted_gis.txt"),
     params:
