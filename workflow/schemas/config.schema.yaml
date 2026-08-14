@@ -125,9 +125,6 @@ properties:
       del_chr_arm_cn_limit:
         type: number
         description: Upper limit of copy number to be included in calculation of chr_arm_fraction for deletions
-      max_cnv_fp_size:
-        type: number
-        description: Max size of cnvkit cnv to be tested for false positive
       normal_cn_lower_limit:
         type: number
         description: Lower limit of copy number to be counted as a normal segment

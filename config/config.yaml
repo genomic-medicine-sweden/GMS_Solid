@@ -114,7 +114,6 @@ cnv_tsv_report:
   normal_cn_lower_limit: 1.7
   normal_cn_upper_limit: 2.25
   polyploidy_fraction_limit: 0.2
-  max_cnv_fp_size: 15000000
 
 ctat_splicing_call:
   container: "docker://hydragenetics/ctat-splicing:0.0.3"
@@ -290,11 +289,11 @@ merge_cnv_json:
   cancer_genes: "config/reports/cancer_genes.csv"
   germline_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz
   unfiltered_cnv_vcfs:
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.fp_tag.vcf.gz
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.fp_tag.vcf.gz
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.vcf.gz
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.vcf.gz
   unfiltered_cnv_vcfs_tbi:
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.fp_tag.vcf.gz.tbi
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.fp_tag.vcf.gz.tbi
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.vcf.gz.tbi
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.vcf.gz.tbi
   extra_info_fields:
     - Twist_AF
   table_filter_config: "config/filters/config_table_filter.yaml"
