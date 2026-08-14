@@ -1,7 +1,11 @@
 filters:
-  germline:
-    description: "Hard filter germline"
+  germline_exonic: 
+    description: "Hard filter germline exonic variants"
     expression: "(VEP:gnomADe_AF < 0.05 or VEP:gnomADe_AF > 0.95)"
+    soft_filter: "False"
+  germline_wgs:
+    description: "Hard filter germline WGS variants"
+    expression: "(VEP:gnomADg_AF < 0.05 or VEP:gnomADg_AF > 0.95)"
     soft_filter: "False"
   af:
     description: "Hard filter variants with low or high AF (AF lower than 0.05 or higher than 0.95)"
