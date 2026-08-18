@@ -20,8 +20,8 @@ filters:
     expression: "INFO:PositionNrSD < 6"
     soft_filter: "False"
   germline:
-    description: "Hard filter germline"
-    expression: "(VEP:gnomADe_AF > 0.005)"
+    description: "Hard filter germline exonic/WGS variants"
+    expression: "(VEP:gnomADe_AF > 0.005 or VEP:gnomADg_AF > 0.005)"
     soft_filter: "False"
   af_snv:
     description: "Hard filter SNV variants with low vaf"

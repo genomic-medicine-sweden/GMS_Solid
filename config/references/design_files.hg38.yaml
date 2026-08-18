@@ -32,11 +32,11 @@
      path: GMS560/cnv/cnvkit_germline_blacklist_20240613_hg38.bed
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.10.0/cnv/cnvkit_germline_blacklist_20240613_hg38.bed
-   blacklist_GMS560: 
-     checksum: 7c8085f1204306c911e9f26aaa48a2b8
-     path: GMS560/cnv/cnvkit_germline_blacklist_20260424_hg38_GMS-Solid.bed
+   blacklist_GMS-Solid: 
+     checksum: 5e5541e856fc39fe54eb8c6f512fe7b9
+     path: GMS560/cnv/cnvkit_germline_blacklist_20260813_hg38_GMS-Solid.bed
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.6/cnv/cnvkit_germline_blacklist_20240613_hg38.bed
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.7/cnv/cnvkit_germline_blacklist_20260813_hg38_GMS-Solid.bed
 
  bcftools_id_snps:
    snps_bed: 
