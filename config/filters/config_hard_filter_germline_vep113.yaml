@@ -1,7 +1,7 @@
 filters:
   germline:
     description: "Hard filter germline exonic/WGS variants, or variants missing gnomAD annotation in both"
-    expression: "((VEP:gnomADe_AF < 0.05 or VEP:gnomADe_AF > 0.95) or (VEP:gnomADg_AF < 0.05 or VEP:gnomADg_AF > 0.95) or (!exist[., VEP:gnomADe_AF] and !exist[., VEP:gnomADg_AF]))"
+    expression: "((VEP:gnomADe_AF < 0.01 or VEP:gnomADe_AF > 0.99) or (VEP:gnomADg_AF < 0.01 or VEP:gnomADg_AF > 0.99) or (!exist[., VEP:gnomADe_AF] and !exist[., VEP:gnomADg_AF]))"
     soft_filter: "False"
   complex:
     description: "Hard filter complex variants"
