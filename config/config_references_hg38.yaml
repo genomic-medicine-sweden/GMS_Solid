@@ -3,7 +3,7 @@ resources_references: "config/resources_references.yaml"
 output: "config/output_reference_files.yaml"
 
 modules:
-  references: "0b8fa7e"
+  references: "51c33d8"
   misc: "v0.2.0"
 
 cnvkit_create_targets:
@@ -38,7 +38,13 @@ ichorcna_offtarget_panel_of_normals:
   gc_wig: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/gc_hg38_100kb.wig"
   map_wig: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/map_hg38_100kb.wig"
   centromere: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/GRCh38.centromere.txt"
-  genome_style: "UCSC"
+  # createPanelOfNormals.R never forwards --genomeStyle to its own call to
+  # loadReadCountsFromWig(), which defaults to NCBI internally regardless -
+  # so the sample counts get force-converted to NCBI style no matter what.
+  # Setting NCBI here too keeps chrs/centromere consistent with that, rather
+  # than mismatching against a UCSC-styled chrs (see ichorcna_offtarget_run's
+  # genome_style, which is unaffected - that's a different script).
+  genome_style: "NCBI"
 
 jumble_count:
   container: "docker://hydragenetics/jumble:0.5.0"
