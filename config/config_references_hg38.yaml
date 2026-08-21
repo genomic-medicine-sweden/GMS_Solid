@@ -27,6 +27,19 @@ collect_read_counts:
 create_read_count_panel_of_normals:
   container: "docker://hydragenetics/gatk4:4.2.2.0"
 
+ichorcna_offtarget_read_counter:
+  container: "docker://hydragenetics/ichorcna:v260817"
+
+ichorcna_offtarget_wig_list:
+  container: "docker://hydragenetics/ichorcna:v260817"
+
+ichorcna_offtarget_panel_of_normals:
+  container: "docker://hydragenetics/ichorcna:v260817"
+  gc_wig: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/gc_hg38_100kb.wig"
+  map_wig: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/map_hg38_100kb.wig"
+  centromere: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/GRCh38.centromere.txt"
+  genome_style: "UCSC"
+
 jumble_count:
   container: "docker://hydragenetics/jumble:0.5.0"
 
