@@ -206,6 +206,30 @@ use rule jumble_count from references as references_jumble_count with:
 
 
 ####################################################
+#              ichorCNA offtarget pon input override
+####################################################
+# Use the final deduplicated bam created by the pipeline (see get_reference_bam_input)
+use rule ichorcna_offtarget_read_counter from references as references_ichorcna_offtarget_read_counter with:
+    input:
+        bam=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type),
+        bai=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type) + ".bai",
+
+
+use rule ichorcna_offtarget_wig_list from references as references_ichorcna_offtarget_wig_list with:
+    input:
+        wig_files=lambda wildcards: get_wigs(units, "ichorcna_offtarget_pon"),
+
+
+use rule ichorcna_offtarget_panel_of_normals from references as references_ichorcna_offtarget_panel_of_normals with:
+    input:
+        wig_list_file="references/ichorcna_offtarget_wig_list/wig_files.list",
+        wig_files=lambda wildcards: get_wigs(units, "ichorcna_offtarget_pon"),
+        gc_wig=config.get("ichorcna_offtarget_panel_of_normals", {}).get("gc_wig", ""),
+        map_wig=config.get("ichorcna_offtarget_panel_of_normals", {}).get("map_wig", ""),
+        centromere=config.get("ichorcna_offtarget_panel_of_normals", {}).get("centromere", ""),
+
+
+####################################################
 #              purecn normal input override
 ####################################################
 # Use the final deduplicated bam created by the pipeline (see get_reference_bam_input)

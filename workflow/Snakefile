@@ -1216,6 +1216,12 @@ use rule gatk_collect_allelic_counts from cnv_sv as cnv_sv_gatk_collect_allelic_
         ref=config["reference"]["fasta"],
 
 
+use rule ichorcna_offtarget_read_counter from cnv_sv as cnv_sv_ichorcna_offtarget_read_counter with:
+    input:
+        bam=get_deduplication_bam_input,
+        bai=get_deduplication_bam_input_bai,
+
+
 use rule gatk_to_vcf from cnv_sv as cnv_sv_gatk_to_vcf with:
     input:
         segment="cnv_sv/gatk_model_segments/{sample}_{type}.clean.modelFinal.seg",

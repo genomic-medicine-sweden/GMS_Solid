@@ -174,6 +174,13 @@ hotspot_report:
     URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223_hg38.csv"
     VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260223_hg38.csv"
 
+ichorcna_offtarget_run:
+  gc_wig: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gc_hg38_100kb.wig"
+  map_wig: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/map_hg38_100kb.wig"
+  centromere: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/GRCh38.centromere.txt"
+  genome_build: "hg38"
+  genome_style: "UCSC"
+
 juli_annotate:
   cosmic: "{{PROJECT_REF_DATA}}/ref_data/juli/CosmicFusionExport_V76.tsv"
   pfam: "{{PROJECT_REF_DATA}}/ref_data/juli/Pfam-A.full.human"

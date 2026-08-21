@@ -136,6 +136,10 @@ def get_hdf5(units: pandas.DataFrame, name: str) -> typing.List[str]:
     return get_files(units, name, "references/collect_read_counts/%s_%s.counts.hdf5")
 
 
+def get_wigs(units: pandas.DataFrame, name: str) -> typing.List[str]:
+    return get_files(units, name, "references/ichorcna_offtarget_read_counter/%s_%s.wig")
+
+
 def get_vcfs(units: pandas.DataFrame, name: str) -> typing.List[str]:
     return get_files(units, name, "snv_indels/bcbio_variation_recall_ensemble/%s_%s.ensembled.vep_annotated.vcf.gz")
 
