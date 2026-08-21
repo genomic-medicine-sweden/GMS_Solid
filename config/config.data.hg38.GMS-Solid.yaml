@@ -178,6 +178,7 @@ ichorcna_offtarget_run:
   gc_wig: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gc_hg38_100kb.wig"
   map_wig: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/map_hg38_100kb.wig"
   centromere: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/GRCh38.centromere.txt"
+  normal_panel: "{{PROJECT_PON_DATA}}/GMS560/PoN/ichorcna_offtarget_novaseqX_GMS-Solid_Uppsala_8_hg38.rds"
   genome_build: "hg38"
   genome_style: "UCSC"
 

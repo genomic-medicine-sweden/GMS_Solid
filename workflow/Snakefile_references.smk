@@ -224,9 +224,6 @@ use rule ichorcna_offtarget_panel_of_normals from references as references_ichor
     input:
         wig_list_file="references/ichorcna_offtarget_wig_list/wig_files.list",
         wig_files=lambda wildcards: get_wigs(units, "ichorcna_offtarget_pon"),
-        gc_wig=config.get("ichorcna_offtarget_panel_of_normals", {}).get("gc_wig", ""),
-        map_wig=config.get("ichorcna_offtarget_panel_of_normals", {}).get("map_wig", ""),
-        centromere=config.get("ichorcna_offtarget_panel_of_normals", {}).get("centromere", ""),
 
 
 ####################################################
