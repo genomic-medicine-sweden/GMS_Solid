@@ -1,0 +1,11 @@
+somalier_dna_dna_matches:
+  id: 'somalier_dna_dna_matches_table'
+  file_format: "tsv"
+  section_name: 'Somalier DNA-DNA matches'
+  description: 'Unexpected genetic relatedness between DNA samples, flagged by Somalier'
+  plot_type: 'generalstats'
+  pconfig:
+    - Relatedness:
+        min: 0
+        max: 1
+        scale: "RdYlGn-rev"

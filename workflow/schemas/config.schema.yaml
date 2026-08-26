@@ -634,6 +634,19 @@ properties:
       - min_unique_reads
 
 
+  somalier_dna_dna_matches_mqc:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      mqc_config:
+        type: string
+        description: path to the MultiQC custom-content config yaml for the DNA-DNA matches table
+
   somalier_dna_dna_report:
     type: object
     properties:
@@ -645,7 +658,12 @@ properties:
         description: name or path to docker/singularity container
       match_cutoff:
         type: number
-        description: relatedness cutoff for match (default 0.85)
+        description: relatedness cutoff for match, required together with ibs0_cutoff (default 0.6)
+      ibs0_cutoff:
+        type: number
+        description: >-
+          max ibs0 (sites with opposite homozygous genotypes) required, together with
+          match_cutoff, to flag a match (default 2)
 
   trimmer_software:
     description: trimmer software that should be used
