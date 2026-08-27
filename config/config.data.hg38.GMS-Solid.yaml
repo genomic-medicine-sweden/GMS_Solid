@@ -69,7 +69,7 @@ bcftools_annotate:
   annotation_db: "{{PROJECT_REF_DATA}}/ref_data/GNOMAD/small_exac_common_3.hg38.vcf.gz"
 
 bcftools_filter_include_region:
-  exon: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded_exons.bed"
+  exon: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded_exons.20260826.bed"
 
 bcftools_filter_exclude_region:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20260424_hg38_GMS-Solid.bed"

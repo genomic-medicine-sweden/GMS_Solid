@@ -393,10 +393,10 @@
       type: file
       url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.padded.interval_list
     target_padded_exons_bed:
-      checksum: 9fb9a6788904f4e4cb44a18f7ba485ff
-      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.padded_exons.bed
+      checksum: 3cead56d54a7c481d88600e43c38f78e
+      path: GMS-Solid/design/GMS_Solid_target_annotated_hg38.padded_exons.20260826.bed
       type: file
-      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/GMS_Solid_target_annotated_hg38.padded_exons.bed
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/design/GMS_Solid_target_annotated_hg38.padded_exons.20260826.bed
     id_snps_bed:
       checksum: d41d8cd98f00b204e9800998ecf8427e
       path: GMS-Solid/design/ID_SNPs_hg38_GMS-Solid.bed
