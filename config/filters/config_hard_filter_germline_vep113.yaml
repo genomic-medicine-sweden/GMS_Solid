@@ -8,8 +8,8 @@ filters:
     expression: "(exist[., INFO:COMPLEXAF] and (FORMAT:AF:0 < 0.35 or FORMAT:AF:0 > 0.65))"
     soft_filter: "False"
   af:
-    description: "Hard filter variants with low or high AF (AF lower than 0.05 or higher than 0.95)"
-    expression: "(FORMAT:AF:0 < 0.05 or FORMAT:AF:0 > 0.95)"
+    description: "Hard filter variants with low or high AF (AF lower than 0.02 or higher than 0.98)"
+    expression: "(FORMAT:AF:0 < 0.02 or FORMAT:AF:0 > 0.98)"
     soft_filter: "False"
   ad:
     description: "Hard filter variants with few observations (AD lower than 20)"
