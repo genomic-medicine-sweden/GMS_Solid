@@ -11,7 +11,7 @@ filters:
     soft_filter: "True"
   artifacts:
     description: "Soft filter variants found in more than 3 normal samples"
-    expression: "(INFO:Artifact:0 > 3 or INFO:Artifact:1 > 3)"
+    expression: "((INFO:Artifact:0 > 3 and INFO:ArtifactNrSD:0 < 5) or (INFO:Artifact:1 > 3 and INFO:ArtifactNrSD:1 < 5))"
     soft_filter_flag: "Artifact_gt_3"
     soft_filter: "True"
   background:

@@ -8,31 +8,51 @@ general_report: "config/reports/general_report.yaml"
 output: "config/output_files_FFPE.yaml"
 
 filter_vcf:
-  snv_soft_filter: "config/filters/config_soft_filter_vep105.yaml"
-  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
-  snv_hard_filter: "config/filters/config_hard_filter_vep105.yaml"
-  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_soft_filter: "config/filters/config_soft_filter_vep113.yaml"
+  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep113.yaml"
+  snv_hard_filter: "config/filters/config_hard_filter_vep113.yaml"
+  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep113.yaml"
   snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
   cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
   cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
-  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
+  germline: "config/filters/config_hard_filter_germline_vep113.yaml"
   itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
 
 reference:
-  background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_nextseq_noUmea_27_dp500_af015_hg38.tsv"
-  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv"
+  background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_novaseq_13_dp500_af015_hg38.tsv"
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_novaseq_13_hg38.tsv"
   fasta: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta"
   fasta_rna: "{{PROJECT_REF_DATA}}/ref_data/star-fusion/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/ref_genome.fa"
   fasta_2bit: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.2bit"
   dict: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.dict"
   fai: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.fai"
-  design_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg38.split_fusion_genes.reannotated.230222.bed"
-  design_intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg38.split_fusion_genes.MUC6_31_rm.exon_only.reannotated.230222.interval_list"
+  design_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded.bed"
+  design_intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded.interval_list"
   design_intervals_gatk_cnv: "{{PROJECT_DESIGN_DATA}}/GMS560/design/gatk.design.hg38.preprocessed.interval_list"
   design_bed_rna: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_Design5.annotated.hg38.bed"
   design_intervals_rna: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_Design5.annotated.hg38.interval_list"
-  skip_chrs:
+  merge_contigs:
     - "chrM"
+    - ".*_random"
+    - "chrUn_.*"
+    - "chrEBV"
+    - "MAP2K3_chr17_22578583_22605165"
+    - "KCNJ18_chr17_22629421_22688415"
+    - "KMT2C_.*"
+  # Same contigs as merge_contigs above for the CNV html-report. Skip_chrs is being repleaced by skip_contigs.
+  skip_contigs:
+    - "chrM"
+    - ".*_random"
+    - "chrUn_.*"
+    - "chrEBV"
+    - "MAP2K3_chr17_22578583_22605165"
+    - "KCNJ18_chr17_22629421_22688415"
+    - "KMT2C_.*"
+
+annotate_cnv:
+  cnv_amp_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_amp_genes_hg38_240307.bed"
+  cnv_loh_genes_validated: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_uppsala_genes_hg38.bed"
+  cnv_loh_genes_all: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes_240618_hg38.bed"
 
 arriba:
   assembly: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta"
@@ -45,29 +65,24 @@ arriba_draw_fusion:
   gtf: "{{PROJECT_REF_DATA}}/ref_data/refGene/hg38.refGene.gtf"
   protein_domains: "{{PROJECT_REF_DATA}}/ref_data/arriba_v2.3.0/protein_domains_hg38_GRCh38_v2.3.0.gff3"
 
-annotate_cnv:
-  cnv_amp_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_amp_genes_hg38_240307.bed"
-  cnv_loh_genes_validated: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_uppsala_genes_hg38.bed"
-  cnv_loh_genes_all: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes_240618_hg38.bed"
-
 bcftools_annotate:
   annotation_db: "{{PROJECT_REF_DATA}}/ref_data/GNOMAD/small_exac_common_3.hg38.vcf.gz"
 
 bcftools_filter_include_region:
-  exon: "{{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg38.split_fusion_genes.MUC6_31_rm.exon_only.reannotated.230222.bed"
+  exon: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded_exons.20260826.bed"
 
 bcftools_filter_exclude_region:
-  blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20240613_hg38.bed"
+  blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20260424_hg38_GMS-Solid.bed"
 
 bcftools_id_snps:
-  snps_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/ID_SNPs_hg38.bed"
+  snps_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/ID_SNPs_hg38_GMS-Solid.bed"
 
 bwa_mem:
-  amb: "{{PROJECT_REF_DATA}}/ref_data/GRCh38_p14/homo_sapiens.fasta.amb"
-  ann: "{{PROJECT_REF_DATA}}/ref_data/GRCh38_p14/homo_sapiens.fasta.ann"
-  bwt: "{{PROJECT_REF_DATA}}/ref_data/GRCh38_p14/homo_sapiens.fasta.bwt"
-  pac: "{{PROJECT_REF_DATA}}/ref_data/GRCh38_p14/homo_sapiens.fasta.pac"
-  sa: "{{PROJECT_REF_DATA}}/ref_data/GRCh38_p14/homo_sapiens.fasta.sa"
+  amb: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.amb"
+  ann: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.ann"
+  bwt: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.bwt"
+  pac: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.pac"
+  sa: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.sa"
 
 call_small_cnv_deletions:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/small_deletions_caller_blacklist_hg38.tsv"
@@ -80,10 +95,10 @@ cnvkit_batch:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_PoN_combined_hg38.cnn"
 
 cnvkit_batch_hrd:
-  normal_reference_hrd: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_nextseq_noUmea_27_hg38.cnn"
+  normal_reference_hrd: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_nextseq_27_HRD.cnn"
 
 cnv_tsv_report:
-  chrom_arm_size: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/chromosome_arm_size.tsv"
+  chrom_arm_size: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/chromosome_arm_size_hg38.tsv"
 
 ctat_splicing_call:
   ctat_genome_lib_path: "{{PROJECT_REF_DATA}}/ref_data/star-fusion/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir"
@@ -97,7 +112,6 @@ estimate_ctdna_fraction:
     - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions_hg38.bed"
     - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/self_aligned_regions_hg38.bed"
     - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions_hg38.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions_hg38.bed"
 
 exon_skipping:
   design_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_Design5.annotated.hg38.bed"
@@ -124,48 +138,41 @@ fuseq_wes:
 fusioncatcher:
   genome_path: "{{PROJECT_REF_DATA}}/ref_data/fusioncatcher/human_v102/"
 
-fragmentomics_metrics:
-  canonical_cds_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_canonical_exons.hg38.bed"
-  exon_sizes: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/UCSC_hg38_exon_sizes.tsv"
-  tfbs_midpoints: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/Homo_sapiens_meta_clusters_hg38_midpoint_top5k_sorted.bed.gz"
-  atac_peaks: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/TCGA_ATAC_peak.all.probeMap.simple.hg38.bed"
-  exon_strand_mapping: "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/GMS560_canonical_exons.hg38.bed"
-
 gatk_collect_allelic_counts:
-  SNP_interval: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gnomad_SNP_0.001_target.annotated.hg38.interval_list"
+  SNP_interval: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/GMS_Solid_backbone_GnomAD_sites.fixed.interval_list"
 
 gatk_denoise_read_counts:
-  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_nextseq_27_hg38.hdf5"
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_novaseq_13_hg38.hdf5"
 
 gatk_get_pileup_summaries:
-  sites: "{{PROJECT_REF_DATA}}/ref_data/GNOMAD/small_exac_common_3.hg38.vcf.gz"
-  variants: "{{PROJECT_REF_DATA}}/ref_data/GNOMAD/small_exac_common_3.hg38.vcf.gz"
+  sites: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/GMS_Solid_backbone_GnomAD_sites.fixed.vcf.gz"
+  variants: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/GMS_Solid_backbone_GnomAD_sites.fixed.vcf.gz"
 
 gene_fuse:
-  genes: "/projects/wp1/nobackup/ngs/utveckling/Twist_DNA_DATA/gene_fuse/GMS560_fusion_w_pool2.hg38.221117.csv"
-  fasta: "/data/ref_genomes/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta"
+  genes: "{{PROJECT_DESIGN_DATA}}/GMS560/gene_fuse/GMS560_fusion_w_pool2.hg38.221117.csv"
+  fasta: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta"
 
 hotspot_annotation:
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
-  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"
+  hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260304_hg38.csv"
 
 hotspot_report:
-  report_config: "config/reports/hotspot_report_vep105.yaml"
+  report_config: "config/reports/hotspot_report_vep113.yaml"
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
   hotspot_mutations:
-    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"
-    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260708_hg38.csv"
-    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260609_hg38.csv"
-    GMS560: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_GMS560_20260708_hg38.csv"
-    URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223_hg38.csv"
-    CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260504_hg38.csv"
+    all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260304_hg38.csv"
     BRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Breast_20260223_hg38.csv"
-    GIS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Gist_20260223_hg38.csv"
+    CNS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_CNS_20260708_hg38.csv"
+    CRC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Colon_20260223_hg38.csv"
+    ENC: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_ENC_20260302_hg38.csv"
+    GIS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Gist_20260304_hg38.csv"
+    GMS560: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_GMS560_20260708_hg38.csv"
     LUN: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Lung_20260223_hg38.csv"
     MEL: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_Melanom_20260305_hg38.csv"
-    TYR: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_MTC_20260223_hg38.csv"
-    VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260610_hg38.csv"
     PIK: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_PIK_20260223_hg38.csv"
+    TYR: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_MTC_20260223_hg38.csv"
+    URO: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_URO_20260223_hg38.csv"
+    VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260223_hg38.csv"
 
 juli_annotate:
   cosmic: "{{PROJECT_REF_DATA}}/ref_data/juli/CosmicFusionExport_V76.tsv"
@@ -177,28 +184,26 @@ juli_call:
   gap_file: "{{PROJECT_REF_DATA}}/ref_data/juli/gap_hg38.txt"
   ref_genes: "{{PROJECT_REF_DATA}}/ref_data/juli/refGene_hg38.txt"
 
-# jumble_run:
-#   normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble.combined.filtered.50.PoN.hg19.RDS"
+jumble_run:
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/jumble_novaseqX_24_updated.RDS"
 
 manta_config_t:
-  extra: "--exome --callRegions {{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg38.split_fusion_genes.reannotated.230222.bed.gz"
+  extra: "--exome --callRegions {{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded.bed.gz"
 
 merge_cnv_json:
   annotations:
     - "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_amp_genes_hg38_240307.bed"
     - "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes_hg38.bed"
-  cytobands: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cytoBand.hg38.txt"
-
-mosdepth:
-  extra: "--no-per-base --fast-mode"
+  cytobands: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cytoBand.hg38.no_alt_chr.txt"
+  ref_genes: "{{PROJECT_REF_DATA}}/ref_data/refGene/hg38.refGene.gtf"
 
 msisensor_pro_filter_sites:
-  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_nextseq_noUmea_27_hg38.list_baseline"
-  msi_sites_bed: "{{PROJECT_PON_DATA}}/GMS560/design/SelectedMSIloci2019Sorted_hg38.bed"
+  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_novaseq_13_hg38.list_baseline"
+  msi_sites_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.MSI.bed"
 
 purecn:
-  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/PoN/purecn/mapping_bias_nextseq_hg38.rds"
-  normaldb: "{{PROJECT_PON_DATA}}/GMS560/PoN/purecn/normalDB_nextseq_hg38.rds"
+  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/PoN/purecn/mapping_bias_hg38.rds"
+  normaldb: "{{PROJECT_PON_DATA}}/GMS560/PoN/purecn/normalDB_hg38.rds"
   intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg38_25000_intervals.txt"
 
 purecn_coverage:
@@ -208,41 +213,40 @@ report_fusions:
   annotation_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_fusionpartners_hg38.bed"
   fp_fusions: "{{PROJECT_DESIGN_DATA}}/GMS560/rna_fusion/filter_rna_fusions_20240923.txt"
 
+report_gene_fuse:
+  filter_fusions: "{{PROJECT_DESIGN_DATA}}/GMS560/gene_fuse/filter_fusions_20230214.csv"
+
 scanitd:
   region_bed: "-t {{PROJECT_DESIGN_DATA}}/GMS560/cnv/scanITD_regions.hg38.bed"
 
 scarhrd:
   reference_name: "grch38"
 
+seqtk_subsample:
+  nr_reads: 200000000
+  nr_reads_rna: 30000000
+
 somalier_ungrouped_extract:
   sites: "{{PROJECT_DESIGN_DATA}}/GMS560/design/sites.hg38.nochr.vcf.gz"
 
 star:
-  genome_index: "{{PROJECT_REF_DATA}}/ref_data/star/STAR_v2.7.10a_v2.7.10a_GRCh38-GIABv3/"
+  genome_index: "{{PROJECT_REF_DATA}}/ref_data/star/v2.7.10a_GRCh38-GIABv3/"
   extra: "--quantMode GeneCounts --sjdbGTFfile {{PROJECT_REF_DATA}}/ref_data/refGene/hg38.refGene.gtf --outSAMtype BAM SortedByCoordinate --chimSegmentMin 10 --chimOutType WithinBAM SoftClip --chimJunctionOverhangMin 10 --chimScoreMin 1 --chimScoreDropMax 30 --chimScoreJunctionNonGTAG 0 --chimScoreSeparation 1 --alignSJstitchMismatchNmax 5 -1 5 5 --chimSegmentReadGapMax 3"
 
 star_fusion:
   genome_path: "{{PROJECT_REF_DATA}}/ref_data/star-fusion/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir"
-  
+
 svdb_query:
-  db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/all_T_185_svdb_0.8_hg38_20240214.vcf --out_frq Twist_AF --out_occ Twist_OCC"
+  db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/novaseq_13_svdb_0.8_hg38.vcf --out_frq Twist_AF --out_occ Twist_OCC"
 
 tmb:
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
 
-tmb_umi:
-  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv"
-  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
-  filter_regions:
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/ENCODE_problematic_regions_hg38.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions_hg38.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions_hg38.bed"
-    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions_hg38.bed"
-
 vep:
-  vep_cache:  "{{PROJECT_REF_DATA}}/ref_data/vep/105"
-  extra: " --assembly GRCh38 --check_existing --pick --sift b --polyphen b --ccds --uniprot --hgvs --symbol --numbers --domains --regulatory --canonical --protein --biotype --uniprot --tsl --appris --gene_phenotype --af --af_1kg --af_gnomad --max_af --pubmed --variant_class "
+  container: "docker://hydragenetics/vep:113.0"
+  vep_cache:  "{{PROJECT_REF_DATA}}/ref_data/vep/113"
+  extra: " --assembly GRCh38 --check_existing --pick --sift b --polyphen b --ccds --uniprot --hgvs --symbol --numbers --domains --regulatory --canonical --protein --biotype --uniprot --tsl --appris --gene_phenotype --af --af_1kg --af_gnomad --af_gnomadg --max_af --pubmed --variant_class "
 
 vep_wo_pick:
-  vep_cache:  "{{PROJECT_REF_DATA}}/ref_data/vep/105"
-  extra: " --assembly GRCh38 --check_existing --sift b --polyphen b --ccds --uniprot --hgvs --symbol --numbers --domains --regulatory --canonical --protein --biotype --uniprot --tsl --appris --gene_phenotype --af --af_1kg --af_gnomad --max_af --pubmed --variant_class "
+  vep_cache:  "{{PROJECT_REF_DATA}}/ref_data/vep/113"
+  extra: " --assembly GRCh38 --check_existing --sift b --polyphen b --ccds --uniprot --hgvs --symbol --numbers --domains --regulatory --canonical --protein --biotype --uniprot --tsl --appris --gene_phenotype --af --af_1kg --af_gnomad --af_gnomadg --max_af --pubmed --variant_class "

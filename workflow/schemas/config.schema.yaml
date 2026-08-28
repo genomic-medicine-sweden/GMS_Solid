@@ -125,9 +125,6 @@ properties:
       del_chr_arm_cn_limit:
         type: number
         description: Upper limit of copy number to be included in calculation of chr_arm_fraction for deletions
-      max_cnv_fp_size:
-        type: number
-        description: Max size of cnvkit cnv to be tested for false positive
       normal_cn_lower_limit:
         type: number
         description: Lower limit of copy number to be counted as a normal segment
@@ -578,6 +575,14 @@ properties:
         items:
             type: string
         description: list of chromosomes that should be skipped, used when determining which chr bam files will be merged
+      skip_contigs:
+        type: array
+        items:
+            type: string
+        description: >
+          list of contig name regex patterns to exclude from the reports module's CNV HTML report
+          (e.g. decoy/unplaced contigs); hydra-genetics' shared, regex-capable convention, distinct
+          from merge_contigs which only twist_solid's own alignment/merge rules read
     required:
       - artifacts
       - background

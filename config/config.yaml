@@ -6,14 +6,14 @@ units: "units.tsv"
 
 modules:
   alignment: "v0.8.0"
-  annotation: "v1.4.1"
+  annotation: "v1.5.0"
   biomarker: "v0.9.0"
   cnv_sv: "v3.3.0"
   filtering: "v0.3.0"
   fusions: "v0.3.1"
   prealignment: "v1.3.0"
   qc: "v0.7.0"
-  reports: "v2.1.0"
+  reports: "v2.2.0"
   snv_indels: "v2.1.0"
 
 output: "config/output_files_FFPE.yaml"
@@ -114,7 +114,6 @@ cnv_tsv_report:
   normal_cn_lower_limit: 1.7
   normal_cn_upper_limit: 2.25
   polyploidy_fraction_limit: 0.2
-  max_cnv_fp_size: 15000000
 
 ctat_splicing_call:
   container: "docker://hydragenetics/ctat-splicing:0.0.3"
@@ -177,17 +176,6 @@ fgbio_copy_umi_from_read_name:
 fgbio_group_reads_by_umi:
   container: "docker://hydragenetics/fgbio:2.1.0"
   umi_strategy: paired
-
-filter_vcf:
-  snv_soft_filter: "config/filters/config_soft_filter_uppsala_vep105.yaml"
-  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
-  snv_hard_filter: "config/filters/config_hard_filter_uppsala_vep105.yaml"
-  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
-  snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
-  cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
-  cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
-  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
-  itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
 
 filter_fuseq_wes:
   min_support: 50
@@ -275,7 +263,7 @@ jumble_cnvkit_call:
   container: "docker://hydragenetics/cnvkit:0.9.9"
 
 jumble_run:
-  container: "docker://hydragenetics/jumble:260310"
+  container: "docker://hydragenetics/jumble:0.5.0"
 
 jumble_vcf:
   dup_limit: 2.5
@@ -283,7 +271,6 @@ jumble_vcf:
   hom_del_limit: 0.5
 
 hotspot_report:
-  report_config: "config/reports/hotspot_report.yaml"
   levels:
     - [200, "ok", "yes"]
     - [30, "low", "yes"]
@@ -302,11 +289,11 @@ merge_cnv_json:
   cancer_genes: "config/reports/cancer_genes.csv"
   germline_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz
   unfiltered_cnv_vcfs:
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.fp_tag.vcf.gz
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.fp_tag.vcf.gz
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.vcf.gz
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.vcf.gz
   unfiltered_cnv_vcfs_tbi:
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.fp_tag.vcf.gz.tbi
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.fp_tag.vcf.gz.tbi
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.vcf.gz.tbi
+    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.vcf.gz.tbi
   extra_info_fields:
     - Twist_AF
   table_filter_config: "config/filters/config_table_filter.yaml"
@@ -444,8 +431,8 @@ scanitd:
 
 seqtk_subsample:
   container: "docker://hydragenetics/seqtk:1.4"
-  nr_reads: 100000000
-  nr_reads_rna: 100000000
+  nr_reads: 150000000
+  nr_reads_rna: 30000000
 
 somalier_ungrouped_extract:
   container: "docker://hydragenetics/somalier:0.2.18"

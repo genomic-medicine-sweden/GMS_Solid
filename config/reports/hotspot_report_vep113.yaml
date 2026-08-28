@@ -1,0 +1,146 @@
+columns:
+  chr:
+    order: 1
+  start:
+    order: 2
+  stop:
+    order: 3
+  sample:
+    visible: 0
+  Gene:
+    from: 'select'
+    items: "[0]"
+    else: "[1:]"
+    divider: ';'
+    elements:
+      hotspot:
+        from: 'hotspot'
+        field: 'GENE'
+        format: ['replace', 'SEPT', '´SEPT']
+      vep:
+        from: 'vep'
+        field: 'SYMBOL'
+        format: ['replace', 'SEPT', '´SEPT']
+    order: 4
+  Consequence:
+    from: 'vep'
+    field: 'Consequence'
+    order: 5
+  Exon:
+    from: 'hotspot'
+    field: 'EXON'
+    order: 6
+  AA_change:
+    from: 'select'
+    items: "[0]"
+    else: "[1]"
+    elements:
+      vep:
+        from: 'vep'
+        field: 'HGVSp'
+        extract_regex: ':p.([A-Za-z0-9_]+)'
+      hotspot:
+        from: 'hotspot'
+        field: 'AA_MUTATION_SYNTAX'
+    order: 7
+  CDS_change:
+    from: 'select'
+    items: '[:-1]'
+    else: '[-1]'
+    divider: ';'
+    elements:
+      vep:
+        from: 'vep'
+        field: 'HGVSc'
+      hotspot:
+        from: 'hotspot'
+        field: 'CDS_MUTATION_SYNTAX'
+    order: 8
+  Accession_number:
+    from: 'vep'
+    field: 'Feature'
+    order: 9
+  report:
+    order: 10
+  Comment:
+    from: 'hotspot'
+    field: 'COMMENT'
+    order: 11
+  Min_read_depth200:
+    from: 'function'
+    name: "get_read_level"
+    variables:
+      - levels
+      - depth
+    column: 0
+    order: 12
+  gvcf_depth:
+    order: 13
+    field: 'DP_mosdepth'
+  ref:
+    order: 14
+  alt:
+     order: 15
+  DP:
+    from: 'function'
+    name: 'get_annotation_data_info'
+    variables:
+      - var
+      - 'DP'
+    order: 16
+  ref_depth:
+    order: 17
+  alt_depth:
+    order: 18
+  Accession_number_VEP:
+    from: 'vep'
+    field: 'Feature'
+  AF:
+    from: 'function'
+    name: 'get_info_field'
+    variables:
+      - 'var'
+      - 'AF'
+    format: ['string', "{:.3f}", "float"]
+    order: 19
+  rs:
+    from: 'vep'
+    field: 'Existing_variation'
+    extract_regex: '(rs[0-9]+)'
+    order: 20
+  db1000G:
+    from: 'vep'
+    field: 'AF'
+    order: 21
+  GnomAD:
+    from: 'vep'
+    field: 'gnomADe_AF'
+    order: 22
+  clinvar:
+    from: 'vep'
+    field: 'CLIN_SIG'
+    order: 23
+  background_median:
+    from: 'function'
+    name: 'get_info_field'
+    variables:
+      - 'var'
+      - 'PanelMedian'
+    format: ['string', "{:.5f}", "float"]
+    order: 24
+  nr_std_from_background_median:
+    from: 'function'
+    name: 'get_info_field'
+    variables:
+      - 'var'
+      - 'PositionNrSD'
+    format: ['string', "{:.1f}", "float"]
+    order: 25
+  nr_observed_in_normals:
+    from: 'function'
+    name: 'get_info_field'
+    variables:
+      - 'var'
+      - 'Artifact'
+    order: 26
+

@@ -47,6 +47,12 @@ fusioncatcher:
   mem_mb: 61440
   mem_per_cpu: 6144
 
+jumble_reference:
+  threads: 5
+  time: "24:00:00"
+  mem_mb: 30720
+  mem_per_cpu: 6144
+
 vep:
   threads: 5
   time: "6:00:00"

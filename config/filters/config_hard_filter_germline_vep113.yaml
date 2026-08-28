@@ -1,0 +1,25 @@
+filters:
+  germline:
+    description: "Hard filter germline exonic/WGS variants, or variants missing gnomAD annotation in both"
+    expression: "((VEP:gnomADe_AF < 0.01 or VEP:gnomADe_AF > 0.99) or (VEP:gnomADg_AF < 0.01 or VEP:gnomADg_AF > 0.99) or (!exist[., VEP:gnomADe_AF] and !exist[., VEP:gnomADg_AF]))"
+    soft_filter: "False"
+  complex:
+    description: "Hard filter complex variants"
+    expression: "(exist[., INFO:COMPLEXAF] and (FORMAT:AF:0 < 0.35 or FORMAT:AF:0 > 0.65))"
+    soft_filter: "False"
+  af:
+    description: "Hard filter variants with low or high AF (AF lower than 0.02 or higher than 0.98)"
+    expression: "(FORMAT:AF:0 < 0.02 or FORMAT:AF:0 > 0.98)"
+    soft_filter: "False"
+  ad:
+    description: "Hard filter variants with few observations (AD lower than 20)"
+    expression: "(FORMAT:AD:1 < 20 or FORMAT:AD:0 < 20)"
+    soft_filter: "False"
+  dp:
+    description: "Hard filter variants with low depth (DP lower than 100)"
+    expression: "(FORMAT:DP < 100)"
+    soft_filter: "False"
+  snp_type:
+    description: "Hard filter variants that are not SNVs"
+    expression: "(!exist[SNV, VEP:VARIANT_CLASS])"
+    soft_filter: "False"

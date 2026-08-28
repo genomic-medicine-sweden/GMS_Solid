@@ -71,7 +71,7 @@ The CNVkit and GATK CNV caller often miss small deletions of four exons or small
 ---
 
 ## cnv_tsv_report
-Collect all CNV calls into an excel friendly text file. Adds potential 1p19q calls. Also add a FP flag for variants called by CNVkit that in GATK CNV does not have any signal in that region. See further [CNV tsv report info](dna_cnvs.md#cnv-report).
+Collect all CNV calls into an excel friendly text file. Adds potential 1p19q calls. See further [CNV tsv report info](dna_cnvs.md#cnv-report).
 
 ### :snake: Rule
 

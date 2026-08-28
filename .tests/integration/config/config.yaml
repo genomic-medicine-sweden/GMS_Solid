@@ -82,13 +82,15 @@ fuseq_wes:
   params: "reference/fuseq_params.txt"
 
 filter_vcf:
-  snv_soft_filter: "../../config/config_soft_filter_uppsala.yaml"
-  snv_hard_filter: "../../config/config_hard_filter_uppsala.yaml"
-  snv_hard_filter_umi: "../../config/config_hard_filter_umi.yaml"
-  snv_hard_filter_purecn: "../../config/config_hard_filter_purecn.yaml"
-  cnv_hard_filter_amp: "../../config/config_hard_filter_cnv_amp.yaml"
-  cnv_hard_filter_loh: "../../config/config_hard_filter_cnv_loh.yaml"
-  germline: "../../config/config_hard_filter_germline.yaml"
+  snv_soft_filter: "../../config/filters/config_soft_filter_vep105.yaml"
+  snv_soft_filter_umi: "../../config/filters/config_soft_filter_umi_vep105.yaml"
+  snv_hard_filter: "../../config/filters/config_hard_filter_vep105.yaml"
+  snv_hard_filter_umi: "../../config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_hard_filter_purecn: "../../config/filters/config_hard_filter_purecn.yaml"
+  cnv_hard_filter_amp: "../../config/filters/config_hard_filter_cnv_amp.yaml"
+  cnv_hard_filter_loh: "../../config/filters/config_hard_filter_cnv_loh.yaml"
+  germline: "../../config/filters/config_hard_filter_germline_vep105.yaml"
+  itd_hard_filter: "../../config/filters/config_hard_filter_scanitd.yaml"
 
 fragmentomics_fragment_length_patient_score:
   reference_set: "reference/vessies_reference_set.txt"

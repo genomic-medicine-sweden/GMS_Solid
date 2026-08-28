@@ -25,8 +25,8 @@ filters:
     soft_filter_flag: "Background_lt_6SD"
     soft_filter: "True"
   germline:
-    description: "Soft filter germline"
-    expression: "(VEP:gnomAD_AF > 0.005)"
+    description: "Soft filter germline exonic/WGS variants"
+    expression: "(VEP:gnomADe_AF > 0.005 or VEP:gnomADg_AF > 0.005)"
     soft_filter_flag: "germline_gnomad"
     soft_filter: "True"
   af_snv:
