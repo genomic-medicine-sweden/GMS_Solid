@@ -645,7 +645,12 @@ properties:
         description: name or path to docker/singularity container
       match_cutoff:
         type: number
-        description: relatedness cutoff for match (default 0.85)
+        description: relatedness cutoff for match, required together with ibs0_cutoff (default 0.6)
+      ibs0_cutoff:
+        type: number
+        description: >-
+          max ibs0 (sites with opposite homozygous genotypes) required, together with
+          match_cutoff, to flag a match (default 2)
 
   trimmer_software:
     description: trimmer software that should be used

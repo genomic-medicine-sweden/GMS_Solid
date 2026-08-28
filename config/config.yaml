@@ -338,6 +338,7 @@ multiqc:
         - "qc/picard_collect_insert_size_metrics/{sample}_{type}.insert_size_metrics.txt"
         - "qc/samtools_stats/{sample}_{type}.samtools-stats.txt"
         - "qc/gatk_calculate_contamination/{sample}_{type}.contamination.table"
+        - "qc/somalier_ungrouped/somalier_dna_dna_match.tsv"
     DNA_umi:
       config: "config/reports/multiqc_config_dna_umi.yaml"
       included_unit_types: ["N", "T"]
@@ -352,6 +353,7 @@ multiqc:
         - "qc/gatk_calculate_contamination/{sample}_{type}.contamination.table"
         - "alignment/fgbio_group_reads_by_umi/{sample}_{type}.umi.histo.tsv"
         - "qc/fgbio_duplex_yield_summary/{sample}_{type}.duplex_yield_summary.txt"
+        - "qc/somalier_ungrouped/somalier_dna_dna_match.tsv"
     RNA:
       config: "config/reports/multiqc_config_rna.yaml"
       included_unit_types: ["R"]
