@@ -58,31 +58,3 @@ rule somalier_dna_dna_report:
         "{rule}: generating DNA-DNA best match report from somalier pairs"
     script:
         "../scripts/somalier_dna_dna_match.py"
-
-
-rule somalier_dna_dna_matches_mqc:
-    input:
-        report="qc/somalier_ungrouped/somalier_dna_dna_match.tsv",
-        mqc_config=config.get("somalier_dna_dna_matches_mqc", {}).get("mqc_config", ""),
-    output:
-        mqc=temp("qc/somalier_ungrouped/somalier_dna_dna_matches_mqc.tsv"),
-    log:
-        "qc/somalier_ungrouped/somalier_dna_dna_matches_mqc.tsv.log",
-    benchmark:
-        repeat(
-            "qc/somalier_ungrouped/somalier_dna_dna_matches_mqc.tsv.benchmark.tsv",
-            config.get("somalier_dna_dna_matches_mqc", {}).get("benchmark_repeats", 1),
-        )
-    threads: config.get("somalier_dna_dna_matches_mqc", {}).get("threads", config["default_resources"]["threads"])
-    resources:
-        mem_mb=config.get("somalier_dna_dna_matches_mqc", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("somalier_dna_dna_matches_mqc", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("somalier_dna_dna_matches_mqc", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("somalier_dna_dna_matches_mqc", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("somalier_dna_dna_matches_mqc", {}).get("time", config["default_resources"]["time"]),
-    container:
-        config.get("somalier_dna_dna_matches_mqc", {}).get("container", config["default_container"])
-    message:
-        "{rule}: creating custom MultiQC content for the somalier DNA-DNA matches table"
-    shell:
-        """(sed 's/^/# /' {input.mqc_config} > {output.mqc} && cat {input.report} >> {output.mqc}) &> {log}"""

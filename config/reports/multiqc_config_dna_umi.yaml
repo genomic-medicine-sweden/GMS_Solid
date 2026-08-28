@@ -66,12 +66,24 @@ custom_data:
           scale: "RdYlGn-rev"
           suffix: "%"
           format: "{:.2f}"
+  somalier_dna_dna_matches:
+    file_format: "tsv"
+    section_name: "Somalier DNA-DNA matches"
+    description: "Unexpected genetic relatedness between DNA samples, flagged by Somalier"
+    plot_type: "generalstats"
+    pconfig:
+      - Relatedness:
+          min: 0
+          max: 1
+          scale: "RdYlGn-rev"
 
 sp:
   contamination_table:
     fn: "*.contamination.table"
   duplex_yield_metrics:
     fn: "*.duplex_yield_summary.txt"
+  somalier_dna_dna_matches:
+    fn: "somalier_dna_dna_match.tsv"
 
 table_columns_visible:
   contamination_table:
@@ -80,6 +92,8 @@ table_columns_visible:
     ds_fraction_duplexes: True
     ds_duplexes: True
     percent_duplication: True
+  somalier_dna_dna_matches:
+    Relatedness: True
   "Picard: HsMetrics":
     FOLD_ENRICHMENT: False
     PCT_TARGET_BASES_30X: False

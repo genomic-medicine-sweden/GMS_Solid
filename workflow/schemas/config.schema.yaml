@@ -634,19 +634,6 @@ properties:
       - min_unique_reads
 
 
-  somalier_dna_dna_matches_mqc:
-    type: object
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      mqc_config:
-        type: string
-        description: path to the MultiQC custom-content config yaml for the DNA-DNA matches table
-
   somalier_dna_dna_report:
     type: object
     properties:
