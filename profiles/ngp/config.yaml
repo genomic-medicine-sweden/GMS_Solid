@@ -1,0 +1,14 @@
+jobs: 100
+keep-going: True
+restart-times: 1
+latency-wait: 120
+show-failed-logs: True
+rerun-incomplete: True
+use-singularity: True
+configfiles: ["config/config.yaml", "config/config.data.hg19.yaml"]
+singularity-args: "-e -B /gms-data -B /gms-home -B ${TMPDIR}:/tmp -B /gms-scratch "
+wrapper-prefix: "git+file://gms-data/gmc-joint/Twist_Solid_GMS560/Twist_Solid_develop/snakemake-wrappers/"
+singularity-prefix: "/gms-data/gmc-joint/Twist_Solid_GMS560/Twist_Solid_develop/singularity_cache/"
+drmaa: " -V  -pe OpenMP {resources.threads} -l h_rt={resources.time} -N {rule} -e sge_out/{rule}_%j.err -o sge_out/{rule}_%j.out"
+drmaa-log-dir: "sge_out"
+
