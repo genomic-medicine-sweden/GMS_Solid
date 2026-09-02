@@ -120,11 +120,6 @@ ctat_splicing_call:
   container: "docker://hydragenetics/ctat-splicing:0.0.3"
 
 estimate_ctdna_fraction:
-  # CNV parameters
-  min_germline_af: 0.1
-  min_nr_SNPs_per_segment: 35
-  min_segment_length: 10000000
-  vaf_baseline: 0.48
   # SNV filter parameters
   artifact_limit: 0
   callers: ["vardict"]
@@ -140,7 +135,7 @@ estimate_ctdna_fraction:
   min_qual: 40
   min_sbf: 0.05
   min_sn: 50
-  chip_genes: ["DNMT3A", "TET2", "ASXL1"]
+  chip_genes: ["DNMT3A", "TET2", "ASXL1", "PPM1D"]
   excluded_consequences: ["synonymous_variant", "5_prime_UTR_variant", "3_prime_UTR_variant", "non_coding_transcript_exon_variant"]
 
 fastp_pe:

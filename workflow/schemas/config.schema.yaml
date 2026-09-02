@@ -746,15 +746,9 @@ properties:
       max_panel_median:
         type: number
         description: Maximum allowed panel median VAF
-      min_germline_af:
-        type: number
-        description: minimial germline allele frequency to be included in density calculations (removes somatic)
       min_mq:
         type: number
         description: Minimum mapping quality (MQ)
-      min_nr_SNPs_per_segment:
-        type: integer
-        description: minimal number of germline SNPs in segments to be used for ctDNA estimation
       min_position_nr_sd:
         type: number
         description: Minimum positional read count SD
@@ -767,15 +761,9 @@ properties:
       min_sbf:
         type: number
         description: Minimum strand bias Fisher p-value
-      min_segment_length:
-        type: integer
-        description: minimal length of segments to be used for ctDNA estimation
       min_sn:
         type: number
         description: Minimum signal-to-noise ratio
-      vaf_baseline:
-        type: number
-        description: Sets the VAF-baseline. In theory BAF-baseline is 0.5 (50% for each SNP), however in practice this is slightly shifted downwards due to reference bias in alignment
 
 
 required:
