@@ -10,6 +10,9 @@ cnvkit_batch:
 gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_novaseqX_24_updated.hdf5"
 
+ichorcna_offtarget_run:
+  normal_panel: "{{PROJECT_PON_DATA}}/GMS560/PoN/ichorcna_offtarget_novaseqX_24.rds"
+
 jumble_run:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/jumble_novaseqX_24_updated.RDS"
 

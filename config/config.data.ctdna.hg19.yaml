@@ -29,6 +29,17 @@ fgbio_call_overlapping_consensus_bases:
   agrement_strategy: "Consensus"
   disagrement_strategy: "Consensus"
 
+ichorcna_offtarget_read_counter:
+  window: 500000
+
+ichorcna_offtarget_run:
+  # ichorCNA ships pre-built hg19 GC/mappability wigs and a centromere file directly in the image
+  gc_wig: "/opt/ichorCNA/inst/extdata/gc_hg19_500kb.wig"
+  map_wig: "/opt/ichorCNA/inst/extdata/map_hg19_500kb.wig"
+  centromere: "/opt/ichorCNA/inst/extdata/GRCh37.p13_centromere_UCSC-gapTable.txt"
+  genome_build: "hg19"
+  genome_style: "UCSC"
+
 gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_nextseq2000_24.hdf5"
 

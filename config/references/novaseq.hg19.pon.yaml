@@ -57,6 +57,18 @@
       type: file
       url: https://figshare.com/ndownloader/files/60373457?private_link=88202740beb6fcbac09d
 
+ ichorcna_offtarget_run:
+   normal_panel_novaseqX:
+      checksum: 8a8917f0a29774f356e4e73c347e9745
+      path: GMS560/PoN/ichorcna_offtarget_novaseqX_24.rds
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.0/cnv/ichorcna_offtarget_novaseqX_24.rds
+   normal_panel_cfDNA_novaseqX:
+      checksum: c338051a08eae1903c971bf71ff98268
+      path: GMS560/PoN/ichorcna_offtarget_cfDNA_novaseqX_24.rds
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.0/cnv/ichorcna_offtarget_cfDNA_novaseqX_24.rds
+
  cnvkit_batch:
    normal_reference:
      checksum: 203d8e695b6324f8a5c27e2c7882f3d2

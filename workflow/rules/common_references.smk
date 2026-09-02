@@ -115,6 +115,15 @@ def generate_copy_code(workflow, output_spec):
 generate_copy_code(workflow, output_spec)
 
 
+def get_reference_bam_input(sample: str, type: str) -> str:
+    # Mirrors get_deduplication_bam_input() in rules/common.smk: the reference
+    # pipeline must build PoN/background/PureCN/etc. from the same final,
+    # deduplicated bam the main pipeline actually reports on.
+    if config.get("deduplication") == "umi":
+        return "alignment/samtools_merge_bam_umi/%s_%s.bam" % (sample, type)
+    return "alignment/samtools_merge_bam_all_final/%s_%s.bam" % (sample, type)
+
+
 def get_bams(units: pandas.DataFrame, name: str) -> typing.List[str]:
     return get_files(units, name, "alignment/samtools_merge_bam/%s_%s.bam")
 
@@ -125,6 +134,10 @@ def get_counts(units: pandas.DataFrame, name: str) -> typing.List[str]:
 
 def get_hdf5(units: pandas.DataFrame, name: str) -> typing.List[str]:
     return get_files(units, name, "references/collect_read_counts/%s_%s.counts.hdf5")
+
+
+def get_wigs(units: pandas.DataFrame, name: str) -> typing.List[str]:
+    return get_files(units, name, "references/ichorcna_offtarget_read_counter/%s_%s.wig")
 
 
 def get_vcfs(units: pandas.DataFrame, name: str) -> typing.List[str]:

@@ -43,6 +43,13 @@
      type: file
      url: https://figshare.scilifelab.se/ndownloader/files/52731449?private_link=88202740beb6fcbac09d
 
+ ichorcna_offtarget_run:
+   normal_panel_ctdna:
+     checksum: 9c3224360f8d257ff1ddc4cc5cf5ef2e
+     path: GMS560/PoN/ichorcna_offtarget_cfDNA_nextseq2000_24.rds
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.0/cnv/ichorcna_offtarget_cfDNA_nextseq2000_24.rds
+
  cnvkit_batch:
    normal_reference:
      checksum: 203d8e695b6324f8a5c27e2c7882f3d2
