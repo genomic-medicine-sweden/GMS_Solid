@@ -154,6 +154,17 @@ hotspot_report:
     PIK: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_PIK_20260223.csv"
     VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260610.csv"
 
+ichorcna_offtarget_read_counter:
+  window: 500000
+
+ichorcna_offtarget_run:
+  # ichorCNA ships pre-built hg19 GC/mappability wigs and a centromere file directly in the image
+  gc_wig: "/opt/ichorCNA/inst/extdata/gc_hg19_500kb.wig"
+  map_wig: "/opt/ichorCNA/inst/extdata/map_hg19_500kb.wig"
+  centromere: "/opt/ichorCNA/inst/extdata/GRCh37.p13_centromere_UCSC-gapTable.txt"
+  genome_build: "hg19"
+  genome_style: "UCSC"
+
 juli_annotate:
   cosmic: "{{PROJECT_REF_DATA}}/ref_data/juli/CosmicFusionExport_V76.tsv"
   pfam: "{{PROJECT_REF_DATA}}/ref_data/juli/Pfam-A.full.human"
