@@ -8,7 +8,7 @@ modules:
   alignment: "v0.8.0"
   annotation: "v1.4.1"
   biomarker: "v0.9.0"
-  cnv_sv: "v3.3.0"
+  cnv_sv: "v3.4.0"
   filtering: "v0.3.0"
   fusions: "v0.3.1"
   prealignment: "v1.3.0"
@@ -264,6 +264,12 @@ gene_fuse:
 general_html_report:
   final_directory_depth: 3
   multiqc_config: "config/reports/multiqc_config_dna.yaml"
+
+ichorcna_offtarget_read_counter:
+  container: "docker://hydragenetics/ichorcna:v260817"
+
+ichorcna_offtarget_run:
+  container: "docker://hydragenetics/ichorcna:v260817"
 
 juli_annotate:
   container: "docker://hydragenetics/juli:0.1.6.2"
