@@ -39,8 +39,8 @@ use rule * from pipeline exclude all
 
 use rule gatk_collect_read_counts from cnv_sv as cnv_sv_gatk_collect_read_counts with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type),
+        bai=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type) + ".bai",
         interval="references/preprocess_intervals/design.preprocessed.interval_list",
 
 
@@ -52,8 +52,8 @@ use rule gatk_denoise_read_counts from cnv_sv as cnv_sv_gatk_denoise_read_counts
 
 use rule cnvkit_batch from cnv_sv as cnv_sv_cnvkit_batch with:
     input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        bam=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type),
+        bai=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type) + ".bai",
         reference="references/cnvkit_build_normal_reference/cnvkit.PoN.cnn",
 
 
@@ -93,7 +93,7 @@ use rule * from references exclude all as references_*
 # Ovveride input to use files generate by imported pipeline
 # instead of fetching file paths from input files:
 # The following files will be create by the pipeline:
-# - alignment/samtools_merge_bam/{sample}_{type}.bam
+# - final deduplicated bam (see get_reference_bam_input, mode-dependent)
 # - annotation/background_annotation/{sample}_{type}.background_annotation.vcf.gz
 # - cnv_sv/svdb_query/{sample}_{type}.pathology_purecn.svdb_query.vcf"
 # - qc/add_mosdepth_coverage_to_gvcf/{sample}_{type}.mosdepth.g.vcf.gz"
@@ -122,7 +122,7 @@ use rule create_artifact_file from references as references_create_artifact_file
 ####################################################
 #              msi PoN override
 ####################################################
-# Use bam files created by pipeline: alignment/samtools_merge_bam/{sample}_{type}.bam
+# Use the final deduplicated bam created by the pipeline (see get_reference_bam_input)
 use rule msisensor_pro_input_file from references as references_msisensor_pro_input_file with:
     input:
         bams=lambda wildcards: get_bams(units, "msisensor_pro_reference_list_baseline"),
@@ -144,11 +144,11 @@ use rule create_read_count_panel_of_normals from references as references_create
         bams=lambda wildcards: get_hdf5(units, "gatk_pon"),
 
 
-# Use bam files created by pipeline: alignment/samtools_merge_bam/{sample}_{type}.bam
+# Use the final deduplicated bam created by the pipeline (see get_reference_bam_input)
 use rule collect_read_counts from references as references_collect_read_counts with:
     input:
-        bam=lambda wildcards: "alignment/samtools_merge_bam/%s_%s.bam" % (wildcards.sample, wildcards.type),
-        bai=lambda wildcards: "alignment/samtools_merge_bam/%s_%s.bam.bai" % (wildcards.sample, wildcards.type),
+        bam=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type),
+        bai=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type) + ".bai",
         interval="references/preprocess_intervals/design.preprocessed.interval_list",
 
 
@@ -160,7 +160,7 @@ use rule preprocess_intervals from references as references_preprocess_intervals
 ####################################################
 #              cnvkit pon input override
 ####################################################
-# use bam files create by pipeline: alignment/samtools_merge_bam/{sample}_{type}.bam
+# use the final deduplicated bam created by the pipeline (see get_reference_bam_input)
 use rule cnvkit_build_normal_reference from references as references_cnvkit_build_normal_reference with:
     input:
         bams=lambda wildcards: get_bams(units, "cnvkit_pon"),
@@ -178,7 +178,7 @@ use rule cnvkit_build_normal_reference from references as references_cnvkit_buil
 ####################################################
 #              jumble pon input override
 ####################################################
-# use bam files create by pipeline: alignment/samtools_merge_bam/{sample}_{type}.bam
+# use the final deduplicated bam created by the pipeline (see get_reference_bam_input)
 use rule jumble_reference from references as references_jumble_reference with:
     input:
         count_files=lambda wildcards: get_counts(units, "jumble_pon"),
@@ -188,17 +188,17 @@ use rule jumble_reference from references as references_jumble_reference with:
         ),
 
 
-# Use bam files created by pipeline: alignment/samtools_merge_bam/{sample}_{type}.bam
+# Use the final deduplicated bam created by the pipeline (see get_reference_bam_input)
 use rule jumble_count from references as references_jumble_count with:
     input:
-        bam=lambda wildcards: "alignment/samtools_merge_bam/%s_%s.bam" % (wildcards.sample, wildcards.type),
-        bai=lambda wildcards: "alignment/samtools_merge_bam/%s_%s.bam.bai" % (wildcards.sample, wildcards.type),
+        bam=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type),
+        bai=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type) + ".bai",
 
 
 ####################################################
 #              purecn normal input override
 ####################################################
-# Use bam files created by pipeline: alignment/samtools_merge_bam/{sample}_{type}.bam
+# Use the final deduplicated bam created by the pipeline (see get_reference_bam_input)
 use rule purecn_bam_list from references as references_purecn_bam_list with:
     input:
         bam_list=lambda wildcards: get_bams(units, "purecn_mapping_bias"),
