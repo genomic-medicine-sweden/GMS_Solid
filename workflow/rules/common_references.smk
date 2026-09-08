@@ -3,7 +3,13 @@ __copyright__ = "Copyright 2021, Jonas A"
 __email__ = "jonas.almlof@igp.uu.se"
 __license__ = "GPL-3"
 
+import json
+import linecache
+import pandas
 import pandas as pd
+import re
+import sys
+import typing
 import yaml
 import logging
 from snakemake.utils import validate
@@ -16,7 +22,7 @@ from hydra_genetics.utils.units import *
 
 log = logging.getLogger()
 
-min_version("7.18.0")
+min_version("9.0.0")
 
 ### Set and validate config file
 
@@ -44,7 +50,7 @@ validate(units, schema="../schemas/units.schema.yaml")
 
 
 wildcard_constraints:
-    sample="|".join(samples.index),
+    sample="|".join(re.escape(s) for s in samples.index),
     unit="N|T|R",
 
 
@@ -75,6 +81,16 @@ with open(config["output"]) as output:
         raise ValueError(f"output specification should be JSON or YAML: {output.name}")
 
 
+class _IdentityLineMap(dict):
+    """Line mapping for generated code, whose compiled and source line numbers are the same."""
+
+    def __contains__(self, lineno):
+        return True
+
+    def __missing__(self, lineno):
+        return lineno
+
+
 def generate_copy_code(workflow, output_spec):
     code = ""
     for filedef in output_spec["files"]:
@@ -86,8 +102,22 @@ def generate_copy_code(workflow, output_spec):
         rule_name = "_copy_{}".format("_".join(re.sub(r"[\"'-.,]", "", filedef["name"].strip().lower()).split()))
         result_file = os.path.basename(filedef["output"])
 
+        if input_file.startswith("{") and input_file.endswith("}"):
+            # An input of the form "{some_function}" is an input-function reference. The functions it
+            # can name (get_deduplication_bam_input and friends) live in rules/common.smk, which is not
+            # in scope here. Skip it: Snakefile_references.smk imports Snakefile as a module, and that
+            # generator — which does understand the form, and does have the functions — creates it.
+            continue
+
+        if workflow.is_rule(rule_name):
+            # The references pipeline includes common_references.smk and then imports Snakefile as a
+            # module, so both generators run in one process against the same output spec. Snakemake 9
+            # refuses a duplicate rule name (Snakemake 7 silently overwrote it); the second definition
+            # would be byte-identical anyway, so keep the first.
+            continue
+
         mem_mb = config.get("_copy", {}).get("mem_mb", config["default_resources"]["mem_mb"])
-        mem_per_cpu = config.get("_copy", {}).get("mem_mb", config["default_resources"]["mem_mb"])
+        mem_per_cpu = config.get("_copy", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"])
         partition = config.get("_copy", {}).get("partition", config["default_resources"]["partition"])
         threads = config.get("_copy", {}).get("threads", config["default_resources"]["threads"])
         time = config.get("_copy", {}).get("time", config["default_resources"]["time"])
@@ -102,14 +132,22 @@ def generate_copy_code(workflow, output_spec):
         code += '@workflow.shellcmd("cp --preserve=timestamps {input} {output}")\n\n'
         code += "@workflow.run\n"
         code += (
-            f"def __rule_{rule_name}(input, output, params, wildcards, threads, resources, log, version, rule, "
+            f"def __rule_{rule_name}(input, output, params, wildcards, threads, resources, log, rule, "
             "conda_env, container_img, singularity_args, use_singularity, env_modules, bench_record, jobid, is_shell, "
-            "bench_iteration, cleanup_scripts, shadow_dir, edit_notebook, conda_base_path, basedir, runtime_sourcecache_path, "
-            "__is_snakemake_rule_func=True):\n"
+            "bench_iteration, cleanup_scripts, shadow_dir, edit_notebook, conda_base_path, basedir, sourcecache_path, "
+            "runtime_sourcecache_path, runtime_paths, __is_snakemake_rule_func=True):\n"
             '\tshell ( "(cp --preserve=timestamps {input[0]} {output[0]}) &> {log}" , bench_record=bench_record, bench_iteration=bench_iteration)\n\n'
         )
 
-    exec(compile(code, "result_to_copy", "exec"), workflow.globals)
+    source_name = "reference_result_to_copy"
+
+    # See the identical comment in rules/common.smk. The name must differ from the one used there:
+    # the references pipeline imports Snakefile as a module, so both generators run in one process
+    # and a shared name would clobber the other's linecache entry.
+    linecache.cache[source_name] = (len(code), None, code.splitlines(True), source_name)
+    workflow.linemaps[source_name] = _IdentityLineMap()
+
+    exec(compile(code, source_name, "exec"), workflow.globals)
 
 
 generate_copy_code(workflow, output_spec)

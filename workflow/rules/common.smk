@@ -4,9 +4,11 @@ __email__ = "jonas.almlof@igp.uu.se"
 __license__ = "GPL-3"
 
 import json
+import linecache
 import os
 import pandas as pd
 import re
+import sys
 from datetime import datetime
 from snakemake.utils import validate
 from snakemake.utils import min_version
@@ -31,9 +33,12 @@ from hydra_genetics.utils.software_versions import touch_software_version_file
 from hydra_genetics.utils.software_versions import use_container
 
 
-hydra_min_version("4.2.1")
+# TODO: restore hydra_min_version("4.1.1") once a hydra-genetics release with Snakemake 9 /
+# Python 3.12 support exists. The migration branch pinned in requirements.txt reports
+# 3.4.1.dev34, so the 4.1.1 floor cannot be asserted during the migration.
+hydra_min_version("3.4.0")
 
-min_version("7.26.0")
+min_version("9.0.0")
 
 ### Set and validate config file
 
@@ -47,7 +52,7 @@ validate(config, schema="../schemas/config.schema.yaml")
 config = load_resources(config, config["resources"])
 validate(config, schema="../schemas/resources.schema.yaml")
 
-if workflow.use_singularity is True:
+if use_container(workflow):
     validate(config, schema="../schemas/singularity.schema.yaml")
 
 ### Read and validate samples file
@@ -107,7 +112,7 @@ wildcard_constraints:
     chr="[^_]+",
     flowcell="[A-Z0-9]+",
     lane="L[0-9]+",
-    sample="|".join(get_samples(samples)),
+    sample="|".join(re.escape(s) for s in get_samples(samples)),
     type="N|T|R",
 
 
@@ -350,6 +355,16 @@ def generate_star_read_group(wildcards):
     )
 
 
+class _IdentityLineMap(dict):
+    """Line mapping for generated code, whose compiled and source line numbers are the same."""
+
+    def __contains__(self, lineno):
+        return True
+
+    def __missing__(self, lineno):
+        return lineno
+
+
 def generate_copy_code(workflow, output_spec):
     code = ""
     for filedef in output_spec["files"]:
@@ -361,8 +376,15 @@ def generate_copy_code(workflow, output_spec):
         rule_name = "_copy_{}".format("_".join(re.sub(r"[\"'-.,]", "", filedef["name"].strip().lower()).split()))
         result_file = os.path.basename(filedef["output"])
 
+        if workflow.is_rule(rule_name):
+            # The references pipeline includes common_references.smk and then imports Snakefile as a
+            # module, so both generators run in one process against the same output spec. Snakemake 9
+            # refuses a duplicate rule name (Snakemake 7 silently overwrote it); the second definition
+            # would be byte-identical anyway, so keep the first.
+            continue
+
         mem_mb = config.get("_copy", {}).get("mem_mb", config["default_resources"]["mem_mb"])
-        mem_per_cpu = config.get("_copy", {}).get("mem_mb", config["default_resources"]["mem_mb"])
+        mem_per_cpu = config.get("_copy", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"])
         partition = config.get("_copy", {}).get("partition", config["default_resources"]["partition"])
         threads = config.get("_copy", {}).get("threads", config["default_resources"]["threads"])
         time = config.get("_copy", {}).get("time", config["default_resources"]["time"])
@@ -380,14 +402,23 @@ def generate_copy_code(workflow, output_spec):
         code += '@workflow.shellcmd("cp --preserve=timestamps {input} {output}")\n\n'
         code += "@workflow.run\n"
         code += (
-            f"def __rule_{rule_name}(input, output, params, wildcards, threads, resources, log, version, rule, "
+            f"def __rule_{rule_name}(input, output, params, wildcards, threads, resources, log, rule, "
             "conda_env, container_img, singularity_args, use_singularity, env_modules, bench_record, jobid, is_shell, "
-            "bench_iteration, cleanup_scripts, shadow_dir, edit_notebook, conda_base_path, basedir, runtime_sourcecache_path, "
-            "__is_snakemake_rule_func=True):\n"
+            "bench_iteration, cleanup_scripts, shadow_dir, edit_notebook, conda_base_path, basedir, sourcecache_path, "
+            "runtime_sourcecache_path, runtime_paths, __is_snakemake_rule_func=True):\n"
             '\tshell ( "(cp --preserve=timestamps {input[0]} {output[0]}) &> {log}" , bench_record=bench_record, bench_iteration=bench_iteration)\n\n'
         )
 
-    exec(compile(code, "result_to_copy", "exec"), workflow.globals)
+    source_name = "result_to_copy"
+
+    # Snakemake 9 derives rule.run_func_src for the "code" rerun trigger by looking the compiled
+    # filename up in workflow.linemaps and reading the lines back through linecache. Neither knows
+    # about source we compile ourselves, so register it in both. The generated source is its own
+    # original, so compiled and source line numbers coincide.
+    linecache.cache[source_name] = (len(code), None, code.splitlines(True), source_name)
+    workflow.linemaps[source_name] = _IdentityLineMap()
+
+    exec(compile(code, source_name, "exec"), workflow.globals)
 
 
 generate_copy_code(workflow, output_spec)

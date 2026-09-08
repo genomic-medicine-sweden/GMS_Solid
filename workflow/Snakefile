@@ -362,9 +362,11 @@ use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicat
 
 use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates with:
     input:
-        bams=lambda wildcards: "alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.bam"
-        if config.get("run_ffpe_overlapping_consensus", True)
-        else "alignment/samtools_extract_reads/{sample}_{type}_{chr}.bam",
+        bams=lambda wildcards: (
+            "alignment/fgbio_call_overlapping_consensus_bases/{sample}_{type}_{chr}.bam"
+            if config.get("run_ffpe_overlapping_consensus", True)
+            else "alignment/samtools_extract_reads/{sample}_{type}_{chr}.bam"
+        ),
     output:
         bam=temp("alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam"),
         metrics=temp("alignment/picard_mark_duplicates/{sample}_{type}_{chr}.metrics.txt"),
@@ -509,7 +511,7 @@ use rule star from alignment as alignment_star with:
             config.get("star", {}).get("extra", ""),
             config.get("star", {}).get("read_group", generate_star_read_group(wildcards)),
         ),
-        idx="{input.idx}",
+        idx=lambda wildcards, input: input.idx,
 
 
 use rule samtools_sort from alignment as alignment_samtools_sort_rna with:

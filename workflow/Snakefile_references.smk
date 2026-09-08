@@ -37,27 +37,32 @@ module pipeline:
 use rule * from pipeline exclude all
 
 
-use rule gatk_collect_read_counts from cnv_sv as cnv_sv_gatk_collect_read_counts with:
+# The four overrides below address the `pipeline` module by the rule's *final* (prefixed) name.
+# Snakemake 9 scopes a `module:` registration to the workflow that declares it, so the `cnv_sv` and
+# `annotation` modules registered inside workflow/Snakefile are not visible here; only `pipeline` is.
+
+
+use rule cnv_sv_gatk_collect_read_counts from pipeline with:
     input:
         bam=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type),
         bai=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type) + ".bai",
         interval="references/preprocess_intervals/design.preprocessed.interval_list",
 
 
-use rule gatk_denoise_read_counts from cnv_sv as cnv_sv_gatk_denoise_read_counts with:
+use rule cnv_sv_gatk_denoise_read_counts from pipeline with:
     input:
         hdf5PoN="references/create_read_count_panel_of_normals/gatk_cnv_panel_of_normal.hdf5",
         hdf5Tumor="cnv_sv/gatk_collect_read_counts/{sample}_{type}.counts.hdf5",
 
 
-use rule cnvkit_batch from cnv_sv as cnv_sv_cnvkit_batch with:
+use rule cnv_sv_cnvkit_batch from pipeline with:
     input:
         bam=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type),
         bai=lambda wildcards: get_reference_bam_input(wildcards.sample, wildcards.type) + ".bai",
         reference="references/cnvkit_build_normal_reference/cnvkit.PoN.cnn",
 
 
-use rule background_annotation from annotation as annotation_background_annotation with:
+use rule annotation_background_annotation from pipeline with:
     input:
         background="references/create_background_file/background_panel.tsv",
         vcf="{file}.hotspot_annotated.vcf",
@@ -69,7 +74,7 @@ module misc:
             config,
             "hydra-genetics/misc",
             path="workflow/Snakefile",
-            tag=config["modules"]["misc"],
+            tag="migrate-to-snakemake9",
         )
     config:
         config
@@ -91,7 +96,7 @@ module references:
             config,
             "hydra-genetics/references",
             path="workflow/Snakefile",
-            tag=config["modules"]["references"],
+            tag="migrate-to-snakemake9",
         )
     config:
         config
