@@ -75,6 +75,12 @@ files:
     types:
       - T
       - N
+  - name: Paired Mutect2 VCF
+    input: snv_indels/gatk_mutect2_paired/{sample}_{type}.merged.unfiltered.vcf.gz
+    output: results/dna/{sample}_{type}/additional_files/vcf/{sample}_{type}.gatk_mutect2_paired.vcf.gz
+    types:
+      - T
+    requires_matched_normal: true
   - name: Duplication metrics
     input: qc/picard_collect_duplication_metrics/{sample}_{type}.duplication_metrics.txt
     output: results/dna/{sample}_{type}/additional_files/qc/{sample}_{type}.duplication_metrics.txt
