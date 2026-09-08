@@ -41,6 +41,8 @@ ruleorder: filtering_bcftools_filter_include_region > snv_indels_bgzip
 ruleorder: qc_picard_collect_alignment_summary_metrics_rna > qc_picard_collect_alignment_summary_metrics
 ruleorder: qc_picard_collect_hs_metrics_rna > qc_picard_collect_hs_metrics
 ruleorder: snv_indels_bcftools_sort > snv_indels_bgzip
+ruleorder: snv_indels_gatk_mutect2_paired > snv_indels_bgzip
+ruleorder: snv_indels_gatk_mutect2_paired > snv_indels_tabix
 ruleorder: snv_indels_gatk_mutect2_gvcf > alignment_samtools_sort
 ruleorder: snv_indels_bgzip > cnv_sv_bgzip
 ruleorder: snv_indels_tabix > cnv_sv_tabix
@@ -702,7 +704,7 @@ rule snv_indels_gatk_mutect2_paired:
         f1r2=temp("snv_indels/gatk_mutect2_paired/{sample}_{type}_{chr}.unfiltered.f1r2.tar.gz"),
     params:
         extra=lambda wildcards: "{} --tumor-sample {}_{} --normal-sample {}_N".format(
-            get_gatk_mutect2_extra(wildcards, "gatk_mutect2"),
+            config.get("gatk_mutect2", {}).get("extra", ""),
             wildcards.sample,
             wildcards.type,
             get_matched_normal(wildcards.sample),
