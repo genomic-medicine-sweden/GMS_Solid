@@ -109,6 +109,9 @@ Options:
       --list-steps        Print the step names in execution order and exit.
   -h, --help               Show this help.
 
+Reference config paths are resolved from inside the pipeline clone (<PIPELINE_NAME>/), so
+config/references/references.hg19.yaml refers to that clone's own config directory.
+
 Steps are resumable. A completed step writes <state-dir>/<step>.done; the slow steps
 (module clones, container downloads, reference downloads) additionally mark each repo,
 container set and reference config separately, so an interrupted run resumes mid-step.
@@ -242,6 +245,9 @@ pgx_enabled() { [[ -n $PGX_VERSION ]]; }
 
 START_DIR=$PWD
 WORK_DIR=${START_DIR}/${PIPELINE_NAME}
+if [[ -n $STATE_DIR && $STATE_DIR != /* ]]; then
+    STATE_DIR=${START_DIR}/${STATE_DIR}
+fi
 BUNDLE=${PIPELINE_NAME}_${TAG_OR_BRANCH}
 ENV_DIR=${WORK_DIR}/${BUNDLE}_env
 STAGE_DIR=${WORK_DIR}/${BUNDLE}
@@ -407,13 +413,20 @@ step_stage_pipeline() {
 step_install_requirements() {
     require_dir "${STAGE_DIR}/${PIPELINE_NAME}" stage_pipeline
     ensure_env_active
-    "${ENV_DIR}/bin/pip3" install --no-cache-dir -I \
+    # No --ignore-installed here: it makes pip reinstall the pip/setuptools that conda placed in
+    # the prefix, and conda pack then refuses the env ("Files managed by conda were found to have
+    # been deleted/overwritten"). PYTHONNOUSERSITE and the unset PYTHONPATH above already keep
+    # packages from outside the prefix out of the install.
+    "${ENV_DIR}/bin/pip3" install --no-cache-dir \
         -r "${STAGE_DIR}/${PIPELINE_NAME}/requirements.txt"
 }
 
 step_pack_env() {
     ensure_env_active
-    conda pack --prefix "$ENV_DIR" -o "${STAGE_DIR}/env.tar.gz" --force
+    # requirements.txt pins packages that conda also ships in the prefix (setuptools), so pip
+    # replaces some conda-managed files no matter what. The packed env is complete and only ever
+    # used offline, so let conda pack proceed instead of aborting the build.
+    conda pack --prefix "$ENV_DIR" -o "${STAGE_DIR}/env.tar.gz" --force --ignore-missing-files
 }
 
 # The PGX add-on pipeline is staged next to the main pipeline and gets its own env,
@@ -544,6 +557,15 @@ step_references() {
     ensure_env_active
 
     local reference_config key
+    # Checked before the first download, since these paths are relative to the pipeline clone and
+    # a typo would otherwise only surface once hydra-genetics is already running.
+    for reference_config in "${REFERENCE_CONFIGS[@]}"; do
+        [[ -f $reference_config ]] || die "$(
+            printf 'reference config %s not found (looked in %s).\n' "$reference_config" "$PWD"
+            printf 'The config repo is cloned to %s.' "$CONFIG_DIR"
+        )"
+    done
+
     for reference_config in "${REFERENCE_CONFIGS[@]}"; do
         key=references/$(printf '%s' "$reference_config" | tr -c '[:alnum:]._-' '_')
         if is_done "$key"; then
@@ -579,27 +601,44 @@ step_cleanup() {
 
 # --------------------------------------------------------------------------- run steps
 ran_any=false
-for step in "${STEPS[@]}"; do
+
+run_step() {
+    local step=$1
     if in_list "$step" "${SKIP_STEPS[@]+"${SKIP_STEPS[@]}"}"; then
         log "skipping ${step} (--skip)"
-        continue
+        return 0
     fi
     if [[ ${#ONLY_STEPS[@]} -gt 0 ]] && ! in_list "$step" "${ONLY_STEPS[@]}"; then
-        continue
+        return 0
     fi
     if is_done "$step"; then
         log "skipping ${step} (already done)"
-        continue
+        return 0
     fi
     if [[ $DRY_RUN == true ]]; then
         log "would run ${step}"
-        continue
+        return 0
     fi
 
     log "${step}"
     "step_${step}"
     mark_done "$step"
     ran_any=true
+}
+
+# The pipeline clone has to exist before anything else can run.
+run_step "${STEPS[0]}"
+
+# The rest of the build runs from inside the clone, so relative paths on the command line -- the
+# reference configs, e.g. config/references/references.hg19.yaml -- resolve against it. Everything
+# the script writes uses an absolute path, so this only affects paths the caller supplied.
+if [[ $DRY_RUN == false ]]; then
+    [[ -d $WORK_DIR ]] || die "${WORK_DIR} is missing; rerun with --force-step clone_pipeline"
+    cd "$WORK_DIR"
+fi
+
+for step in "${STEPS[@]:1}"; do
+    run_step "$step"
 done
 
 if [[ $DRY_RUN == true ]]; then
