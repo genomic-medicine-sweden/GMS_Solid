@@ -365,6 +365,28 @@ require_dir() {
     [[ -d $path ]] || die "${path} is missing; rerun with --force-step ${step}"
 }
 
+resolve_reference_config() {
+    # Reference configs are given relative to the pipeline clone (config/references/*.yaml), which
+    # is where the script runs from. Fall back to the directory the script was called from, so both
+    # readings of a relative path work.
+    local given=$1
+    if [[ -f $given ]]; then
+        # Absolute, or relative to the pipeline clone.
+        printf '%s\n' "$(cd "$(dirname "$given")" && pwd)/$(basename "$given")"
+        return 0
+    fi
+    if [[ $given != /* && -f ${START_DIR}/${given} ]]; then
+        printf '%s\n' "${START_DIR}/${given}"
+        return 0
+    fi
+    die "$(
+        printf 'reference config %s not found. Looked in:\n' "$given"
+        printf '  %s (the pipeline clone)\n' "$PWD"
+        printf '  %s (where the script was started)\n' "$START_DIR"
+        printf 'The config repo is cloned to %s.' "$CONFIG_DIR"
+    )"
+}
+
 git_clone() {
     # git_clone <url> <destination> [branch]
     local url=$1 dest=$2 branch=${3:-} attempt=1
@@ -556,24 +578,25 @@ step_references() {
     fi
     ensure_env_active
 
-    local reference_config key
-    # Checked before the first download, since these paths are relative to the pipeline clone and
-    # a typo would otherwise only surface once hydra-genetics is already running.
+    # Resolved up front: hydra-genetics opens these paths itself, so a wrong one would otherwise
+    # only surface as a FileNotFoundError traceback once the download is already running.
+    local -a resolved=()
+    local reference_config path key
     for reference_config in "${REFERENCE_CONFIGS[@]}"; do
-        [[ -f $reference_config ]] || die "$(
-            printf 'reference config %s not found (looked in %s).\n' "$reference_config" "$PWD"
-            printf 'The config repo is cloned to %s.' "$CONFIG_DIR"
-        )"
+        path=$(resolve_reference_config "$reference_config")
+        resolved+=("$path")
     done
 
-    for reference_config in "${REFERENCE_CONFIGS[@]}"; do
-        key=references/$(printf '%s' "$reference_config" | tr -c '[:alnum:]._-' '_')
+    for path in "${resolved[@]}"; do
+        # Basename plus a checksum of the full path: readable, unique, and short enough to be a
+        # filename whatever the path length.
+        key=references/$(basename "$path")-$(printf '%s' "$path" | cksum | cut -d' ' -f1)
         if is_done "$key"; then
-            log "  ${reference_config} already downloaded"
+            log "  $(basename "$path") already downloaded"
             continue
         fi
-        log "  downloading ${reference_config}"
-        hydra-genetics --debug references download -o "$REF_DATA_DIR" -v "$reference_config"
+        log "  downloading ${path}"
+        hydra-genetics --debug references download -o "$REF_DATA_DIR" -v "$path"
         mark_done "$key"
     done
 
