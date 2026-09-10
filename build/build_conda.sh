@@ -109,8 +109,9 @@ Options:
       --list-steps        Print the step names in execution order and exit.
   -h, --help               Show this help.
 
-Reference config paths are resolved from inside the pipeline clone (<PIPELINE_NAME>/), so
-config/references/references.hg19.yaml refers to that clone's own config directory.
+Reference config paths may be absolute, or relative to the pipeline clone
+(<PIPELINE_NAME>/), the cloned config repo, the bundle root or the directory the script
+was started from -- searched in that order, first match wins.
 
 Steps are resumable. A completed step writes <state-dir>/<step>.done; the slow steps
 (module clones, container downloads, reference downloads) additionally mark each repo,
@@ -366,24 +367,37 @@ require_dir() {
 }
 
 resolve_reference_config() {
-    # Reference configs are given relative to the pipeline clone (config/references/*.yaml), which
-    # is where the script runs from. Fall back to the directory the script was called from, so both
-    # readings of a relative path work.
-    local given=$1
-    if [[ -f $given ]]; then
-        # Absolute, or relative to the pipeline clone.
-        printf '%s\n' "$(cd "$(dirname "$given")" && pwd)/$(basename "$given")"
+    # A reference config can be given as an absolute path, or relative to any of the directories
+    # the build works with: the pipeline clone the script runs from, the cloned config repo, the
+    # bundle root (which holds the config repo and the staged pipeline clone), or the directory the
+    # script was started from. First match wins, and the resolved path is logged before download.
+    local given=$1 root candidate
+
+    if [[ $given == /* ]]; then
+        [[ -f $given ]] || die "reference config ${given} not found"
+        printf '%s\n' "$given"
         return 0
     fi
-    if [[ $given != /* && -f ${START_DIR}/${given} ]]; then
-        printf '%s\n' "${START_DIR}/${given}"
-        return 0
-    fi
+
+    for root in "$PWD" "$CONFIG_DIR" "$STAGE_DIR" "$START_DIR"; do
+        candidate=${root}/${given}
+        if [[ -f $candidate ]]; then
+            printf '%s\n' "$candidate"
+            return 0
+        fi
+    done
+
     die "$(
         printf 'reference config %s not found. Looked in:\n' "$given"
         printf '  %s (the pipeline clone)\n' "$PWD"
-        printf '  %s (where the script was started)\n' "$START_DIR"
-        printf 'The config repo is cloned to %s.' "$CONFIG_DIR"
+        printf '  %s (the %s clone)\n' "$CONFIG_DIR" "$CONFIG_NAME"
+        printf '  %s (the bundle)\n' "$STAGE_DIR"
+        printf '  %s (where the script was started)' "$START_DIR"
+        # The clone of the config repo carries its version in the directory name.
+        if [[ $given == "${CONFIG_NAME}/"* ]]; then
+            printf '\nInside the bundle that clone is %s_%s, not %s.' \
+                "$CONFIG_NAME" "$CONFIG_VERSION" "$CONFIG_NAME"
+        fi
     )"
 }
 
