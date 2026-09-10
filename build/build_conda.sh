@@ -387,17 +387,24 @@ resolve_reference_config() {
         fi
     done
 
+    # Until 2025-11 the config repo was cloned unversioned into the pipeline clone, so paths of the
+    # form GMS560_config/config/... (as in the README) predate the versioned CONFIG_DIR name.
+    if [[ $given == "${CONFIG_NAME}/"* ]]; then
+        candidate=${CONFIG_DIR}/${given#"${CONFIG_NAME}/"}
+        if [[ -f $candidate ]]; then
+            # stdout of this function is the resolved path, so the note goes to stderr.
+            log "  ${given} -> ${CONFIG_NAME}_${CONFIG_VERSION} (the config repo is versioned now)" >&2
+            printf '%s\n' "$candidate"
+            return 0
+        fi
+    fi
+
     die "$(
         printf 'reference config %s not found. Looked in:\n' "$given"
         printf '  %s (the pipeline clone)\n' "$PWD"
         printf '  %s (the %s clone)\n' "$CONFIG_DIR" "$CONFIG_NAME"
         printf '  %s (the bundle)\n' "$STAGE_DIR"
         printf '  %s (where the script was started)' "$START_DIR"
-        # The clone of the config repo carries its version in the directory name.
-        if [[ $given == "${CONFIG_NAME}/"* ]]; then
-            printf '\nInside the bundle that clone is %s_%s, not %s.' \
-                "$CONFIG_NAME" "$CONFIG_VERSION" "$CONFIG_NAME"
-        fi
     )"
 }
 
