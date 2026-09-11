@@ -1,0 +1,31 @@
+
+reference:
+  background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_cfDNA_novaseqX_24.tsv"
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_novaseqX_24.tsv"
+  design_intervals_gatk_cnv: "{{PROJECT_DESIGN_DATA}}/GMS560/design/gatk.preprocessed.cfDNA_novaseqX_24.interval_list"
+
+cnvkit_batch:
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_cfDNA_novaseqX_24.cnn"
+
+gatk_denoise_read_counts:
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_novaseqX_24.hdf5"
+
+jumble_run:
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/jumble/jumble_cfDNA_novaseqX_24.RDS"
+
+msisensor_pro:
+  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_cfDNA_novaseqX_24.list_baseline"
+
+msisensor_pro_filter_sites:
+  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_cfDNA_novaseqX_24.list_baseline"
+
+purecn:
+  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/purecn/mapping_bias_cfDNA_novaseqX_24.rds"
+  normaldb: "{{PROJECT_PON_DATA}}/GMS560/purecn/normalDB_cfDNA_novaseqX_24.rds"
+  intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_novaseqX_intervals.txt"
+
+purecn_coverage:
+  intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_novaseqX_intervals.txt"
+
+tmb_umi:
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_novaseqX_24.tsv"
