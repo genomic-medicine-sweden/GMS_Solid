@@ -33,7 +33,7 @@ gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_nextseq2000_24.hdf5"
 
 jumble_run:
-  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/jumble_cfDNA_nextseq2000_24.RDS"
+  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble_cfDNA_nextseq2000_24.RDS"
 
 msisensor_pro:
   PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_cfDNA_nextseq2000_24.list_baseline"
