@@ -145,9 +145,9 @@ gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_novaseq_13_hg38.hdf5"
 
 ichorcna_offtarget_run:
-  gc_wig: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/ichorcna_offtarget/gc_hg38_100kb.wig"
-  map_wig: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/ichorcna_offtarget/map_hg38_100kb.wig"
-  centromere: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/ichorcna_offtarget/GRCh38.centromere.txt"
+  gc_wig: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gc_hg38_100kb.wig"
+  map_wig: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/map_hg38_100kb.wig"
+  centromere: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/GRCh38.centromere.txt"
   normal_panel: "{{PROJECT_PON_DATA}}/GMS560/PoN/ichorcna_offtarget_novaseqX_GMS-Solid_Uppsala_8_hg38.rds"
 
 gatk_get_pileup_summaries:

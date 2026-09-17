@@ -95,6 +95,31 @@
       type: file
       url: https://figshare.com/ndownloader/files/44326154?private_link=7084cf61820c148a23d2
 
+  ichorcna_offtarget_run:
+    gc_wig:
+      checksum: d9e0e4d349a002e3810ce017f5d419cc
+      path: GMS560/cnv/gc_hg38_100kb.wig
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.34.0/cnv/gc_hg38_100kb.wig
+
+    map_wig:
+      checksum: 456ce37d52101a59b4dc91854b9f4124
+      path: GMS560/cnv/map_hg38_100kb.wig
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.34.0/cnv/map_hg38_100kb.wig
+
+    centromere:
+      checksum: 10285d7a0885841162cf82ddef3026ce
+      path: GMS560/cnv/GRCh38.centromere.txt
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.34.0/cnv/GRCh38.centromere.txt
+
+    normal_panel:
+      checksum: 6b8727b37be643e02d975fb6aec2f3cb
+      path: GMS560/PoN/ichorcna_offtarget_novaseqX_GMS-Solid_Uppsala_8_hg38.rds
+      type: file
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/cnv/ichorcna_offtarget_novaseqX_GMS-Solid_Uppsala_8_hg38.rds
+
   juli_annotate:
     cosmic:
       checksum: b61743a8cd0d0c3513492c717fcfa51a
