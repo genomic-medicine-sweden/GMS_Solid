@@ -595,21 +595,21 @@ files:
     types:
       - T
       - N
-  - name: RNA DNA sample mixup report
+  - name: RNA DNA sample mixup report based in ID-SNPs
     input: qc/sample_mixup_check/sample_mixup_check.tsv
-    output: results/sample_mixup_check.tsv
+    output: results/qc/sample_mixup_check_ID-SNP_RNA_DNA.tsv
     types:
       - T
       - N
-  - name: Somalier DNA-DNA best match
+  - name: Somalier DNA-DNA best match report
     input: qc/somalier_ungrouped/somalier_dna_dna_match.tsv
-    output: results/qc/somalier_dna_dna_match.tsv
+    output: results/sample_mixup_check_somalier_DNA_DNA.tsv
     types:
       - T
       - N
-  - name: Somalier best match report
+  - name: Somalier RNA-DNA best match report
     input: qc/somalier_ungrouped/somalier_best_match.tsv
-    output: results/sample_mixup_check_somalier.tsv
+    output: results/sample_mixup_check_somalier_RNA_DNA.tsv
     types:
       - T
       - R
