@@ -164,6 +164,10 @@ ichorcna_offtarget_run:
   centromere: "/opt/ichorCNA/inst/extdata/GRCh37.p13_centromere_UCSC-gapTable.txt"
   genome_build: "hg19"
   genome_style: "UCSC"
+  # No FFPE PoN built for NextSeq2000 yet - reuse the NovaSeqX FFPE PoN as a stand-in so
+  # ichorCNA has a normal panel instead of failing/crashing without one. Replace with a
+  # NextSeq2000-specific PoN once built.
+  normal_panel: "{{PROJECT_PON_DATA}}/GMS560/PoN/ichorcna_offtarget_novaseqX_24.rds"
 
 juli_annotate:
   cosmic: "{{PROJECT_REF_DATA}}/ref_data/juli/CosmicFusionExport_V76.tsv"

@@ -39,6 +39,7 @@ ichorcna_offtarget_run:
   centromere: "/opt/ichorCNA/inst/extdata/GRCh37.p13_centromere_UCSC-gapTable.txt"
   genome_build: "hg19"
   genome_style: "UCSC"
+  normal_panel: "{{PROJECT_PON_DATA}}/GMS560/PoN/ichorcna_offtarget_cfDNA_nextseq2000_24.rds"
 
 gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_nextseq2000_24.hdf5"
