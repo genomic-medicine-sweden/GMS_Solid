@@ -964,6 +964,12 @@ use rule tmb from biomarker as biomarker_tmb with:
         vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.vcf.gz",
 
 
+use rule tmb_cnv_aware from biomarker as biomarker_tmb_cnv_aware with:
+    input:
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.vcf.gz",
+        cns="cnv_sv/cnvkit_call/{sample}_{type}.pathology_purecn.loh.cns",
+
+
 use rule optitype from biomarker as biomarker_optitype with:
     output:
         coverage_plot=temp("biomarker/optitype/{sample}_{type}/{sample}_{type}_hla_type_coverage_plot.pdf"),
@@ -996,6 +1002,48 @@ use rule tmb from biomarker as biomarker_tmb_umi with:
             "variant_type_list", ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
         ),
         vd_limit=config.get("tmb_umi", {}).get("vd_limit", 20),
+
+
+# NOTE: the cn_baf_tolerance-based germline rescue's benefit scales with actual tumor purity, not with
+# how accurately purity is estimated - baf itself is an observed/folded allele fraction, not rescaled by
+# --purity. A germline het in a true LOH region has expected folded AF ~= 0.5 + purity/2, so at
+# FFPE-typical purity (e.g. 40%) it drifts to ~0.70, well outside even a wide fixed window (the case this
+# rule is meant to catch); at ctDNA-typical purity (e.g. 5%) it only drifts to ~0.525, already inside
+# tmb_cnv_aware_umi's wide [0.40, 0.60] fallback window on its own. Segmentation/baf-fit quality also
+# degrades at low purity (smaller log2 deviations -> noisier CBS segmentation), so where the correction
+# would matter most for ctDNA (higher-shedding samples/timepoints) is also where baf is least reliable.
+# Net: expect this rule's CN-aware correction to add little over the plain fixed-window fallback for most
+# ctDNA samples - treat it as a low-purity-insensitive convenience, not a validated improvement, until
+# checked against real high-shedding ctDNA examples.
+use rule tmb_cnv_aware from biomarker as biomarker_tmb_cnv_aware_umi with:
+    input:
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.vcf.gz",
+        cns="cnv_sv/cnvkit_call/{sample}_{type}.pathology_purecn.loh.cns",
+    output:
+        tmb=temp("biomarker/tmb_cnv_aware/{sample}_{type}.umi.TMB.txt"),
+    params:
+        af_germline_lower_limit=config.get("tmb_cnv_aware_umi", {}).get("af_germline_lower_limit", 0.47),
+        af_germline_upper_limit=config.get("tmb_cnv_aware_umi", {}).get("af_germline_upper_limit", 0.53),
+        af_lower_limit=config.get("tmb_cnv_aware_umi", {}).get("af_lower_limit", 0.05),
+        af_upper_limit=config.get("tmb_cnv_aware_umi", {}).get("af_upper_limit", 0.95),
+        artifacts=config.get("tmb_cnv_aware_umi", {}).get("artifacts", ""),
+        background_panel=config.get("tmb_cnv_aware_umi", {}).get("background", ""),
+        background_sd_limit=config.get("tmb_cnv_aware_umi", {}).get("background_sd_limit", 5),
+        cn_baf_tolerance=config.get("tmb_cnv_aware_umi", {}).get("cn_baf_tolerance", 0.05),
+        db1000g_limit=config.get("tmb_cnv_aware_umi", {}).get("db1000g_limit", 0.0001),
+        dp_limit=config.get("tmb_cnv_aware_umi", {}).get("dp_limit", 200),
+        filter_genes=config.get("tmb_cnv_aware_umi", {}).get("filter_genes", ""),
+        filter_nr_observations=config.get("tmb_cnv_aware_umi", {}).get("filter_nr_observations", 1),
+        filter_regions=config.get("tmb_cnv_aware_umi", {}).get("filter_regions", []),
+        gnomad_limit=config.get("tmb_cnv_aware_umi", {}).get("gnomad_limit", 0.0001),
+        nm_limit=config.get("tmb_cnv_aware_umi", {}).get("nm_limit", 4),
+        nr_avg_germline_snvs=config.get("tmb_cnv_aware_umi", {}).get("nr_avg_germline_snvs", 2.0),
+        nssnv_tmb_correction=config.get("tmb_cnv_aware_umi", {}).get("nssnv_tmb_correction", 0.84),
+        pmean_limit=config.get("tmb_cnv_aware_umi", {}).get("pmean_limit", 15),
+        variant_type_list=config.get("tmb_cnv_aware", {}).get(
+            "variant_type_list", ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
+        ),
+        vd_limit=config.get("tmb_cnv_aware_umi", {}).get("vd_limit", 20),
 
 
 use rule finaletoolkit_end_motifs from biomarker as biomarker_finaletoolkit_end_motifs with:

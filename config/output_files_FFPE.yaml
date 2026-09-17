@@ -485,6 +485,12 @@ files:
     types:
       - T
       - N
+  - name: TMB CNV-aware
+    input: biomarker/tmb_cnv_aware/{sample}_{type}.TMB.txt
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.tmb_cnv_aware.TMB.txt
+    types:
+      - T
+      - N
   - name: HRD score - PureCN
     input: biomarker/scarhrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt
     output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt

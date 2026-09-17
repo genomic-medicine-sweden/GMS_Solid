@@ -7,7 +7,7 @@ units: "units.tsv"
 modules:
   alignment: "v0.8.0"
   annotation: "v1.5.0"
-  biomarker: "v0.9.0"
+  biomarker: "v0.10.0"
   cnv_sv: "v3.0.0"
   filtering: "v0.3.0"
   fusions: "v0.3.1"
@@ -496,6 +496,7 @@ tmb_umi:
   af_upper_limit: 0.997
   af_germline_lower_limit: 0.40
   af_germline_upper_limit: 0.60
+  artifacts: ""
   background_panel: ""
   db1000g_limit: 0.0001
   dp_limit: 100
@@ -504,6 +505,43 @@ tmb_umi:
   nr_avg_germline_snvs: 0.0
   nssnv_tmb_correction: 1.09
   filter_nr_observations: 3
+  variant_type_list: ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
+
+tmb_cnv_aware:
+  af_lower_limit: 0.05
+  af_upper_limit: 0.95
+  af_germline_lower_limit: 0.47
+  af_germline_upper_limit: 0.53
+  cn_baf_tolerance: 0.05
+  artifacts: ""
+  background_panel: ""
+  db1000g_limit: 0.0001
+  dp_limit: 100
+  gnomad_limit: 0.0001
+  vd_limit: 10
+  nm_limit: 4
+  nr_avg_germline_snvs: 2.0
+  nssnv_tmb_correction: 0.84
+  pmean_limit: 15
+  variant_type_list: ["missense_variant", "stop_gained", "stop_lost"]
+
+tmb_cnv_aware_umi:
+  af_lower_limit: 0.003
+  af_upper_limit: 0.997
+  af_germline_lower_limit: 0.40
+  af_germline_upper_limit: 0.60
+  cn_baf_tolerance: 0.05
+  artifacts: ""
+  background_panel: ""
+  db1000g_limit: 0.0001
+  dp_limit: 100
+  gnomad_limit: 0.0001
+  vd_limit: 10
+  nm_limit: 4
+  nr_avg_germline_snvs: 0.0
+  nssnv_tmb_correction: 1.09
+  filter_nr_observations: 3
+  pmean_limit: 15
   variant_type_list: ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
 
 vardict:
