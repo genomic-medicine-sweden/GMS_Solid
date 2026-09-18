@@ -34,6 +34,7 @@ See the [cnv hydra-genetics module](https://hydra-genetics-snv-indels.readthedoc
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_validated.cnv_report.tsv`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.cnv.html`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.svdb_query.vcf`
+* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt`
 
 
 ## CNV calling
@@ -415,6 +416,30 @@ PureCN uses a filtered (`config/config_hard_filter_purecn.yaml`) and germline an
 | extra | --mapping-bias-file [`mapping_bias.rds`](references.md#purecn_estimation_mapping_pon) | Panel of normal for PureCN |
 | normaldb | [`normalDB.rds`](references.md#purecn_estimation_normaldb) | Panel of normal for PureCN |
 | intervals | [`targets_window_intervals.txt`](references.md#purecn_estimation_intervals) | panel of normal |
+
+## Purity estimation using ichorCNA (off-target)
+**[ichorCNA](https://github.com/broadinstitute/ichorCNA)** provides an additional, exploratory tumor fraction (purity) and ploidy estimate, derived from shallow off-target read coverage rather than the on-target panel data PureCN/CNVkit use. Off-target reads are first counted genome-wide in fixed-size bins with HMMcopy's `readCounter`, then ichorCNA fits a copy-number/tumor-fraction model against those counts - optionally corrected against a matched panel of normals, when one exists for the sample's instrument/design. This estimate is reported alongside the PureCN and pathology purity values in the additional results folder; it does not replace or override either.
+
+### Configuration
+
+**Software settings**
+
+| **Options** | **Value** | **Description** |
+|-------------|-|-|
+| gc_wig | [`gc.wig`](references.md) | GC-content wig track matching the read-counter bin size |
+| map_wig | [`map.wig`](references.md) | Mappability wig track matching the read-counter bin size |
+| centromere | [`centromere.txt`](references.md) | Centromere location table |
+| normal_panel | [`ichorcna_offtarget_PoN.rds`](references.md) | Panel of normal built from off-target read counts (optional - omitted from the command if not configured) |
+| ploidy | "c(2,3,4)" | Candidate ploidy values to fit |
+| normal | "c(0.5)" | Candidate normal-cell-fraction values to fit |
+| max_cn | 7 | Maximum copy number considered |
+| chrs / chr_train | 'c(1:22,"X")' / "c(1:22)" | Chromosomes analyzed / used to train the model |
+| genome_build | "hg38" | Reference genome build |
+| genome_style | "UCSC" | Chromosome naming style |
+
+### Result file
+
+* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt`
 
 ## Manta
 **Manta** v1.6.0 is used to call larger INDELs and other structural variant events. However the results are only reported and not used in any clinical anaylsis.
