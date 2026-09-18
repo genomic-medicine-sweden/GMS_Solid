@@ -34,7 +34,7 @@ See the [cnv hydra-genetics module](https://hydra-genetics-snv-indels.readthedoc
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_validated.cnv_report.tsv`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.cnv.html`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.svdb_query.vcf`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_offtarget.params.txt`
+* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt`
 
 
 ## CNV calling
@@ -439,7 +439,7 @@ PureCN uses a filtered (`config/config_hard_filter_purecn.yaml`) and germline an
 
 ### Result file
 
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_offtarget.params.txt`
+* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt`
 
 ## Manta
 **Manta** v1.6.0 is used to call larger INDELs and other structural variant events. However the results are only reported and not used in any clinical anaylsis.

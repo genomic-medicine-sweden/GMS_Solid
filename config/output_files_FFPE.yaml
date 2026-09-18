@@ -669,7 +669,7 @@ files:
       - N
   - name: ichorCNA purity (off-target)
     input: cnv_sv/ichorcna_offtarget_run/{sample}_{type}/{sample}_{type}.params.txt
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_offtarget.params.txt
+    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt
     types:
       - T
       - N
