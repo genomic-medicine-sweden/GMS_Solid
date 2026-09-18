@@ -59,9 +59,6 @@ bcftools_filter_include_region:
 bcftools_filter_exclude_region:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20240613_hg38.bed"
 
-bcftools_id_snps:
-  snps_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/ID_SNPs_hg38.bed"
-
 bwa_mem:
   amb: "{{PROJECT_REF_DATA}}/ref_data/GRCh38_p14/homo_sapiens.fasta.amb"
   ann: "{{PROJECT_REF_DATA}}/ref_data/GRCh38_p14/homo_sapiens.fasta.ann"

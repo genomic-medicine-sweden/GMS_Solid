@@ -1,0 +1,85 @@
+---
+# Panel of normal files for GMS-Solid, hg38, NovaSeqX (novaseqX_GMS-Solid_Uppsala_8_hg38 -
+# n=8 normals). Based on the real production paths already in use at
+# GMS560_config/config/Marvin/config_production_pipeline_marvin_GMS_Solid.yaml.
+#
+# Keys mirror novaseq.hg19.pon.yaml, but GMS-Solid currently only has one
+# instrument/design variant (NovaSeqX), so there's no base/novaseqX/cfDNA_novaseqX
+# split here - just the plain (unsuffixed) key config.data.hg38.GMS-Solid.yaml uses.
+#
+# PLACEHOLDER: none of these PoN files (except ichorcna_offtarget_run.normal_panel)
+# are published to Twist_Solid_pipeline_files or figshare yet, so checksum/url are
+# "TBD" rather than fabricated. Fill in once each file is actually published.
+
+ reference:
+   background:
+     checksum: "TBD"
+     path: GMS560/Background/background_panel_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv
+     type: file
+     url: "TBD"
+   artifacts:
+     checksum: "TBD"
+     path: GMS560/Artifact/artifact_panel_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv
+     type: file
+     url: "TBD"
+
+ cnvkit_batch:
+   normal_reference:
+     checksum: "TBD"
+     path: GMS560/PoN/cnvkit_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv
+     type: file
+     url: "TBD"
+
+ cnvkit_batch_hrd:
+   normal_reference_hrd:
+     checksum: "TBD"
+     path: GMS560/PoN/cnvkit_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv
+     type: file
+     url: "TBD"
+
+ gatk_denoise_read_counts:
+   normal_reference:
+     checksum: "TBD"
+     path: GMS560/PoN/gatk_cnv_novaseqX_GMS-Solid_Uppsala_8_hg38.hdf5
+     type: file
+     url: "TBD"
+
+ jumble_run:
+   normal_reference:
+     checksum: "TBD"
+     path: GMS560/PoN/jumble_novaseqX_GMS-Solid_Uppsala_8_hg38.RDS
+     type: file
+     url: "TBD"
+
+ msisensor_pro_filter_sites:
+   PoN:
+     checksum: "TBD"
+     path: GMS560/PoN/Msisensor_pro_reference_novaseqX_GMS-Solid_Uppsala_8_hg38.list_baseline
+     type: file
+     url: "TBD"
+
+ purecn:
+   extra:
+     checksum: "TBD"
+     path: GMS560/PoN/purecn/mapping_bias_novaseqX_GMS-Solid_Uppsala_8_hg38.rds
+     type: file
+     url: "TBD"
+   normaldb:
+     checksum: "TBD"
+     path: GMS560/PoN/purecn/normalDB_novaseqX_GMS-Solid_Uppsala_8_hg38.rds
+     type: file
+     url: "TBD"
+
+ svdb_query:
+   db_string:
+     checksum: "TBD"
+     path: GMS560/PoN/SVDB/normal_novaseqX_GMS-Solid_Uppsala_8_hg38.vcf
+     type: file
+     url: "TBD"
+
+ ichorcna_offtarget_run:
+   normal_panel:
+     checksum: 6b8727b37be643e02d975fb6aec2f3cb
+     path: GMS560/PoN/ichorcna_offtarget_novaseqX_GMS-Solid_Uppsala_8_hg38.rds
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/cnv/ichorcna_offtarget_novaseqX_GMS-Solid_Uppsala_8_hg38.rds

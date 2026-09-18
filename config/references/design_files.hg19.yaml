@@ -39,13 +39,6 @@
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.10.0/cnv/cnvkit_germline_blacklist_20240613.bed
 
- bcftools_id_snps:
-   snps_bed: 
-     checksum: ab9b7084d599606bb52142d26158f5e1
-     path: GMS560/design/ID_SNPs.bed
-     type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.1.1/design/ID_SNPs.bed
-  
  call_small_cnv_amplifications:
    regions_file: 
      checksum: d276c7848ed8fecc034f76bfd815e537

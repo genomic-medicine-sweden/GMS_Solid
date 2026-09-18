@@ -590,23 +590,6 @@ files:
     analyskod:
       - ""
       - "GMS560"
-  - name: ID-SNP VCF RNA
-    input: snv_indels/bcftools_id_snps/{sample}_{type}.id_snps.vcf
-    output: results/rna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf
-    types:
-      - R
-  - name: ID-SNP VCF DNA
-    input: snv_indels/bcftools_id_snps/{sample}_{type}.id_snps.vcf
-    output: results/dna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf
-    types:
-      - T
-      - N
-  - name: RNA DNA sample mixup report
-    input: qc/sample_mixup_check/sample_mixup_check.tsv
-    output: results/sample_mixup_check.tsv
-    types:
-      - T
-      - N
   - name: Somalier DNA-DNA best match
     input: qc/somalier_ungrouped/somalier_dna_dna_match.tsv
     output: results/qc/somalier_dna_dna_match.tsv

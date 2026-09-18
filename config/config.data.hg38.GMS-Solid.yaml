@@ -74,9 +74,6 @@ bcftools_filter_include_region:
 bcftools_filter_exclude_region:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20260424_hg38_GMS-Solid.bed"
 
-bcftools_id_snps:
-  snps_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/ID_SNPs_hg38_GMS-Solid.bed"
-
 bwa_mem:
   amb: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.amb"
   ann: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.ann"

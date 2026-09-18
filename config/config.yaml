@@ -399,9 +399,6 @@ report_fusions:
 report_gene_fuse:
   min_unique_reads: 6
 
-sample_mixup_check:
-  match_cutoff: 0.7
-
 samtools_filter_reads:
   extra: "-f 2"
 

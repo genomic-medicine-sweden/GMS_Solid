@@ -28,9 +28,6 @@ bcftools_filter_exclude_region:
   nocnv: "DATA/design.noexon1.bed"
   blacklist: "DATA/cnvkit_germline_blacklist_20221221.bed"
 
-bcftools_id_snps:
-  snps_bed: "DATA/ID_SNPs.bed"
-
 bwa_mem:
   amb: "reference/WASH7P.fna.amb"
   ann: "reference/WASH7P.fna.ann"
