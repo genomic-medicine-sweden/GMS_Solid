@@ -1,29 +1,5 @@
 # Rule specific to the Twist Solid pipeline that are not defined in hydra
 
-## bcftools_id_snps
-Trim `.fastq` files by removing adapter sequences and other unwanted sequences. Adapter sequences are specified in `units.tsv` under the adapter column. See further [ID-SNPs info](rna_id_snps.md).
-
-
-### :snake: Rule
-
-#SNAKEMAKE_RULE_SOURCE__bcftools__bcftools_id_snps#
-
-#### :left_right_arrow: input / output files
-
-#SNAKEMAKE_RULE_TABLE__bcftools__bcftools_id_snps#
-
-### :wrench: Configuration
-
-#### Software settings (`config.yaml`)
-
-#CONFIGSCHEMA__bcftools_id_snps#
-
-#### Resources settings (`resources.yaml`)
-
-#RESOURCESSCHEMA__bcftools_id_snps#
-
----
-
 ## call_small_cnv_amplifications
 The CNVkit and GATK CNV caller often miss small amplifications of four exons or smaller. This rule analyses genes of interest and reports small amplifications in these genes when predefined criteria are met. The caller is based on two rolling window averaged over the region and finds the largest difference in log2ratio between these two windows. If the difference is large enough it is reported. See further [call small cnv amplifications info](dna_cnvs.md#small-cnv-amplifications).
 
@@ -322,28 +298,6 @@ Increases the MQB (mean base quality) value by 5 as the qualities are so bad for
 
 ---
 
-## sample_mixup_check
-Compare ID-SNPs in the RNA samples to the DNA samples in the same analysis and report sample similarities to be able to discern sample mixups
-
-### :snake: Rule
-
-#SNAKEMAKE_RULE_SOURCE__sample_mixup_check__sample_mixup_check#
-
-#### :left_right_arrow: input / output files
-
-#SNAKEMAKE_RULE_TABLE__sample_mixup_check__sample_mixup_check#
-
-### :wrench: Configuration
-
-#### Software settings (`config.yaml`)
-
-#CONFIGSCHEMA__sample_mixup_check#
-
-#### Resources settings (`resources.yaml`)
-
-#RESOURCESSCHEMA__sample_mixup_check#
-
----
 
 ## somalier_best_match_report
 Takes the somalier relate pairs output and finds the best match for each sample (DNA and RNA). The script handles the bidirectional nature of the pairs file to ensure every sample is reported with its top relatedness match.

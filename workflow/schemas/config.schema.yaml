@@ -30,19 +30,6 @@ properties:
         type: string
         description: sort order
 
-  bcftools_id_snps:
-    type: object
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated for msisensor_pro
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      snps_bed:
-        type: string
-        description: path to bed file the id SNPs
-
   call_small_cnv_amplifications:
     type: object
     properties:
@@ -665,23 +652,6 @@ properties:
         description: path to vep cache directory
     required:
       - vep_cache
-
-  sample_mixup_check:
-    type: object
-    description: parameters for sample_mixup_check
-    properties:
-      benchmark_repeats:
-        type: integer
-        description: set number of times benchmark should be repeated
-      container:
-        type: string
-        description: name or path to docker/singularity container
-      extra:
-        type: string
-        description: parameters that should be forwarded
-      match_cutoff:
-        type: number
-        description: minimum fraction of matching SNP calls for an RNA and DNA matched sample
 
   somalier_best_match_report:
     type: object
