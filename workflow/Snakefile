@@ -713,6 +713,8 @@ rule snv_indels_gatk_mutect2_paired:
         "snv_indels/gatk_mutect2_paired/{sample}_{type}_{chr}.unfiltered.vcf.gz.log",
     wildcard_constraints:
         type="T",
+    container:
+        config.get("gatk_mutect2", {}).get("container", config["default_container"])
     wrapper:
         "v7.6.0/bio/gatk/mutect"
 
