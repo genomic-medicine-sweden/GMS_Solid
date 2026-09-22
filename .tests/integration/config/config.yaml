@@ -160,14 +160,14 @@ merge_cnv_json:
     - reference/cnv_amp_genes.bed
     - reference/cnv_loh_genes.bed
   cancer_genes: reference/cancer_genes_test.csv
-  filtered_cnv_vcfs:
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.filter.cnv_hard_filter_amp.vcf.gz
-    - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.filter.cnv_hard_filter_loh.vcf.gz
   unfiltered_cnv_vcfs:
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.vcf.gz
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.vcf.gz
   germline_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz
   cytobands: "DATA/centromeres.bed"
+  extra_info_fields:
+    - Twist_AF
+  table_filter_config: "../../config/filters/config_table_filter.yaml"
 
 purecn:  
   normaldb: "reference/purecn_dummy_normaldb.rds"

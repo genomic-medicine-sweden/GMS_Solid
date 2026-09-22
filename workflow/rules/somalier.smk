@@ -36,7 +36,8 @@ rule somalier_dna_dna_report:
         report=temp("qc/somalier_ungrouped/somalier_dna_dna_match.tsv"),
     params:
         extra=config.get("somalier_dna_dna_report", {}).get("extra", ""),
-        match_cutoff=config.get("somalier_dna_dna_report", {}).get("match_cutoff", 0.85),
+        match_cutoff=config.get("somalier_dna_dna_report", {}).get("match_cutoff", 0.6),
+        ibs0_cutoff=config.get("somalier_dna_dna_report", {}).get("ibs0_cutoff", 2),
     log:
         "qc/somalier_ungrouped/somalier_dna_dna_match.tsv.log",
     benchmark:

@@ -17,7 +17,7 @@ def get_sample_type(sample_name):
     return 'Unknown'
 
 
-def main(input_file, output_file, match_cutoff):
+def main(input_file, output_file, match_cutoff, ibs0_cutoff):
     if not os.path.exists(input_file):
         print(f"Error: Input file {input_file} not found.")
         sys.exit(1)
@@ -84,13 +84,19 @@ def main(input_file, output_file, match_cutoff):
         best_match_row = filtered_matches.sort_values(by='relatedness', ascending=False).iloc[0]
 
         relatedness = best_match_row['relatedness']
-        match_status = "yes" if relatedness >= match_cutoff else "no"
+        ibs0 = best_match_row['ibs0']
+        # A pair is only flagged as a match if BOTH conditions hold: relatedness clears
+        # match_cutoff AND ibs0 is near zero - ibs0 near 0 (few/no sites with opposite
+        # homozygous genotypes) is the more specific signature of a real identity issue
+        # (swap or cross-contamination), and requiring both avoids flagging samples that
+        # simply happen to be each other's least-bad match without real signal behind it.
+        match_status = "yes" if (relatedness >= match_cutoff and ibs0 <= ibs0_cutoff) else "no"
 
         results.append({
             'Sample': sample,
             'Best_Match': best_match_row['other_sample'],
             'Relatedness': relatedness,
-            'ibs0': best_match_row['ibs0'],
+            'ibs0': ibs0,
             'Variants_compared': best_match_row['n'],
             'Match': match_status,
         })
@@ -107,13 +113,18 @@ if __name__ == "__main__":
         main(
             snakemake.input.pairs,
             snakemake.output.report,
-            float(snakemake.params.match_cutoff)
+            float(snakemake.params.match_cutoff),
+            float(snakemake.params.ibs0_cutoff),
         )
     else:
         parser = argparse.ArgumentParser(description="Find best DNA-DNA matches from Somalier pairs.")
         parser.add_argument("input", help="Input Somalier pairs TSV file")
         parser.add_argument("output", help="Output best match TSV file")
-        parser.add_argument("--match-cutoff", type=float, default=0.7, help="Relatedness cutoff for match (default: 0.7)")
+        parser.add_argument("--match-cutoff", type=float, default=0.6, help="Relatedness cutoff for match (default: 0.6)")
+        parser.add_argument(
+            "--ibs0-cutoff", type=float, default=2,
+            help="Max ibs0 required (together with --match-cutoff) to flag a match (default: 2)",
+        )
 
         args = parser.parse_args()
-        main(args.input, args.output, args.match_cutoff)
+        main(args.input, args.output, args.match_cutoff, args.ibs0_cutoff)
