@@ -48,6 +48,74 @@ class TestUnitUtils(unittest.TestCase):
             print(f"Failed looking up uncovered chromosome. {log2}")
             raise e
 
+    def test_read_cns_segments_and_lookup_local_baf(self):
+        from estimate_ctDNA_fraction import read_cns_segments, lookup_local_baf
+
+        loh_cns = f"{self.tempdir}/sample.loh.cns"
+        with open(loh_cns, "w") as f:
+            f.write("chromosome\tstart\tend\tgene\tlog2\tbaf\tci_hi\tci_lo\tcn\tcn1\tcn2\tdepth\tprobes\tweight\n")
+            f.write("chr1\t0\t1000\t-\t0.0\t0.75\t0.8\t0.7\t2\t1\t1\t500\t10\t5.0\n")
+            f.write("chr1\t1000\t2000\t-\t0.0\t\t0.8\t0.7\t2\t\t\t500\t10\t5.0\n")
+
+        cns_dict = read_cns_segments(loh_cns)
+        try:
+            self.assertEqual([0, 1000, 0.75], cns_dict["chr1"][0])
+            self.assertEqual([1000, 2000, None], cns_dict["chr1"][1])
+        except AssertionError as e:
+            print(f"Failed reading loh.cns. {cns_dict}")
+            raise e
+
+        try:
+            self.assertEqual(0.75, lookup_local_baf(cns_dict, "chr1", 500))
+            self.assertIsNone(lookup_local_baf(cns_dict, "chr1", 1500))
+            self.assertIsNone(lookup_local_baf(cns_dict, "chr2", 500))
+        except AssertionError as e:
+            print("Failed looking up local baf.")
+            raise e
+
+    def test_is_likely_germline(self):
+        from estimate_ctDNA_fraction import is_likely_germline
+
+        try:
+            # No local baf - fixed diploid-heterozygous window
+            self.assertTrue(is_likely_germline(0.50, None, 0.47, 0.53, 0.05))
+            self.assertFalse(is_likely_germline(0.22, None, 0.47, 0.53, 0.05))
+
+            # Local baf shifted away from 0.5 by LOH/allelic imbalance - a
+            # germline het there clusters near baf or its mirror (1-baf),
+            # not near 0.5, which the fixed window alone would miss.
+            self.assertTrue(is_likely_germline(0.75, 0.75, 0.47, 0.53, 0.05))
+            self.assertTrue(is_likely_germline(0.24, 0.75, 0.47, 0.53, 0.05))
+            self.assertFalse(is_likely_germline(0.50, 0.75, 0.47, 0.53, 0.05))
+        except AssertionError as e:
+            print("Failed is_likely_germline check.")
+            raise e
+
+    def test_drop_likely_germline(self):
+        from estimate_ctDNA_fraction import read_cns_segments, drop_likely_germline
+
+        loh_cns = f"{self.tempdir}/sample2.loh.cns"
+        with open(loh_cns, "w") as f:
+            f.write("chromosome\tstart\tend\tgene\tlog2\tbaf\tci_hi\tci_lo\tcn\tcn1\tcn2\tdepth\tprobes\tweight\n")
+            f.write("chr1\t0\t1000\t-\t0.0\t0.75\t0.8\t0.7\t2\t1\t1\t500\t10\t5.0\n")
+            f.write("chr2\t0\t1000\t-\t0.0\t\t0.8\t0.7\t2\t\t\t500\t10\t5.0\n")
+        loh_cns_dict = read_cns_segments(loh_cns)
+
+        candidates = [
+            [0.24, "chr1", 500, "germline-in-LOH-segment\n"],  # matches 1-baf -> dropped
+            [0.10, "chr1", 500, "real-somatic-in-LOH-segment\n"],  # doesn't match baf or 1-baf -> kept
+            [0.50, "chr2", 500, "germline-no-baf\n"],  # no baf, matches fixed window -> dropped
+            [0.05, "chr2", 500, "real-somatic-no-baf\n"],  # no baf, outside fixed window -> kept
+        ]
+        kept = drop_likely_germline(candidates, loh_cns_dict, 0.47, 0.53, 0.05)
+
+        try:
+            self.assertEqual(2, len(kept))
+            self.assertEqual({"real-somatic-in-LOH-segment\n", "real-somatic-no-baf\n"}, {c[3] for c in kept})
+        except AssertionError as e:
+            print(f"Failed drop_likely_germline. {kept}")
+            raise e
+
     def test_infer_sex_from_cnr(self):
         from estimate_ctDNA_fraction import infer_sex_from_cnr
 
@@ -270,15 +338,78 @@ class TestUnitUtils(unittest.TestCase):
             print(f"Failed reading vcf. {test_AF} {best_variant}")
             raise e
 
+    def test_read_snv_vcf_and_find_max_af_excludes_complexaf(self):
+        from estimate_ctDNA_fraction import read_snv_vcf_and_find_max_af
+
+        # chr6:30672959 is VarDict's synthetic COMPLEXAF=sum pseudo-record for one
+        # component of a decomposed complex variant (no QUAL, no NM/PMEAN/SN/...) -
+        # must never be returned, even with every other filter wide open.
+        best_variant = read_snv_vcf_and_find_max_af(self.vcf, {})
+
+        try:
+            self.assertNotIn("chr6", [v[1] for v in best_variant])
+        except AssertionError as e:
+            print(f"Failed excluding COMPLEXAF pseudo-record. {best_variant}")
+            raise e
+
+    def test_read_snv_vcf_and_find_max_af_excludes_records_without_af(self):
+        from estimate_ctDNA_fraction import read_snv_vcf_and_find_max_af
+
+        # chr3:1000000 is a synthetic codon-level substitution record (INFO
+        # only ever carries AA/Artifact/CSQ, no AF) - must be skipped, even
+        # with every other filter wide open, rather than crashing on the
+        # missing AF INFO field.
+        best_variant = read_snv_vcf_and_find_max_af(self.vcf, {})
+
+        try:
+            self.assertNotIn("chr3", [v[1] for v in best_variant])
+        except AssertionError as e:
+            print(f"Failed excluding AF-less synthetic record. {best_variant}")
+            raise e
+
     def test_write_tc(self):
         from estimate_ctDNA_fraction import write_tc
 
+        # No raw_tc_all/adjusted_tc_all supplied -> reported as NA
         tc_string = write_tc(self.ctDNA_fraction, 0.09, 0.10)
 
-        test_tc_string = "9.0%\t10.0%\n"
+        test_tc_string = "9.0%\t10.0%\tNA\tNA\n"
 
         try:
             self.assertEqual(tc_string, test_tc_string)
         except AssertionError as e:
             print(f"Failed to write output vcf. {tc_string} {test_tc_string}")
+            raise e
+
+        # raw_tc_all/adjusted_tc_all supplied -> reported alongside the driver values
+        tc_string = write_tc(self.ctDNA_fraction, 0.09, 0.10, 0.12, 0.11)
+
+        test_tc_string = "9.0%\t10.0%\t12.0%\t11.0%\n"
+
+        try:
+            self.assertEqual(tc_string, test_tc_string)
+        except AssertionError as e:
+            print(f"Failed to write output vcf with raw_tc_all. {tc_string} {test_tc_string}")
+            raise e
+
+    def test_write_ctDNA_fraction_info(self):
+        from estimate_ctDNA_fraction import write_ctDNA_fraction_info
+
+        output_file = f"{self.tempdir}/ctDNA_fraction_info.tsv"
+        snv_info_list = [
+            [0.4, 0.4, 2, 1.0, 2, "driver", "chr12\t25398284\t.\tC\tA\n"],
+            [0.5, 0.45, 3, 2.0, 2, "passenger", "chr1\t100\t.\tG\tT\n"],
+        ]
+        write_ctDNA_fraction_info(output_file, snv_info_list)
+
+        with open(output_file) as f:
+            lines = f.readlines()
+
+        try:
+            header = "raw_%\tadjusted_%\tlocal_CN_t\tassumed_mutant_copies\tnormal_CN_used\tsource\tVCF_record\n"
+            self.assertEqual(header, lines[1])
+            self.assertEqual("40.0%\t40.0%\t2\t1.00\t2\tdriver\tchr12\t25398284\t.\tC\tA\n", lines[2])
+            self.assertEqual("50.0%\t45.0%\t3\t2.00\t2\tpassenger\tchr1\t100\t.\tG\tT\n", lines[3])
+        except AssertionError as e:
+            print(f"Failed to write ctDNA_fraction_info. {lines}")
             raise e

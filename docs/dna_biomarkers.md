@@ -124,6 +124,16 @@ the retained allele(s) are mutant on a loss/LOH. Sample sex is inferred per-samp
 bin-level ratios (`.cnr`, comparing chrX to autosomal log2) so that chrX variants in inferred males
 are treated as hemizygous (normal copy number 1) rather than diploid.
 
+In addition to the driver-based estimate, the best variant found under the same QC filtering but
+*without* the clinical-relevance ("driver") gate and the consequence-type exclusion (so synonymous/UTR/
+non-coding-exon variants are eligible too) is also evaluated - a passenger mutation, less trustworthy
+individually (more likely subclonal, no functional/recurrence support) but still carrying the same
+VAF-based purity signal. Its raw/adjusted TC is reported as `raw_tc_all`/`adjusted_tc_all`
+only when it adds information: no driver-passing variant was found, or its raw TC exceeds the driver's
+- otherwise these columns read `NA`. The best passenger candidate is always recorded in
+`ctDNA_fraction_info.tsv` (labelled `source=passenger`, alongside the driver candidates labelled
+`source=driver`) for manual review regardless of whether it was promoted.
+
 ### Configuration
 **Software settings**
 

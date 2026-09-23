@@ -704,6 +704,12 @@ properties:
     type: object
     description: parameters for estimate_ctdna_fraction
     properties:
+      af_germline_lower_limit:
+        type: number
+        description: Lower bound of the diploid germline AF window, used when no local CNVkit baf is available
+      af_germline_upper_limit:
+        type: number
+        description: Upper bound of the diploid germline AF window, used when no local CNVkit baf is available
       artifact_limit:
         type: integer
         description: Maximum number of allowed artifacts for a variant
@@ -720,6 +726,11 @@ properties:
         description: List of genes associated with Clonal Hematopoiesis of Indeterminate Potential (CHIP) to potentially filter out
         items:
           type: string
+      cn_baf_tolerance:
+        type: number
+        description: >-
+          Tolerance around a segment's fitted CNVkit baf (or its mirror, 1-baf) used to recognize a
+          germline call whose AF has been shifted away from 50% by local LOH/allelic imbalance
       container:
         type: string
         description: name or path to docker/singularity container
@@ -767,9 +778,6 @@ properties:
       min_sbf:
         type: number
         description: Minimum strand bias Fisher p-value
-      min_sn:
-        type: number
-        description: Minimum signal-to-noise ratio
       purity_floor:
         type: number
         description: >-
