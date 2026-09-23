@@ -20,6 +20,7 @@ rule estimate_ctdna_fraction:
             "excluded_consequences",
             ["synonymous_variant", "5_prime_UTR_variant", "3_prime_UTR_variant", "non_coding_transcript_exon_variant"],
         ),
+        log2_noise_floor=config.get("estimate_ctdna_fraction", {}).get("log2_noise_floor", 0.1),
         max_af=config.get("estimate_ctdna_fraction", {}).get("max_af", 0.4),
         max_gnomad_af=config.get("estimate_ctdna_fraction", {}).get("max_gnomad_af", 0.0002),
         max_msi=config.get("estimate_ctdna_fraction", {}).get("max_msi", 4),
@@ -32,6 +33,7 @@ rule estimate_ctdna_fraction:
         min_qual=config.get("estimate_ctdna_fraction", {}).get("min_qual", 40),
         min_sbf=config.get("estimate_ctdna_fraction", {}).get("min_sbf", 0.05),
         min_sn=config.get("estimate_ctdna_fraction", {}).get("min_sn", 50),
+        purity_floor=config.get("estimate_ctdna_fraction", {}).get("purity_floor", 0.10),
     log:
         "twist_solid/estimate_ctdna_fraction/{sample}_{type}.ctDNA_tc.tsv.log",
     benchmark:

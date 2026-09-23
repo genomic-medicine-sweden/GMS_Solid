@@ -137,6 +137,9 @@ estimate_ctdna_fraction:
   min_sn: 50
   chip_genes: ["DNMT3A", "TET2", "ASXL1", "PPM1D"]
   excluded_consequences: ["synonymous_variant", "5_prime_UTR_variant", "3_prime_UTR_variant", "non_coding_transcript_exon_variant"]
+  # Copy-number correction parameters
+  log2_noise_floor: 0.1
+  purity_floor: 0.10
 
 fastp_pe:
   container: "docker://hydragenetics/fastp:0.20.1"

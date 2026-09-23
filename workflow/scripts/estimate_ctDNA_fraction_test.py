@@ -114,26 +114,102 @@ class TestUnitUtils(unittest.TestCase):
             print(f"Failed no-coverage fallback. {raw_tc} {adjusted_tc} {cn_t} {m}")
             raise e
 
-        # Gain: log2=1.0 -> CN_t=4, mutant allele preferentially amplified -> m=3
+        # Feasible gain: vaf/log2 constructed so a true purity=0.3, CN_t=4 pair is
+        # genuinely self-consistent - the continuous solve should recover both
+        # almost exactly. cn_t is rounded for reporting; m is the continuous
+        # value actually used to compute adjusted_tc (see correct_vaf_for_copy_number's
+        # docstring for why m is deliberately not re-derived from the rounded cn_t).
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.34615384615384615, 0.3785116232537298, 2)
+        try:
+            self.assertAlmostEqual(0.6923076923076923, raw_tc, places=6)
+            self.assertEqual(4, cn_t)
+            self.assertAlmostEqual(3.0, m, places=4)
+            self.assertAlmostEqual(0.3, adjusted_tc, places=4)
+        except AssertionError as e:
+            print(f"Failed feasible gain correction. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Feasible loss: vaf/log2 constructed so a true purity=0.3, CN_t=1 pair
+        # (a simple het loss/LOH) is genuinely self-consistent.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.17647058823529413, -0.23446525363702297, 2)
+        try:
+            self.assertAlmostEqual(0.35294117647058826, raw_tc, places=6)
+            self.assertEqual(1, cn_t)
+            self.assertAlmostEqual(1.0, m, places=4)
+            self.assertAlmostEqual(0.3, adjusted_tc, places=4)
+        except AssertionError as e:
+            print(f"Failed feasible loss correction. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Infeasible gain: log2=1.0 combined with vaf=0.3 has no self-consistent
+        # purity anywhere in [PURITY_FLOOR, 1] under this model (h(p) is
+        # single-signed across the whole range - previously this diverged to
+        # cn_t=29 under naive fixed-point iteration). Must fall back to the
+        # uncorrected neutral estimate rather than extrapolate to a boundary.
         raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.3, 1.0, 2)
         try:
             self.assertEqual(0.6, raw_tc)
-            self.assertEqual(4, cn_t)
-            self.assertEqual(3, m)
-            self.assertAlmostEqual(0.25, adjusted_tc, places=6)
+            self.assertEqual(0.6, adjusted_tc)
+            self.assertEqual(2, cn_t)
+            self.assertEqual(1, m)
         except AssertionError as e:
-            print(f"Failed gain correction. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            print(f"Failed infeasible-gain fallback. {raw_tc} {adjusted_tc} {cn_t} {m}")
             raise e
 
-        # Loss/LoH: log2=-1.0 -> CN_t=1, retained copy assumed mutant -> m=1
-        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.3, -1.0, 2)
+        # Below LOG2_NOISE_FLOOR: log2=0.02 is well within ordinary CNVkit
+        # segment-level noise, not a real signal - must be treated as neutral
+        # (same as log2ratio=None), regardless of how low raw_tc is. Without
+        # this gate, this exact input used to manufacture a spurious
+        # "correction" down to ~3.1% purely from noise crossing a rounding
+        # boundary near PURITY_FLOOR.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.02, 0.02, 2)
         try:
-            self.assertEqual(0.6, raw_tc)
-            self.assertEqual(1, cn_t)
-            self.assertEqual(1, m)
-            self.assertAlmostEqual(0.6 / 1.3, adjusted_tc, places=6)
+            self.assertEqual(0.04, raw_tc)
+            self.assertEqual(0.04, adjusted_tc)
+            self.assertEqual(2, cn_t)
+            self.assertEqual(1.0, m)
         except AssertionError as e:
-            print(f"Failed loss/LoH correction. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            print(f"Failed log2-noise-floor gate. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Below PURITY_FLOOR but ABOVE LOG2_NOISE_FLOOR: too low to search for
+        # a self-consistent purity, but log2ratio (0.15, a real signal) is
+        # still evaluated - at PURITY_FLOOR itself (the least purity credited
+        # down here), not ignored outright. Nothing is floored on the way
+        # out: the correction pulls adjusted_tc below raw_tc, same direction
+        # as it would above the floor - not pushed up to 10%.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.02, 0.15, 2)
+        try:
+            self.assertEqual(0.04, raw_tc)
+            self.assertAlmostEqual(0.012708249882206802, adjusted_tc, places=4)
+            self.assertEqual(4, cn_t)
+            self.assertAlmostEqual(3.1913894413569004, m, places=4)
+        except AssertionError as e:
+            print(f"Failed below-purity-floor real-signal case. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # log2_noise_floor is configurable: lowering it should let a
+        # previously-filtered signal (log2=0.02) through to real correction.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.02, 0.02, 2, log2_noise_floor=0.01)
+        try:
+            self.assertEqual(0.04, raw_tc)
+            self.assertNotEqual(0.04, adjusted_tc)
+        except AssertionError as e:
+            print(f"Failed configurable log2_noise_floor. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Below PURITY_FLOOR with genuinely neutral CN: must reduce exactly to
+        # raw_tc unchanged - no CN signal means nothing to correct for, so
+        # there's no reason to report anything other than the direct VAF*2
+        # value, floor or no floor.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.04, 0.0, 2)
+        try:
+            self.assertEqual(0.08, raw_tc)
+            self.assertAlmostEqual(0.08, adjusted_tc, places=6)
+            self.assertEqual(2, cn_t)
+            self.assertAlmostEqual(1.0, m, places=6)
+        except AssertionError as e:
+            print(f"Failed below-purity-floor neutral case. {raw_tc} {adjusted_tc} {cn_t} {m}")
             raise e
 
         # Hemizygous chrX in an inferred male (normal_cn=1): the raw VAF is directly the tumor
@@ -142,7 +218,7 @@ class TestUnitUtils(unittest.TestCase):
         try:
             self.assertEqual(0.6, raw_tc)
             self.assertEqual(1, cn_t)
-            self.assertEqual(1, m)
+            self.assertAlmostEqual(1.0, m, places=6)
             self.assertAlmostEqual(0.3, adjusted_tc, places=6)
         except AssertionError as e:
             print(f"Failed hemizygous chrX correction. {raw_tc} {adjusted_tc} {cn_t} {m}")

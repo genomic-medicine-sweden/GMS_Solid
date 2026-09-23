@@ -728,6 +728,12 @@ properties:
         description: List of VEP consequences to exclude from driver consideration
         items:
           type: string
+      log2_noise_floor:
+        type: number
+        description: >-
+          Minimum |log2ratio| to trust as a real copy-number signal rather than
+          ordinary segment-level measurement noise; below this, the locus is
+          treated as copy-number neutral regardless of purity
       max_af:
         type: number
         description: Maximum allowed allele frequency for a somatic variant
@@ -764,6 +770,13 @@ properties:
       min_sn:
         type: number
         description: Minimum signal-to-noise ratio
+      purity_floor:
+        type: number
+        description: >-
+          Below this purity, CNVs aren't reliably callable in the first place,
+          so copy-number correction is skipped/limited accordingly rather than
+          trusting a local CN read at a purity where the read itself can't be
+          trusted; also the lower bound of the self-consistent-purity search
 
 
 required:

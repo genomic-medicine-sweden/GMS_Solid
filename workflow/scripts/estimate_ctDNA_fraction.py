@@ -90,39 +90,89 @@ def infer_sex_from_cnr(input_cnr):
     return "male" if diff < -0.5 else "female"
 
 
-def correct_vaf_for_copy_number(vaf, log2ratio, normal_cn=2):
+# Below this purity, CNVs aren't reliably callable in the first place (lab
+# convention: ~20% for FFPE, though down to ~10% is considered usable) - so
+# copy-number correction is skipped entirely below it, rather than trusting
+# a local CN read at a purity where that read itself can't be trusted. Also
+# used as the bisection search floor whenever correction does run, so the
+# solver can never wander back down into that untrusted range either.
+PURITY_FLOOR = 0.10
+# Below this |log2ratio|, the reading is indistinguishable from ordinary
+# CNVkit segment-level measurement noise (typically ~0.1-0.2) and is treated
+# as neutral regardless of purity - a real signal is required to correct on,
+# not just a low-enough purity to search at. Complementary to PURITY_FLOOR,
+# not a replacement for it: PURITY_FLOOR gates on whether the *sample* is
+# pure enough to trust any CN read; this gates on whether *this particular*
+# log2ratio reading is itself distinguishable from noise. At low purity the
+# CN-rounding boundary (see local_cn_at_purity) sits far inside this noise
+# band, so without this floor, ordinary noise can look like a multi-copy
+# gain and pull the corrected estimate down by 50%+ from noise alone.
+LOG2_NOISE_FLOOR = 0.1
+BISECTION_TOLERANCE = 1e-6
+BISECTION_MAX_ITERATIONS = 60
+
+
+def local_cn_at_purity(log2ratio, normal_cn, purity, purity_floor=PURITY_FLOOR):
     """
-    Convert a somatic VAF into a tumor-fraction estimate, correcting for
-    local copy number instead of always assuming a plain diploid
-    heterozygous locus (today's VAF*2 behaviour).
+    Invert the log2 dilution equation for the tumor's own local copy number
+    at a given purity:
+
+        2^log2ratio * normal_cn = purity * CN_tumor + (1 - purity) * normal_cn
+
+    At purity=1 this reduces to the purity-naive normal_cn * 2^log2ratio
+    conversion. At lower purity, the same observed log2ratio implies a more
+    extreme CN_tumor than the naive conversion reports, since the signal is
+    diluted by normal-cell admixture. purity is floored at purity_floor
+    before being used as a divisor, since it approaches 0 as purity -> 0.
+
+    Floored at 1, not 0: this is only ever evaluated at a locus where a
+    variant was actually called, so at least one tumor-derived copy must be
+    present there - a true homozygous deletion (cn_t=0) couldn't produce any
+    tumor-derived reads to call a variant from in the first place. Without
+    this floor, a candidate cn_t approaching 0 drives the mutant-copy count m
+    toward 0 too, which can flip the corrected purity estimate upward
+    (sometimes sharply) instead of the usual downward correction - a model
+    artifact, not a real biological signal, for a variant we know exists.
+
+    Deliberately NOT rounded to an integer - see correct_vaf_for_copy_number
+    for why the self-consistency solve needs this to stay continuous.
+
+    param log2ratio: local CNVkit log2 copy ratio
+    param normal_cn: copy number of this locus in a normal cell
+    param purity: current purity estimate used to de-dilute log2ratio
+    param purity_floor: see PURITY_FLOOR
+    return: local tumor copy number (continuous, not rounded), >= 1
+    """
+    p = max(purity, purity_floor)
+    cn_t = normal_cn * (2 ** log2ratio - (1 - p)) / p
+    return max(cn_t, 1.0)
+
+
+def _cn_and_adjusted_tc(vaf, log2ratio, normal_cn, purity, purity_floor=PURITY_FLOOR):
+    """
+    Given a candidate purity, de-dilute log2ratio into a (continuous) local
+    copy number (or fall back to the neutral model if log2ratio is None),
+    derive the assumed mutant-copy count for that copy-number state, and
+    solve the VAF equation for the tumor fraction that state implies.
 
     Model: the mutant allele is assumed to be the one preferentially
     amplified on a gain (m = CN_t - (normal_cn - 1), i.e. exactly
     normal_cn - 1 copies stay wild-type and everything else is mutant), and
     the retained copy/copies are assumed mutant on a loss/LOH (m = CN_t).
-    At CN_t == normal_cn this reduces to the plain heterozygous model (m=1),
-    matching the previous VAF*2 behaviour exactly.
+    At CN_t == normal_cn this reduces to the plain heterozygous model (m=1).
 
-    param vaf: observed variant allele fraction
-    param log2ratio: local CNVkit log2 copy ratio at the variant's position,
-                      or None if uncovered (falls back to the neutral model)
-    param normal_cn: copy number of this locus in a normal cell (2 for
-                      autosomes/female chrX, 1 for chrX in an inferred male)
-    return: (raw_tc, adjusted_tc, cn_t, mutant_copies)
-            raw_tc is always vaf * 2 (today's behaviour, kept for reference)
-            adjusted_tc is the copy-number-corrected estimate, clamped [0, 1]
-            cn_t is the local copy number used (rounded to the nearest
-              integer for the allele-count model)
-            mutant_copies is the assumed number of mutant copies (m)
+    return: (cn_t, m, adjusted_tc)
     """
-    raw_tc = vaf * 2
-
     if log2ratio is None:
-        cn_t = normal_cn
+        cn_t = float(normal_cn)
     else:
-        cn_t = max(round(normal_cn * (2 ** log2ratio)), 0)
+        cn_t = local_cn_at_purity(log2ratio, normal_cn, purity, purity_floor)
 
-    if cn_t >= normal_cn:
+    # Tolerance, not a plain >=: local_cn_at_purity's floating-point chain can
+    # land a fraction below normal_cn at exact neutrality (e.g. 1.9999999999996
+    # instead of 2.0), which would otherwise flip this into the loss branch
+    # and silently produce the wrong m right at the neutral boundary.
+    if cn_t >= normal_cn - 1e-9:
         m = cn_t - (normal_cn - 1)
     else:
         m = cn_t
@@ -135,6 +185,143 @@ def correct_vaf_for_copy_number(vaf, log2ratio, normal_cn=2):
     else:
         adjusted_tc = (vaf * normal_cn) / denominator
         adjusted_tc = min(max(adjusted_tc, 0.0), 1.0)
+
+    return cn_t, m, adjusted_tc
+
+
+def correct_vaf_for_copy_number(
+    vaf, log2ratio, normal_cn=2, log2_noise_floor=LOG2_NOISE_FLOOR, purity_floor=PURITY_FLOOR
+):
+    """
+    Convert a somatic VAF into a tumor-fraction estimate, correcting for
+    local copy number instead of always assuming a plain diploid
+    heterozygous locus (today's VAF*2 behaviour). See _cn_and_adjusted_tc
+    for the allele-count model.
+
+    CN_t itself depends on purity (see local_cn_at_purity), which is exactly
+    what this function is trying to estimate. log2ratio and vaf are both
+    fixed observations with a single unknown, the true purity p - two
+    equations, one unknown - so this solves for the self-consistent p
+    directly via bisection on h(p) = adjusted_tc(cn_t(p)) - p over
+    p in [PURITY_FLOOR, 1], with cn_t kept CONTINUOUS (not rounded to an
+    integer) throughout the solve. cn_t is rounded to the nearest integer
+    only afterwards, purely for the returned/reported value.
+
+    Rounding cn_t to an integer *during* the solve was tried and rejected:
+    it turns h into a step function, and multiple "self-consistent" points
+    can appear near rounding boundaries that have nothing to do with a real
+    solution (confirmed empirically - at low purity, several adjacent
+    integer CN states can each look self-consistent for the same observed
+    data, with no principled way to pick the "right" one from a single
+    variant's numbers alone). The continuous solve avoids this: the
+    underlying problem is well-posed (2 equations, 1 unknown) and h is
+    smooth, so plain bisection reliably finds the single correct root.
+
+    Not every (vaf, log2ratio) pair has a self-consistent solution under this
+    model - h(p) can be single-signed across the whole range (most often for
+    an aggressive gain, where the "mutant preferentially amplified" copy
+    assumption is simply incompatible with the observed VAF at any purity).
+    When that happens there's no principled p to report, so this falls back
+    to the uncorrected neutral model (adjusted_tc = raw_tc) rather than
+    extrapolating to a boundary that could be wildly wrong either way.
+
+    This does not correct for subclonality (a subclonal variant's VAF
+    reflects purity * CCF, which this model can't separate from purity alone
+    given only a single variant's VAF) - only for the copy-number dilution
+    bias.
+
+    Below PURITY_FLOOR, raw_tc is too low to search for a self-consistent
+    purity - the true value plausibly lies below PURITY_FLOOR itself, a
+    range CNVs aren't reliably callable in anyway, so searching there isn't
+    meaningful. log2ratio is still evaluated, though, assuming exactly
+    PURITY_FLOOR (the least purity credited), rather than ignored outright.
+    At neutral CN this reduces to raw_tc unchanged by construction (nothing
+    to correct for); at a real gain/loss it's a genuine correction computed
+    at that assumed purity. Nothing here is artificially floored to
+    PURITY_FLOOR on the way out - a neutral 4% VAF is reported as 4%, not
+    pushed up to 10%, and a gain/loss correction is reported as whatever it
+    actually computes to, which can land above or below PURITY_FLOOR.
+
+    param vaf: observed variant allele fraction
+    param log2ratio: local CNVkit log2 copy ratio at the variant's position,
+                      or None if uncovered (falls back to the neutral model)
+    param normal_cn: copy number of this locus in a normal cell (2 for
+                      autosomes/female chrX, 1 for chrX in an inferred male)
+    param log2_noise_floor: |log2ratio| below this is treated as neutral,
+                             same as log2ratio being None - see
+                             LOG2_NOISE_FLOOR for why this exists
+    param purity_floor: see PURITY_FLOOR
+    return: (raw_tc, adjusted_tc, cn_t, mutant_copies)
+            raw_tc is always vaf * 2 (today's behaviour, kept for reference),
+              never floored
+            adjusted_tc is the copy-number-corrected purity estimate,
+              clamped to [0, 1] - computed from the continuous solve, not
+              from the rounded cn_t below. Not floored to PURITY_FLOOR: it
+              can read below that (raw_tc unchanged at neutral CN below the
+              floor) or above it (a real gain/loss correction evaluated at
+              PURITY_FLOOR can land either side)
+            cn_t is a purely informational nearest-integer label for the
+              local copy number found by the solve - NOT what adjusted_tc/m
+              were computed from (that's the continuous value)
+            mutant_copies is the continuous m that was actually used to
+              compute adjusted_tc (mutually consistent with it), which may
+              not exactly match cn_t's rounded integer
+    """
+    raw_tc = vaf * 2
+
+    if log2ratio is None or abs(log2ratio) < log2_noise_floor:
+        cn_t, m, adjusted_tc = _cn_and_adjusted_tc(vaf, None, normal_cn, 1.0)
+        return raw_tc, adjusted_tc, round(cn_t), m
+
+    if raw_tc < purity_floor:
+        # Too low to trust searching for a self-consistent purity (the true
+        # value likely lies below purity_floor itself, outside the range
+        # we're willing to search or report). But log2ratio is still real
+        # data - rather than ignoring it outright, evaluate the correction
+        # assuming exactly purity_floor (the least purity we're willing to
+        # credit), and report whatever that implies, with no further floor
+        # on the result: at neutral CN this naturally reduces to raw_tc
+        # unchanged (nothing to correct for), and at a real gain/loss it's a
+        # genuine correction computed at that assumed purity - not an
+        # artificial push up to purity_floor regardless of the CN signal.
+        cn_t, m, adjusted_tc = _cn_and_adjusted_tc(vaf, log2ratio, normal_cn, purity_floor, purity_floor)
+        return raw_tc, adjusted_tc, round(cn_t), m
+
+    def h(p):
+        return _cn_and_adjusted_tc(vaf, log2ratio, normal_cn, p, purity_floor)[2] - p
+
+    lo, hi = purity_floor, 1.0
+    h_lo, h_hi = h(lo), h(hi)
+
+    if abs(h_lo) < BISECTION_TOLERANCE:
+        p_star = lo
+    elif abs(h_hi) < BISECTION_TOLERANCE:
+        p_star = hi
+    elif (h_lo > 0) == (h_hi > 0):
+        # No sign change over [purity_floor, 1] - no self-consistent purity
+        # exists under this model. Fall back to the uncorrected estimate.
+        return raw_tc, raw_tc, normal_cn, 1.0
+    else:
+        p_star = (lo + hi) / 2
+        for _ in range(BISECTION_MAX_ITERATIONS):
+            p_star = (lo + hi) / 2
+            h_mid = h(p_star)
+            if abs(h_mid) < BISECTION_TOLERANCE or (hi - lo) < BISECTION_TOLERANCE:
+                break
+            if (h_mid > 0) == (h_lo > 0):
+                lo, h_lo = p_star, h_mid
+            else:
+                hi, h_hi = p_star, h_mid
+
+    # Report adjusted_tc/m straight from the continuous solve - mutually
+    # consistent and accurate. cn_t is a separate, purely informational
+    # nearest-integer label; re-deriving m/adjusted_tc FROM that rounded
+    # integer would reintroduce the same instability solving continuously
+    # was meant to avoid (e.g. a continuous CN of 0.46 is a well-behaved
+    # partial-loss state, but snaps to the degenerate cn_t=0 homozygous-
+    # deletion regime if naively rounded first and recomputed from there).
+    cn_t_continuous, m, adjusted_tc = _cn_and_adjusted_tc(vaf, log2ratio, normal_cn, p_star, purity_floor)
+    cn_t = round(cn_t_continuous)
 
     return raw_tc, adjusted_tc, cn_t, m
 
@@ -285,7 +472,9 @@ if __name__ == "__main__":
     for af, chrom, pos, record_str in snv_candidates:
         normal_cn = 1 if (chrom.lstrip("chr") == "X" and inferred_sex == "male") else 2
         log2ratio = lookup_local_log2(cns_dict, chrom, pos)
-        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(af, log2ratio, normal_cn)
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(
+            af, log2ratio, normal_cn, snakemake.params.log2_noise_floor, snakemake.params.purity_floor
+        )
         snv_info_list.append([raw_tc, adjusted_tc, cn_t, m, normal_cn, record_str])
 
     if snv_info_list:
