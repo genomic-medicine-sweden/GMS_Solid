@@ -1,90 +1,12 @@
 import tempfile
-import os
 import unittest
-
-test_segment_dict = {
-    'chr2': [[138974, 242801052, 1.9299999475479126, []]],
-    'chr3': [[94842, 196812807, 1.9900000095367432, []]],
-    'chr4': [[29134, 191153264, 1.9600000381469727, []]],
-    'chr5': [[218403, 180914250, 2.009999990463257, []]],
-}
-
-test_segment_dict2 = {
-    'chr2': [[138974, 242801052, 1.9299999475479126, []]],
-    'chr3': [[94842, 196812807, 1.9900000095367432, []]],
-    'chr4': [[29134, 191153264, 1.9600000381469727, []]],
-    'chr5': [[218403, 180914250, 2.009999990463257, []]],
-}
-
-test_updated_dict = {
-    'chr2': [[138974, 242801052, 1.9299999475479126, []]],
-    'chr3': [[94842, 196812807, 1.9900000095367432, []]],
-    'chr4': [[29134, 191153264, 1.9600000381469727, []]],
-    'chr5': [[218403, 180914250, 2.009999990463257, []]],
-}
-
-test_segment_dict3 = {
-    'chr2': [[138974, 242801052, 1.9299999475479126,
-              [0.4519999921321869, 0.5094000101089478, 0.4846999943256378, 0.5286999940872192, 0.4810999929904938,
-               0.42480000853538513, 0.4255000054836273, 0.4207000136375427, 0.4794999957084656, 0.4399999976158142,
-               0.44769999384880066, 0.5174999833106995, 0.15629999339580536, 0.44209998846054077, 0.4932999908924103,
-               0.4903999865055084]]],
-    'chr3': [[94842, 196812807, 1.9900000095367432,
-              [0.47519999742507935, 0.42309999465942383, 0.5034999847412109, 0.49779999256134033, 0.4634000062942505,
-               0.4875999987125397, 0.4848000109195709, 0.5054000020027161, 0.4823000133037567, 0.4625999927520752,
-               0.5281000137329102, 0.550000011920929, 0.46869999170303345]]],
-    'chr4': [[29134, 191153264, 1.9600000381469727,
-              [0.4104999899864197, 0.5218999981880188, 0.49950000643730164, 0.45730000734329224, 0.4277999997138977,
-               0.6115000247955322, 0.46810001134872437, 0.49160000681877136, 0.451200008392334, 0.4607999920845032,
-               0.5008000135421753, 0.5677000284194946, 0.4672999978065491, 0.49050000309944153, 0.41690000891685486,
-               0.47189998626708984, 0.476500004529953, 0.4625999927520752]]],
-    'chr5': [[218403, 180914250, 2.009999990463257,
-              [0.5001999735832214, 0.4828999936580658, 0.490200012922287, 0.4474000036716461, 0.4496000111103058,
-               0.47929999232292175, 0.534500002861023, 0.5522000193595886, 0.4812999963760376, 0.4706000089645386,
-               0.5550000071525574, 0.4221000075340271, 0.4345000088214874, 0.4458000063896179]]]
-}
-
-
-test_segment = [0.6001999735832214, 0.3828999936580658, 0.690200012922287, 0.3474000036716461, 0.3496000111103058,
-                0.37929999232292175, 0.634500002861023, 0.6522000193595886, 0.3812999963760376, 0.3706000089645386,
-                0.6550000071525574, 0.3221000075340271, 0.3345000088214874, 0.3458000063896179]
-
-test_segment_no_variance = [0.1445000022649765] * 59
-
-test_segment_dict4 = {
-    'chr2': [[138974, 242801052, 1.9299999475479126,
-              [0.4519999921321869, 0.5094000101089478, 0.4846999943256378, 0.5286999940872192, 0.4810999929904938,
-               0.42480000853538513, 0.4255000054836273, 0.4207000136375427, 0.4794999957084656, 0.4399999976158142,
-               0.44769999384880066, 0.5174999833106995, 0.15629999339580536, 0.44209998846054077, 0.4932999908924103,
-               0.4903999865055084]]],
-    'chr3': [[94842, 196812807, 1.9900000095367432,
-              [0.47519999742507935, 0.42309999465942383, 0.5034999847412109, 0.49779999256134033, 0.4634000062942505,
-               0.4875999987125397, 0.4848000109195709, 0.5054000020027161, 0.4823000133037567, 0.4625999927520752,
-               0.5281000137329102, 0.550000011920929, 0.46869999170303345]]],
-    'chr4': [[29134, 191153264, 1.9600000381469727,
-              [0.4104999899864197, 0.5218999981880188, 0.49950000643730164, 0.45730000734329224, 0.4277999997138977,
-               0.6115000247955322, 0.46810001134872437, 0.49160000681877136, 0.451200008392334, 0.4607999920845032,
-               0.5008000135421753, 0.5677000284194946, 0.4672999978065491, 0.49050000309944153, 0.41690000891685486,
-               0.47189998626708984, 0.476500004529953, 0.4625999927520752]]],
-    'chr5': [[218403, 180914250, 2.009999990463257,
-              [0.6001999735832214, 0.3828999936580658, 0.690200012922287, 0.3474000036716461, 0.3496000111103058,
-               0.37929999232292175, 0.634500002861023, 0.6522000193595886, 0.3812999963760376, 0.3706000089645386,
-               0.6550000071525574, 0.3221000075340271, 0.3345000088214874, 0.3458000063896179]]]
-}
 
 
 class TestUnitUtils(unittest.TestCase):
     def setUp(self):
-        self.min_germline_af = 0.10
-        self.max_somatic_af = 0.4
-        self.min_nr_SNPs_per_segment = 10
-        self.min_segment_length = 10000000
-        self.gnomAD_AF_limit = 0.00001
-        self.vaf_baseline = 0.48
-
         self.vcf = ".tests/units/estimate_ctDNA_fraction/sample1_T.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"  # noqa
-        self.germline_vcf = ".tests/units/estimate_ctDNA_fraction/sample1_T.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz"  # noqa
-        self.segments = ".tests/units/estimate_ctDNA_fraction/sample1_T.jumble.pathology_purecn.vcf"
+        self.cnvkit_cns = ".tests/units/estimate_ctDNA_fraction/sample1_T.cns"
+        self.cnvkit_cnr = ".tests/units/estimate_ctDNA_fraction/sample1_T.cnr"
         self.ctDNA_fraction = ".tests/units/estimate_ctDNA_fraction/sample1.ctDNA_fraction.tsv"
 
         self.tempdir = tempfile.mkdtemp()
@@ -92,187 +14,282 @@ class TestUnitUtils(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def _read_segments(self, test_table, segment_dict):
-        for chrom in segment_dict:
-            i = 0
-            for segment in segment_dict[chrom]:
-                try:
-                    self.assertEqual(test_table[chrom][i], segment)
-                except AssertionError as e:
-                    print(f"Failed reading segments. {chrom} {segment} {test_table[chrom][i]}")
-                    raise e
-                i += 1
+    def test_read_cnvkit_cns(self):
+        from estimate_ctDNA_fraction import read_cnvkit_cns
 
-    def test_read_segments(self):
-        from estimate_ctDNA_fraction import read_segments
-
-        segment_dict = read_segments(self.segments)
-
-        self._read_segments(test_segment_dict, segment_dict)
-
-    def _test_read_germline_vcf(self, test_table, updated_segment_dict):
-        for chrom in updated_segment_dict:
-            i = 0
-            for segment in updated_segment_dict[chrom]:
-                try:
-                    self.assertEqual(test_table[chrom][i], segment)
-                except AssertionError as e:
-                    print(f"Failed reading germline vcf. {chrom} {segment} {test_table[chrom][i]}")
-                    raise e
-                i += 1
-
-    def test_read_germline_vcf(self):
-        from estimate_ctDNA_fraction import read_germline_vcf
-
-        updated_segment_dict, germline_dict = read_germline_vcf(self.germline_vcf, test_segment_dict2, self.min_germline_af)
-        print(updated_segment_dict)
-
-        self._test_read_germline_vcf(test_updated_dict, updated_segment_dict)
-
-    def test_test_if_signal_in_segment(self):
-        from estimate_ctDNA_fraction import test_if_signal_in_segment
-
-        # Test no signal in segment
-        signal_bool = test_if_signal_in_segment(test_segment_dict3["chr5"][0][3], 1, 0, self.vaf_baseline)
-
-        test_signal_bool = False
+        cns_dict = read_cnvkit_cns(self.cnvkit_cns)
 
         try:
-            self.assertEqual(test_signal_bool, signal_bool)
+            self.assertEqual([0, 30000000, 0.5849625007211562], cns_dict["chr12"][0])
+            self.assertEqual([30000000, 140000000, 0.0], cns_dict["chr12"][1])
+            self.assertEqual([0, 200000000, -1.0], cns_dict["chr5"][0])
         except AssertionError as e:
-            print(f"Failed testing signal in segment. {test_signal_bool} {signal_bool}")
+            print(f"Failed reading CNVkit cns. {cns_dict}")
             raise e
 
-        # Test signal in segment
-        signal_bool = test_if_signal_in_segment(test_segment, 1, 0, self.vaf_baseline)
+    def test_lookup_local_log2(self):
+        from estimate_ctDNA_fraction import read_cnvkit_cns, lookup_local_log2
 
-        test_signal_bool = True
+        cns_dict = read_cnvkit_cns(self.cnvkit_cns)
 
+        # Position covered by a gained segment
+        log2 = lookup_local_log2(cns_dict, "chr12", 25398284)
         try:
-            self.assertEqual(test_signal_bool, signal_bool)
+            self.assertEqual(0.5849625007211562, log2)
         except AssertionError as e:
-            print(f"Failed testing signal in segment. {test_signal_bool} {signal_bool}")
+            print(f"Failed looking up covered position. {log2}")
             raise e
 
-        # Test no signal in segment when all values are the same
-        signal_bool = test_if_signal_in_segment(test_segment_no_variance, 1, 0, self.vaf_baseline)
-
-        test_signal_bool = False
-
+        # Position not covered by any segment (chromosome not in file)
+        log2 = lookup_local_log2(cns_dict, "chr21", 1000)
         try:
-            self.assertEqual(test_signal_bool, signal_bool)
+            self.assertIsNone(log2)
         except AssertionError as e:
-            print(f"Failed testing signal in segment. {test_signal_bool} {signal_bool}")
+            print(f"Failed looking up uncovered chromosome. {log2}")
             raise e
 
-    def test_baf_to_tc(self):
-        from estimate_ctDNA_fraction import baf_to_tc
+    def test_read_cns_segments_and_lookup_local_baf(self):
+        from estimate_ctDNA_fraction import read_cns_segments, lookup_local_baf
 
-        # Test no aneuploidy based on copy number and no BAF signal
-        tc, CNA_type = baf_to_tc(0, 2.0, [1.9, 2.0, 2.1], 0)
+        loh_cns = f"{self.tempdir}/sample.loh.cns"
+        with open(loh_cns, "w") as f:
+            f.write("chromosome\tstart\tend\tgene\tlog2\tbaf\tci_hi\tci_lo\tcn\tcn1\tcn2\tdepth\tprobes\tweight\n")
+            f.write("chr1\t0\t1000\t-\t0.0\t0.75\t0.8\t0.7\t2\t1\t1\t500\t10\t5.0\n")
+            f.write("chr1\t1000\t2000\t-\t0.0\t\t0.8\t0.7\t2\t\t\t500\t10\t5.0\n")
 
-        test_tc = 0.0
-        test_CNA_type = "Del"
-
+        cns_dict = read_cns_segments(loh_cns)
         try:
-            self.assertEqual(test_tc, tc)
-            self.assertEqual(test_CNA_type, CNA_type)
+            self.assertEqual([0, 1000, 0.75], cns_dict["chr1"][0])
+            self.assertEqual([1000, 2000, None], cns_dict["chr1"][1])
         except AssertionError as e:
-            print(f"Failed calculating tc. {test_tc} {tc}, {test_CNA_type} {CNA_type}")
+            print(f"Failed reading loh.cns. {cns_dict}")
             raise e
 
-        # Test no aneuploidy based on copy number but with small BAF signal
-        tc, CNA_type = baf_to_tc(0.02, 1.95, [1.9, 2.0, 2.1], 0)
-
-        test_tc = 0.07692307692307693
-        test_CNA_type = "Del"
-
         try:
-            self.assertEqual(test_tc, tc)
-            self.assertEqual(test_CNA_type, CNA_type)
+            self.assertEqual(0.75, lookup_local_baf(cns_dict, "chr1", 500))
+            self.assertIsNone(lookup_local_baf(cns_dict, "chr1", 1500))
+            self.assertIsNone(lookup_local_baf(cns_dict, "chr2", 500))
         except AssertionError as e:
-            print(f"Failed calculating tc. {test_tc} {tc}, {test_CNA_type} {CNA_type}")
+            print("Failed looking up local baf.")
             raise e
 
-        # Test no aneuploidy in sample based on copy number but with strong BAF signal
-        tc, CNA_type = baf_to_tc(0.2, 1.9, [1.9, 2.0, 2.1], 0)
-
-        test_tc = 0.5714285714285715
-        test_CNA_type = "Del"
+    def test_is_likely_germline(self):
+        from estimate_ctDNA_fraction import is_likely_germline
 
         try:
-            self.assertEqual(test_tc, tc)
-            self.assertEqual(test_CNA_type, CNA_type)
+            # No local baf - fixed diploid-heterozygous window
+            self.assertTrue(is_likely_germline(0.50, None, 0.47, 0.53, 0.05))
+            self.assertFalse(is_likely_germline(0.22, None, 0.47, 0.53, 0.05))
+
+            # Local baf shifted away from 0.5 by LOH/allelic imbalance - a
+            # germline het there clusters near baf or its mirror (1-baf),
+            # not near 0.5, which the fixed window alone would miss.
+            self.assertTrue(is_likely_germline(0.75, 0.75, 0.47, 0.53, 0.05))
+            self.assertTrue(is_likely_germline(0.24, 0.75, 0.47, 0.53, 0.05))
+            self.assertFalse(is_likely_germline(0.50, 0.75, 0.47, 0.53, 0.05))
         except AssertionError as e:
-            print(f"Failed calculating tc. {test_tc} {tc}, {test_CNA_type} {CNA_type}")
+            print("Failed is_likely_germline check.")
             raise e
 
-        # Test aneuploidy in sample based on copy number with deletion in segment
-        tc, CNA_type = baf_to_tc(0.2, 0.9, [0.9, 2.0, 3.0], 0)
+    def test_drop_likely_germline(self):
+        from estimate_ctDNA_fraction import read_cns_segments, drop_likely_germline
 
-        test_tc = 0.5714285714285715
-        test_CNA_type = "Del"
+        loh_cns = f"{self.tempdir}/sample2.loh.cns"
+        with open(loh_cns, "w") as f:
+            f.write("chromosome\tstart\tend\tgene\tlog2\tbaf\tci_hi\tci_lo\tcn\tcn1\tcn2\tdepth\tprobes\tweight\n")
+            f.write("chr1\t0\t1000\t-\t0.0\t0.75\t0.8\t0.7\t2\t1\t1\t500\t10\t5.0\n")
+            f.write("chr2\t0\t1000\t-\t0.0\t\t0.8\t0.7\t2\t\t\t500\t10\t5.0\n")
+        loh_cns_dict = read_cns_segments(loh_cns)
+
+        candidates = [
+            [0.24, "chr1", 500, "germline-in-LOH-segment\n"],  # matches 1-baf -> dropped
+            [0.10, "chr1", 500, "real-somatic-in-LOH-segment\n"],  # doesn't match baf or 1-baf -> kept
+            [0.50, "chr2", 500, "germline-no-baf\n"],  # no baf, matches fixed window -> dropped
+            [0.05, "chr2", 500, "real-somatic-no-baf\n"],  # no baf, outside fixed window -> kept
+        ]
+        kept = drop_likely_germline(candidates, loh_cns_dict, 0.47, 0.53, 0.05)
 
         try:
-            self.assertEqual(test_tc, tc)
-            self.assertEqual(test_CNA_type, CNA_type)
+            self.assertEqual(2, len(kept))
+            self.assertEqual({"real-somatic-in-LOH-segment\n", "real-somatic-no-baf\n"}, {c[3] for c in kept})
         except AssertionError as e:
-            print(f"Failed calculating tc. {test_tc} {tc}, {test_CNA_type} {CNA_type}")
+            print(f"Failed drop_likely_germline. {kept}")
             raise e
 
-        # Test aneuploidy in sample based on copy number with copy neutral LoH in segment
-        tc, CNA_type = baf_to_tc(0.2, 1.9, [1.0, 2.0, 3.0], 0)
+    def test_infer_sex_from_cnr(self):
+        from estimate_ctDNA_fraction import infer_sex_from_cnr
 
-        test_tc = 0.46136101499423304
-        test_CNA_type = "CNLoH"
-
+        # sample1_T.cnr has chrX bins ~1 copy relative to autosomes -> male
+        sex = infer_sex_from_cnr(self.cnvkit_cnr)
         try:
-            self.assertEqual(test_tc, tc)
-            self.assertEqual(test_CNA_type, CNA_type)
+            self.assertEqual("male", sex)
         except AssertionError as e:
-            print(f"Failed calculating tc. {test_tc} {tc}, {test_CNA_type} {CNA_type}")
+            print(f"Failed inferring male sex. {sex}")
             raise e
 
-        # Test aneuploidy in sample based on copy number with duplication in segment
-        tc, CNA_type = baf_to_tc(0.2, 2.9, [1.0, 2.0, 3.0], 0)
+        # A sample with chrX at the same level as autosomes -> female (also the safe default)
+        female_cnr = f"{self.tempdir}/female.cnr"
+        with open(female_cnr, "w") as f:
+            f.write("chromosome\tstart\tend\tgene\tlog2\tdepth\tweight\n")
+            for i in range(12):
+                f.write(f"chr1\t{i*1000}\t{i*1000+500}\t-\t0.0\t500\t1.0\n")
+            for i in range(12):
+                f.write(f"chrX\t{i*1000}\t{i*1000+500}\t-\t0.0\t500\t1.0\n")
 
-        test_tc = 0.7504690431519699
-        test_CNA_type = "Dup"
-
+        sex = infer_sex_from_cnr(female_cnr)
         try:
-            self.assertEqual(test_tc, tc)
-            self.assertEqual(test_CNA_type, CNA_type)
+            self.assertEqual("female", sex)
         except AssertionError as e:
-            print(f"Failed calculating tc. {test_tc} {tc}, {test_CNA_type} {CNA_type}")
+            print(f"Failed inferring female sex. {sex}")
             raise e
 
-    def test_calculate_cnv_tc(self):
-        from estimate_ctDNA_fraction import calculate_cnv_tc
+        # Too little chrX data to tell -> default to the safe, non-destructive "female" fallback
+        sparse_cnr = f"{self.tempdir}/sparse.cnr"
+        with open(sparse_cnr, "w") as f:
+            f.write("chromosome\tstart\tend\tgene\tlog2\tdepth\tweight\n")
+            f.write("chr1\t0\t500\t-\t0.0\t500\t1.0\n")
+            f.write("chrX\t0\t500\t-\t-1.0\t500\t1.0\n")
 
-        # No CNA signal found
-        tc, seg_list = calculate_cnv_tc(
-            test_segment_dict3, self.min_nr_SNPs_per_segment, self.vaf_baseline, self.min_segment_length
-        )
-
-        test_tc = 0
-
+        sex = infer_sex_from_cnr(sparse_cnr)
         try:
-            self.assertEqual(test_tc, tc)
+            self.assertEqual("female", sex)
         except AssertionError as e:
-            print(f"Failed calculating max tc. {test_tc} {tc}")
+            print(f"Failed defaulting on sparse chrX data. {sex}")
             raise e
 
-        # Found a deletion
-        tc, seg_list = calculate_cnv_tc(
-            test_segment_dict4, self.min_nr_SNPs_per_segment, self.vaf_baseline, self.min_segment_length
-        )
+    def test_correct_vaf_for_copy_number(self):
+        from estimate_ctDNA_fraction import correct_vaf_for_copy_number
 
-        test_tc = 0.36253480233650015
-
+        # Neutral boundary: must reduce exactly to today's VAF*2 behaviour
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.2, 0.0, 2)
         try:
-            self.assertEqual(test_tc, tc)
+            self.assertEqual(0.4, raw_tc)
+            self.assertEqual(0.4, adjusted_tc)
+            self.assertEqual(2, cn_t)
+            self.assertEqual(1, m)
         except AssertionError as e:
-            print(f"Failed calculating max tc. {test_tc} {tc}")
+            print(f"Failed neutral boundary check. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # No CNVkit coverage falls back to the neutral model
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.2, None, 2)
+        try:
+            self.assertEqual(0.4, raw_tc)
+            self.assertEqual(0.4, adjusted_tc)
+            self.assertEqual(2, cn_t)
+            self.assertEqual(1, m)
+        except AssertionError as e:
+            print(f"Failed no-coverage fallback. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Feasible gain: vaf/log2 constructed so a true purity=0.3, CN_t=4 pair is
+        # genuinely self-consistent - the continuous solve should recover both
+        # almost exactly. cn_t is rounded for reporting; m is the continuous
+        # value actually used to compute adjusted_tc (see correct_vaf_for_copy_number's
+        # docstring for why m is deliberately not re-derived from the rounded cn_t).
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.34615384615384615, 0.3785116232537298, 2)
+        try:
+            self.assertAlmostEqual(0.6923076923076923, raw_tc, places=6)
+            self.assertEqual(4, cn_t)
+            self.assertAlmostEqual(3.0, m, places=4)
+            self.assertAlmostEqual(0.3, adjusted_tc, places=4)
+        except AssertionError as e:
+            print(f"Failed feasible gain correction. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Feasible loss: vaf/log2 constructed so a true purity=0.3, CN_t=1 pair
+        # (a simple het loss/LOH) is genuinely self-consistent.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.17647058823529413, -0.23446525363702297, 2)
+        try:
+            self.assertAlmostEqual(0.35294117647058826, raw_tc, places=6)
+            self.assertEqual(1, cn_t)
+            self.assertAlmostEqual(1.0, m, places=4)
+            self.assertAlmostEqual(0.3, adjusted_tc, places=4)
+        except AssertionError as e:
+            print(f"Failed feasible loss correction. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Infeasible gain: log2=1.0 combined with vaf=0.3 has no self-consistent
+        # purity anywhere in [PURITY_FLOOR, 1] under this model (h(p) is
+        # single-signed across the whole range - previously this diverged to
+        # cn_t=29 under naive fixed-point iteration). Must fall back to the
+        # uncorrected neutral estimate rather than extrapolate to a boundary.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.3, 1.0, 2)
+        try:
+            self.assertEqual(0.6, raw_tc)
+            self.assertEqual(0.6, adjusted_tc)
+            self.assertEqual(2, cn_t)
+            self.assertEqual(1, m)
+        except AssertionError as e:
+            print(f"Failed infeasible-gain fallback. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Below LOG2_NOISE_FLOOR: log2=0.02 is well within ordinary CNVkit
+        # segment-level noise, not a real signal - must be treated as neutral
+        # (same as log2ratio=None), regardless of how low raw_tc is. Without
+        # this gate, this exact input used to manufacture a spurious
+        # "correction" down to ~3.1% purely from noise crossing a rounding
+        # boundary near PURITY_FLOOR.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.02, 0.02, 2)
+        try:
+            self.assertEqual(0.04, raw_tc)
+            self.assertEqual(0.04, adjusted_tc)
+            self.assertEqual(2, cn_t)
+            self.assertEqual(1.0, m)
+        except AssertionError as e:
+            print(f"Failed log2-noise-floor gate. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Below PURITY_FLOOR but ABOVE LOG2_NOISE_FLOOR: too low to search for
+        # a self-consistent purity, but log2ratio (0.15, a real signal) is
+        # still evaluated - at PURITY_FLOOR itself (the least purity credited
+        # down here), not ignored outright. Nothing is floored on the way
+        # out: the correction pulls adjusted_tc below raw_tc, same direction
+        # as it would above the floor - not pushed up to 10%.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.02, 0.15, 2)
+        try:
+            self.assertEqual(0.04, raw_tc)
+            self.assertAlmostEqual(0.012708249882206802, adjusted_tc, places=4)
+            self.assertEqual(4, cn_t)
+            self.assertAlmostEqual(3.1913894413569004, m, places=4)
+        except AssertionError as e:
+            print(f"Failed below-purity-floor real-signal case. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # log2_noise_floor is configurable: lowering it should let a
+        # previously-filtered signal (log2=0.02) through to real correction.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.02, 0.02, 2, log2_noise_floor=0.01)
+        try:
+            self.assertEqual(0.04, raw_tc)
+            self.assertNotEqual(0.04, adjusted_tc)
+        except AssertionError as e:
+            print(f"Failed configurable log2_noise_floor. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Below PURITY_FLOOR with genuinely neutral CN: must reduce exactly to
+        # raw_tc unchanged - no CN signal means nothing to correct for, so
+        # there's no reason to report anything other than the direct VAF*2
+        # value, floor or no floor.
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.04, 0.0, 2)
+        try:
+            self.assertEqual(0.08, raw_tc)
+            self.assertAlmostEqual(0.08, adjusted_tc, places=6)
+            self.assertEqual(2, cn_t)
+            self.assertAlmostEqual(1.0, m, places=6)
+        except AssertionError as e:
+            print(f"Failed below-purity-floor neutral case. {raw_tc} {adjusted_tc} {cn_t} {m}")
+            raise e
+
+        # Hemizygous chrX in an inferred male (normal_cn=1): the raw VAF is directly the tumor
+        # fraction, no doubling - this is the fix for the STAG2-style chrX bug
+        raw_tc, adjusted_tc, cn_t, m = correct_vaf_for_copy_number(0.3, 0.0, 1)
+        try:
+            self.assertEqual(0.6, raw_tc)
+            self.assertEqual(1, cn_t)
+            self.assertAlmostEqual(1.0, m, places=6)
+            self.assertAlmostEqual(0.3, adjusted_tc, places=6)
+        except AssertionError as e:
+            print(f"Failed hemizygous chrX correction. {raw_tc} {adjusted_tc} {cn_t} {m}")
             raise e
 
     def test_read_snv_vcf_and_find_max_af(self):
@@ -299,31 +316,100 @@ class TestUnitUtils(unittest.TestCase):
                                     "3_prime_UTR_variant",
                                     "non_coding_transcript_exon_variant"
                                     ]],
-            "CHIP_genes": ["", ["DNMT3A", "TET2", "ASXL1"]],
+            "CHIP_genes": ["", ["DNMT3A", "TET2", "ASXL1", "PPM1D"]],
             "Other": ["", []]
         }
 
-        AF, snv_list = read_snv_vcf_and_find_max_af(self.vcf, filter_dict)
-        print(AF, snv_list)
+        best_variant = read_snv_vcf_and_find_max_af(self.vcf, filter_dict)
+        print(best_variant)
 
-        # Updated expected AF based on new filtering logic and substitute VCF
-        test_AF = 2.8200000524520874
+        # Only the KRAS G12V hotspot variant survives: the TET2 candidate is excluded as a CHIP
+        # gene, and the others fail quality/panel-median/artifact/position filters.
+        test_AF = 1.41
+        test_chrom = "chr12"
+        test_pos = 25398284
 
         try:
-            self.assertEqual(test_AF, AF*100)
+            self.assertEqual(1, len(best_variant))
+            self.assertAlmostEqual(test_AF, best_variant[0][0] * 100, places=2)
+            self.assertEqual(test_chrom, best_variant[0][1])
+            self.assertEqual(test_pos, best_variant[0][2])
         except AssertionError as e:
-            print(f"Failed reading vcf. {test_AF} {AF*100}")
+            print(f"Failed reading vcf. {test_AF} {best_variant}")
+            raise e
+
+    def test_read_snv_vcf_and_find_max_af_excludes_complexaf(self):
+        from estimate_ctDNA_fraction import read_snv_vcf_and_find_max_af
+
+        # chr6:30672959 is VarDict's synthetic COMPLEXAF=sum pseudo-record for one
+        # component of a decomposed complex variant (no QUAL, no NM/PMEAN/SN/...) -
+        # must never be returned, even with every other filter wide open.
+        best_variant = read_snv_vcf_and_find_max_af(self.vcf, {})
+
+        try:
+            self.assertNotIn("chr6", [v[1] for v in best_variant])
+        except AssertionError as e:
+            print(f"Failed excluding COMPLEXAF pseudo-record. {best_variant}")
+            raise e
+
+    def test_read_snv_vcf_and_find_max_af_excludes_records_without_af(self):
+        from estimate_ctDNA_fraction import read_snv_vcf_and_find_max_af
+
+        # chr3:1000000 is a synthetic codon-level substitution record (INFO
+        # only ever carries AA/Artifact/CSQ, no AF) - must be skipped, even
+        # with every other filter wide open, rather than crashing on the
+        # missing AF INFO field.
+        best_variant = read_snv_vcf_and_find_max_af(self.vcf, {})
+
+        try:
+            self.assertNotIn("chr3", [v[1] for v in best_variant])
+        except AssertionError as e:
+            print(f"Failed excluding AF-less synthetic record. {best_variant}")
             raise e
 
     def test_write_tc(self):
         from estimate_ctDNA_fraction import write_tc
 
+        # No raw_tc_all/adjusted_tc_all supplied -> reported as NA
         tc_string = write_tc(self.ctDNA_fraction, 0.09, 0.10)
 
-        test_tc_string = "9.0%\t10.0%\n"
+        test_tc_string = "9.0%\t10.0%\tNA\tNA\n"
 
         try:
             self.assertEqual(tc_string, test_tc_string)
         except AssertionError as e:
             print(f"Failed to write output vcf. {tc_string} {test_tc_string}")
+            raise e
+
+        # raw_tc_all/adjusted_tc_all supplied -> reported alongside the driver values
+        tc_string = write_tc(self.ctDNA_fraction, 0.09, 0.10, 0.12, 0.11)
+
+        test_tc_string = "9.0%\t10.0%\t12.0%\t11.0%\n"
+
+        try:
+            self.assertEqual(tc_string, test_tc_string)
+        except AssertionError as e:
+            print(f"Failed to write output vcf with raw_tc_all. {tc_string} {test_tc_string}")
+            raise e
+
+    def test_write_ctDNA_fraction_info(self):
+        from estimate_ctDNA_fraction import write_ctDNA_fraction_info
+
+        output_file = f"{self.tempdir}/ctDNA_fraction_info.tsv"
+        snv_info_list = [
+            [0.4, 0.4, 2, 1.0, 2, "driver", "chr12\t25398284\t.\tC\tA\n"],
+            [0.5, 0.45, 3, 2.0, 2, "passenger", "chr1\t100\t.\tG\tT\n"],
+        ]
+        write_ctDNA_fraction_info(output_file, snv_info_list)
+
+        with open(output_file) as f:
+            lines = f.readlines()
+
+        try:
+            header = "raw_%\tadjusted_%\tlocal_CN_t\tassumed_mutant_copies\tnormal_CN_used\tsource\tVCF_record\n"
+            self.assertEqual(header, lines[1])
+            self.assertEqual("40.0%\t40.0%\t2\t1.00\t2\tdriver\tchr12\t25398284\t.\tC\tA\n", lines[2])
+            self.assertEqual("50.0%\t45.0%\t3\t2.00\t2\tpassenger\tchr1\t100\t.\tG\tT\n", lines[3])
+        except AssertionError as e:
+            print(f"Failed to write ctDNA_fraction_info. {lines}")
             raise e

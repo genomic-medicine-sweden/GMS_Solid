@@ -119,25 +119,25 @@ properties:
         type: object
         description: list of inputs
         properties:
-          germline_vcf:
-            type: string
-            description: Germline vcf only. Same file as used in BAF plots of the CNV html report
-          segments:
-            type: string
-            description: CNV segments (from Jumble)
           vcf:
             type: string
             description: Small variant vcf with vep annotations
+          cnvkit_cns:
+            type: string
+            description: CNVkit segment file, used to look up local copy number at each candidate variant's position
+          cnvkit_cnr:
+            type: string
+            description: CNVkit bin-level ratio file, used to infer sample sex from chrX vs autosome log2 ratios
       output:
         type: object
         description: list of outputs
         properties:
           ctDNA_fraction:
             type: string
-            description: Estimated ctDNA fraction values based on CNV and SNV data
+            description: Estimated ctDNA fraction based on SNV data, reported as both a raw (VAF*2) and a copy-number-adjusted percentage
           ctDNA_fraction_info:
             type: string
-            description: CNV segment info for regions with deletion signals as well as variants passing all filters
+            description: Per-candidate diagnostics (raw/adjusted percentage, local copy number, assumed mutant copies, normal copy number used) for variants passing all filters
 
   exon_skipping:
     type: object
