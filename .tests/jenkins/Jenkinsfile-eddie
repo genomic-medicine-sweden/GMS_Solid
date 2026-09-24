@@ -1,0 +1,129 @@
+def isPullRequest = false
+
+pipeline {
+  agent any
+
+  environment {
+    SLURM_RESUME = "/etc/slurm/resume_openstack.sh"
+    SLURM_SUSPEND = "/etc/slurm/suspend_openstack.sh"
+    JOB_SCRIPT   = "run_job.sh"    // your Slurm job submission script
+    NFS_MOUNT    = "/beefs-storage"
+    }
+
+  stages {
+    stage('first stage') {
+      steps {
+        script {
+          isPullRequest = env.CHANGE_ID != null
+        }
+        sh 'printenv'
+      }
+    }
+    stage('resume cloud nodes') {
+      steps {
+          echo "Bringing up cloud nodes..."
+          sh "bash ${SLURM_RESUME}"
+          }
+    }
+    stage('dry-run') {
+      steps {
+        sh '''#!/bin/bash
+                virtualenv venv -p python3.9
+                source venv/bin/activate
+                pip3 install -r requirements.txt
+
+                hydra-genetics --debug references download -o /beegfs-storage/design_and_ref_files -v config/references/design_files.hg19.yaml
+                hydra-genetics --debug references download -o /beegfs-storage/design_and_ref_files -v config/references/nextseq.hg19.pon.yaml
+                hydra-genetics --debug references download -o /beegfs-storage/design_and_ref_files -v config/references/novaseq.hg19.pon.yaml
+                hydra-genetics --debug references download -o /beegfs-storage/design_and_ref_files -v config/references/design_files.hg38.yaml
+                hydra-genetics --debug references download -o /beegfs-storage/design_and_ref_files -v config/references/nextseq.hg38.pon.yaml
+                #hydra-genetics --debug references download -o /beegfs-storage/design_and_ref_files -v config/references/novaseq.hg38.pon.yaml
+                
+                mkdir -p develop/slurm_out
+                cp -r config develop/
+                cp .tests/jenkins/units_develop.tsv develop/units.tsv
+                cp .tests/jenkins/samples_develop.tsv develop/samples.tsv
+                cp .tests/jenkins/resources.yaml develop/config/resources.yaml
+                cp .tests/jenkins/test_input_develop.tsv develop/test_input.tsv
+
+                cd develop
+                sed 's,PROJECT_DESIGN_DATA:.*,PROJECT_DESIGN_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+                sed 's,PROJECT_PON_DATA:.*,PROJECT_PON_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+                sed 's,PROJECT_REF_DATA:.*,PROJECT_REF_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+                snakemake -s ../workflow/Snakefile --profile ../.tests/jenkins/profile -w 60 -n
+             '''
+      }
+    }
+    stage('develop') {
+      when {
+          anyOf {
+                 expression { isPullRequest == false && env.BRANCH_NAME == 'develop' }
+          }
+      }
+      steps {
+          sh '''#!/bin/bash
+                virtualenv venv -p python3.9
+                source venv/bin/activate
+                pip3 install -r requirements.txt
+                mkdir -p develop/slurm_out
+                cp -r config develop/
+                cp .tests/jenkins/units_develop.tsv develop/units.tsv
+                cp .tests/jenkins/samples_develop.tsv develop/samples.tsv
+                cp .tests/jenkins/resources.yaml develop/config/resources.yaml
+                cp .tests/jenkins/test_input_develop.tsv develop/test_input.tsv
+
+                cd develop
+                sed 's,PROJECT_DESIGN_DATA:.*,PROJECT_DESIGN_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+                sed 's,PROJECT_PON_DATA:.*,PROJECT_PON_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+                sed 's,PROJECT_REF_DATA:.*,PROJECT_REF_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+                snakemake -s ../workflow/Snakefile --profile ../.tests/jenkins/profile -w 60 --notemp --keep-incomplete --rerun-incomplete
+                git clone https://github.com/clinical-genomics-uppsala/validation_workflow.git
+                nextflow run validation_workflow/validate_result.nf
+             '''
+      }
+    }
+    stage('main') {
+      when {
+          anyOf {
+                 expression { isPullRequest == false && env.BRANCH_NAME == 'master' }
+          }
+      }
+      steps {
+          sh '''#!/bin/bash
+              virtualenv venv -p python3.9
+              source venv/bin/activate
+              pip3 install -r requirements.txt
+              mkdir -p main/slurm_out
+              cp -r config main/
+              cp .tests/jenkins/units_main.tsv main/units.tsv
+              cp .tests/jenkins/samples_main.tsv main/samples.tsv
+              cp .tests/jenkins/resources.yaml main/config/resources.yaml
+              cp .tests/jenkins/test_input_main.tsv main/test_input.tsv
+
+              cd main
+              sed 's,PROJECT_DESIGN_DATA:.*,PROJECT_DESIGN_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+              sed 's,PROJECT_PON_DATA:.*,PROJECT_PON_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+              sed 's,PROJECT_REF_DATA:.*,PROJECT_REF_DATA: "/beegfs-storage/design_and_ref_files",' -i config/config.data.hg19.yaml
+              snakemake -s ../workflow/Snakefile --profile ../.tests/jenkins/profile -w 60 --notemp --keep-incomplete --rerun-incomplete
+              git clone https://github.com/clinical-genomics-uppsala/validation_workflow.git
+              nextflow run validation_workflow/validate_result.nf
+             '''
+      }
+    }
+  }
+  post {
+    always {
+      cleanWs(cleanWhenSuccess: true, cleanWhenFailure: false)
+
+      dir("${env.WORKSPACE}@tmp") {
+        deleteDir()
+      }
+      dir("${env.WORKSPACE}@script") {
+        deleteDir()
+      }
+      dir("${env.WORKSPACE}@script@tmp") {
+        deleteDir()
+      }
+    }
+  }
+}
