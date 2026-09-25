@@ -254,25 +254,6 @@
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.26.0/design/Mutations_PIK_20260223.csv
 
- jumble_reference:
-   annotation_file1:
-     checksum: 944896de8f6ab376459f8893598c780d
-     path: GMS560/cnv/jumble_annotation/allexons.txt
-     type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.11.0/cnv/jumble_annotation/allexons.txt
-
-   annotation_file2:
-     checksum: 5a986871cc991852d2135135db48711f
-     path: GMS560/cnv/jumble_annotation/allgenes.txt
-     type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.11.0/cnv/jumble_annotation/allgenes.txt
-
-   annotation_file3:
-     checksum: 5252c7462c8b0953a7832cc073415f0b
-     path: GMS560/cnv/jumble_annotation/cancergenes.txt
-     type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.11.0/cnv/jumble_annotation/cancergenes.txt
-
  manta_config_t:
    extra:
      checksum: b8f464f2af0d71c4e91fcdbd90378b6d
