@@ -2,3 +2,13 @@ output: "../../config/output_reference_files.yaml"
 
 reference:
   mappability: "DATA/access-5k-mappable.bed"
+
+ichorcna_offtarget_read_counter:
+  chrs: "chr1"
+
+ichorcna_offtarget_panel_of_normals:
+  gc_wig: "reference/ichorcna_dummy_gc.wig"
+  map_wig: "reference/ichorcna_dummy_map.wig"
+  centromere: "reference/ichorcna_dummy_centromere.txt"
+  chrs: 'c("1")'
+  chr_normalize: 'c("1")'

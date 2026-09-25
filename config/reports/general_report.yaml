@@ -45,6 +45,11 @@ files:
     input: results/dna/{sample}_{type}/cnv/{sample}_{type}.purecn_purity_ploidity.csv
     description: TC estimated by purecn
     nav_header: CNV
+  - name: ichorCNA purity (off-target)
+    type: file_table
+    input: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt
+    description: Additional, exploratory tumor fraction/ploidy estimate from ichorCNA off-target read coverage
+    nav_header: CNV
   - name: CNV html
     type: file_link
     input: results/dna/{sample}_{type}/cnv/{sample}_{type}.pathology_purecn.cnv.html
