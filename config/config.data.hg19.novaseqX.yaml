@@ -11,7 +11,7 @@ gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_novaseqX_24_updated.hdf5"
 
 jumble_run:
-  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/jumble_novaseqX_24_updated.RDS"
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/jumble_novaseqX_24_260925.RDS"
 
 msisensor_pro_filter_sites:
   PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_novaseqX_24_updated.list_baseline"
