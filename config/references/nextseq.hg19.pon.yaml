@@ -64,10 +64,10 @@
 
  jumble_run:
    normal_reference:
-     checksum: 3add115d1471c3055d7984e3baea0364
-     path: GMS560/PoN/jumble.combined.filtered.50.PoN.hg19.RDS
+     checksum: 359d535c1d2443c5feb30c3c31649398
+     path: GMS560/PoN/jumble_combined_62_260925.RDS
      type: file
-     url: https://figshare.com/ndownloader/files/49365301?private_link=88202740beb6fcbac09d
+     url: https://figshare.scilifelab.se/ndownloader/files/69336878?private_link=88202740beb6fcbac09d
    normal_reference_ctdna:
      checksum: 36e9bcef8f162cad3a34d09b884584a3
      path: GMS560/PoN/jumble_cfDNA_nextseq2000_24.RDS
