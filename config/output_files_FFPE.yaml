@@ -590,15 +590,15 @@ files:
     analyskod:
       - ""
       - "GMS560"
-  - name: Somalier DNA-DNA best match
+  - name: Somalier DNA-DNA best match report
     input: qc/somalier_ungrouped/somalier_dna_dna_match.tsv
-    output: results/qc/somalier_dna_dna_match.tsv
+    output: results/sample_mixup_check_somalier_DNA_DNA.tsv
     types:
       - T
       - N
-  - name: Somalier best match report
+  - name: Somalier RNA-DNA best match report
     input: qc/somalier_ungrouped/somalier_best_match.tsv
-    output: results/sample_mixup_check_somalier.tsv
+    output: results/sample_mixup_check_somalier_RNA_DNA.tsv
     types:
       - T
       - R

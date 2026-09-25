@@ -17,8 +17,8 @@ msisensor_pro_filter_sites:
   PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_novaseqX_24_updated.list_baseline"
 
 purecn:
-  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/purecn/mapping_bias_novaseqX_24_updated.rds"
-  normaldb: "{{PROJECT_PON_DATA}}/GMS560/purecn/normalDB_novaseqX_24_updated.rds"
+  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/PoN/purecn/mapping_bias_novaseqX_24_updated.rds"
+  normaldb: "{{PROJECT_PON_DATA}}/GMS560/PoN/purecn/normalDB_novaseqX_24_updated.rds"
   intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_novaseqX_24_updated_intervals.txt"
 
 purecn_coverage:

@@ -637,7 +637,12 @@ properties:
         description: name or path to docker/singularity container
       match_cutoff:
         type: number
-        description: relatedness cutoff for match (default 0.85)
+        description: relatedness cutoff for match, required together with ibs0_cutoff (default 0.6)
+      ibs0_cutoff:
+        type: number
+        description: >-
+          max ibs0 (sites with opposite homozygous genotypes) required, together with
+          match_cutoff, to flag a match (default 2)
 
   trimmer_software:
     description: trimmer software that should be used
@@ -674,6 +679,12 @@ properties:
     type: object
     description: parameters for estimate_ctdna_fraction
     properties:
+      af_germline_lower_limit:
+        type: number
+        description: Lower bound of the diploid germline AF window, used when no local CNVkit baf is available
+      af_germline_upper_limit:
+        type: number
+        description: Upper bound of the diploid germline AF window, used when no local CNVkit baf is available
       artifact_limit:
         type: integer
         description: Maximum number of allowed artifacts for a variant
@@ -690,6 +701,11 @@ properties:
         description: List of genes associated with Clonal Hematopoiesis of Indeterminate Potential (CHIP) to potentially filter out
         items:
           type: string
+      cn_baf_tolerance:
+        type: number
+        description: >-
+          Tolerance around a segment's fitted CNVkit baf (or its mirror, 1-baf) used to recognize a
+          germline call whose AF has been shifted away from 50% by local LOH/allelic imbalance
       container:
         type: string
         description: name or path to docker/singularity container
@@ -698,6 +714,12 @@ properties:
         description: List of VEP consequences to exclude from driver consideration
         items:
           type: string
+      log2_noise_floor:
+        type: number
+        description: >-
+          Minimum |log2ratio| to trust as a real copy-number signal rather than
+          ordinary segment-level measurement noise; below this, the locus is
+          treated as copy-number neutral regardless of purity
       max_af:
         type: number
         description: Maximum allowed allele frequency for a somatic variant
@@ -716,15 +738,9 @@ properties:
       max_panel_median:
         type: number
         description: Maximum allowed panel median VAF
-      min_germline_af:
-        type: number
-        description: minimial germline allele frequency to be included in density calculations (removes somatic)
       min_mq:
         type: number
         description: Minimum mapping quality (MQ)
-      min_nr_SNPs_per_segment:
-        type: integer
-        description: minimal number of germline SNPs in segments to be used for ctDNA estimation
       min_position_nr_sd:
         type: number
         description: Minimum positional read count SD
@@ -737,15 +753,13 @@ properties:
       min_sbf:
         type: number
         description: Minimum strand bias Fisher p-value
-      min_segment_length:
-        type: integer
-        description: minimal length of segments to be used for ctDNA estimation
-      min_sn:
+      purity_floor:
         type: number
-        description: Minimum signal-to-noise ratio
-      vaf_baseline:
-        type: number
-        description: Sets the VAF-baseline. In theory BAF-baseline is 0.5 (50% for each SNP), however in practice this is slightly shifted downwards due to reference bias in alignment
+        description: >-
+          Below this purity, CNVs aren't reliably callable in the first place,
+          so copy-number correction is skipped/limited accordingly rather than
+          trusting a local CN read at a purity where the read itself can't be
+          trusted; also the lower bound of the self-consistent-purity search
 
 
 required:

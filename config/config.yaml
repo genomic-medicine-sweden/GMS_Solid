@@ -8,7 +8,7 @@ modules:
   alignment: "v0.8.0"
   annotation: "v1.5.0"
   biomarker: "v0.10.0"
-  cnv_sv: "v3.0.0"
+  cnv_sv: "v3.3.0"
   filtering: "v0.3.0"
   fusions: "v0.3.1"
   prealignment: "v1.3.0"
@@ -119,11 +119,6 @@ ctat_splicing_call:
   container: "docker://hydragenetics/ctat-splicing:0.0.3"
 
 estimate_ctdna_fraction:
-  # CNV parameters
-  min_germline_af: 0.1
-  min_nr_SNPs_per_segment: 35
-  min_segment_length: 10000000
-  vaf_baseline: 0.48
   # SNV filter parameters
   artifact_limit: 0
   callers: ["vardict"]
@@ -134,13 +129,19 @@ estimate_ctdna_fraction:
   max_odd_ratio: 1.5
   max_panel_median: 0.002
   min_mq: 40
-  min_position_nr_sd: 10
+  min_position_nr_sd: 6
   min_pmean: 25
-  min_qual: 40
+  min_qual: 39
   min_sbf: 0.05
-  min_sn: 50
-  chip_genes: ["DNMT3A", "TET2", "ASXL1"]
+  chip_genes: ["DNMT3A", "TET2", "ASXL1", "PPM1D"]
   excluded_consequences: ["synonymous_variant", "5_prime_UTR_variant", "3_prime_UTR_variant", "non_coding_transcript_exon_variant"]
+  # Copy-number correction parameters
+  log2_noise_floor: 0.1
+  purity_floor: 0.10
+  # CN-aware germline exclusion parameters
+  af_germline_lower_limit: 0.47
+  af_germline_upper_limit: 0.53
+  cn_baf_tolerance: 0.05
 
 fastp_pe:
   container: "docker://hydragenetics/fastp:0.20.1"
@@ -263,7 +264,7 @@ jumble_cnvkit_call:
   container: "docker://hydragenetics/cnvkit:0.9.9"
 
 jumble_run:
-  container: "docker://hydragenetics/jumble:0.5.0"
+  container: "docker://hydragenetics/jumble:0.5.3"
 
 jumble_vcf:
   dup_limit: 2.5
@@ -325,6 +326,7 @@ multiqc:
         - "qc/picard_collect_insert_size_metrics/{sample}_{type}.insert_size_metrics.txt"
         - "qc/samtools_stats/{sample}_{type}.samtools-stats.txt"
         - "qc/gatk_calculate_contamination/{sample}_{type}.contamination.table"
+        - "qc/somalier_ungrouped/somalier_dna_dna_match.tsv"
     DNA_umi:
       config: "config/reports/multiqc_config_dna_umi.yaml"
       included_unit_types: ["N", "T"]
@@ -339,6 +341,7 @@ multiqc:
         - "qc/gatk_calculate_contamination/{sample}_{type}.contamination.table"
         - "alignment/fgbio_group_reads_by_umi/{sample}_{type}.umi.histo.tsv"
         - "qc/fgbio_duplex_yield_summary/{sample}_{type}.duplex_yield_summary.txt"
+        - "qc/somalier_ungrouped/somalier_dna_dna_match.tsv"
     RNA:
       config: "config/reports/multiqc_config_rna.yaml"
       included_unit_types: ["R"]

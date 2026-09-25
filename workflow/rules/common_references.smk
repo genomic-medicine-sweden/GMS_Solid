@@ -118,7 +118,10 @@ generate_copy_code(workflow, output_spec)
 def get_reference_bam_input(sample: str, type: str) -> str:
     # Mirrors get_deduplication_bam_input() in rules/common.smk: the reference
     # pipeline must build PoN/background/PureCN/etc. from the same final,
-    # deduplicated bam the main pipeline actually reports on.
+    # deduplicated bam the main pipeline actually reports on, rather than the
+    # pre-dedup/pre-consensus alignment/samtools_merge_bam bam (which for FFPE
+    # still contains PCR duplicates, and for ctDNA/UMI predates consensus
+    # calling entirely).
     if config.get("deduplication") == "umi":
         return "alignment/samtools_merge_bam_umi/%s_%s.bam" % (sample, type)
     return "alignment/samtools_merge_bam_all_final/%s_%s.bam" % (sample, type)
