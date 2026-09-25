@@ -29,7 +29,7 @@ jumble_count:
 
 jumble_reference:
   container: "docker://hydragenetics/jumble:0.5.3"
-  annotation: "/projects/wp1/nobackup/ngs/utveckling/Twist_DNA_DATA/jumble/jumble_annotation/"
+  annotation: "biomart"
 
 msisensor_pro_scan:
   container: "docker://hydragenetics/msisensor_pro:1.2.0"
