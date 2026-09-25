@@ -267,7 +267,16 @@ def read_snv_vcf_and_find_max_af(input_snv_vcf, filter_dict):
             if record['ID'] == "CSQ":
                 vep_fields = {v: c for c, v in enumerate(record['Description'].split("Format: ")[1].split('">')[0].split("|"))}
 
+    if not vep_fields:
+        raise ValueError(f"No VEP CSQ annotation found in the header of {input_snv_vcf}")
+
     for record in snv_vcf.fetch():
+        # Symbolic/structural ALT alleles (e.g. <DEL>) aren't annotated by VEP, so this
+        # specific record has no CSQ value even though CSQ is declared in the header -
+        # skip it rather than treat it as a missing/broken annotation.
+        if "CSQ" not in record.info:
+            continue
+
         if "COMPLEXAF" in record.info:
             # VarDict's synthetic pseudo-record for one component of a decomposed
             # complex variant, not an independently-supported call - it carries no
