@@ -9,16 +9,16 @@ general_report: "config/reports/general_report.umi.yaml"
 output: "config/output_files_ctDNA.yaml"
 
 reference:
-  background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_cfDNA_nextseq2000_24.tsv"
-  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_nextseq2000_24.tsv"
-  design_intervals_gatk_cnv: "{{PROJECT_DESIGN_DATA}}/GMS560/design/gatk.preprocessed.cfDNA_nextseq2000_24.interval_list"
+  background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_cfDNA_nextseq2000_24_260928.tsv"
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_nextseq2000_24_260928.tsv"
+  design_intervals_gatk_cnv: "{{PROJECT_DESIGN_DATA}}/GMS560/design/gatk.preprocessed.cfDNA_nextseq2000_24_260928.interval_list"
   fasta_2bit: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.2bit"
 
 bwa_mem:
   extra: "-Y"
 
 cnvkit_batch:
-  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_cfDNA_nextseq2000_24.cnn"
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_cfDNA_nextseq2000_24_260928.cnn"
 
 cnvkit_batch_hrd:
   normal_reference_hrd: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_nextseq_27_HRD.cnn"
@@ -38,25 +38,25 @@ fgbio_call_overlapping_consensus_bases:
   disagrement_strategy: "Consensus"
 
 gatk_denoise_read_counts:
-  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_nextseq2000_24.hdf5"
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_nextseq2000_24_260928.hdf5"
 
 jumble_run:
-  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble_cfDNA_nextseq2000_24.RDS"
+  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble_cfDNA_nextseq2000_24_260928.RDS"
 
 msisensor_pro:
-  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_cfDNA_nextseq2000_24.list_baseline"
+  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_cfDNA_nextseq2000_24_260928.list_baseline"
 
 msisensor_pro_filter_sites:
-  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_cfDNA_nextseq2000_24.list_baseline"
+  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_cfDNA_nextseq2000_24_260928.list_baseline"
 
 purecn:
-  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/PoN/purecn/mapping_bias_cfDNA_nextseq2000_24.rds"
-  normaldb: "{{PROJECT_PON_DATA}}/GMS560/PoN/purecn/normalDB_cfDNA_nextseq2000_24.rds"
-  intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals.txt"
+  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/PoN/purecn/mapping_bias_cfDNA_nextseq2000_24_260928.rds"
+  normaldb: "{{PROJECT_PON_DATA}}/GMS560/PoN/purecn/normalDB_cfDNA_nextseq2000_24_260928.rds"
+  intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt"
 
 purecn_coverage:
-  intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals.txt"
- 
+  intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt"
+
 svdb_query:
   db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/all_TN_292_svdb_0.8_20220505.vcf --out_frq Twist_AF --out_occ Twist_OCC"
 
