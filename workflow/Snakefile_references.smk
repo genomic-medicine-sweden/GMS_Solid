@@ -82,7 +82,7 @@ use rule bgzip from misc as misc_bgzip with:
 
 module references:
     snakefile:
-        github("hydra-genetics/references", path="workflow/Snakefile", tag="bab9c00")
+        github("hydra-genetics/references", path="workflow/Snakefile", tag="v1.2.0")
     config:
         config
 

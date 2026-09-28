@@ -150,7 +150,7 @@ juli_call:
   ref_genes: "{{PROJECT_REF_DATA}}/ref_data/juli/refGene_hg19.txt"
 
 jumble_run:
-  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble.combined.filtered.50.PoN.hg19.RDS"
+  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble_combined_62_260925.RDS"
 
 manta_config_t:
   extra: "--exome --callRegions {{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg19.split_fusion_genes.210608.bed.gz"

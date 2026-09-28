@@ -25,11 +25,11 @@ create_read_count_panel_of_normals:
   container: "docker://hydragenetics/gatk4:4.2.2.0"
 
 jumble_count:
-  container: "docker://hydragenetics/jumble:260310"
+  container: "docker://hydragenetics/jumble:0.5.4"
 
 jumble_reference:
-  container: "docker://hydragenetics/jumble:260310"
-  annotation: "/projects/wp1/nobackup/ngs/utveckling/Twist_DNA_DATA/jumble/jumble_annotation/"
+  container: "docker://hydragenetics/jumble:0.5.4"
+  annotation: "biomart"
 
 msisensor_pro_scan:
   container: "docker://hydragenetics/msisensor_pro:1.2.0"
