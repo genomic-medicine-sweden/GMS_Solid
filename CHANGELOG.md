@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.7.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.6.0...v1.7.0) (2026-09-28)
+
+
+### Features
+
+* cnv plot with interger values and ploidity ([#811](https://github.com/genomic-medicine-sweden/GMS_Solid/issues/811)) ([cbf5cf4](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/cbf5cf4f7262b5ab6aed26c5f18aabbf5d446cfd))
+* dna_dna contamination check added as qc output and into multiQC ([#818](https://github.com/genomic-medicine-sweden/GMS_Solid/issues/818)) ([b5767da](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/b5767da417a38bb8fb5e4da4bc10c663f6fc84fd))
+* Improved filtering and added a passenger estimate as well ([80bceb1](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/80bceb1b2a1dc392d49543344be4a2ea10d2f04a))
+* improved SNV based ctDNA purity estimate using CNV copynumbers ([15e4b37](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/15e4b37e66a53ea2172ec7c593c53e87046221a3))
+* improved SNV based ctDNA purity estimate using CNV copynumbers ([f523787](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/f523787c6c28cbc2b8b9e82933734a258040e8af))
+* Improved SNV purity estimation with CNV adjustment ([5cdc1d5](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/5cdc1d55c4fcbd8c891de14831ee8d1c2ebd3da5))
+* new ctDNA_PoNs ([d063313](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/d063313db98d2426cc7910c21253df61a75674bd))
+* new ctDNA_PoNs ([a09149a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/a09149a2e66ffa4f770bb8058028529333bf89df))
+* new jumble version ([5c06a3c](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/5c06a3ca9b54a758db52c395dcb9dc84e31e45b5))
+* new jumble version ([6d726a2](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/6d726a2c87ed10637a103c7920eff3a7571347d0))
+
+
+### Bug Fixes
+
+* bam files path for FFPE updated to the new deduplicated path. If ctDNA, umi bams are now used in reference creation ([f2ac1d1](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/f2ac1d1967cd51d6a8ff82be4f6b9a4db23ad079))
+* bam files path for FFPE updated to the new deduplicated path. If… ([28da14d](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/28da14d5541fc27986ff24ebb83cd53b5aa856e9))
+* **config.data.ctdna.hg19.novaseqX.yaml:** jumble path ([c02ddab](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c02ddab914c5f56bddcf470ae230cb2d188a05df))
+* **config.data.ctdna.hg19.yaml:** : jumble path ([c719dd7](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/c719dd7db35ca86060f29eb0ef749c66282a65f8))
+* **config.data.ctdna.hg19.yaml:** jumble path ([b425fe3](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/b425fe39374b5620bd223d830006988192cd315e))
+* **config.data.hg19.novaseqX.yaml:** PoN directory missing ([#819](https://github.com/genomic-medicine-sweden/GMS_Solid/issues/819)) ([6b46d7a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/6b46d7a490b4eafe5a3be7d250327bd5641a584e))
+* correct annotation source for the reference pipeline ([d7f8eb4](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/d7f8eb46119b0d1c1d47a3448f92931dbd2dadb2))
+* correct annotation source for the reference pipeline ([b0a3713](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/b0a371378969dd9180907d424dd330c4e8e72502))
+* ctDNA config values in correct config files ([da2d47c](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/da2d47c55a33dbcd6122a5cb1e33a3463dcbb7ff))
+* ctDNA config values in correct config files and added ctDNA config for Novaseq on Miarka ([8c24915](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/8c2491501876a0350ae09852911d84597411f806))
+* mixup results files with better names and moved ([445dda7](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/445dda77b934e57821b6d21eea7ff07b9166c3aa))
+* New Jumble PoN for FFPE ([4604c58](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/4604c58f9e000b6cc66a058d871cee08fd1ad5d4))
+* new Jumble version bugfix ([1801bfb](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/1801bfb050ddb2e8650654a20d0913de4f4d01a9))
+* new report module v2.2.3 that handle new jumble version ([e5d2484](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/e5d24848e6ae3b0952f115b9350daaa48e0a07cc))
+* Purecn wo checkpoint ([#816](https://github.com/genomic-medicine-sweden/GMS_Solid/issues/816)) ([e0b698e](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/e0b698e372a60a2a957bab1e6fbfed0351c6adcb))
+* update the reference module to v1.2.0 ([048069b](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/048069b41b05e28ced9a6121a319bfc45ed5f7ae))
+* update the reference module to v1.2.0 ([d1422f5](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/d1422f5fcc2dc287a7c0f23074e2d06954453eeb))
+
 ## [1.6.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.5.1...v1.6.0) (2026-07-22)
 
 
