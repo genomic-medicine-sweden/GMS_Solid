@@ -5,7 +5,7 @@ units: "units.tsv"
 #hydra_local_path: "PATH_TO_REPO"
 
 modules:
-  alignment: "v0.8.0"
+  alignment: "624f5e9e0c80f867e9a038e6a44fdefdc50abd1b" # bwa-mem2 PR, replace with release tag
   annotation: "v1.4.1"
   biomarker: "v0.9.0"
   cnv_sv: "v3.3.0"
@@ -45,6 +45,9 @@ bcftools_annotate:
 
 bwa_mem:
   container: "docker://hydragenetics/bwa_mem:0.7.17"
+
+bwa_mem2:
+  container: "docker://hydragenetics/bwa_mem2:2.3"
 
 bwa_mem_merge:
   extra: "-c -p"

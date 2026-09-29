@@ -17,6 +17,9 @@ reference:
 bwa_mem:
   extra: "-Y"
 
+bwa_mem2:
+  extra: "-Y"
+
 cnvkit_batch:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_cfDNA_nextseq2000_24_260928.cnn"
 

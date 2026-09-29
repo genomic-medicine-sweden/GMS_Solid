@@ -51,6 +51,18 @@
      type: file
      url: https://figshare.com/ndownloader/files/57131735?private_link=88202740beb6fcbac09d
 
+  bwa_mem2: # amb, ann and pac are identical to the bwa files above
+   "0123":
+     checksum: b2ee68a25d9920019af708569a2240d2
+     path: ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.0123
+     type: file
+     url: TODO_figshare_url
+   bwt:
+     checksum: 5ab7759bbbac38221c8c4a695123ca06
+     path: ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.bwt.2bit.64
+     type: file
+     url: TODO_figshare_url
+
   filter_fuseq_wes:
     gtf:
       checksum: 9a477533e8e6c47a854a01ccd04b1580

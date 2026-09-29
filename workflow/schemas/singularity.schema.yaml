@@ -30,6 +30,17 @@ properties:
     required:
       - container
 
+  bwa_mem2:
+    type: object
+    properties:
+      container:
+        type: string
+        description: name or path to a default docker/singularity container
+        pattern: >-
+            hydragenetics/bwa_mem2:2\.3$|hydragenetics__bwa_mem2_2\.3\.sif$
+    required:
+      - container
+
   cnvkit_batch:
     type: object
     properties:

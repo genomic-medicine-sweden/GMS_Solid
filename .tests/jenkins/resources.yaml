@@ -15,6 +15,12 @@ bwa_mem:
   threads: 8
   time: "8:00:00"
 
+bwa_mem2:
+  mem_mb: 15200
+  mem_per_cpu: 1900
+  threads: 8
+  time: "8:00:00"
+
 fastp_pe:
   threads: 1
 
