@@ -20,6 +20,7 @@ output: "config/output_files_FFPE.yaml"
 default_container: "docker://hydragenetics/common:4.1.1"
 
 trimmer_software: "fastp_pe"
+short_read_aligner: "bwa_mem2" # bwa_mem or bwa_mem2
 subsample: "None"
 run_ffpe_overlapping_consensus: false
 

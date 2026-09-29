@@ -56,12 +56,12 @@
      checksum: b2ee68a25d9920019af708569a2240d2
      path: ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.0123
      type: file
-     url: TODO_figshare_url
+     url: https://figshare.scilifelab.se/ndownloader/files/69463770?private_link=88202740beb6fcbac09d
    bwt:
      checksum: 5ab7759bbbac38221c8c4a695123ca06
      path: ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.bwt.2bit.64
      type: file
-     url: TODO_figshare_url
+     url: https://figshare.scilifelab.se/ndownloader/files/69463968?private_link=88202740beb6fcbac09d
 
   filter_fuseq_wes:
     gtf:
