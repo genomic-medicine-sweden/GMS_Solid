@@ -6,7 +6,7 @@ properties:
     type: string
     description: name or path to a default docker/singularity container
     pattern: >-
-        hydragenetics/common:4\.1\.1$|hydragenetics__common_4\.1\.1\.sif$|
+        hydragenetics/common:4\.1\.1$|common__v4\.1\.1p311\.sif$|
 
   bcbio_variation_recall_ensemble:
     type: object
@@ -26,7 +26,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/bwa_mem:0\.7\.17$|hydragenetics__bwa_mem_0\.7\.17\.sif$
+            hydragenetics/bwa:0\.7\.17-1$|hydragenetics__bwa_0\.7\.17-1\.sif$
     required:
       - container
 
@@ -81,7 +81,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/fastp:0\.20\.1$|hydragenetics__fastp_0\.20\.1\.sif$
+            hydragenetics/fastp:0\.20\.1-1$|hydragenetics__fastp_0\.20\.1-1\.sif$
       required:
         - container
 
@@ -92,7 +92,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/fastqc:0\.11\.9$|hydragenetics__fastqc_0\.11\.9\.sif$
+            hydragenetics/fastqc:0\.12\.1$|hydragenetics__fastqc_0\.12\.1\.sif$
       required:
         - container
 
@@ -114,7 +114,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -125,7 +125,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -136,7 +136,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -147,7 +147,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -158,7 +158,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -169,7 +169,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -180,7 +180,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -191,7 +191,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -202,7 +202,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/gatk4:4\.1\.9\.0$|hydragenetics__gatk4_4\.1\.9\.0\.sif$
+            hydragenetics/gatk4:4\.1\.9\.0-1$|hydragenetics__gatk4_4\.1\.9\.0-1\.sif$
       required:
         - container
 
@@ -235,7 +235,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/mosdepth:0\.3\.2$|hydragenetics__mosdepth_0\.3\.2\.sif$
+            hydragenetics/mosdepth:0\.3\.14$|hydragenetics__mosdepth_0\.3\.14\.sif$
       required:
         - container
 
@@ -246,7 +246,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/msisensor_pro:1\.1\.a$|hydragenetics__msisensor_pro_1\.1\.a\.sif$
+            hydragenetics/msisensor_pro:1\.1\.a-1$|hydragenetics__msisensor_pro_1\.1\.a-1\.sif$
       required:
         - container
 
@@ -257,7 +257,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/multiqc:1\.21$|hydragenetics__multiqc_1\.21\.sif$
+            hydragenetics/multiqc:1\.27-1$|hydragenetics__multiqc_1\.27-1\.sif$
       required:
         - container
 
@@ -278,8 +278,10 @@ properties:
       container:
         type: string
         description: name or path to a default docker/singularity container
+        #pattern: >-
+        #  hydragenetics/picard:2\.25\.0-1$|hydragenetics__picard_2\.25\.0-1\.sif$
         pattern: >-
-            hydragenetics/picard:2\.25\.0$|hydragenetics__picard_2\.25\.0\.sif$
+            hydragenetics/picard:3\.5\.0$|hydragenetics__picard_3\.5\.0\.sif$
       required:
         - container
 
@@ -290,7 +292,9 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/picard:2\.25\.0$|hydragenetics__picard_2\.25\.0\.sif$
+                hydragenetics/picard:3\.5\.0$|hydragenetics__picard_3\.5\.0\.sif$
+        #pattern: >-
+        #    hydragenetics/picard:2\.25\.0-1$|hydragenetics__picard_2\.25\.0-1\.sif$
       required:
         - container
 
@@ -300,8 +304,10 @@ properties:
       container:
         type: string
         description: name or path to a default docker/singularity container
+        # pattern: >-
+        #    hydragenetics/picard:2\.25\.0-1$|hydragenetics__picard_2\.25\.0-1\.sif$
         pattern: >-
-            hydragenetics/picard:2\.25\.0$|hydragenetics__picard_2\.25\.0\.sif$
+            hydragenetics/picard:3\.5\.0$|hydragenetics__picard_3\.5\.0\.sif$
       required:
         - container
 
@@ -312,7 +318,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/picard:2\.25\.0$|hydragenetics__picard_2\.25\.0\.sif$
+            hydragenetics/picard:3\.5\.0$|hydragenetics__picard_3\.5\.0\.sif$
       required:
         - container
 
@@ -323,7 +329,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/picard:2\.25\.0$|hydragenetics__picard_2\.25\.0\.sif$
+            hydragenetics/picard:3\.5\.0$|hydragenetics__picard_3\.5\.0\.sif$
       required:
         - container
 
@@ -389,7 +395,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/vardict:1\.8\.3$|hydragenetics__vardict_1\.8\.3\.sif$
+            hydragenetics/vardict:1\.8\.3-1$|hydragenetics__vardict_1\.8\.3-1\.sif$
     required:
       - container
 

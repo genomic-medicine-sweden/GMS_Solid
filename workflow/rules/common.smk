@@ -103,6 +103,8 @@ onstart:
     if use_container(workflow):
         update_config, software_info = add_software_version_to_config(config, workflow, False)
         export_software_version_as_file(software_info, date_string=pipeline_name, directory="results/versions/software")
+    else:
+        update_config = config
     export_config_as_file(update_config, date_string=pipeline_name, directory="results/versions")
 
 
@@ -292,13 +294,13 @@ def get_all_report_inputs(wildcards):
 
 
 def generate_star_read_group(wildcards):
-    return "-R '@RG\\tID:{}\\tSM:{}\\tPL:{}\\tPU:{}\\tLB:{}' -v 1 ".format(
-        "{}_{}".format(wildcards.sample, wildcards.type),
-        "{}_{}".format(wildcards.sample, wildcards.type),
-        "Illumina",
-        "{}_{}".format(wildcards.sample, wildcards.type),
-        "{}_{}".format(wildcards.sample, wildcards.type),
-    )
+    rg_id = "{}_{}".format(wildcards.sample, wildcards.type)
+    rg_sm = "{}_{}".format(wildcards.sample, wildcards.type)
+    rg_pl = "Illumina"
+    rg_pu = "{}_{}".format(wildcards.sample, wildcards.type)
+    rg_lb = "{}_{}".format(wildcards.sample, wildcards.type)
+    return f"--outSAMattrRGline ID:{rg_id}\tSM:{rg_sm}\tPL:{rg_pl}\tPU:{rg_pu}\tLB:{rg_lb}"
+    
 
 
 class _IdentityLineMap(dict):
