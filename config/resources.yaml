@@ -3,7 +3,7 @@ default_resources:
   time: "6:00:00"
   mem_mb: 6144
   mem_per_cpu: 6144
-  partition: "low"
+  partition: "high"
 
 arriba:
   threads: 5
