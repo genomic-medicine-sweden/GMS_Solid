@@ -294,13 +294,13 @@ def get_all_report_inputs(wildcards):
 
 
 def generate_star_read_group(wildcards):
-    rg_id = "{}_{}".format(wildcards.sample, wildcards.type)
-    rg_sm = "{}_{}".format(wildcards.sample, wildcards.type)
-    rg_pl = "Illumina"
-    rg_pu = "{}_{}".format(wildcards.sample, wildcards.type)
-    rg_lb = "{}_{}".format(wildcards.sample, wildcards.type)
-    return f"--outSAMattrRGline ID:{rg_id}\tSM:{rg_sm}\tPL:{rg_pl}\tPU:{rg_pu}\tLB:{rg_lb}"
-    
+    return "--outSAMattrRGline 'ID:{} SM:{} PL:{} PU:{} LB:{}' ".format(
+        "{}_{}".format(wildcards.sample, wildcards.type),
+        "{}_{}".format(wildcards.sample, wildcards.type),
+        "Illumina",
+        "{}_{}".format(wildcards.sample, wildcards.type),
+        "{}_{}".format(wildcards.sample, wildcards.type),
+    )
 
 
 class _IdentityLineMap(dict):

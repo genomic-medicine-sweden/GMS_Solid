@@ -23,6 +23,9 @@ reference:
   skip_chrs:
     - "chrM"
 
+fragmentomics_fragment_length_patient_score:
+  reference_set: "{{PROJECT_PON_DATA}}/GMA560/design/vessies_reference_set.txt"
+
 arriba:
   assembly: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta"
   blacklist: "{{PROJECT_REF_DATA}}/ref_data/arriba_v2.3.0/blacklist_hg19_hs37d5_GRCh37_v2.3.0.tsv.gz"
