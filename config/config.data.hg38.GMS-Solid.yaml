@@ -81,6 +81,13 @@ bwa_mem:
   pac: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.pac"
   sa: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.sa"
 
+bwa_mem2:
+  "0123": "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.0123"
+  amb: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.amb"
+  ann: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.ann"
+  bwt: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.bwt.2bit.64"
+  pac: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.pac"
+
 call_small_cnv_deletions:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/small_deletions_caller_blacklist_hg38.tsv"
   regions_file: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_deletion_genes_240618_hg38.tsv"

@@ -5,7 +5,7 @@ units: "units.tsv"
 #hydra_local_path: "PATH_TO_REPO"
 
 modules:
-  alignment: "v0.8.0"
+  alignment: "v0.9.0"
   annotation: "v1.5.0"
   biomarker: "v0.10.0"
   cnv_sv: "v3.3.0"
