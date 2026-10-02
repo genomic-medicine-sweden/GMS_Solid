@@ -21,6 +21,11 @@
 #                             update = only point the config at an existing remote cache
 #   PATH_TO_apptainer_cache   required when APPT_CACHE_STATUS is build or update
 #   GIT_CLONE_RETRIES         attempts per git clone (default: 3)
+#   EXECUTOR_PLUGINS          comma-separated Snakemake executor plugins to add to the env:
+#                             drmaa, slurm, sge, or "none". A plugin may carry a pip version
+#                             spec, e.g. slurm==2.8.0. Needs PYTHON_VERSION >= 3.11. When unset,
+#                             the script asks; without a terminal it keeps the previous choice
+#                             (none on a first build).
 #
 # Any positional arguments are reference/design config files passed to
 # `hydra-genetics references download`.
@@ -33,6 +38,7 @@ STEPS=(
     create_env
     stage_pipeline
     install_requirements
+    install_executors
     pack_env
     clone_wrappers
     clone_modules
@@ -60,6 +66,13 @@ HYDRA_MODULES=(
     reports
     snv_indels
     references
+)
+
+# Executor plugins EXECUTOR_PLUGINS may name; each maps to snakemake-executor-plugin-<name>.
+KNOWN_EXECUTORS=(
+    drmaa
+    sge
+    slurm
 )
 
 # Config files in the config repo that have ${TAG_OR_BRANCH} substituted into them.
@@ -266,6 +279,60 @@ if [[ $SHOW_STATUS == true ]]; then
     exit 0
 fi
 
+# -------------------------------------------------------------------- executor plugins
+PREVIOUS_EXECUTORS_FILE=${STATE_DIR}/install_executors/plugins
+# The previous choice, as short names (slurm==2.8.0), for the default answer.
+PREVIOUS_EXECUTORS=$(sed 's/snakemake-executor-plugin-//g' "$PREVIOUS_EXECUTORS_FILE" 2>/dev/null || true)
+
+ask_executor_plugins() {
+    local answer i default=${PREVIOUS_EXECUTORS:-none}
+    {
+        printf '\nSnakemake executor plugins to add to the env (needs python >= 3.11):\n'
+        for i in "${!KNOWN_EXECUTORS[@]}"; do
+            printf '  %d) %s\n' $((i + 1)) "${KNOWN_EXECUTORS[$i]}"
+        done
+        printf 'Numbers or names, comma/space separated, "none" for no plugins [%s]: ' "$default"
+    } >&2
+    read -r answer || answer=""
+    answer=${answer:-$default}
+    # Numbers become names; anything else (names, version specs) passes through.
+    for i in $(split_list "$answer"); do
+        if [[ $i =~ ^[0-9]+$ ]] && ((i >= 1 && i <= ${#KNOWN_EXECUTORS[@]})); then
+            printf '%s ' "${KNOWN_EXECUTORS[$((i - 1))]}"
+        else
+            printf '%s ' "$i"
+        fi
+    done
+}
+
+if [[ -z ${EXECUTOR_PLUGINS+set} ]]; then
+    if [[ -t 0 ]]; then
+        EXECUTOR_PLUGINS=$(ask_executor_plugins)
+    else
+        EXECUTOR_PLUGINS=$PREVIOUS_EXECUTORS
+    fi
+fi
+
+# Each entry is a pip requirement, e.g. snakemake-executor-plugin-slurm==2.8.0.
+EXECUTOR_REQUIREMENTS=()
+for spec in $(split_list "$EXECUTOR_PLUGINS"); do
+    [[ $spec == none ]] && continue
+    name=${spec%%[<>=!~]*}
+    in_list "$name" "${KNOWN_EXECUTORS[@]}" ||
+        die "unknown executor plugin '${name}' (known: ${KNOWN_EXECUTORS[*]})"
+    EXECUTOR_REQUIREMENTS+=("snakemake-executor-plugin-${spec}")
+done
+if [[ ${#EXECUTOR_REQUIREMENTS[@]} -gt 0 ]]; then
+    # Every executor plugin requires python >= 3.11; fail now rather than deep inside pip.
+    IFS=. read -r py_major py_minor _ <<<"$PYTHON_VERSION"
+    if ((py_major < 3 || (py_major == 3 && ${py_minor:-0} < 11))); then
+        die "executor plugins need PYTHON_VERSION >= 3.11 (got ${PYTHON_VERSION})"
+    fi
+fi
+# Sorted, so the same set in a different order counts as unchanged.
+EXECUTOR_SET=$(printf '%s\n' ${EXECUTOR_REQUIREMENTS[@]+"${EXECUTOR_REQUIREMENTS[@]}"} | sort -u | paste -sd' ')
+log "executor plugins: ${EXECUTOR_SET:-none}"
+
 # ------------------------------------------------------------------- marker bookkeeping
 # The build is a linear pipeline, so redoing a step invalidates everything after it.
 invalidate_from() {
@@ -310,6 +377,20 @@ if [[ $DRY_RUN == false ]]; then
     for step in ${ONLY_STEPS[@]+"${ONLY_STEPS[@]}"}; do
         clear_marker "$step"
     done
+fi
+
+# The packed env must hold exactly the requested executor plugins, so a changed selection
+# redoes install_executors and everything after it. A state directory from
+# before install_executors existed has the env packed already, without any plugins.
+if { is_done install_executors &&
+    [[ $(cat "$PREVIOUS_EXECUTORS_FILE" 2>/dev/null) != "$EXECUTOR_SET" ]]; } ||
+    { ! is_done install_executors && [[ -n $EXECUTOR_SET ]] && is_done pack_env; }; then
+    if [[ $DRY_RUN == true ]]; then
+        log "executor plugins changed, install_executors and every later step would be redone"
+    else
+        log "executor plugins changed, redoing install_executors and every later step"
+        invalidate_from install_executors
+    fi
 fi
 
 # ------------------------------------------------------------------------- environment
@@ -433,6 +514,36 @@ step_install_requirements() {
     # packages from outside the prefix out of the install.
     "${ENV_DIR}/bin/pip3" install --no-cache-dir \
         -r "${STAGE_DIR}/${PIPELINE_NAME}/requirements.txt"
+}
+
+step_install_executors() {
+    local package
+    ensure_env_active
+    # Drop known plugins that are no longer requested, so the env matches EXECUTOR_PLUGINS.
+    for package in "${KNOWN_EXECUTORS[@]}"; do
+        package=snakemake-executor-plugin-${package}
+        if ! printf '%s\n' ${EXECUTOR_REQUIREMENTS[@]+"${EXECUTOR_REQUIREMENTS[@]}"} |
+            grep -qE "^${package}([<>=!~]|$)" &&
+            "${ENV_DIR}/bin/pip3" show --quiet "$package" >/dev/null 2>&1; then
+            log "  removing ${package}"
+            "${ENV_DIR}/bin/pip3" uninstall --yes "$package"
+        fi
+    done
+
+    if [[ ${#EXECUTOR_REQUIREMENTS[@]} -eq 0 ]]; then
+        log "  no executor plugins selected, nothing to install"
+    else
+        require_dir "${STAGE_DIR}/${PIPELINE_NAME}" stage_pipeline
+        log "  installing ${EXECUTOR_REQUIREMENTS[*]}"
+        # requirements.txt goes along so pip keeps its pins (snakemake>=9,<10) while resolving
+        # the plugins' snakemake-interface-* dependencies.
+        "${ENV_DIR}/bin/pip3" install --no-cache-dir \
+            -r "${STAGE_DIR}/${PIPELINE_NAME}/requirements.txt" \
+            "${EXECUTOR_REQUIREMENTS[@]}"
+    fi
+
+    mkdir -p "$(dirname "$PREVIOUS_EXECUTORS_FILE")"
+    printf '%s\n' "$EXECUTOR_SET" >"$PREVIOUS_EXECUTORS_FILE"
 }
 
 step_pack_env() {
@@ -574,7 +685,11 @@ run_step() {
         return 0
     fi
     if [[ $DRY_RUN == true ]]; then
-        log "would run ${step}"
+        if [[ $step == install_executors ]]; then
+            log "would run ${step} (${EXECUTOR_SET:-no plugins})"
+        else
+            log "would run ${step}"
+        fi
         return 0
     fi
 
