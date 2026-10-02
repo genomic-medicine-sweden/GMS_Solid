@@ -51,6 +51,18 @@
      type: file
      url: https://figshare.scilifelab.se/ndownloader/files/42061224
 
+  bwa_mem2: # amb, ann and pac are identical to the bwa files above
+   "0123":
+     checksum: d8a9453468db4aadd8605bc933e191f9
+     path: ref_data/hg19/hg19.with.mt.fasta.0123
+     type: file
+     url: https://figshare.scilifelab.se/ndownloader/files/69462834?private_link=88202740beb6fcbac09d
+   bwt:
+     checksum: 3bb0aa92555598623991fbc6d0bd92cd
+     path: ref_data/hg19/hg19.with.mt.fasta.bwt.2bit.64
+     type: file
+     url: https://figshare.scilifelab.se/ndownloader/files/69462861?private_link=88202740beb6fcbac09d
+
   filter_fuseq_wes:
     gtf:
       checksum: 57b812f0595dc8a446ca81fe568e142d

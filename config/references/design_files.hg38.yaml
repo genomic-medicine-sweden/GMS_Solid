@@ -7,6 +7,12 @@
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.6.0/cnv/cnv_amp_genes_hg38_240307.bed
 
+   cnv_loh_genes:
+     path: GMS560/cnv/cnv_loh_genes_hg38.bed
+     checksum: 219ec534eb7bf5e617a8d4d11a18ca24
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.10.1/cnv/cnv_loh_genes_hg38.bed
+
    cnv_loh_genes_all: 
      path: GMS560/cnv/cnv_loh_genes_240618_hg38.bed
      checksum: 3910d8e8cd43fb9bc6cc30366e3f7f2f
@@ -365,9 +371,9 @@
  somalier:
    sites:
       checksum: 1418584cc118ac7d063ec35889bebd2a
-      path: GMS560/design/sites.hg38.vcf.gz
+      path: GMS560/design/sites.hg38.nochr.vcf.gz
       type: file
-      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.27.0/design/ssites.hg38.nochr.vcf.gz
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.27.0/design/sites.hg38.nochr.vcf.gz
 
  tmb:
    filter_genes:
