@@ -195,6 +195,7 @@ juli_call:
   ref_genes: "{{PROJECT_REF_DATA}}/ref_data/juli/refGene_hg38.txt"
 
 jumble_run:
+  container: "docker://hydragenetics/jumble:0.5.4"
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/jumble_novaseqX_24_updated.RDS"
 
 manta_config_t:
