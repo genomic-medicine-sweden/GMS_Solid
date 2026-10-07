@@ -7,7 +7,7 @@
 # instrument/design variant (NovaSeqX), so there's no base/novaseqX/cfDNA_novaseqX
 # split here - just the plain (unsuffixed) key config.data.hg38.GMS-Solid.yaml uses.
 #
-# PLACEHOLDER: none of these PoN files (except ichorcna_offtarget_run.normal_panel)
+# PLACEHOLDER: none of these PoN files (except ichorcna_offtarget_run.normal_panel and jumble_run)
 # are published to Twist_Solid_pipeline_files or figshare yet, so checksum/url are
 # "TBD" rather than fabricated. Fill in once each file is actually published.
 
@@ -46,10 +46,10 @@
 
  jumble_run:
    normal_reference:
-     checksum: "TBD"
-     path: GMS560/PoN/jumble_novaseqX_GMS-Solid_Uppsala_8_hg38.RDS
+     checksum: 707cbbf5c1f9f0f5bf2dcfcb02610886
+     path: GMS560/PoN/jumble_novaseqX_GMS-Solid_Uppsala_8_hg38_261007.RDS
      type: file
-     url: "TBD"
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.37.0/cnv/jumble_novaseqX_GMS-Solid_Uppsala_8_hg38_261007.RDS
 
  msisensor_pro_filter_sites:
    PoN:

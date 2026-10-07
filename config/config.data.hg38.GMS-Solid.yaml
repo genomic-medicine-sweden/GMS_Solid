@@ -196,7 +196,7 @@ juli_call:
 
 jumble_run:
   container: "docker://hydragenetics/jumble:0.5.4"
-  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/jumble_novaseqX_24_updated.RDS"
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/jumble_novaseqX_GMS-Solid_Uppsala_8_hg38_261007.RDS"
 
 manta_config_t:
   extra: "--exome --callRegions {{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded.bed.gz"

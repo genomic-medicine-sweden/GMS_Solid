@@ -32,7 +32,7 @@ jumble_count:
 
 jumble_reference:
   container: "docker://hydragenetics/jumble:0.5.4"
-  annotation: "biomart"
+  annotation: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/jumble_annotation/jumble_annotation_hg38_ensembl116.RDS"
 
 msisensor_pro_scan:
   container: "docker://hydragenetics/msisensor_pro:1.2.0"

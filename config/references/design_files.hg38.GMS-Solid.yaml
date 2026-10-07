@@ -311,6 +311,14 @@
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/design/Mutations_VAS_20260223_hg38.csv
 
 
+ jumble_reference:
+   annotation:
+     checksum: 92c6f028b15154bd56e887fd91e420f0
+     path: GMS560/cnv/jumble_annotation/jumble_annotation_hg38_ensembl116.RDS
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.37.0/cnv/jumble_annotation/jumble_annotation_hg38_ensembl116.RDS
+
+
  merge_cnv_json:
    annotations_cnv_amp_genes:
      checksum: d808ff25722e43a243aa09f2607bc37e
