@@ -35,6 +35,13 @@ bwa_mem:
   pac: "reference/WASH7P.fna.pac"
   sa: "reference/WASH7P.fna.sa"
 
+bwa_mem2:
+  "0123": "reference/WASH7P.fna.0123"
+  amb: "reference/WASH7P.fna.amb"
+  ann: "reference/WASH7P.fna.ann"
+  bwt: "reference/WASH7P.fna.bwt.2bit.64"
+  pac: "reference/WASH7P.fna.pac"
+
 call_small_cnv_deletions:
   regions_file: "DATA/cnv_deletion_genes.tsv"
 

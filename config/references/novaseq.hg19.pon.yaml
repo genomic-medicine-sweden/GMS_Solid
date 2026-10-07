@@ -18,10 +18,10 @@
      type: file
      url: https://figshare.com/ndownloader/files/60373421?private_link=88202740beb6fcbac09d
    extra_cfDNA_novaseqX:
-     checksum: 902aa5b26713d0c74ef40ba2ccd528c4
-     path: GMS560/PoN/purecn/mapping_bias_cfDNA_novaseqX_24.rds
+     checksum: e834c636311bd305250b5e81b517e98e
+     path: GMS560/PoN/purecn/mapping_bias_cfDNA_novaseqX_24_260928.rds
      type: file
-     url: https://figshare.com/ndownloader/files/60373412?private_link=88202740beb6fcbac09d
+     url: https://figshare.scilifelab.se/ndownloader/files/69412287?private_link=88202740beb6fcbac09d
 
    normaldb:
      checksum: d77528e5bfeec40791235e52dcbed7ef
@@ -34,10 +34,10 @@
      type: file
      url: https://figshare.com/ndownloader/files/60373427?private_link=88202740beb6fcbac09d
    normaldb_cfDNA_novaseqX:
-     checksum: 22426218b6a6e629a7168875f0f2fcdc
-     path: GMS560/PoN/purecn/normalDB_cfDNA_novaseqX_24.rds
+     checksum: 9657af711eb90e99ff5ab914feff5915
+     path: GMS560/PoN/purecn/normalDB_cfDNA_novaseqX_24_260928.rds
      type: file
-     url: https://figshare.com/ndownloader/files/60373424?private_link=88202740beb6fcbac09d
+     url: https://figshare.scilifelab.se/ndownloader/files/69412296?private_link=88202740beb6fcbac09d
 
 
  gatk_denoise_read_counts:
@@ -52,10 +52,10 @@
       type: file
       url: https://figshare.com/ndownloader/files/60373466?private_link=88202740beb6fcbac09d
    normal_reference_cfDNA_novaseqX:
-      checksum: 485ab1af7d010186793d13aff35e6b1e
-      path: GMS560/PoN/gatk_cnv_cfDNA_novaseqX_24.hdf5
+      checksum: 520810fc5be3b558a743c426e4d466f5
+      path: GMS560/PoN/gatk_cnv_cfDNA_novaseqX_24_260928.hdf5
       type: file
-      url: https://figshare.com/ndownloader/files/60373457?private_link=88202740beb6fcbac09d
+      url: https://figshare.scilifelab.se/ndownloader/files/69412266?private_link=88202740beb6fcbac09d
 
  cnvkit_batch:
    normal_reference:
@@ -69,10 +69,10 @@
       type: file
       url: https://figshare.com/ndownloader/files/60373469?private_link=88202740beb6fcbac09d
    normal_reference_cfDNA_novaseqX:
-      checksum: 4ea6bfd10711e952b6fb22d1365ea177
-      path: GMS560/PoN/cnvkit_cfDNA_novaseqX_24.cnn
+      checksum: 0141afc874251097eb85a6c3fad5963a
+      path: GMS560/PoN/cnvkit_cfDNA_novaseqX_24_260928.cnn
       type: file
-      url: https://figshare.com/ndownloader/files/60373460?private_link=88202740beb6fcbac09d
+      url: https://figshare.scilifelab.se/ndownloader/files/69412902?private_link=88202740beb6fcbac09d
 
  cnvkit_batch_hrd:
    normal_reference_hrd:
@@ -83,20 +83,20 @@
 
  jumble_run:
    normal_reference:
-     checksum: 3add115d1471c3055d7984e3baea0364
-     path: GMS560/PoN/jumble.combined.filtered.50.PoN.hg19.RDS
+     checksum: 359d535c1d2443c5feb30c3c31649398
+     path: GMS560/PoN/jumble_combined_62_260925.RDS
      type: file
-     url: https://figshare.com/ndownloader/files/49365301?private_link=88202740beb6fcbac09d
+     url: https://figshare.scilifelab.se/ndownloader/files/69336878?private_link=88202740beb6fcbac09d
    normal_reference_novaseqX:
-      checksum: 0f513e596e78473c1dc424bf7c53c783
-      path: GMS560/PoN/jumble_novaseqX_24_updated.RDS
+      checksum: f356462e4ace7a18b55dcde00ef14a95
+      path: GMS560/PoN/jumble_novaseqX_24_260925.RDS
       type: file
-      url: https://figshare.com/ndownloader/files/60373496?private_link=88202740beb6fcbac09d
+      url: https://figshare.scilifelab.se/ndownloader/files/69336875?private_link=88202740beb6fcbac09d
    normal_reference_cfDNA_novaseqX:
-      checksum: f61777975b6ccc010c9ec5fe87f2ff11
-      path: GMS560/PoN/jumble_cfDNA_novaseqX_24.RDS
+      checksum: e684bb53ef84da64ec43d25d556bde4f
+      path: GMS560/PoN/jumble/jumble_cfDNA_novaseqX_24_260928.RDS
       type: file
-      url: https://figshare.com/ndownloader/files/60373493?private_link=88202740beb6fcbac09d
+      url: https://figshare.scilifelab.se/ndownloader/files/69412254?private_link=88202740beb6fcbac09d
 
  msisensor_pro_filter_sites:
    PoN:
@@ -110,10 +110,10 @@
       type: file
       url: https://figshare.com/ndownloader/files/60373463?private_link=88202740beb6fcbac09d
    PoN_cfDNA_novaseqX:
-      checksum: d80852f80537040d0a6cb5d47f141304
-      path: GMS560/PoN/Msisensor_pro_reference_cfDNA_novaseqX_24.list_baseline
+      checksum: 494793f80a9825739669ee4a3502f6dc
+      path: GMS560/PoN/Msisensor_pro_reference_cfDNA_novaseqX_24_260928.list_baseline
       type: file
-      url: https://figshare.com/ndownloader/files/60373454?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.36.0/cnv/Msisensor_pro_reference_cfDNA_novaseqX_24_260928.list_baseline
 
  reference:
     background:
@@ -127,10 +127,10 @@
       type: file
       url: https://figshare.com/ndownloader/files/60373409?private_link=88202740beb6fcbac09d
     background_cfDNA_novaseqX:
-      checksum: 9bad8c5c96410be85d2165210893326e
-      path: GMS560/Background/background_panel_cfDNA_novaseqX_24.tsv
+      checksum: b1dc17124fdea4bf2d3e394008ecf860
+      path: GMS560/Background/background_panel_cfDNA_novaseqX_24_260928.tsv
       type: file
-      url: https://figshare.com/ndownloader/files/60373403?private_link=88202740beb6fcbac09d
+      url: https://figshare.scilifelab.se/ndownloader/files/69412248?private_link=88202740beb6fcbac09d
     
     artifacts: 
       checksum: 6d589735a4b922a6f7e852539f44a539
@@ -143,9 +143,9 @@
       type: file
       url: https://figshare.com/ndownloader/files/60373400?private_link=88202740beb6fcbac09d
     artifacts_cfDNA_novaseqX:
-      checksum: 43ff954120de7da4002f14064d2c40bf
-      path: GMS560/Artifact/artifact_panel_cfDNA_novaseqX_24.tsv
+      checksum: de55d72b7b8d56f9c4726d03368f906d
+      path: GMS560/Artifact/artifact_panel_cfDNA_novaseqX_24_260928.tsv
       type: file
-      url: https://figshare.com/ndownloader/files/60373358?private_link=88202740beb6fcbac09d
+      url: https://figshare.scilifelab.se/ndownloader/files/69412242?private_link=88202740beb6fcbac09d
       
 

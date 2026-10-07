@@ -109,6 +109,7 @@ use rule seqtk_subsample from prealignment as prealignment_seqtk_subsample_rna w
             config.get("seqtk_subsample", {}).get("nr_reads_rna", 1000000000), units, wildcards
         ),
         seed=config.get("seqtk_subsample", {}).get("seed", "-s100"),
+        fastp_read_field=lambda wildcards: "read1_after_filtering" if wildcards.read == "fastq1" else "read2_after_filtering",
     wildcard_constraints:
         type="R",
 
@@ -116,6 +117,7 @@ use rule seqtk_subsample from prealignment as prealignment_seqtk_subsample_rna w
 use rule seqtk_subsample from prealignment as prealignment_seqtk_subsample_arriba with:
     input:
         fastq="prealignment/fastp_pe_arriba/{sample}_{type}_{flowcell}_{lane}_{barcode}_{read}.fastq.gz",
+        fastp_json="prealignment/fastp_pe_arriba/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastp.json",
     output:
         fastq=temp("prealignment/seqtk_subsample_arriba/{sample}_{type}_{flowcell}_{lane}_{barcode}_{read}.ds.fastq.gz"),
     params:
@@ -124,6 +126,7 @@ use rule seqtk_subsample from prealignment as prealignment_seqtk_subsample_arrib
             config.get("seqtk_subsample", {}).get("nr_reads_rna", 1000000000), units, wildcards
         ),
         seed=config.get("seqtk_subsample", {}).get("seed", "-s100"),
+        fastp_read_field=lambda wildcards: "read1_after_filtering" if wildcards.read == "fastq1" else "read2_after_filtering",
     log:
         "prealignment/seqtk_subsample_arriba/{sample}_{type}_{flowcell}_{lane}_{barcode}_{read}.ds.fastq.log",
     benchmark:

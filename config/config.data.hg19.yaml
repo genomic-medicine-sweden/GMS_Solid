@@ -65,6 +65,13 @@ bwa_mem:
   pac: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.pac"
   sa: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.sa"
 
+bwa_mem2:
+  "0123": "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.0123"
+  amb: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.amb"
+  ann: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.ann"
+  bwt: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.bwt.2bit.64"
+  pac: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.pac"
+
 call_small_cnv_deletions:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/small_deletions_caller_blacklist.tsv"
   regions_file: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_deletion_genes_240618.tsv"
@@ -159,7 +166,7 @@ juli_call:
   ref_genes: "{{PROJECT_REF_DATA}}/ref_data/juli/refGene_hg19.txt"
 
 jumble_run:
-  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble.combined.filtered.50.PoN.hg19.RDS"
+  normal_reference: "{{PROJECT_DESIGN_DATA}}/GMS560/PoN/jumble_combined_62_260925.RDS"
 
 manta_config_t:
   extra: "--exome --callRegions {{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg19.split_fusion_genes.210608.bed.gz"

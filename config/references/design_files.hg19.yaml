@@ -291,21 +291,21 @@
      path: GMS560/purecn/targets_twist-gms-st_hg19_25000_xleap_intervals.txt
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.22.2/cnv/targets_twist-gms-st_hg19_25000_xleap_intervals.txt
-   intervals_ctdna: 
+   intervals_ctdna:
      checksum: a19ef4a67f3d370daaac4890fae25097
-     path: GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals.txt
+     path: GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/52731440?private_link=88202740beb6fcbac09d
-   intervals_novaseqX: 
+     url: https://figshare.scilifelab.se/ndownloader/files/69412290?private_link=88202740beb6fcbac09d
+   intervals_novaseqX:
      checksum: a19ef4a67f3d370daaac4890fae25097
-     path: GMS560/purecn/targets_twist-gms-st_hg19_25000_novaseqX_24_updated_intervals.txt 
+     path: GMS560/purecn/targets_twist-gms-st_hg19_25000_novaseqX_24_updated_intervals.txt
      type: file
      url: https://figshare.scilifelab.se/ndownloader/files/60373418?private_link=88202740beb6fcbac09d
-   intervals_novaseqX_cfDNA: 
+   intervals_novaseqX_cfDNA:
      checksum: a19ef4a67f3d370daaac4890fae25097
-     path: GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_novaseqX_intervals.txt 
+     path: GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_novaseqX_intervals_260928.txt
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/60373415?private_link=88202740beb6fcbac09d
+     url: https://figshare.scilifelab.se/ndownloader/files/69412284?private_link=88202740beb6fcbac09d
 
  report_fusions:
    annotation_bed:
@@ -340,9 +340,9 @@
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.1.1/design/pool1_pool2_nochr_3c.sort.merged.padded20.cnv400.hg19.210311.met.annotated.bed.preprocessed.interval_list
    design_intervals_gatk_cnv_ctdna:
      checksum: b3dbb69ea4adeed19c01de0896295fa3
-     path: GMS560/design/gatk.preprocessed.cfDNA_nextseq2000_24.interval_list
+     path: GMS560/design/gatk.preprocessed.cfDNA_nextseq2000_24_260928.interval_list
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/52731446?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.36.0/cnv/gatk.preprocessed.cfDNA_nextseq2000_24_260928.interval_list
    design_intervals_gatk_cnv_novaseqX:
      checksum: b3dbb69ea4adeed19c01de0896295fa3
      path: GMS560/design/gatk.preprocessed.novaseqX_24_updated.interval_list
@@ -350,9 +350,9 @@
      url: https://figshare.com/ndownloader/files/60375116?private_link=88202740beb6fcbac09d
    design_intervals_gatk_cnv_novaseqX_cfDNA:
      checksum: b3dbb69ea4adeed19c01de0896295fa3
-     path: GMS560/design/gatk.preprocessed.cfDNA_novaseqX_24.interval_list
+     path: GMS560/design/gatk.preprocessed.cfDNA_novaseqX_24_260928.interval_list
      type: file
-     url: https://figshare.com/ndownloader/files/60375119?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.36.0/cnv/gatk.preprocessed.cfDNA_novaseqX_24_260928.interval_list
   
    design_intervals_rna:
      checksum: 5e38c3495625d3f854859eddf1643ff7
