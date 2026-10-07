@@ -93,6 +93,29 @@ Collect all CNV calls into an excel friendly text file. Adds potential 1p19q cal
 
 ---
 
+## duplex_strand_bias
+Annotates a small variant vcf with strand-bias statistics (`SBF_NODUP`, `ODDRATIO_NODUP`, `ALD_NODUP`) computed only from reads that are not confirmed as fgbio duplex consensus (`aD`/`bD` tags). Duplex-confirmed reads are canonicalized to a fixed reference-strand orientation by fgbio's `CallDuplexConsensusReads`, so their forward/reverse alignment flag no longer carries independent strand-of-origin evidence; including them in a strand-bias test (as VarDict's own `SBF`/`ODDRATIO`/`ALD` do) produces spurious strand-bias signals for real, duplex-confirmed variants. The new annotations are left unset (NA) at a position when too few non-duplex reads cover it to compute a meaningful test. Only run in UMI/ctDNA mode (`deduplication: umi`); FFPE/mark-duplicates BAMs carry no `aD`/`bD` tags at all.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__duplex_strand_bias__duplex_strand_bias#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__duplex_strand_bias__duplex_strand_bias#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__duplex_strand_bias#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__duplex_strand_bias#
+
+---
+
 ## estimate_ctdna_fraction
 Estimate ctDNA fraction based on CNV and SNP information using an in-house script. For CNV based estimation the VAF-values of germline SNPs (the BAF-plot) for each segment is used to make an density calculation. If two peaks are found on opposite sides of 50% allele frequency the separation of the peak is used to calculate the ctDNA fraction. The highest ctDNA fraction is reported. If no CNV segments have peak separation 0% is reported. For SNV based estimation the ctDNA is reported as the highest variant allele frequency SNV times two.
 

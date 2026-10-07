@@ -29,7 +29,7 @@ filters:
     soft_filter: "False"
   ad_snv:
     description: "Hard filter SNV variants with low ad"
-    expression: "((FORMAT:AD:1 < 10 or FORMAT:AD:0 < 10) and exist[SNV, VEP:VARIANT_CLASS] and !exist[1-hotspot, INFO:Hotspot])"
+    expression: "((FORMAT:AD:1 < 7 or FORMAT:AD:0 < 7) and exist[SNV, VEP:VARIANT_CLASS] and !exist[1-hotspot, INFO:Hotspot])"
     soft_filter: "False"
   af_snv_hotspot:
     description: "Hard filter SNV variants with low vaf"
@@ -37,7 +37,7 @@ filters:
     soft_filter: "False"
   ad_snv_hotspot:
     description: "Hard filter SNV variants with low ad"
-    expression: "((FORMAT:AD:1 < 6 or FORMAT:AD:0 < 6) and exist[SNV, VEP:VARIANT_CLASS] and exist[1-hotspot, INFO:Hotspot])"
+    expression: "((FORMAT:AD:1 < 4 or FORMAT:AD:0 < 4) and exist[SNV, VEP:VARIANT_CLASS] and exist[1-hotspot, INFO:Hotspot])"
     soft_filter: "False"
   af_insertion:
     description: "Hard filter Insertion variants with low vaf"
@@ -45,7 +45,7 @@ filters:
     soft_filter: "False"
   ad_insertion:
     description: "Hard filter Insertion variants with low ad"
-    expression: "((FORMAT:AD:1 < 10 or FORMAT:AD:0 < 10) and exist[insertion, VEP:VARIANT_CLASS])"
+    expression: "((FORMAT:AD:1 < 7 or FORMAT:AD:0 < 7) and exist[insertion, VEP:VARIANT_CLASS])"
     soft_filter: "False"
   af_deletion:
     description: "Hard filter Deletion variants with low vaf"
@@ -53,7 +53,7 @@ filters:
     soft_filter: "False"
   ad_deletion:
     description: "Hard filter Deletion variants with low ad"
-    expression: "((FORMAT:AD:1 < 10 or FORMAT:AD:0 < 10) and exist[deletion, VEP:VARIANT_CLASS])"
+    expression: "((FORMAT:AD:1 < 7 or FORMAT:AD:0 < 7) and exist[deletion, VEP:VARIANT_CLASS])"
     soft_filter: "False"
   af_complex:
     description: "Hard filter complex variants with low vaf"
@@ -61,7 +61,7 @@ filters:
     soft_filter: "False"
   ad_complex:
     description: "Hard filter complex variants with low ad"
-    expression: "((FORMAT:AD:1 < 20 or FORMAT:AD:0 < 20) and exist[indel, VEP:VARIANT_CLASS])"
+    expression: "((FORMAT:AD:1 < 15 or FORMAT:AD:0 < 15) and exist[indel, VEP:VARIANT_CLASS])"
     soft_filter: "False"
   af_substitution:
     description: "Hard filter substitution variants with low vaf"
@@ -69,15 +69,19 @@ filters:
     soft_filter: "False"
   ad_substitution:
     description: "Hard filter substitution variants with low ad"
-    expression: "((FORMAT:AD:1 < 15 or FORMAT:AD:0 < 15) and exist[substitution, VEP:VARIANT_CLASS])"
+    expression: "((FORMAT:AD:1 < 11 or FORMAT:AD:0 < 11) and exist[substitution, VEP:VARIANT_CLASS])"
     soft_filter: "False"
   ald:
-    description: "Hard filter variants with skewed distribution between strands"
-    expression: "(FORMAT:ALD:0 < 3 or FORMAT:ALD:1 < 3)"
+    description: "Hard filter variants with skewed distribution between strands, excluding reads
+      confirmed as fgbio duplex consensus (ALD_NODUP unset, i.e. not filtered, when too few
+      non-duplex reads cover the position to judge)"
+    expression: "(INFO:NA_FALSE:ALD_NODUP:0 < 3 or INFO:NA_FALSE:ALD_NODUP:1 < 3)"
     soft_filter: "False"
   sbf:
-    description: "Hard filter variants with skewed distribution between strands"
-    expression: "INFO:SBF < 0.01 and INFO:ODDRATIO > 1.5"
+    description: "Hard filter variants with skewed distribution between strands, excluding reads
+      confirmed as fgbio duplex consensus (SBF_NODUP/ODDRATIO_NODUP unset, i.e. not filtered, when
+      too few non-duplex reads cover the position to judge)"
+    expression: "INFO:NA_FALSE:SBF_NODUP < 0.01 and INFO:NA_FALSE:ODDRATIO_NODUP > 1.5"
     soft_filter: "False"
   pmean:
     description: "Hard filter variants found only in start of reads"

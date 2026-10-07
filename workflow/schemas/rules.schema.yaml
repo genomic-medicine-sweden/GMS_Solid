@@ -111,6 +111,32 @@ properties:
             type: string
             description: File where large CNVs are reported. Used for extra table in CNV-html report.
 
+  duplex_strand_bias:
+    type: object
+    description: input and output parameters for duplex_strand_bias
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: Small variant vcf to annotate, upstream of exon/region filtering and hard/soft filtering
+          bam:
+            type: string
+            description: UMI consensus BAM used for variant calling, carrying fgbio's per-strand consensus depth tags (aD/bD)
+          bai:
+            type: string
+            description: Index for bam
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: Input vcf annotated with SBF_NODUP, ODDRATIO_NODUP and ALD_NODUP, strand-bias
+              statistics computed only from reads not confirmed as fgbio duplex consensus
+
   estimate_ctdna_fraction:
     type: object
     description: input and output parameters for estimate_ctdna_fraction

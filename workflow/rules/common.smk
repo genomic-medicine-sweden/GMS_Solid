@@ -147,7 +147,7 @@ def compile_output_list(wildcards):
 
 def get_hotspot_report_vcf_input(wildcards):
     if config["deduplication"] == "umi":
-        return "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted"
+        return "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.duplex_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted"
     else:
         return "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.codon_snvs.sorted"
 
@@ -200,6 +200,29 @@ def get_vardict_min_af(wildcards):
         return config.get("vardict", {}).get("allele_frequency_threshold_umi", "0.001")
     else:
         return config.get("vardict", {}).get("allele_frequency_threshold", "0.01")
+
+
+def get_vardict_extra(wildcards):
+    extra = config.get("vardict", {}).get("extra", "-Q 1")
+    if config["deduplication"] == "umi":
+        extra += " -UN"
+    return extra
+
+
+def get_estimate_ctdna_fraction_vcf_input(wildcards):
+    if config["deduplication"] == "umi":
+        template = (
+            "snv_indels/bcbio_variation_recall_ensemble/{{sample}}_{{type}}.ensembled.vep_annotated."
+            "artifact_annotated.hotspot_annotated.background_annotated.duplex_annotated.include.exon."
+            "filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"
+        )
+    else:
+        template = (
+            "snv_indels/bcbio_variation_recall_ensemble/{{sample}}_{{type}}.ensembled.vep_annotated."
+            "artifact_annotated.hotspot_annotated.background_annotated.include.exon."
+            "filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"
+        )
+    return template.format(sample=wildcards.sample, type=wildcards.type)
 
 
 def get_flowcell(units, wildcards):

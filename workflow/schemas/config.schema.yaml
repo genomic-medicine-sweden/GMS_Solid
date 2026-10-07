@@ -700,6 +700,27 @@ properties:
         type: number
         description: relatedness cutoff for considering two samples a match (default 0.7)
 
+  duplex_strand_bias:
+    type: object
+    description: parameters for duplex_strand_bias
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      min_per_strand_reads:
+        type: integer
+        description: minimum fgbio aD/bD (per-strand consensus family size) for a read to count
+          as duplex confirmed; duplex-confirmed reads are canonicalized to a fixed strand
+          orientation by fgbio CallDuplexConsensusReads and are therefore excluded from the
+          SBF_NODUP/ODDRATIO_NODUP/ALD_NODUP strand-bias calculation
+      min_total_reads:
+        type: integer
+        description: minimum number of non-duplex-confirmed reads required at a position before
+          SBF_NODUP/ODDRATIO_NODUP/ALD_NODUP are computed; left unset (NA) otherwise
+
   estimate_ctdna_fraction:
     type: object
     description: parameters for estimate_ctdna_fraction
