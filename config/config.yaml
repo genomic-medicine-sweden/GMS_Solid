@@ -44,7 +44,7 @@ bcftools_annotate:
   annotation_string: "-m DB"
 
 bwa_mem:
-  container: "docker://hydragenetics/bwa:0.7.17-1"
+  container: "docker://hydragenetics/bwa:0.7.17-s9"
 
 bwa_mem_merge:
   extra: "-c -p"
@@ -144,7 +144,7 @@ estimate_ctdna_fraction:
   excluded_consequences: ["synonymous_variant", "5_prime_UTR_variant", "3_prime_UTR_variant", "non_coding_transcript_exon_variant"]
 
 fastp_pe:
-  container: "docker://hydragenetics/fastp:0.20.1-1"
+  container: "docker://hydragenetics/fastp:0.20.1-s9"
   # Default enabled trimming parameters for fastp. Specified for clarity.
   extra: "--trim_poly_g --qualified_quality_phred 15 --unqualified_percent_limit 40 --n_base_limit 5 --length_required 15"
 
@@ -226,37 +226,37 @@ fusioncatcher:
   extra: ""
 
 gatk_calculate_contamination:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_call_copy_ratio_segments:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_collect_allelic_counts:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_collect_read_counts:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_denoise_read_counts:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_model_segments:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_get_pileup_summaries:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_mutect2:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_mutect2_filter:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_mutect2_gvcf:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gatk_mutect2_merge_stats:
-  container: "docker://hydragenetics/gatk4:4.1.9.0-1"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 gene_fuse:
   container: "docker://hydragenetics/genefuse:0.6.1"
@@ -272,10 +272,10 @@ juli_call:
   container: "docker://hydragenetics/juli:0.1.6.2"
 
 jumble_cnvkit_call:
-  container: "docker://hydragenetics/cnvkit:0.9.9-1"
+  container: "docker://hydragenetics/cnvkit:0.9.9-s9"
 
 jumble_run:
-  container: "docker://hydragenetics/jumble:260310-1"
+  container: "docker://hydragenetics/jumble:260310-s9"
 
 jumble_vcf:
   dup_limit: 2.5
@@ -319,11 +319,11 @@ mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.14"
 
 msisensor_pro:
-  container: "docker://hydragenetics/msisensor_pro:1.1.a-1"
+  container: "docker://hydragenetics/msisensor_pro:1.1.a-s9"
   extra: "-c 50"
 
 multiqc:
-  container: "docker://hydragenetics/multiqc:1.27-1"
+  container: "docker://hydragenetics/multiqc:1.27-s9"
   extra: "--force"
   reports:
     DNA:
@@ -445,7 +445,7 @@ scanitd:
   container: "docker://hydragenetics/scanitd:0.9.2"
 
 seqtk_subsample:
-  container: "docker://hydragenetics/seqtk:1.4-1"
+  container: "docker://hydragenetics/seqtk:1.4-s9"
   nr_reads: 100000000
   nr_reads_rna: 100000000
 
@@ -460,7 +460,7 @@ somalier_best_match_report:
   match_cutoff: 0.7
 
 star:
-  container: "docker://hydragenetics/star:2.7.10a-1"
+  container: "docker://hydragenetics/star:2.7.10a-s9"
 
 star_fusion:
   container: "docker://hydragenetics/star-fusion:1.10.1"
@@ -524,7 +524,7 @@ tmb_umi:
   variant_type_list: ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
 
 vardict:
-  container: "docker://hydragenetics/vardict:1.8.3-1"
+  container: "docker://hydragenetics/vardict:1.8.3-s9"
   allele_frequency_threshold: "0.01"
   allele_frequency_threshold_umi: "0.001"
   bed_columns: "-c 1 -S 2 -E 3 -g 4"
