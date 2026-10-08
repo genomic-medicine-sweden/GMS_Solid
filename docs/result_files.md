@@ -25,7 +25,6 @@ Files defined in `output_files_FFPE.yaml`.
 | `results/dna/{sample}_{type}/vcf/{sample}_{type}.annotated.exon_only.filter.hard_filter.codon_snv.vcf` | Codon SNV VCF |
 | `results/dna/{sample}_{type}/vcf/{sample}_{type}.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf` | QCI VCF |
 | `results/dna/{sample}_{type}/additional_files/vcf/{caller}_{sample}_{type}.vcf.gz` | Caller VCF |
-| `results/dna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf` | ID-SNP VCF DNA |
 
 #### QC
 | **File** | **Description** |
@@ -111,17 +110,11 @@ Files defined in `output_files_FFPE.yaml`.
 | `bam_rna/{sample}_{type}.star_fusion.bam` | STAR Fusion BAM |
 | `bam_rna/{sample}_{type}.star_fusion.bam.bai` | STAR Fusion BAM index |
 
-#### SNV and INDELs
-| **File** | **Description** |
-|---|---|
-| `results/rna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf` | ID-SNP VCF RNA |
-
 #### QC
 | **File** | **Description** |
 |---|---|
 | `results/rna/{sample}_{type}/qc/{sample}_{type}.house_keeping_gene_coverage.tsv` | Housekeeping gene coverage |
 | `results/rna/qc/multiqc_RNA.html` | MultiQC RNA HTML |
-| `results/sample_mixup_check.tsv` | RNA DNA sample mixup report |
 
 #### Fusions
 | **File** | **Description** |

@@ -28,26 +28,6 @@ properties:
       - mem_per_cpu
       - partition
 
-  bcftools_id_snps:
-    type: object
-    description: resource definitions for bcftools variant pileup
-    properties:
-      mem_mb:
-        type: integer
-        description: memory in MB used per cpu
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu
-      partition:
-        type: string
-        description: partition to use on cluster
-      time:
-        type: string
-        description: max execution time
-      threads:
-        type: integer
-        description:  number of threads to be available
-
   call_small_cnv_amplifications:
     type: object
     description: resource definitions for calling small amplifications in cnv data
@@ -291,26 +271,6 @@ properties:
   report_gene_fuse:
     type: object
     description: resource definitions for generating a gene fuse report
-    properties:
-      mem_mb:
-        type: integer
-        description: memory in MB used per cpu
-      mem_per_cpu:
-        type: integer
-        description: memory used per cpu
-      partition:
-        type: string
-        description: partition to use on cluster
-      time:
-        type: string
-        description: max execution time
-      threads:
-        type: integer
-        description:  number of threads to be available
-
-  sample_mixup_check:
-    type: object
-    description: resource definitions for sample_mixup_check
     properties:
       mem_mb:
         type: integer

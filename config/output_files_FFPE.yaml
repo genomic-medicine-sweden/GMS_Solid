@@ -485,6 +485,12 @@ files:
     types:
       - T
       - N
+  - name: TMB CNV-aware
+    input: biomarker/tmb_cnv_aware/{sample}_{type}.TMB.txt
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.tmb_cnv_aware.TMB.txt
+    types:
+      - T
+      - N
   - name: HRD score - PureCN
     input: biomarker/scarhrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt
     output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt
@@ -584,23 +590,6 @@ files:
     analyskod:
       - ""
       - "GMS560"
-  - name: ID-SNP VCF RNA
-    input: snv_indels/bcftools_id_snps/{sample}_{type}.id_snps.vcf
-    output: results/rna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf
-    types:
-      - R
-  - name: ID-SNP VCF DNA
-    input: snv_indels/bcftools_id_snps/{sample}_{type}.id_snps.vcf
-    output: results/dna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf
-    types:
-      - T
-      - N
-  - name: RNA DNA sample mixup report based in ID-SNPs
-    input: qc/sample_mixup_check/sample_mixup_check.tsv
-    output: results/qc/sample_mixup_check_ID-SNP_RNA_DNA.tsv
-    types:
-      - T
-      - N
   - name: Somalier DNA-DNA best match report
     input: qc/somalier_ungrouped/somalier_dna_dna_match.tsv
     output: results/sample_mixup_check_somalier_DNA_DNA.tsv

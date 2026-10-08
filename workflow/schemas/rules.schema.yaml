@@ -2,34 +2,6 @@ $schema: "http://json-schema.org/draft-04/schema#"
 description: snakemake rule input and output files description file
 type: object
 properties:
-  bcftools_id_snps:
-    type: object
-    description: input and output parameters for bcftools_id_snps
-    properties:
-      input:
-        type: object
-        description: list of inputs
-        properties:
-          bam:
-            type: string
-            description: Bam file from an split-read aware aligner like STAR
-          bai:
-            type: string
-            description: Bam index file
-          bed:
-            type: string
-            description: Bed file with regions or positions to pileup
-          ref:
-            type: string
-            description: Reference genome
-      output:
-        type: object
-        description: list of outputs
-        properties:
-          vcf:
-            type: string
-            description: Vcf with pileup information for all positions in input bed file
-
   call_small_cnv_amplifications:
     type: object
     description: input and output parameters for call_small_cnv_amplifications
@@ -345,28 +317,6 @@ properties:
           vcf:
             type: string
             description: hard filtered vcf with corrected MBQ values for purecn 
-
-  sample_mixup_check:
-    type: object
-    description: input and output parameters for sample_mixup_check
-    properties:
-      input:
-        type: object
-        description: list of inputs
-        properties:
-          id_snp_vcf_dna:
-            type: string
-            description: list of vcf files with ID-SNP positions called by bcftools for the dna samples
-          id_snp_vcf_rna:
-            type: string
-            description: list of vcf files with ID-SNP positions called by bcftools for the rna samples
-      output:
-        type: object
-        description: list of outputs
-        properties:
-          mixup_report:
-            type: string
-            description: text report where the most similar RNA and DNA sample pairs in one analysis are reported together with the percent similarity
 
   somalier_best_match_report:
     type: object

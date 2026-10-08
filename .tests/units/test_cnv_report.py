@@ -23,7 +23,6 @@ class TestGetCaller(unittest.TestCase):
             ".tests/units/vcf/test.deletions.tsv",
             ".tests/units/vcf/test.amplifications.tsv",
             ".tests/integration/reference/chromosome_arm_size.tsv",
-            ".tests/units/gatk_cnv/LI-VAL-42_T.clean.denoisedCR.tsv",
             2.0,
             cnv,
             out_additional_only,
@@ -41,7 +40,6 @@ class TestGetCaller(unittest.TestCase):
             0.2,
             0.2,
             0.5,
-            15000000,
         )
 
         @dataclass
@@ -52,27 +50,27 @@ class TestGetCaller(unittest.TestCase):
         testcases = [
                 TestCase(
                     name="header row",
-                    expected=("gene(s)", "chrom", "region", "caller", "freq_in_db", "copy_number", "FP_flag")
+                    expected=("gene(s)", "chrom", "region", "caller", "freq_in_db", "copy_number")
                 ),
                 TestCase(
                     name="small deletion",
-                    expected=("CDKN2A,CDKN2B", "chr9", "21968207-22008972", "small_deletion", "NA", "-0.28", "-")
+                    expected=("CDKN2A,CDKN2B", "chr9", "21968207-22008972", "small_deletion", "NA", "-0.28")
                 ),
                 TestCase(
                     name="variant 1",
-                    expected=("FGFR1", "chr8", "34370199-43930232", "cnvkit", "0.01", "8.59", "-")
+                    expected=("FGFR1", "chr8", "34370199-43930232", "cnvkit", "0.01", "8.59")
                 ),
                 TestCase(
                     name="variant 2",
-                    expected=("FGFR1,MYC", "chr8", "35008818-146144253", "gatk", "0.01", "7.01", "-")
+                    expected=("FGFR1,MYC", "chr8", "35008818-146144253", "gatk", "0.01", "7.01")
                 ),
                 TestCase(
                     name="variant 3",
-                    expected=("MYC", "chr8", "46689525-146144003", "cnvkit", "0.09", "5.06", "-")
+                    expected=("MYC", "chr8", "46689525-146144003", "cnvkit", "0.09", "5.06")
                 ),
                 TestCase(
                     name="small amplification",
-                    expected=("MYCN", "chr2", "16968207-17008972", "small_amplification", "NA", "7.29", "-")
+                    expected=("MYCN", "chr2", "16968207-17008972", "small_amplification", "NA", "7.29")
                 ),
         ]
 

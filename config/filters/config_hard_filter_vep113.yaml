@@ -32,8 +32,8 @@ filters:
     expression: "(INFO:PositionNrSD < 4 and !exist[1-hotspot, INFO:Hotspot])"
     soft_filter: "False"
   germline:
-    description: "Hard filter germline"
-    expression: "(VEP:gnomAD_AF > 0.005)"
+    description: "Hard filter germline exon"
+    expression: "(VEP:gnomADe_AF > 0.005)"
     soft_filter: "False"
   ad:
     description: "Hard filter variants with few observations (AD lower than 20)"

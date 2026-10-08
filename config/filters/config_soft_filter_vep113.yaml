@@ -40,8 +40,8 @@ filters:
     soft_filter_flag: "Background_lt_4"
     soft_filter: "True"
   germline:
-    description: "Soft filter germline SNVs based on GnomAD"
-    expression: "(VEP:gnomAD_AF > 0.005)"
+    description: "Soft filter germline SNVs based on GnomAD exon"
+    expression: "(VEP:gnomADe_AF > 0.005)"
     soft_filter_flag: "Germline"
     soft_filter: "True"
   ad:
