@@ -22,6 +22,7 @@ extra_fn_clean_exts:
 
 custom_content:
   order:
+    - excluded_samples
     - qc-stats
     - fgbio
     - fastqc

@@ -26,6 +26,7 @@ use_filename_as_sample_name:
 
 custom_content:
   order:
+    - excluded_samples
     - qc-stats
     - fastqc
     - fastp

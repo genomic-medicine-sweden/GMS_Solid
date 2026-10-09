@@ -202,6 +202,44 @@ def get_vardict_min_af(wildcards):
         return config.get("vardict", {}).get("allele_frequency_threshold", "0.01")
 
 
+def get_multiqc_input_files(wildcards):
+    """
+    Same file-resolution logic as the qc module's own multiqc rule (config["multiqc"]["reports"][...]
+    ["qc_files"], per-sample/type expanded), plus excluded_samples_mqc.tsv when it actually exists.
+    That file is only ever written by `hydra-genetics create-input-files --min-file-size ...` when that
+    flag is used, so it can't be a plain config["multiqc"]["reports"][...]["qc_files"] entry: Snakemake
+    requires every listed input to exist, and this one doesn't when --min-file-size isn't in use.
+    """
+    files = set(
+        [
+            file.format(
+                sample=sample,
+                type=u.type,
+                lane=u.lane,
+                flowcell=u.flowcell,
+                barcode=u.barcode,
+                read=read,
+                ext=ext,
+            )
+            for file in config["multiqc"]["reports"][wildcards.report]["qc_files"]
+            for sample in get_samples(samples)
+            for u in units.loc[sample].dropna().itertuples()
+            if u.type in config["multiqc"]["reports"][wildcards.report]["included_unit_types"]
+            for read in ["fastq1", "fastq2"]
+            for ext in config.get("picard_collect_multiple_metrics", {}).get("output_ext", [""])
+            if "{sample}" in file or "{type}" in file
+        ]
+        + [
+            file
+            for file in config["multiqc"]["reports"][wildcards.report]["qc_files"]
+            if "{sample}" not in file and "{type}" not in file
+        ]
+    )
+    if os.path.isfile("excluded_samples_mqc.tsv"):
+        files.add("excluded_samples_mqc.tsv")
+    return files
+
+
 def get_flowcell(units, wildcards):
     flowcells = set([u.flowcell for u in get_units(units, wildcards)])
     if len(flowcells) > 1:
