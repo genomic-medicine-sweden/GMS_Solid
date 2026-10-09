@@ -466,18 +466,6 @@ files:
     types:
       - T
       - N
-  - name: HRD score - PureCN
-    input: biomarker/scarhrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt
-    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt
-    types:
-      - T
-      - N
-  - name: HRD score - pathology
-    input: biomarker/scarhrd/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt
-    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt
-    types:
-      - T
-      - N
   - name: HRD score - pathology_purecn
     input: biomarker/scarhrd/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt
     output: results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt
@@ -520,33 +508,9 @@ files:
     types:
       - T
       - N
-  - name: SVDB query - PureCN
-    input: cnv_sv/svdb_query/{sample}_{type}.purecn.svdb_query.vcf
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.svdb_query.vcf
-    types:
-      - T
-      - N
-  - name: SVDB query - pathology
-    input: cnv_sv/svdb_query/{sample}_{type}.pathology.svdb_query.vcf
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.svdb_query.vcf
-    types:
-      - T
-      - N
   - name: SVDB query - pathology_purecn
     input: cnv_sv/svdb_query/{sample}_{type}.pathology_purecn.svdb_query.vcf
     output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology_purecn.svdb_query.vcf
-    types:
-      - T
-      - N
-  - name: CNV HTML report - PureCN
-    input: reports/cnv_html_report/{sample}_{type}.purecn.cnv_report.html
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.cnv.html
-    types:
-      - T
-      - N
-  - name: CNV HTML report - pathology
-    input: reports/cnv_html_report/{sample}_{type}.pathology.cnv_report.html
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.cnv.html
     types:
       - T
       - N
@@ -568,33 +532,9 @@ files:
     types:
       - T
       - N
-  - name: CNV TSV report - PureCN
-    input: cnv_sv/svdb_query/{sample}_{type}.purecn.cnv_loh_genes_all.cnv_report.tsv
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_all.cnv_report.tsv
-    types:
-      - T
-      - N
-  - name: CNV TSV report - pathology
-    input: cnv_sv/svdb_query/{sample}_{type}.pathology.cnv_loh_genes_all.cnv_report.tsv
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.amp_all_del_all.cnv_report.tsv
-    types:
-      - T
-      - N
   - name: CNV TSV report - pathology_purecn
     input: cnv_sv/svdb_query/{sample}_{type}.pathology_purecn.cnv_loh_genes_all.cnv_report.tsv
     output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology_purecn.amp_all_del_all.cnv_report.tsv
-    types:
-      - T
-      - N
-  - name: CNV TSV report validated - PureCN
-    input: cnv_sv/svdb_query/{sample}_{type}.purecn.cnv_loh_genes_validated.cnv_report.tsv
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_validated.cnv_report.tsv
-    types:
-      - T
-      - N
-  - name: CNV TSV report validated - pathology
-    input: cnv_sv/svdb_query/{sample}_{type}.pathology.cnv_loh_genes_validated.cnv_report.tsv
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.amp_all_del_validated.cnv_report.tsv
     types:
       - T
       - N
@@ -613,18 +553,6 @@ files:
   - name: Small CNV amplifications
     input: cnv_sv/call_small_cnv_amplifications/{sample}_{type}.amplifications.tsv
     output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.amplifications.tsv
-    types:
-      - T
-      - N
-  - name: Jumble vcf pathology
-    input: cnv_sv/jumble_vcf/{sample}_{type}.pathology.vcf
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.jumble.vcf
-    types:
-      - T
-      - N
-  - name: Jumble vcf purecn
-    input: cnv_sv/jumble_vcf/{sample}_{type}.purecn.vcf
-    output: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.jumble.vcf
     types:
       - T
       - N
