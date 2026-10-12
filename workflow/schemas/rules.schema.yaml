@@ -241,7 +241,7 @@ properties:
         properties:
           purity:
             type: string
-            description: tsv with the selected ichorCNA solution: tumor fraction, ploidy, subclone fraction, predicted gender and noise
+            description: tsv with tumor fraction, ploidy, subclone fraction, predicted gender and noise for the selected ichorCNA solution
 
   jumble_gis_score:
     type: object
