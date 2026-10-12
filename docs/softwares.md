@@ -206,6 +206,29 @@ Extract the predicted Genomic Instability Score (GIS) from Jumble's output for t
 
 ---
 
+## ichorcna_purity
+Summarise ichorCNA's `params.txt` as one row for the solution ichorCNA selected: tumor fraction, ploidy, subclone fraction (NA when no subclonal events are found), predicted gender and noise (GC-Map correction MAD).
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__ichorcna_purity__ichorcna_purity#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__ichorcna_purity__ichorcna_purity#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__ichorcna_purity#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__ichorcna_purity#
+
+---
+
 ## house_keeping_gene_coverage
 List the average coverage of the housekeeping genes GAPDH, GUSB, OAZ1, and POLR2A. See further [house keeping gene coverage info](rna_qc.md#house-keeping-gene-coverage).
 

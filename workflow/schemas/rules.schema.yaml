@@ -224,6 +224,25 @@ properties:
             type: string
             description: Excel frienly text report with gene coverage information
 
+  ichorcna_purity:
+    type: object
+    description: input and output parameters for ichorcna_purity
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          params_txt:
+            type: string
+            description: params.txt from ichorcna_offtarget_run
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          purity:
+            type: string
+            description: tsv with the selected ichorCNA solution: tumor fraction, ploidy, subclone fraction, predicted gender and noise
+
   jumble_gis_score:
     type: object
     description: input and output parameters for jumble_gis_score

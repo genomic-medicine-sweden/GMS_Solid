@@ -438,7 +438,8 @@ PureCN uses a filtered (`config/config_hard_filter_purecn.yaml`) and germline an
 
 ### Result file
 
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt`
+* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt` - tab-separated table with the selected solution: tumor fraction, ploidy, subclone fraction (NA when no subclonal events are found), predicted gender and noise (GC-Map correction MAD). A high MAD means noisy off-target coverage and a less reliable estimate
+* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_params.txt` - full ichorCNA parameter file with model fit details and all evaluated solutions
 
 ## Manta
 **Manta** v1.6.0 is used to call larger INDELs and other structural variant events. However the results are only reported and not used in any clinical anaylsis.
