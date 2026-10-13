@@ -263,13 +263,24 @@ properties:
           gis_csv:
             type: string
             description: GIS csv file from jumble_run
+          tc_file:
+            type: string
+            description: file(s) the TC for the current tc_method is read from
+          purecn_purity:
+            type: string
+            description: PureCN purity estimate
+          ichorcna_params:
+            type: string
+            description: ichorCNA params file with the tumor fraction estimate
       output:
         type: object
         description: list of outputs
         properties:
           gis_score:
             type: string
-            description: Extracted predicted GIS score for current TC
+            description: >-
+              Predicted GIS at the reported TC and at the pathology, PureCN and ichorCNA estimates, with a manual
+              review flag when they would give different HRD calls or any is close to the cutoff
 
   report_fusions:
     type: object

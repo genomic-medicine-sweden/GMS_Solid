@@ -60,6 +60,8 @@ A homologous recombination deficiency score is calculated using **[scarHRD](http
 ### Jumble GIS (HRD) score
 **[Jumble](https://github.com/UPP-ClinicalGenomics/Jumble)** also provides a Genomic Instability Score (GIS) which is a measure of HRD. The score is calculated based on various genomic features including LOH, TAI, and LST. The rule `jumble_gis_score` extracts the predicted GIS score for the sample's current tumor content (TC).
 
+The predicted GIS depends on the tumor content, and a higher assumed TC gives a lower GIS. The result file therefore lists the GIS at the reported TC and at each available TC estimate (pathology, PureCN and ichorCNA; an estimate of 0 or missing is shown as `-`). The `manual_review` column on the reported row is `yes` when the estimates give GIS values on both sides of the HRD cutoff, or any of them is within the review margin of the cutoff, so the HRD call depends on which TC is used. The cutoff (`hrd_cutoff`, default 42) and margin (`review_margin`, default 5) are set under `jumble_gis_score` in the config.
+
 #### Result files
 
 * `results/dna/{sample}_{type}/biomarker/{sample}_{type}.{method}.predicted_gis.txt`

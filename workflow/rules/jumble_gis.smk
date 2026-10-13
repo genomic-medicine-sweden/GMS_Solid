@@ -2,10 +2,15 @@ rule jumble_gis_score:
     input:
         gis_csv="cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.jumble_gis.csv",
         tc_file=get_tc_file,
+        purecn_purity="cnv_sv/purecn_purity_file/{sample}_{type}.purity.txt",
+        ichorcna_params="cnv_sv/ichorcna_offtarget_run/{sample}_{type}/{sample}_{type}.params.txt",
     output:
         gis_score=temp("cnv_sv/jumble_gis_score/{sample}_{type}.{tc_method}.predicted_gis.txt"),
     params:
         tc=get_tc,
+        pathology_tc=lambda wildcards: get_sample(samples, wildcards)["tumor_content"],
+        hrd_cutoff=config.get("jumble_gis_score", {}).get("hrd_cutoff", 42),
+        review_margin=config.get("jumble_gis_score", {}).get("review_margin", 5),
     log:
         "cnv_sv/jumble_gis_score/{sample}_{type}.{tc_method}.predicted_gis.log",
     benchmark:
