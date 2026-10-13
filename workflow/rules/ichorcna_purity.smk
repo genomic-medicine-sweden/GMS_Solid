@@ -20,6 +20,6 @@ rule ichorcna_purity:
     container:
         config.get("ichorcna_purity", {}).get("container", config["default_container"])
     message:
-        "{rule}: Summarise the selected ichorCNA solution with predicted gender, subclone fraction and noise for {wildcards.sample}_{wildcards.type}"
+        "{rule}: Summarise the selected ichorCNA solution with subclone fraction and noise for {wildcards.sample}_{wildcards.type}"
     script:
         "../scripts/ichorcna_purity.py"

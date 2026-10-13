@@ -56,7 +56,7 @@ class TestIchorcnaPurity(unittest.TestCase):
         df = self.run_main(PARAMS_TXT)
         self.assertEqual(
             list(df.columns),
-            ["Sample", "Tumor Fraction", "Ploidy", "Subclone Fraction", "Predicted gender", "GC-Map correction MAD"],
+            ["Sample", "Tumor Fraction", "Ploidy", "Subclone Fraction", "GC-Map correction MAD"],
         )
         self.assertEqual(len(df), 1)
         row = df.iloc[0]
@@ -64,7 +64,6 @@ class TestIchorcnaPurity(unittest.TestCase):
         self.assertEqual(row["Tumor Fraction"], 0.1234)
         self.assertEqual(row["Ploidy"], 2.01)
         self.assertEqual(row["Subclone Fraction"], "NA")
-        self.assertEqual(row["Predicted gender"], "female")
         self.assertEqual(row["GC-Map correction MAD"], 0.0871)
 
     def test_subclone_fraction_reported(self):

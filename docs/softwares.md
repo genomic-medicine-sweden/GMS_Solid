@@ -207,7 +207,7 @@ Extract the predicted Genomic Instability Score (GIS) from Jumble's output for t
 ---
 
 ## ichorcna_purity
-Summarise ichorCNA's `params.txt` as one row for the solution ichorCNA selected: tumor fraction, ploidy, subclone fraction (NA when no subclonal events are found), predicted gender and noise (GC-Map correction MAD).
+Summarise ichorCNA's `params.txt` as one row for the solution ichorCNA selected: tumor fraction, ploidy, subclone fraction (NA when no subclonal events are found) and noise (GC-Map correction MAD).
 
 ### :snake: Rule
 

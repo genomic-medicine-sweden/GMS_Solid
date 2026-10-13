@@ -1,6 +1,6 @@
 import csv
 
-COLUMNS = ["Sample", "Tumor Fraction", "Ploidy", "Subclone Fraction", "Predicted gender", "GC-Map correction MAD"]
+COLUMNS = ["Sample", "Tumor Fraction", "Ploidy", "Subclone Fraction", "GC-Map correction MAD"]
 
 
 def main(params_txt, output):
@@ -21,7 +21,6 @@ def main(params_txt, output):
         "Tumor Fraction": selected["Tumor Fraction"],
         "Ploidy": selected["Ploidy"],
         "Subclone Fraction": key_values.get("Subclone Fraction", "NA"),
-        "Predicted gender": key_values.get("Gender", "NA"),
         "GC-Map correction MAD": key_values.get("GC-Map correction MAD", "NA"),
     }
 

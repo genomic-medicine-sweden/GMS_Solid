@@ -44,7 +44,7 @@ files:
   - name: ichorCNA purity (off-target)
     type: file_table
     input: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt
-    description: Additional, exploratory tumor fraction/ploidy estimate from ichorCNA off-target read coverage. A high GC-Map correction MAD means noisy coverage. Predicted gender can be checked against the sample's sex.
+    description: Additional, exploratory tumor fraction/ploidy estimate from ichorCNA off-target read coverage. A high GC-Map correction MAD means noisy coverage.
     nav_header: CNV
   - name: CNV html
     type: file_link
