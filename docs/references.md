@@ -55,7 +55,6 @@ The following reference files, panel of normals and design files are needed to r
 | bcftools_annotate | annotation_db | `small_exac_common_3.hg19.vcf.gz` |
 | <div id="bcftools_filter">bcftools_filter_include_region</div> | exon | `pool1_pool2.sort.merged.padded20.cnv200.hg19.split_fusion_genes.MUC6_31_rm.exon_only.reannotated.210608.bed` |
 | <div id="bcftools_filter_exclude_region">bcftools_filter_exclude_region</div> | blacklist | `cnvkit_germline_blacklist_20221221.bed` |
-| <div id="bcftools_id_snps">bcftools_id_snps</div> | snps_bed | `ID_SNPs.bed` |
 | <div id="bwa_me_ref">bwa_mem | amb </div> | `hg19.with.mt.amb` |
 | | ann | `hg19.with.mt.ann` |
 | | bwt | `hg19.with.mt.bwt` |

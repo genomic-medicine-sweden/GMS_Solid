@@ -7,6 +7,7 @@ See the [biomarkers hydra-genetics module](https://hydra-genetics-biomarker.read
 ## Pipeline output files:
 
 * `results/dna/{sample}_{type}/tmb/{sample}_{type}.TMB.txt`
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.tmb_cnv_aware.TMB.txt`
 * `results/dna/{sample}_{type}/msi/{sample}_{type}.msisensor_pro.score.tsv`
 * `results/dna/{sample}_{type}/hrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt`
 * `results/dna/{sample}_{type}/hrd/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt`
@@ -40,6 +41,36 @@ The result is the TMB calculated using nsSNVs. However, the variants passing all
 ### Result file
 
 * `results/dna/{sample}_{type}/tmb/{sample}_{type}.TMB.txt`
+
+## Tumor mutational burden, copy-number aware (TMB CNV-aware)
+**[tmb_cnv_aware.py](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/scripts/tmb_cnv_aware.py)** ([rule](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/rules/tmb.smk)) is a parallel, comparison TMB calculation. It runs alongside the standard TMB above (same input variants, same design-size correction) but replaces the fixed 47%-53% germline allele-frequency window with a copy-number/BAF-aware check: it looks up the local CNVkit segment (`cnv_sv/cnvkit_call/{sample}_{type}.pathology_purecn.loh.cns`) and, where CNVkit fitted a reliable segment BAF, excludes variants clustering near that BAF or its mirror (`1 - BAF`) instead of only near 50% — catching germline SNPs sitting away from 50% AF inside copy-number-altered regions (LOH, gain, loss) that the fixed-window check would miscount as somatic. Falls back to the standard fixed window wherever CNVkit could not fit a segment BAF (common in this targeted panel). It also adds two read-quality gates not present in the standard TMB: `PMEAN` (mean read position) and `NM` (mean mismatches per read), filtering out the same class of recurrent low-quality/misalignment artifacts identified in the SNV hard filters.
+
+This is not yet a replacement for the standard TMB result above — it is produced as an additional file for comparison.
+
+### Configuration
+**Software settings**
+
+| **Options** | **Value** | **Description** |
+|-|-|-|
+| af_lower_limit | 0.05 | Minimum 5% allele frequency |
+| af_upper_limit | 0.95 | Maximum 95% allele frequency |
+| af_germline_lower_limit | 0.47 | Fallback fixed germline window, used where no segment BAF is available |
+| af_germline_upper_limit | 0.53 | Fallback fixed germline window, used where no segment BAF is available |
+| cn_baf_tolerance | 0.05 | Tolerance around the segment BAF (or `1 - BAF`) for the copy-number-aware germline check |
+| pmean_limit | 15 | Minimum mean read position (VarDict `PMEAN`) |
+| nm_limit | 4 | Maximum mean mismatches per read (VarDict `NM`) |
+| artifacts | " " | Do not use artifact panel of normal |
+| background_panel | " " | Do not use background panel of normal |
+| db1000g_limit | 0.0001 | Germline filter of 0.01% population frequency |
+| dp_limit | 100 | Minimum read depth of 100 |
+| gnomad_limit | 0.0001 | Germline filter of 0.01% population frequency |
+| nssnv_tmb_correction | 0.84 | (Number of variants - nr_avg_germline_snvs) * correction factor (correction factor = 1 / adjusted design size) |
+| nr_avg_germline_snvs | 2.0 | Correction based on the average number of germline variants passing all filters |
+| vd_limit | 10 | Minimum 10 observations of variant allele |
+
+### Result file
+
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.tmb_cnv_aware.TMB.txt`
 
 ## Microsatellite instability (MSI)
 To determine MSS or MSI status of the samples the percentage of sites that have microsatellite instability are calculated using **[MSIsensor-pro](https://github.com/xjtu-omics/msisensor-pro)** v1.1.a. When more than 10% of the sites are instable the sample is determined to have MSI status. The program uses a panel of normal to determine the normal level of instability in the used sites.
