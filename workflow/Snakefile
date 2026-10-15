@@ -769,6 +769,8 @@ use rule * from qc exclude all as qc_*
 
 
 use rule multiqc from qc as qc_multiqc with:
+    input:
+        files=get_multiqc_input_files,
     output:
         html=temp("qc/multiqc/multiqc_{report}.html"),
         data=directory("qc/multiqc/multiqc_{report}_data"),
