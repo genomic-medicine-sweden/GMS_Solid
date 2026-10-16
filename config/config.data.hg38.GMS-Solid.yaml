@@ -252,6 +252,21 @@ svdb_query:
 
 tmb:
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+  # GMS-Solid panel-specific, not yet calibrated: 0.84 (GMS560) scaled by exon territory 1.885 / 2.076 Mb
+  nssnv_tmb_correction: 0.76
+  nr_avg_germline_snvs: 2.0
+
+tmb_cnv_aware:
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+  # GMS-Solid panel-specific, not yet calibrated: 0.84 (GMS560) scaled by exon territory 1.885 / 2.076 Mb
+  nssnv_tmb_correction: 0.76
+  nr_avg_germline_snvs: 2.0
+  tmb_correction_incl_synonymous: 0.76
+  nr_avg_germline_incl_synonymous: 2.0
+  tmb_correction_incl_indels: 0.76
+  nr_avg_germline_incl_indels: 2.0
+  tmb_correction_incl_synonymous_and_indels: 0.76
+  nr_avg_germline_incl_synonymous_and_indels: 2.0
 
 vep:
   container: "docker://hydragenetics/vep:113.0"
