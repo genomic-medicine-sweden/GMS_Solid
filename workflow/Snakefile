@@ -1028,10 +1028,22 @@ use rule tmb_cnv_aware from biomarker as biomarker_tmb_cnv_aware_umi with:
         filter_nr_observations=config.get("tmb_cnv_aware_umi", {}).get("filter_nr_observations", 1),
         filter_regions=config.get("tmb_cnv_aware_umi", {}).get("filter_regions", []),
         gnomad_limit=config.get("tmb_cnv_aware_umi", {}).get("gnomad_limit", 0.0001),
+        indel_variant_type_list=config.get("tmb_cnv_aware_umi", {}).get("indel_variant_type_list", None),
         nm_limit=config.get("tmb_cnv_aware_umi", {}).get("nm_limit", 4),
+        nr_avg_germline_incl_indels=config.get("tmb_cnv_aware_umi", {}).get("nr_avg_germline_incl_indels", None),
+        nr_avg_germline_incl_synonymous=config.get("tmb_cnv_aware_umi", {}).get("nr_avg_germline_incl_synonymous", None),
+        nr_avg_germline_incl_synonymous_and_indels=config.get("tmb_cnv_aware_umi", {}).get(
+            "nr_avg_germline_incl_synonymous_and_indels", None
+        ),
         nr_avg_germline_snvs=config.get("tmb_cnv_aware_umi", {}).get("nr_avg_germline_snvs", 2.0),
         nssnv_tmb_correction=config.get("tmb_cnv_aware_umi", {}).get("nssnv_tmb_correction", 0.84),
         pmean_limit=config.get("tmb_cnv_aware_umi", {}).get("pmean_limit", 15),
+        synonymous_variant_type_list=config.get("tmb_cnv_aware_umi", {}).get("synonymous_variant_type_list", None),
+        tmb_correction_incl_indels=config.get("tmb_cnv_aware_umi", {}).get("tmb_correction_incl_indels", None),
+        tmb_correction_incl_synonymous=config.get("tmb_cnv_aware_umi", {}).get("tmb_correction_incl_synonymous", None),
+        tmb_correction_incl_synonymous_and_indels=config.get("tmb_cnv_aware_umi", {}).get(
+            "tmb_correction_incl_synonymous_and_indels", None
+        ),
         variant_type_list=config.get("tmb_cnv_aware", {}).get(
             "variant_type_list", ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
         ),

@@ -494,7 +494,7 @@ tmb:
   af_germline_lower_limit: 0.47
   af_germline_upper_limit: 0.53
   artifacts: ""
-  background_panel: ""
+  background: ""
   db1000g_limit: 0.0001
   dp_limit: 100
   gnomad_limit: 0.0001
@@ -509,7 +509,7 @@ tmb_umi:
   af_germline_lower_limit: 0.40
   af_germline_upper_limit: 0.60
   artifacts: ""
-  background_panel: ""
+  background: ""
   db1000g_limit: 0.0001
   dp_limit: 100
   gnomad_limit: 0.0001
@@ -526,7 +526,7 @@ tmb_cnv_aware:
   af_germline_upper_limit: 0.53
   cn_baf_tolerance: 0.05
   artifacts: ""
-  background_panel: ""
+  background: ""
   db1000g_limit: 0.0001
   dp_limit: 100
   gnomad_limit: 0.0001
@@ -536,6 +536,15 @@ tmb_cnv_aware:
   nssnv_tmb_correction: 0.84
   pmean_limit: 15
   variant_type_list: ["missense_variant", "stop_gained", "stop_lost"]
+  synonymous_variant_type_list: ["synonymous_variant", "stop_retained_variant"]
+  indel_variant_type_list: ["frameshift_variant", "inframe_insertion", "inframe_deletion", "stop_gained", "stop_lost", "start_lost", "protein_altering_variant"]
+  # Corrections for the additional TMB definitions, not yet calibrated (germline term 0, same factor as nssnv)
+  nr_avg_germline_incl_synonymous: 0.0
+  tmb_correction_incl_synonymous: 0.84
+  nr_avg_germline_incl_indels: 0.0
+  tmb_correction_incl_indels: 0.84
+  nr_avg_germline_incl_synonymous_and_indels: 0.0
+  tmb_correction_incl_synonymous_and_indels: 0.84
 
 tmb_cnv_aware_umi:
   af_lower_limit: 0.003
@@ -544,7 +553,7 @@ tmb_cnv_aware_umi:
   af_germline_upper_limit: 0.60
   cn_baf_tolerance: 0.05
   artifacts: ""
-  background_panel: ""
+  background: ""
   db1000g_limit: 0.0001
   dp_limit: 100
   gnomad_limit: 0.0001
@@ -555,6 +564,15 @@ tmb_cnv_aware_umi:
   filter_nr_observations: 3
   pmean_limit: 15
   variant_type_list: ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
+  synonymous_variant_type_list: ["synonymous_variant", "stop_retained_variant"]
+  indel_variant_type_list: ["frameshift_variant", "inframe_insertion", "inframe_deletion", "stop_gained", "stop_lost", "start_lost", "protein_altering_variant"]
+  # Corrections for the additional TMB definitions, not yet calibrated (germline term 0, same factor as nssnv)
+  nr_avg_germline_incl_synonymous: 0.0
+  tmb_correction_incl_synonymous: 1.09
+  nr_avg_germline_incl_indels: 0.0
+  tmb_correction_incl_indels: 1.09
+  nr_avg_germline_incl_synonymous_and_indels: 0.0
+  tmb_correction_incl_synonymous_and_indels: 1.09
 
 vardict:
   container: "docker://hydragenetics/vardict:1.8.3"

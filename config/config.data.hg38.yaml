@@ -218,7 +218,19 @@ svdb_query:
 tmb:
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
 
+tmb_cnv_aware:
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+
 tmb_umi:
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv"
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+  filter_regions:
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/ENCODE_problematic_regions_hg38.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions_hg38.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions_hg38.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions_hg38.bed"
+
+tmb_cnv_aware_umi:
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv"
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
   filter_regions:
