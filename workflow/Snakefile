@@ -14,6 +14,7 @@ include: "rules/exon_skipping.smk"
 include: "rules/fix_vcf_ad_for_qci.smk"
 include: "rules/hotspot_report.smk"
 include: "rules/house_keeping_gene_coverage.smk"
+include: "rules/ichorcna_purity.smk"
 include: "rules/jumble_gis.smk"
 include: "rules/purecn_modify_vcf.smk"
 include: "rules/report_gene_fuse.smk"
@@ -1265,11 +1266,12 @@ use rule general_json_report from reports as reports_general_json_report with:
     input:
         files=get_all_report_inputs,
         output_files=config.get("general_report", {}),
+        ichorcna_file=reports.get_ichorcna_file,
     params:
         sample="{sample}_{type}",
         pipeline_version=pipeline_version,
         pipeline_name=pipeline_name,
-        tc=reports.get_tc_general_report,
+        tc=get_report_tc_general_report,
         units=lambda wildcards: units[units["sample"] == wildcards.sample],
         reference_genome=config.get("reference", {}).get("fasta", ""),
 
@@ -1302,6 +1304,7 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
         ],
         tc_file=get_tc_file,
         ploidy_file=lambda wildcards: f"cnv_sv/purecn/{wildcards.sample}_{wildcards.type}.csv",
+        ichorcna_file=reports.get_ichorcna_file,
         extra_table_files=[t["path"] for t in config.get("cnv_html_report", {}).get("extra_tables", [])],
     params:
         extra_tables=config.get("cnv_html_report", {}).get("extra_tables", []),
@@ -1309,6 +1312,7 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
         include_cytobands=config.get("cnv_html_report", {}).get("cytobands", True),
         tc=get_tc,
         ploidy=reports.get_ploidy,
+        purity_ploidy=get_report_purity_ploidy,
         tc_method=lambda wildcards: wildcards.tc_method,
         wide_plot_width=config.get("cnv_html_report", {}).get("wide_plot_width", False),
         default_simulate_purity=config.get("cnv_html_report", {}).get("default_simulate_purity", False),
