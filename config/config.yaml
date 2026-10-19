@@ -7,7 +7,7 @@ units: "units.tsv"
 modules:
   alignment: "v0.9.0"
   annotation: "v1.5.0"
-  biomarker: "v0.10.0"
+  biomarker: "v0.11.0"
   cnv_sv: "v3.4.0"
   filtering: "v0.3.0"
   fusions: "v0.3.1"
@@ -257,8 +257,6 @@ gene_fuse:
 general_html_report:
   final_directory_depth: 3
   multiqc_config: "config/reports/multiqc_config_dna.yaml"
-
-ichorcna_file: "cnv_sv/ichorcna_purity/{sample}_{type}.ichorcna_purity.tsv"
 
 ichorcna_offtarget_read_counter:
   container: "docker://hydragenetics/ichorcna:v260817"
