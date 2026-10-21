@@ -410,6 +410,20 @@ properties:
     type: string
     description: path to a folder that contains hydra-genetics modules. Setting this variable will make the pipeline use local git repos instead of the once located on github.
 
+  ichorcna_file:
+    type: string
+    description: ichorCNA purity file read by the reports module for the tumor fraction and ploidy in the general and CNV report headers
+
+  ichorcna_purity:
+    type: object
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+
   jumble_gis_score:
     type: object
     properties:
@@ -422,6 +436,12 @@ properties:
       tc:
         type: number
         description: tumor content
+      hrd_cutoff:
+        type: integer
+        description: GIS at or above this value is HRD positive, used for the manual review flag (default 42)
+      review_margin:
+        type: integer
+        description: flag for manual review when any GIS is within this distance of hrd_cutoff (default 5)
       
   msisensor_pro_filter_sites:
     type: object

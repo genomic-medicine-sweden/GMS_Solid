@@ -14,6 +14,11 @@ files:
     output: result/pon/gatk_cnv_panel_of_normal.hdf5
     types:
       - N
+  - name: ichorcna_offtarget_pon
+    input: references/ichorcna_offtarget_panel_of_normals/ichorcna_offtarget_PoN_median.rds
+    output: result/ichorcna_offtarget_PoN_median.rds
+    types:
+      - N
   - name: artifact
     input: references/create_artifact_file/artifact_panel.tsv
     output: result/artifact_panel.tsv

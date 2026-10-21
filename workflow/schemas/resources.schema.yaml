@@ -228,6 +228,26 @@ properties:
         type: integer
         description:  number of threads to be available
 
+  ichorcna_purity:
+    type: object
+    description: resource definitions for ichorcna_purity
+    properties:
+      mem_mb:
+        type: integer
+        description: max memory in MB to be available
+      mem_per_cpu:
+        type: integer
+        description: memory in MB used per cpu
+      partition:
+        type: string
+        description: partition to use on cluster
+      time:
+        type: string
+        description: max execution time
+      threads:
+        type: integer
+        description: number of threads to be available
+
   jumble_gis_score:
     type: object
     description: resource definitions for jumble_gis_score

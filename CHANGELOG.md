@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.8.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.7.0...v1.8.0) (2026-10-02)
+
+
+### Features
+
+* add and use bwa-mem2 ([cb6c47c](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/cb6c47cc150184d54a03a4ba9450bcb87161cc66))
+* seqtk speedup ([b94aeca](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/b94aeca922625367896b0e90c2da75617d79e7a1))
+* seqtk speedup ([9f0e65c](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/9f0e65ccb06e7cf3257970f900defa3bdd9d278f))
+* update prealignment to v2.0.0 for seqtk speedup ([8ce9711](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/8ce971185b950052f304d12555be921ca7aa1c29))
+* use alignment v0.9.0 with bwa-mem2 ([e631ec1](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/e631ec1a16c81bff1c7c1d9028e86ec901fc6e40))
+* Use Bwa-mem2 instead of Bwa-mem ([cccdadc](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/cccdadc5fb6207087e62e4b66d7ac8b53673310d))
+
+
+### Bug Fixes
+
+* added hg38 bwa-mem2 index ([f6008b4](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/f6008b4d9efd69b2404aba65d4d7d5a68da78ebe))
+
 ## [1.7.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.6.0...v1.7.0) (2026-09-28)
 
 
