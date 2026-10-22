@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.9.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.8.0...v1.9.0) (2026-10-22)
+
+
+### Features
+
+* Add IchorCNA for purity estimation ([6818695](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/6818695dd86ce9cdb0fb14387d3ec09d7e1cfdee))
+* report GIS at all tumor content estimates with a manual review … ([18b06d7](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/18b06d76605370a18ccb86ab74902dad3ea1285f))
+* report GIS at all tumor content estimates with a manual review flag ([9198712](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/9198712f12e291f730df08735ccadd104286d9e6))
+* Report v2.2.4 and v2.2.5 ([8b6bbda](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/8b6bbda141e3a284b3ed947b3ace86c3e2fba682))
+* summarise ichorCNA in the general report and show purity and ploidy in report headers ([40a2587](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/40a25871360857cdccbfd1dbaac8f5d4386a30d9))
+
+
+### Bug Fixes
+
+* cnv report filtering now dependent on cnv type ([797a19f](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/797a19fb4ffce26ffbaa8b20c17908b5002bec5e))
+* cnv report filtering now dependent on cnv type ([a0a0fdb](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/a0a0fdbaab372f8dce3d87fb1b35974333e10177))
+* filter the entire row and not just the gene name ([b5f2bc9](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/b5f2bc9d1cb8fb5a729768703ea089bc7bdc3451))
+* filter the entire row and not just the gene name ([0778db8](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/0778db851218ab4ce8c50b47f5e505f2d58ee6b4))
+* MultiQC rounding error in GATK contamination ([9981270](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/99812702e8b4bc1f639f082d4713fcd12aeac7d5))
+* MultiQC rounding error in GATK contamination ([3ce14f6](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/3ce14f6ae4a792ee30df176b3c3b262df3566516))
+* pin reports v2.3.1 to correct Adjusted CN after a baseline change ([6482fa7](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/6482fa7be4f0a14935ca1ffa730da617571c4c83))
+* pin reports v2.3.1 to correct Adjusted CN after a baseline change ([0499628](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/0499628ac560f7ad65869df99e22eccafce5ef61))
+* report module update ([32f6e7f](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/32f6e7f56a07b717b0b2b9506bdd780204d66d96))
+
 ## [1.8.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.7.0...v1.8.0) (2026-10-02)
 
 
