@@ -26,6 +26,14 @@ export PYTHONNOUSERSITE=1
 # pack the environment with the requriements installed
 conda pack --prefix ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env -o ${PIPELINE_NAME}_${TAG_OR_BRANCH}/env.tar.gz
 
+# Optional: the PGX add-on pipeline, with its own environment
+if [ -n "${PGX_VERSION}" ];
+then
+    git clone --branch ${PGX_VERSION} ${PGX_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}
+    mamba create --prefix ./pgx_${PGX_VERSION}_env python=${PGX_PYTHON_VERSION:-${PYTHON_VERSION}} -y
+    ./pgx_${PGX_VERSION}_env/bin/pip3 install --no-cache-dir -I -r ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/requirements.txt
+    conda pack --prefix ./pgx_${PGX_VERSION}_env -o ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_env.tar.gz
+fi
 
 # # Clone snakemake-wrappers and hydra-genetics
 mkdir -p ${PIPELINE_NAME}_${TAG_OR_BRANCH}/hydra-genetics
@@ -84,12 +92,26 @@ envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${C
 	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/config/Miarka/config_production_pipeline_miarka.yaml.tmp \
 	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/config/Miarka/config_production_pipeline_miarka.yaml
 
+if [ -n "${PGX_VERSION}" ];
+then
+    envsubst '$TAG_OR_BRANCH' < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/pgx/config.yaml \
+	> ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/pgx/config.yaml.tmp \
+	&& mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/pgx/config.yaml.tmp \
+	${PIPELINE_NAME}_${TAG_OR_BRANCH}/${CONFIG_NAME}_${CONFIG_VERSION}/profiles/Miarka/pgx/config.yaml
+fi
+
 # # Download containers and update container path.
 if [ ${APPT_CACHE_STATUS} == "build" ];
 then
     hydra-genetics prepare-environment create-singularity-files -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml -o apptainer_cache
     cp ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml.copy
     hydra-genetics prepare-environment container-path-update -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml.copy -n ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml -p ${PATH_TO_apptainer_cache}
+    if [ -n "${PGX_VERSION}" ];
+    then
+        hydra-genetics prepare-environment create-singularity-files -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml -o apptainer_cache
+        cp ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml.copy
+        hydra-genetics prepare-environment container-path-update -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml.copy -n ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml -p ${PATH_TO_apptainer_cache}
+    fi
 fi
 
 # If apptainer already available remote and no new build is needed (specified by user). Only update path to cache in config.
@@ -97,6 +119,11 @@ if [ ${APPT_CACHE_STATUS} == "update" ];
 then
     cp ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml.copy
     hydra-genetics prepare-environment container-path-update -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml.copy -n ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml -p ${PATH_TO_apptainer_cache}
+    if [ -n "${PGX_VERSION}" ];
+    then
+        cp ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml.copy
+        hydra-genetics prepare-environment container-path-update -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml.copy -n ${PIPELINE_NAME}_${TAG_OR_BRANCH}/pgx_${PGX_VERSION}/config/config.yaml -p ${PATH_TO_apptainer_cache}
+    fi
 fi
 
 
@@ -120,6 +147,11 @@ conda deactivate
 if [ -d ${PIPELINE_NAME}_${TAG_OR_BRANCH}_env ];
 then
     rm -fr ${PIPELINE_NAME}_${TAG_OR_BRANCH}_env
+fi
+
+if [ -n "${PGX_VERSION}" ] && [ -d pgx_${PGX_VERSION}_env ];
+then
+    rm -fr pgx_${PGX_VERSION}_env
 fi
 
 if [ -d ${PIPELINE_NAME}_${TAG_OR_BRANCH} ];
