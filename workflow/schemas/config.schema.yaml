@@ -417,10 +417,16 @@ properties:
       container:
         type: string
         description: name or path to docker/singularity container
-      tc:
+      hrd_cutoff:
+        type: integer
+        description: GIS at or above this value is HRD positive, used for the manual review flag (default 42)
+      review_margin:
+        type: integer
+        description: flag for manual review when any GIS is within this distance of hrd_cutoff (default 5)
+      dna_fraction_review_margin:
         type: number
-        description: tumor content
-      
+        description: flag for manual review when the PureCN and ichorCNA tumor DNA fractions differ by more than this (default 0.1)
+
   msisensor_pro_filter_sites:
     type: object
     properties:

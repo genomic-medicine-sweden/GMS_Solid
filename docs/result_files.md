@@ -63,7 +63,7 @@ Files defined in `output_files_FFPE.yaml`.
 | `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt` | HRD score - PureCN |
 | `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt` | HRD score - pathology |
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt` | HRD score - pathology_purecn |
-| `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt` | Predicted GIS score |
+| `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt` | Predicted GIS for a best estimate and for the pathology, PureCN and ichorCNA estimates, at ploidy 2 and at the tumor DNA fraction, with a manual review flag |
 
 #### Fusions
 | **File** | **Description** |

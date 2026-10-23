@@ -254,13 +254,21 @@ properties:
           gis_csv:
             type: string
             description: GIS csv file from jumble_run
+          purecn_csv:
+            type: string
+            description: PureCN result csv with purity and ploidy from the same fit
+          ichorcna_params:
+            type: string
+            description: ichorCNA params file with the tumor fraction and ploidy estimates
       output:
         type: object
         description: list of outputs
         properties:
           gis_score:
             type: string
-            description: Extracted predicted GIS score for current TC
+            description: >-
+              Predicted GIS for a best estimate (PureCN) and for the pathology, PureCN and ichorCNA estimates, at
+              ploidy 2 and at each method's tumor DNA fraction, with a manual review flag
 
   report_fusions:
     type: object
