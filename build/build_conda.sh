@@ -11,11 +11,13 @@
 #   TAG_OR_BRANCH          pipeline tag or branch, e.g. v0.24.0
 #   PIPELINE_GITHUB_REPO   clone url of the pipeline
 #   PYTHON_VERSION         python version for the conda env, e.g. 3.9
-#   CONFIG_NAME            e.g. GMS560_config
-#   CONFIG_VERSION         config tag or branch, e.g. v1.18.0
-#   CONFIG_GITHUB_REPO     clone url of the config repo
 #
 # Optional environment variables:
+#   CONFIG_NAME               e.g. GMS560_config
+#   CONFIG_VERSION            config tag or branch, e.g. v1.18.0
+#   CONFIG_GITHUB_REPO        clone url of the config repo
+#                             Set all three to bundle a config repo, or none of them to build
+#                             without one (clone_config and update_config_paths then do nothing).
 #   APPT_CACHE_STATUS         build | update | none   (default: none)
 #                             build  = download containers and point the config at the cache
 #                             update = only point the config at an existing remote cache
@@ -110,9 +112,14 @@ Options:
       --list-steps        Print the step names in execution order and exit.
   -h, --help               Show this help.
 
-Reference config paths may be absolute, or relative to the pipeline clone
-(<PIPELINE_NAME>/), the cloned config repo, the bundle root or the directory the script
-was started from -- searched in that order, first match wins.
+Reference config paths may be absolute, or relative to the repos the build cloned:
+  <CONFIG_NAME>_<CONFIG_VERSION>/...  (or <CONFIG_NAME>/...)  read from the config repo clone
+  anything else                                              read from the pipeline clone
+                                                             (<PIPELINE_NAME>/), falling back
+                                                             to the directory the script was
+                                                             started from
+e.g. config/references/references.hg19.yaml GMS560_config_v1.31.0/config/reference_files.yaml
+Without a config repo (CONFIG_* unset) only absolute and pipeline-relative paths apply.
 
 Steps are resumable. A completed step writes <state-dir>/<step>.done; the slow steps
 (module clones, container downloads, reference downloads) additionally mark each repo,
@@ -218,10 +225,23 @@ require_var() {
     [[ -n ${!name:-} ]] || die "environment variable ${name} must be set (see --help)"
 }
 
-for var in PIPELINE_NAME TAG_OR_BRANCH PIPELINE_GITHUB_REPO PYTHON_VERSION \
-    CONFIG_NAME CONFIG_VERSION CONFIG_GITHUB_REPO; do
+for var in PIPELINE_NAME TAG_OR_BRANCH PIPELINE_GITHUB_REPO PYTHON_VERSION; do
     require_var "$var"
 done
+
+# The config repo is all or nothing: a partial set is more likely a typo than a choice.
+if [[ -n ${CONFIG_NAME:-}${CONFIG_VERSION:-}${CONFIG_GITHUB_REPO:-} ]]; then
+    for var in CONFIG_NAME CONFIG_VERSION CONFIG_GITHUB_REPO; do
+        [[ -n ${!var:-} ]] ||
+            die "${var} must be set when any of CONFIG_NAME, CONFIG_VERSION, CONFIG_GITHUB_REPO is (or unset all three to build without a config repo)"
+    done
+    USE_CONFIG=true
+else
+    USE_CONFIG=false
+    CONFIG_NAME=""
+    CONFIG_VERSION=""
+    CONFIG_GITHUB_REPO=""
+fi
 
 APPT_CACHE_STATUS=${APPT_CACHE_STATUS:-none}
 case $APPT_CACHE_STATUS in
@@ -243,7 +263,10 @@ fi
 BUNDLE=${PIPELINE_NAME}_${TAG_OR_BRANCH}
 ENV_DIR=${WORK_DIR}/${BUNDLE}_env
 STAGE_DIR=${WORK_DIR}/${BUNDLE}
-CONFIG_DIR=${STAGE_DIR}/${CONFIG_NAME}_${CONFIG_VERSION}
+CONFIG_DIR=""
+if [[ $USE_CONFIG == true ]]; then
+    CONFIG_DIR=${STAGE_DIR}/${CONFIG_NAME}_${CONFIG_VERSION}
+fi
 STAGED_CONFIG=${STAGE_DIR}/${PIPELINE_NAME}/config/config.yaml
 APPT_CACHE_DIR=${WORK_DIR}/apptainer_cache
 REF_DATA_DIR=${WORK_DIR}/design_and_ref_files
@@ -332,6 +355,11 @@ fi
 # Sorted, so the same set in a different order counts as unchanged.
 EXECUTOR_SET=$(printf '%s\n' ${EXECUTOR_REQUIREMENTS[@]+"${EXECUTOR_REQUIREMENTS[@]}"} | sort -u | paste -sd' ')
 log "executor plugins: ${EXECUTOR_SET:-none}"
+if [[ $USE_CONFIG == true ]]; then
+    log "config repo: ${CONFIG_NAME} ${CONFIG_VERSION}"
+else
+    log "config repo: none (CONFIG_* unset)"
+fi
 
 # ------------------------------------------------------------------- marker bookkeeping
 # The build is a linear pipeline, so redoing a step invalidates everything after it.
@@ -347,7 +375,7 @@ if [[ $DRY_RUN == false ]]; then
     mkdir -p "$STATE_DIR"
 
     # A state directory only describes the build it was created for.
-    FINGERPRINT="${PIPELINE_NAME} ${TAG_OR_BRANCH} ${CONFIG_NAME} ${CONFIG_VERSION} ${PYTHON_VERSION}"
+    FINGERPRINT="${PIPELINE_NAME} ${TAG_OR_BRANCH} ${CONFIG_NAME:-none} ${CONFIG_VERSION:-none} ${PYTHON_VERSION}"
     FINGERPRINT_FILE=${STATE_DIR}/build.fingerprint
     if [[ -f $FINGERPRINT_FILE && $(cat "$FINGERPRINT_FILE") != "$FINGERPRINT" ]]; then
         if [[ $FORCE_ALL == true ]]; then
@@ -419,11 +447,14 @@ require_dir() {
 }
 
 resolve_reference_config() {
-    # A reference config can be given as an absolute path, or relative to any of the directories
-    # the build works with: the pipeline clone the script runs from, the cloned config repo, the
-    # bundle root (which holds the config repo and the staged pipeline clone), or the directory the
-    # script was started from. First match wins, and the resolved path is logged before download.
-    local given=$1 root candidate
+    # Reference configs are looked up in the repos the build cloned, not guessed at:
+    #   /abs/path.yaml                              used as is
+    #   <CONFIG_NAME>_<CONFIG_VERSION>/rest.yaml    <rest.yaml> in the cloned config repo
+    #   <CONFIG_NAME>/rest.yaml                     the same (unversioned form, as in the README)
+    #   anything/else.yaml                          <anything/else.yaml> in the cloned pipeline,
+    #                                               falling back to where the script was started
+    # stdout is the resolved path, so notes go to stderr.
+    local given=$1 rest candidate
 
     if [[ $given == /* ]]; then
         [[ -f $given ]] || die "reference config ${given} not found"
@@ -431,32 +462,48 @@ resolve_reference_config() {
         return 0
     fi
 
-    for root in "$PWD" "$CONFIG_DIR" "$STAGE_DIR" "$START_DIR"; do
-        candidate=${root}/${given}
-        if [[ -f $candidate ]]; then
-            printf '%s\n' "$candidate"
-            return 0
-        fi
-    done
+    if [[ $USE_CONFIG == true ]] &&
+        [[ $given == "${CONFIG_NAME}_${CONFIG_VERSION}/"* || $given == "${CONFIG_NAME}/"* ]]; then
+        rest=${given#*/}
+        [[ -d $CONFIG_DIR ]] ||
+            die "${given}: the ${CONFIG_NAME} clone ${CONFIG_DIR} is missing (removed by cleanup?);" \
+                "rerun with --force-step clone_config"
+        candidate=${CONFIG_DIR}/${rest}
+        [[ -f $candidate ]] ||
+            die "reference config ${given} not found: no ${rest} in the ${CONFIG_NAME} clone ${CONFIG_DIR}"
+        log "  ${given} -> ${candidate} (${CONFIG_NAME} clone)" >&2
+        printf '%s\n' "$candidate"
+        return 0
+    fi
 
-    # Until 2025-11 the config repo was cloned unversioned into the pipeline clone, so paths of the
-    # form GMS560_config/config/... (as in the README) predate the versioned CONFIG_DIR name.
-    if [[ $given == "${CONFIG_NAME}/"* ]]; then
-        candidate=${CONFIG_DIR}/${given#"${CONFIG_NAME}/"}
-        if [[ -f $candidate ]]; then
-            # stdout of this function is the resolved path, so the note goes to stderr.
-            log "  ${given} -> ${CONFIG_NAME}_${CONFIG_VERSION} (the config repo is versioned now)" >&2
-            printf '%s\n' "$candidate"
-            return 0
-        fi
+    # A different version of the config repo than the one this build cloned.
+    if [[ $USE_CONFIG == true && $given == "${CONFIG_NAME}_"*/* ]]; then
+        die "reference config ${given} names ${given%%/*}, but this build cloned" \
+            "${CONFIG_NAME}_${CONFIG_VERSION} (CONFIG_VERSION=${CONFIG_VERSION})"
+    fi
+
+    candidate=${WORK_DIR}/${given}
+    if [[ -f $candidate ]]; then
+        log "  ${given} -> ${candidate} (${PIPELINE_NAME} clone)" >&2
+        printf '%s\n' "$candidate"
+        return 0
+    fi
+    candidate=${START_DIR}/${given}
+    if [[ -f $candidate ]]; then
+        log "  ${given} -> ${candidate} (not in the ${PIPELINE_NAME} clone, found where the script was started)" >&2
+        printf '%s\n' "$candidate"
+        return 0
     fi
 
     die "$(
         printf 'reference config %s not found. Looked in:\n' "$given"
-        printf '  %s (the pipeline clone)\n' "$PWD"
-        printf '  %s (the %s clone)\n' "$CONFIG_DIR" "$CONFIG_NAME"
-        printf '  %s (the bundle)\n' "$STAGE_DIR"
+        printf '  %s (the %s clone)\n' "$WORK_DIR" "$PIPELINE_NAME"
         printf '  %s (where the script was started)' "$START_DIR"
+        if [[ $USE_CONFIG == true ]]; then
+            printf '\nPrefix the path with %s_%s/ to read it from the %s clone.' "$CONFIG_NAME" "$CONFIG_VERSION" "$CONFIG_NAME"
+        else
+            printf '\nNo config repo in this build (CONFIG_* unset), so config-repo paths cannot be used.'
+        fi
     )"
 }
 
@@ -575,12 +622,20 @@ step_clone_modules() {
 }
 
 step_clone_config() {
+    if [[ $USE_CONFIG == false ]]; then
+        log "  no config repo (CONFIG_* unset), nothing to do"
+        return 0
+    fi
     git_clone "$CONFIG_GITHUB_REPO" "$CONFIG_DIR" "$CONFIG_VERSION"
 }
 
 step_update_config_paths() {
     # Substitute ${TAG_OR_BRANCH} into the profiles and the production config.
     local relative path
+    if [[ $USE_CONFIG == false ]]; then
+        log "  no config repo (CONFIG_* unset), nothing to do"
+        return 0
+    fi
     require_dir "$CONFIG_DIR" clone_config
     for relative in "${CONFIG_SUBST_FILES[@]}"; do
         path=${CONFIG_DIR}/${relative}
@@ -702,9 +757,8 @@ run_step() {
 # The pipeline clone has to exist before anything else can run.
 run_step "${STEPS[0]}"
 
-# The rest of the build runs from inside the clone, so relative paths on the command line -- the
-# reference configs, e.g. config/references/references.hg19.yaml -- resolve against it. Everything
-# the script writes uses an absolute path, so this only affects paths the caller supplied.
+# The rest of the build runs from inside the clone. Everything the script writes uses an absolute
+# path, and resolve_reference_config maps the caller's reference configs explicitly.
 if [[ $DRY_RUN == false ]]; then
     [[ -d $WORK_DIR ]] || die "${WORK_DIR} is missing; rerun with --force-step clone_pipeline"
     cd "$WORK_DIR"
