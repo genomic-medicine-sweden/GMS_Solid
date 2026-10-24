@@ -273,8 +273,17 @@ REF_DATA_DIR=${WORK_DIR}/design_and_ref_files
 # Every step uses absolute paths, so a resumed run does not depend on the working directory.
 : "${STATE_DIR:=${WORK_DIR}/.build_state}"
 
+# Markers a dry run would have cleared; is_done treats them as cleared without touching disk.
+DRY_RUN_CLEARED=()
+
 marker() { printf '%s/%s.done' "$STATE_DIR" "$1"; }
-is_done() { [[ -f $(marker "$1") ]]; }
+
+is_done() {
+    if [[ $DRY_RUN == true ]] && in_list "$1" ${DRY_RUN_CLEARED[@]+"${DRY_RUN_CLEARED[@]}"}; then
+        return 1
+    fi
+    [[ -f $(marker "$1") ]]
+}
 
 mark_done() {
     local path
@@ -284,6 +293,10 @@ mark_done() {
 }
 
 clear_marker() {
+    if [[ $DRY_RUN == true ]]; then
+        DRY_RUN_CLEARED+=("$1")
+        return 0
+    fi
     rm -f "$(marker "$1")"
     # Sub-markers of a step live in a directory named after it.
     rm -rf "${STATE_DIR:?}/$1"
@@ -371,41 +384,36 @@ invalidate_from() {
     done
 }
 
+# A state directory only describes the build it was created for.
+FINGERPRINT="${PIPELINE_NAME} ${TAG_OR_BRANCH} ${CONFIG_NAME:-none} ${CONFIG_VERSION:-none} ${PYTHON_VERSION}"
+FINGERPRINT_FILE=${STATE_DIR}/build.fingerprint
+if [[ -f $FINGERPRINT_FILE && $(cat "$FINGERPRINT_FILE") != "$FINGERPRINT" && $FORCE_ALL == false ]]; then
+    die "$(
+        printf 'state directory %s belongs to a different build:\n' "$STATE_DIR"
+        printf '  existing: %s\n' "$(cat "$FINGERPRINT_FILE")"
+        printf '  current:  %s\n' "$FINGERPRINT"
+        printf 'Rerun with --force, or pass --state-dir for this build.'
+    )"
+fi
 if [[ $DRY_RUN == false ]]; then
     mkdir -p "$STATE_DIR"
-
-    # A state directory only describes the build it was created for.
-    FINGERPRINT="${PIPELINE_NAME} ${TAG_OR_BRANCH} ${CONFIG_NAME:-none} ${CONFIG_VERSION:-none} ${PYTHON_VERSION}"
-    FINGERPRINT_FILE=${STATE_DIR}/build.fingerprint
-    if [[ -f $FINGERPRINT_FILE && $(cat "$FINGERPRINT_FILE") != "$FINGERPRINT" ]]; then
-        if [[ $FORCE_ALL == true ]]; then
-            printf '%s\n' "$FINGERPRINT" >"$FINGERPRINT_FILE"
-        else
-            die "$(
-                printf 'state directory %s belongs to a different build:\n' "$STATE_DIR"
-                printf '  existing: %s\n' "$(cat "$FINGERPRINT_FILE")"
-                printf '  current:  %s\n' "$FINGERPRINT"
-                printf 'Rerun with --force, or pass --state-dir for this build.'
-            )"
-        fi
-    else
-        printf '%s\n' "$FINGERPRINT" >"$FINGERPRINT_FILE"
-    fi
-
-    if [[ $FORCE_ALL == true ]]; then
-        log "--force given, clearing all markers"
-        invalidate_from "${STEPS[0]}"
-    fi
-
-    for step in ${FORCED_STEPS[@]+"${FORCED_STEPS[@]}"}; do
-        log "--force-step ${step}, clearing it and every later step"
-        invalidate_from "$step"
-    done
-
-    for step in ${ONLY_STEPS[@]+"${ONLY_STEPS[@]}"}; do
-        clear_marker "$step"
-    done
+    printf '%s\n' "$FINGERPRINT" >"$FINGERPRINT_FILE"
 fi
+
+# In a dry run clear_marker only records the marker, so the run below reports what would be redone.
+if [[ $FORCE_ALL == true ]]; then
+    log "--force given, clearing all markers"
+    invalidate_from "${STEPS[0]}"
+fi
+
+for step in ${FORCED_STEPS[@]+"${FORCED_STEPS[@]}"}; do
+    log "--force-step ${step}, clearing it and every later step"
+    invalidate_from "$step"
+done
+
+for step in ${ONLY_STEPS[@]+"${ONLY_STEPS[@]}"}; do
+    clear_marker "$step"
+done
 
 # The packed env must hold exactly the requested executor plugins, so a changed selection
 # redoes install_executors and everything after it. A state directory from
@@ -413,12 +421,8 @@ fi
 if { is_done install_executors &&
     [[ $(cat "$PREVIOUS_EXECUTORS_FILE" 2>/dev/null) != "$EXECUTOR_SET" ]]; } ||
     { ! is_done install_executors && [[ -n $EXECUTOR_SET ]] && is_done pack_env; }; then
-    if [[ $DRY_RUN == true ]]; then
-        log "executor plugins changed, install_executors and every later step would be redone"
-    else
-        log "executor plugins changed, redoing install_executors and every later step"
-        invalidate_from install_executors
-    fi
+    log "executor plugins changed, redoing install_executors and every later step"
+    invalidate_from install_executors
 fi
 
 # ------------------------------------------------------------------------- environment
