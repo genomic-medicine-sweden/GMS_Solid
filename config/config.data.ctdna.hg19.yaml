@@ -8,6 +8,20 @@ deduplication: "umi"
 general_report: "config/reports/general_report.umi.yaml"
 output: "config/output_files_ctDNA.yaml"
 
+filter_vcf:
+  snv_soft_filter: "config/filters/config_soft_filter_vep105.yaml"
+  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
+  snv_hard_filter: "config/filters/config_hard_filter_vep105.yaml"
+  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
+  cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
+  cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
+  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
+  itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
+
+hotspot_report:
+  report_config: "config/reports/hotspot_report_vep105.yaml"
+
 reference:
   background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_cfDNA_nextseq2000_24_260928.tsv"
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_nextseq2000_24_260928.tsv"
@@ -72,10 +86,22 @@ purecn:
 purecn_coverage:
   intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt"
 
+seqtk_subsample:
+  nr_reads: 200000000
+
 svdb_query:
   db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/all_TN_292_svdb_0.8_20220505.vcf --out_frq Twist_AF --out_occ Twist_OCC"
 
 tmb_umi:
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+  filter_regions:
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/ENCODE_problematic_regions.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions.bed"
+
+tmb_cnv_aware_umi:
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
   filter_regions:

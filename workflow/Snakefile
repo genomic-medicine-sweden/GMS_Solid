@@ -5,7 +5,6 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
-include: "rules/bcftools.smk"
 include: "rules/call_small_cnv_deletions.smk"
 include: "rules/call_small_cnv_amplifications.smk"
 include: "rules/cnv_tsv_report.smk"
@@ -19,7 +18,6 @@ include: "rules/jumble_gis.smk"
 include: "rules/purecn_modify_vcf.smk"
 include: "rules/report_gene_fuse.smk"
 include: "rules/report_fusions.smk"
-include: "rules/sample_mixup_check.smk"
 include: "rules/somalier.smk"
 
 
@@ -52,16 +50,6 @@ wildcard_constraints:
     file="^(?!bam_dna|results|gvcf_dna).*",
     sample="[^/]+",
     type="T|N|R",
-
-
-use rule bcftools_id_snps as bcftools_id_snps_dna with:
-    input:
-        bam=get_deduplication_bam_input,
-        bai=get_deduplication_bam_input_bai,
-        bed=config.get("bcftools_id_snps", {}).get("snps_bed", "missing bcftools_id_snps snps_bed file"),
-        ref=config.get("reference", {}).get("fasta", "missing reference fasta"),
-    wildcard_constraints:
-        type="[TN]",
 
 
 module prealignment:
@@ -414,7 +402,8 @@ use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_all_f
             "alignment/picard_mark_duplicates/{{sample}}_{{type}}_{chr}.bam",
             chr=extract_chr(
                 "%s.fai" % (config.get("reference", {}).get("fasta", "")),
-                filter_out=config.get("reference", {}).get("skip_chrs", []),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
             ),
         )
         + (
@@ -575,7 +564,8 @@ use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam_mutec
             "snv_indels/gatk_mutect2/{{sample}}_{{type}}_{chr}.unfiltered.bam",
             chr=extract_chr(
                 "%s.fai" % (config.get("reference", {}).get("fasta", "")),
-                filter_out=config.get("reference", {}).get("skip_chrs", []),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
             ),
         ),
     output:
@@ -657,6 +647,38 @@ use rule gatk_mutect2_gvcf from snv_indels as snv_indels_gatk_mutect2_gvcf with:
         bai=get_deduplication_bam_chr_input_bai,
         fasta=config.get("reference", {}).get("fasta", ""),
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
+
+
+use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat with:
+    input:
+        calls=expand(
+            "{{file}}_{chr}.{{vcf}}.gz",
+            chr=extract_chr(
+                "%s.fai" % (config.get("reference", {}).get("fasta", "")),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
+            ),
+        ),
+        index=expand(
+            "{{file}}_{chr}.{{vcf}}.gz.tbi",
+            chr=extract_chr(
+                "%s.fai" % (config.get("reference", {}).get("fasta", "")),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
+            ),
+        ),
+
+
+use rule gatk_mutect2_merge_stats from snv_indels as snv_indels_gatk_mutect2_merge_stats with:
+    input:
+        stats=expand(
+            "snv_indels/gatk_mutect2/{{sample}}_{{type}}_{chr}.unfiltered.vcf.gz.stats",
+            chr=extract_chr(
+                "%s.fai" % (config.get("reference", {}).get("fasta", "")),
+                filter_out=config.get("reference", {}).get("merge_contigs", [])
+                + config.get("reference", {}).get("skip_chrs", []),
+            ),
+        ),
 
 
 module annotation:
@@ -934,6 +956,12 @@ use rule tmb from biomarker as biomarker_tmb with:
         vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.vcf.gz",
 
 
+use rule tmb_cnv_aware from biomarker as biomarker_tmb_cnv_aware with:
+    input:
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.vcf.gz",
+        cns="cnv_sv/cnvkit_call/{sample}_{type}.pathology_purecn.loh.cns",
+
+
 use rule optitype from biomarker as biomarker_optitype with:
     output:
         coverage_plot=temp("biomarker/optitype/{sample}_{type}/{sample}_{type}_hla_type_coverage_plot.pdf"),
@@ -966,6 +994,51 @@ use rule tmb from biomarker as biomarker_tmb_umi with:
             "variant_type_list", ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
         ),
         vd_limit=config.get("tmb_umi", {}).get("vd_limit", 20),
+
+
+# The CN-aware germline rescue mainly helps at FFPE-like purity; at typical ctDNA purity, germline hets in LOH
+# regions already fall inside the fixed [0.40, 0.60] window, so expect little extra benefit for ctDNA.
+use rule tmb_cnv_aware from biomarker as biomarker_tmb_cnv_aware_umi with:
+    input:
+        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.vcf.gz",
+        cns="cnv_sv/cnvkit_call/{sample}_{type}.pathology_purecn.loh.cns",
+    output:
+        tmb=temp("biomarker/tmb_cnv_aware/{sample}_{type}.umi.TMB.txt"),
+    params:
+        af_germline_lower_limit=config.get("tmb_cnv_aware_umi", {}).get("af_germline_lower_limit", 0.47),
+        af_germline_upper_limit=config.get("tmb_cnv_aware_umi", {}).get("af_germline_upper_limit", 0.53),
+        af_lower_limit=config.get("tmb_cnv_aware_umi", {}).get("af_lower_limit", 0.05),
+        af_upper_limit=config.get("tmb_cnv_aware_umi", {}).get("af_upper_limit", 0.95),
+        artifacts=config.get("tmb_cnv_aware_umi", {}).get("artifacts", ""),
+        background_panel=config.get("tmb_cnv_aware_umi", {}).get("background", ""),
+        background_sd_limit=config.get("tmb_cnv_aware_umi", {}).get("background_sd_limit", 5),
+        cn_baf_tolerance=config.get("tmb_cnv_aware_umi", {}).get("cn_baf_tolerance", 0.05),
+        db1000g_limit=config.get("tmb_cnv_aware_umi", {}).get("db1000g_limit", 0.0001),
+        dp_limit=config.get("tmb_cnv_aware_umi", {}).get("dp_limit", 200),
+        filter_genes=config.get("tmb_cnv_aware_umi", {}).get("filter_genes", ""),
+        filter_nr_observations=config.get("tmb_cnv_aware_umi", {}).get("filter_nr_observations", 1),
+        filter_regions=config.get("tmb_cnv_aware_umi", {}).get("filter_regions", []),
+        gnomad_limit=config.get("tmb_cnv_aware_umi", {}).get("gnomad_limit", 0.0001),
+        indel_variant_type_list=config.get("tmb_cnv_aware_umi", {}).get("indel_variant_type_list", None),
+        nm_limit=config.get("tmb_cnv_aware_umi", {}).get("nm_limit", 4),
+        nr_avg_germline_incl_indels=config.get("tmb_cnv_aware_umi", {}).get("nr_avg_germline_incl_indels", None),
+        nr_avg_germline_incl_synonymous=config.get("tmb_cnv_aware_umi", {}).get("nr_avg_germline_incl_synonymous", None),
+        nr_avg_germline_incl_synonymous_and_indels=config.get("tmb_cnv_aware_umi", {}).get(
+            "nr_avg_germline_incl_synonymous_and_indels", None
+        ),
+        nr_avg_germline_snvs=config.get("tmb_cnv_aware_umi", {}).get("nr_avg_germline_snvs", 2.0),
+        nssnv_tmb_correction=config.get("tmb_cnv_aware_umi", {}).get("nssnv_tmb_correction", 0.84),
+        pmean_limit=config.get("tmb_cnv_aware_umi", {}).get("pmean_limit", 15),
+        synonymous_variant_type_list=config.get("tmb_cnv_aware_umi", {}).get("synonymous_variant_type_list", None),
+        tmb_correction_incl_indels=config.get("tmb_cnv_aware_umi", {}).get("tmb_correction_incl_indels", None),
+        tmb_correction_incl_synonymous=config.get("tmb_cnv_aware_umi", {}).get("tmb_correction_incl_synonymous", None),
+        tmb_correction_incl_synonymous_and_indels=config.get("tmb_cnv_aware_umi", {}).get(
+            "tmb_correction_incl_synonymous_and_indels", None
+        ),
+        variant_type_list=config.get("tmb_cnv_aware", {}).get(
+            "variant_type_list", ["missense_variant", "stop_gained", "stop_lost", "synonymous_variant", "stop_retained_variant"]
+        ),
+        vd_limit=config.get("tmb_cnv_aware_umi", {}).get("vd_limit", 20),
 
 
 use rule finaletoolkit_end_motifs from biomarker as biomarker_finaletoolkit_end_motifs with:

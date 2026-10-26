@@ -5,7 +5,7 @@ import sys
 
 import pandas as pd
 
-HEADER = ["method", "TC", "predicted_gis", "manual_review"]
+HEADER = ["method", "purity", "ploidy", "DNA_fraction", "GIS_ploidy_2", "GIS_DNA_fraction", "manual_review"]
 
 
 def normalise_tc(value):
@@ -19,25 +19,48 @@ def normalise_tc(value):
     return round(tc / 100, 2) if tc > 1 else tc
 
 
+def to_float(value):
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return None if math.isnan(number) else number
+
+
 def read_purecn(path):
-    with open(path) as f:
-        return normalise_tc(f.read().strip())
+    """Purity and ploidy from the same PureCN fit (its csv), or None for each when missing."""
+    try:
+        row = pd.read_csv(path).iloc[0]
+    except (FileNotFoundError, pd.errors.EmptyDataError, IndexError):
+        return None, None
+    ploidy = to_float(row.get("Ploidy"))
+    return normalise_tc(row.get("Purity")), ploidy if ploidy and ploidy > 0 else None
 
 
 def read_ichorcna(path):
-    """Tumor fraction from an ichorCNA params.txt (the 'Tumor Fraction:' line)."""
+    """Tumor fraction and ploidy from an ichorCNA params.txt ('Tumor Fraction:' and 'Ploidy:' lines)."""
+    values = {}
     with open(path) as f:
         for line in f:
-            if line.startswith("Tumor Fraction:"):
-                return normalise_tc(line.split(":", 1)[1].strip())
-    return None
+            for key in ("Tumor Fraction", "Ploidy"):
+                if line.startswith(f"{key}:") and key not in values:
+                    values[key] = line.split(":", 1)[1].strip()
+    ploidy = to_float(values.get("Ploidy"))
+    return normalise_tc(values.get("Tumor Fraction")), ploidy if ploidy and ploidy > 0 else None
 
 
-def gis_at(df, tc):
-    """Predicted GIS at the fraction closest to tc, or None without a TC or GIS table."""
-    if tc is None or df.empty:
+def dna_fraction(purity, ploidy):
+    """Tumor DNA fraction, the fraction Jumble's GIS table is indexed by, from tumor cell purity and ploidy."""
+    if purity is None or ploidy is None:
         return None
-    return df.loc[(df["fraction"] - tc).abs().idxmin(), "predicted_gis"]
+    return purity * ploidy / (purity * ploidy + 2 * (1 - purity))
+
+
+def gis_at(df, fraction):
+    """Predicted GIS at the table fraction closest to fraction, or None without a fraction or GIS table."""
+    if fraction is None or df.empty:
+        return None
+    return df.loc[(df["fraction"] - fraction).abs().idxmin(), "predicted_gis"]
 
 
 def review(gis_values, cutoff, margin):
@@ -55,13 +78,12 @@ def fmt(value):
     return "-" if value is None else value
 
 
-def fmt_tc(tc):
-    return "-" if tc is None else round(tc, 2)
+def fmt_number(value):
+    return "-" if value is None else round(value, 2)
 
 
 def main(snakemake):
     gis_csv = snakemake.input.gis_csv
-    tc = snakemake.params.tc
     output = snakemake.output.gis_score
 
     if not os.path.exists(gis_csv):
@@ -80,39 +102,39 @@ def main(snakemake):
     if df.empty:
         print(f"Warning: GIS CSV file {gis_csv} is empty. Writing '-' GIS values.", file=sys.stderr)
 
-    # The TC used for reporting (from get_tc). It can be empty if not identified, or not a number.
-    if tc is None or tc == "" or (isinstance(tc, float) and pd.isna(tc)):
-        print("Warning: Tumor content (TC) is not provided or could not be identified. Writing '-'.", file=sys.stderr)
-        reported_tc, reported_label = None, "-"
-    else:
-        try:
-            reported_tc = float(tc)
-            reported_label = fmt_tc(reported_tc)
-        except ValueError:
-            print(f"Error: Tumor content '{tc}' is not a valid number. Writing '-' GIS.", file=sys.stderr)
-            reported_tc, reported_label = None, tc
-    reported_gis = gis_at(df, reported_tc)
-
-    # GIS at every available TC estimate, so differences between them are visible
-    estimates = [
-        ("pathology", normalise_tc(snakemake.params.pathology_tc)),
-        ("PureCN", read_purecn(snakemake.input.purecn_purity)),
-        ("ichorCNA", read_ichorcna(snakemake.input.ichorcna_params)),
+    # Each method's purity and ploidy come from the same fit and are only combined with each other
+    methods = [
+        ("pathology", normalise_tc(snakemake.params.pathology_tc), None),
+        ("PureCN", *read_purecn(snakemake.input.purecn_csv)),
+        ("ichorCNA", *read_ichorcna(snakemake.input.ichorcna_params)),
     ]
-    estimate_gis = [(name, est_tc, gis_at(df, est_tc)) for name, est_tc in estimates]
+    rows = []
+    for name, purity, ploidy in methods:
+        fraction = dna_fraction(purity, ploidy)
+        rows.append([name, purity, ploidy, fraction, gis_at(df, purity), gis_at(df, fraction)])
 
-    flag = review(
-        [reported_gis] + [g for _, _, g in estimate_gis],
-        int(snakemake.params.hrd_cutoff),
-        int(snakemake.params.review_margin),
+    # Best estimate: PureCN's own purity and ploidy
+    best = ["best estimate (PureCN)"] + rows[1][1:]
+
+    pathology, purecn, ichorcna = rows
+    dna_fractions_differ = (
+        purecn[3] is not None
+        and ichorcna[3] is not None
+        and abs(purecn[3] - ichorcna[3]) > float(snakemake.params.dna_fraction_review_margin)
     )
+    gis_differ = review(
+        [best[5], ichorcna[5], pathology[4]], int(snakemake.params.hrd_cutoff), int(snakemake.params.review_margin)
+    )
+    flag = "yes" if gis_differ == "yes" or dna_fractions_differ else "no"
 
     with open(output, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(HEADER)
-        writer.writerow([f"reported ({snakemake.wildcards.tc_method})", reported_label, fmt(reported_gis), flag])
-        for name, est_tc, gis in estimate_gis:
-            writer.writerow([name, fmt_tc(est_tc), fmt(gis), "-"])
+        for row, row_flag in [(best, flag)] + [(row, "-") for row in rows]:
+            name, purity, ploidy, fraction, gis_ploidy_2, gis_dna = row
+            writer.writerow(
+                [name, fmt_number(purity), fmt_number(ploidy), fmt_number(fraction), fmt(gis_ploidy_2), fmt(gis_dna), row_flag]
+            )
 
 
 if __name__ == "__main__":

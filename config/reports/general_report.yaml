@@ -32,9 +32,10 @@ files:
   - name: Jumble HRD GIS score
     type: file_table
     description: >-
-      HRD Genomic Instability Score (GIS) predicted by Jumble at the reported tumor content and at the pathology,
-      PureCN and ichorCNA estimates (cutoff 42). manual_review is yes when the estimates give different HRD calls
-      or any GIS is within 5 of the cutoff.
+      HRD Genomic Instability Score (GIS) predicted by Jumble (cutoff 42). Jumble's GIS depends on the tumor DNA
+      fraction, which is calculated from each method's purity and ploidy. The first row is the best estimate (PureCN).
+      GIS_ploidy_2 assumes ploidy 2. manual_review is yes when the estimates give different HRD calls, any GIS is within
+      5 of the cutoff, or the PureCN and ichorCNA DNA fractions differ by more than 0.1.
     input: results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt
     nav_header: Biomarkers
   - name: Jumble HRD GIS complete table

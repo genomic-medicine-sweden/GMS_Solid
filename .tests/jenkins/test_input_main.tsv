@@ -41,7 +41,6 @@ results/dna/HD827_T/cnv/HD827_T.pathology_purecn.amp_all_del_validated.cnv_repor
 results/dna/HD827_T/cnv/HD827_T.purecn_purity_ploidity.csv	8e14b346ce165bae845e64229273940a
 results/dna/HD827_T/fusion/HD827_T.fuseq_wes.report.csv	ada3432e93dd1ff64f9254d8c83c91c5
 results/dna/HD827_T/fusion/HD827_T.juli.filtered.fusions.txt	b22f102dc7ddecf31efd149d2072f7d5
-results/dna/HD827_T/id_snps/HD827_T.id_snps.vcf	a1a56c1a76b76a1bccbbaf94a07b81c0
 results/dna/HD827_T/coverage_and_mutations/HD827_T.coverage_and_mutations.tsv	78f0c25e47845256e68f2f1fdfd056db
 results/dna/HD827_T/additional_files/coverage_and_mutations/HD827_T.coverage_and_mutations.ENC.tsv	ec8f8ec6eb03e202b9e684feb8221366
 results/dna/HD827_T/vcf/HD827_T.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf	bae1ccf456d6caaf4ff95e38a7d05431
@@ -83,7 +82,6 @@ results/dna/HD832_T/cnv/HD832_T.pathology_purecn.amp_all_del_validated.cnv_repor
 results/dna/HD832_T/cnv/HD832_T.purecn_purity_ploidity.csv	4445b40d5762aa61d60e4fc5f58cfd01
 results/dna/HD832_T/fusion/HD832_T.fuseq_wes.report.csv	ada3432e93dd1ff64f9254d8c83c91c5
 results/dna/HD832_T/fusion/HD832_T.juli.filtered.fusions.txt	b22f102dc7ddecf31efd149d2072f7d5
-results/dna/HD832_T/id_snps/HD832_T.id_snps.vcf	03f2efd547a398b9d8af5a9ff79931df
 results/dna/HD832_T/coverage_and_mutations/HD832_T.coverage_and_mutations.tsv	ceb17f4c92608c5b2a9e93b79fdf2b63
 results/dna/HD832_T/additional_files/coverage_and_mutations/HD832_T.coverage_and_mutations.ENC.tsv	e12d0761f889e377139fddf7e830e753
 results/dna/HD832_T/vcf/HD832_T.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf	a189b8f2d8380c2130b0a8748b8cc281
@@ -125,7 +123,6 @@ results/dna/NA12878_T/cnv/NA12878_T.pathology_purecn.amp_all_del_validated.cnv_r
 results/dna/NA12878_T/cnv/NA12878_T.purecn_purity_ploidity.csv	ead8854d11cd73526c70cbc2a2d4b6aa
 results/dna/NA12878_T/fusion/NA12878_T.fuseq_wes.report.csv	ada3432e93dd1ff64f9254d8c83c91c5
 results/dna/NA12878_T/fusion/NA12878_T.juli.filtered.fusions.txt	b22f102dc7ddecf31efd149d2072f7d5
-results/dna/NA12878_T/id_snps/NA12878_T.id_snps.vcf	2db6ef221d390783b6d4f9ab2ba56a94
 results/dna/NA12878_T/additional_files/coverage_and_mutations/NA12878_T.coverage_and_mutations.ENC.tsv	26e95e121eed04524c4d10584d21eed0
 results/dna/NA12878_T/coverage_and_mutations/NA12878_T.coverage_and_mutations.tsv	19c0842a1e91dce34a17d7776bf45ae1
 results/dna/NA12878_T/vcf/NA12878_T.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf	3182763982e684e3be6b000b21eb43af
@@ -167,7 +164,6 @@ results/dna/VAL2022_T/cnv/VAL2022_T.pathology_purecn.amp_all_del_validated.cnv_r
 results/dna/VAL2022_T/cnv/VAL2022_T.purecn_purity_ploidity.csv	0dca60ef6f5190c3a7dd248216307680
 results/dna/VAL2022_T/fusion/VAL2022_T.fuseq_wes.report.csv	ada3432e93dd1ff64f9254d8c83c91c5
 results/dna/VAL2022_T/fusion/VAL2022_T.juli.filtered.fusions.txt	b22f102dc7ddecf31efd149d2072f7d5
-results/dna/VAL2022_T/id_snps/VAL2022_T.id_snps.vcf	a72e68461b54083a7fb19cf8d570e24c
 results/dna/VAL2022_T/additional_files/coverage_and_mutations/VAL2022_T.coverage_and_mutations.ENC.tsv	a6aab87565ceadb059becfb767aa0919
 results/dna/VAL2022_T/coverage_and_mutations/VAL2022_T.coverage_and_mutations.tsv	121aad42f67bf873ee3f7637788dd234
 results/dna/VAL2022_T/vcf/VAL2022_T.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf	30626b255258a3d1ab93d59db474a123
@@ -176,6 +172,4 @@ results/rna/SeraSeq-NTRK-FFPE_R/additional_files/fusion/SeraSeq-NTRK-FFPE_R.arri
 results/rna/SeraSeq-NTRK-FFPE_R/additional_files/fusion/SeraSeq-NTRK-FFPE_R.fusioncatcher.fusion_predictions.txt	b26a2b8b9570aa256a8e57d24838addf
 results/rna/SeraSeq-NTRK-FFPE_R/fusion/SeraSeq-NTRK-FFPE_R.exon_skipping.tsv	70b9661bfcb1c30b17f2f175ef937b3b
 results/rna/SeraSeq-NTRK-FFPE_R/fusion/SeraSeq-NTRK-FFPE_R.fusion_report.tsv	19aac183990b29847610ec61b6eb5524
-results/rna/SeraSeq-NTRK-FFPE_R/id_snps/SeraSeq-NTRK-FFPE_R.id_snps.vcf	056d8596642c521d5edbd5b35754687a
 results/rna/SeraSeq-NTRK-FFPE_R/qc/SeraSeq-NTRK-FFPE_R.house_keeping_gene_coverage.tsv	12a7ce0eb1b25f53824e00693f5cab8d
-results/sample_mixup_check.tsv	6fb1f3be08c250c209b4b1a9a20e80b5

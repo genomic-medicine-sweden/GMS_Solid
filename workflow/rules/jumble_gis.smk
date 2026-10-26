@@ -1,16 +1,15 @@
 rule jumble_gis_score:
     input:
         gis_csv="cnv_sv/jumble_run/{sample}_{type}/{sample}_{type}.jumble_gis.csv",
-        tc_file=get_tc_file,
-        purecn_purity="cnv_sv/purecn_purity_file/{sample}_{type}.purity.txt",
+        purecn_csv="cnv_sv/purecn/{sample}_{type}.csv",
         ichorcna_params="cnv_sv/ichorcna_offtarget_run/{sample}_{type}/{sample}_{type}.params.txt",
     output:
         gis_score=temp("cnv_sv/jumble_gis_score/{sample}_{type}.{tc_method}.predicted_gis.txt"),
     params:
-        tc=get_tc,
-        pathology_tc=lambda wildcards: get_sample(samples, wildcards)["tumor_content"],
+        pathology_tc=lambda wildcards: get_sample(samples, wildcards).get("tumor_content"),
         hrd_cutoff=config.get("jumble_gis_score", {}).get("hrd_cutoff", 42),
         review_margin=config.get("jumble_gis_score", {}).get("review_margin", 5),
+        dna_fraction_review_margin=config.get("jumble_gis_score", {}).get("dna_fraction_review_margin", 0.1),
     log:
         "cnv_sv/jumble_gis_score/{sample}_{type}.{tc_method}.predicted_gis.log",
     benchmark:
@@ -28,6 +27,6 @@ rule jumble_gis_score:
     container:
         config.get("jumble_gis_score", {}).get("container", config["default_container"])
     message:
-        "{rule}: Extract predicted GIS score for {wildcards.sample}_{wildcards.type} at {params.tc} TC"
+        "{rule}: Extract predicted GIS at the pathology, PureCN and ichorCNA tumor DNA fractions for {wildcards.sample}_{wildcards.type}"
     script:
         "../scripts/extract_gis_score.py"
