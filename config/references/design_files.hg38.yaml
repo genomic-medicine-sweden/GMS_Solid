@@ -90,27 +90,32 @@
       checksum: a64179f1c5dae70022eabd6cbcc72bee
       path: GMS560/annotation/ENCODE_problematic_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131660?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/ENCODE_problematic_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131660?private_link=88202740beb6fcbac09d
    bed_file2:
       checksum: 9e4df395fc7fa14ce7d4c125ca3b335c
       path: GMS560/annotation/segmental_dup_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131657?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/segmental_dup_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131657?private_link=88202740beb6fcbac09d
    bed_file3:
       checksum: c2bb5114181dd5151e8ab714a6dad166
       path: GMS560/annotation/self_aligned_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131675?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/self_aligned_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131675?private_link=88202740beb6fcbac09d
    bed_file4:
       checksum: aa74d935c7766828fb1a56bf56137f26
       path: GMS560/annotation/simple_repeat_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131663?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/simple_repeat_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131663?private_link=88202740beb6fcbac09d
    bed_file5:
       checksum: 94245ab3da5279ba9150e007f405f38e
       path: GMS560/annotation/windowmaskSdust_repetetive_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131672?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/windowmaskSdust_repetetive_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131672?private_link=88202740beb6fcbac09d
 
  exon_skipping:
    design_bed:
