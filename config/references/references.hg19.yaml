@@ -165,11 +165,16 @@
       compressed_checksum: 5006482f5b6b78c99e80330d2d69a239
       path: ref_data/fusioncatcher
       type: folder
+      # backup (figshare, browser download):
+      #   https://figshare.scilifelab.se/ndownloader/files/42061230: 5f4968cf58a28bfe661ee3d1207259c6
+      #   https://figshare.scilifelab.se/ndownloader/files/42061233: ad677c79617e36f85592b45918a10f21
+      #   https://figshare.scilifelab.se/ndownloader/files/42061242: b4a57d1a48b12e3302fa7d12e6ac6347
+      #   https://figshare.scilifelab.se/ndownloader/files/42061248: 1280e3204b6990b825c762ac14e4446a
       url:
-        https://figshare.scilifelab.se/ndownloader/files/42061230: 5f4968cf58a28bfe661ee3d1207259c6
-        https://figshare.scilifelab.se/ndownloader/files/42061233: ad677c79617e36f85592b45918a10f21
-        https://figshare.scilifelab.se/ndownloader/files/42061242: b4a57d1a48b12e3302fa7d12e6ac6347
-        https://figshare.scilifelab.se/ndownloader/files/42061248: 1280e3204b6990b825c762ac14e4446a
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.aa: 5f4968cf58a28bfe661ee3d1207259c6
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.ab: ad677c79617e36f85592b45918a10f21
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.ac: b4a57d1a48b12e3302fa7d12e6ac6347
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.ad: 1280e3204b6990b825c762ac14e4446a
       content_checksum:
         human_v102/ucsc_genes_header.txt : 9aa055ae6c632068ddc0f4c60ad9c82f
         human_v102/synonyms.txt : dbaea5a7e374e110b4fbb57c2bea3063
@@ -374,7 +379,7 @@
       
   star-fusion:
     genome_path:
-      compressed_checksum: c9ab06c106d7bfc2bb2aa945a4d722ea
+      compressed_checksum: 3c747d7a80220e20b15bd2e16ca0a2ed
       path: ref_data/star-fusion
       type: folder
       content_checksum:
@@ -418,11 +423,19 @@
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/PFAM.domtblout.dat.gz: e7cad012bb29bc95e1b0db14482ae57e
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/ref_annot.cdsplus.fa.idx: 843f3fa391225ba9f691713fc42e1ccb
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/ref_genome.fa.nin: 95033ab5b8d395d9ddb5e761e37021d7
+      url: https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/__genome_libs_StarFv1.10/GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play.tar.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/59433110?private_link=88202740beb6fcbac09d (incl. the CTAT-Splicing files, compressed_checksum c9ab06c106d7bfc2bb2aa945a4d722ea)
+
+    genome_path_ctat_splicing:
+      compressed_checksum: 0accac943c294a4105f026202286db49
+      path: ref_data/star-fusion
+      type: folder
+      content_checksum:
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/refGene.bed: 4f40681c556eb6c3a3774c72dae8afed
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/refGene.sort.bed.gz: 155505d932c82de288ac9f827892179a
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/refGene.sort.bed.gz.tbi: 1fe188ee81eefb644264fefe009a7a5b
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/cancer_splicing_lib/cancer_splicing.idx: dbdcc2036e2f077da954ac696dc60af2
-      url: https://figshare.scilifelab.se/ndownloader/files/59433110?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/ctat_splicing_GRCh37_gencode_v19_CTAT_lib_Mar012021_251021.tar.gz
       
   vep:
     vep_cache:
