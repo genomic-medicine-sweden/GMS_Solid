@@ -996,17 +996,8 @@ use rule tmb from biomarker as biomarker_tmb_umi with:
         vd_limit=config.get("tmb_umi", {}).get("vd_limit", 20),
 
 
-# NOTE: the cn_baf_tolerance-based germline rescue's benefit scales with actual tumor purity, not with
-# how accurately purity is estimated - baf itself is an observed/folded allele fraction, not rescaled by
-# --purity. A germline het in a true LOH region has expected folded AF ~= 0.5 + purity/2, so at
-# FFPE-typical purity (e.g. 40%) it drifts to ~0.70, well outside even a wide fixed window (the case this
-# rule is meant to catch); at ctDNA-typical purity (e.g. 5%) it only drifts to ~0.525, already inside
-# tmb_cnv_aware_umi's wide [0.40, 0.60] fallback window on its own. Segmentation/baf-fit quality also
-# degrades at low purity (smaller log2 deviations -> noisier CBS segmentation), so where the correction
-# would matter most for ctDNA (higher-shedding samples/timepoints) is also where baf is least reliable.
-# Net: expect this rule's CN-aware correction to add little over the plain fixed-window fallback for most
-# ctDNA samples - treat it as a low-purity-insensitive convenience, not a validated improvement, until
-# checked against real high-shedding ctDNA examples.
+# The CN-aware germline rescue mainly helps at FFPE-like purity; at typical ctDNA purity, germline hets in LOH
+# regions already fall inside the fixed [0.40, 0.60] window, so expect little extra benefit for ctDNA.
 use rule tmb_cnv_aware from biomarker as biomarker_tmb_cnv_aware_umi with:
     input:
         vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.vcf.gz",

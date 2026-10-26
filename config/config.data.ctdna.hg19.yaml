@@ -86,6 +86,9 @@ purecn:
 purecn_coverage:
   intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt"
 
+seqtk_subsample:
+  nr_reads: 200000000
+
 svdb_query:
   db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/all_TN_292_svdb_0.8_20220505.vcf --out_frq Twist_AF --out_occ Twist_OCC"
 

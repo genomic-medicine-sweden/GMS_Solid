@@ -218,6 +218,10 @@ scanitd:
 scarhrd:
   reference_name: "grch37"
 
+seqtk_subsample:
+  nr_reads: 150000000
+  nr_reads_rna: 30000000
+
 somalier_ungrouped_extract:
   sites: "{{PROJECT_DESIGN_DATA}}/GMS560/design/sites.hg19.vcf.gz"
 
