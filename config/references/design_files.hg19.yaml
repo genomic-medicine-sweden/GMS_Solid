@@ -85,27 +85,32 @@
       checksum: 46ebd877c3eee497feaa2394a6d9576e
       path: GMS560/annotation/ENCODE_problematic_regions.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/52836086?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/ENCODE_problematic_regions.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/52836086?private_link=88202740beb6fcbac09d
    bed_file2:
       checksum: 0e85c1e639e6ca0083fbe9348af645ce
       path: GMS560/annotation/segmental_dup_regions.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/52836089?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/segmental_dup_regions.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/52836089?private_link=88202740beb6fcbac09d
    bed_file3:
       checksum: c18f59ea5f30170a4cc6ad13a8251327
       path: GMS560/annotation/self_aligned_regions.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/52836095?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/self_aligned_regions.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/52836095?private_link=88202740beb6fcbac09d
    bed_file4:
       checksum: 2dc84d77ab58b16fd429fea271cc2d75
       path: GMS560/annotation/simple_repeat_regions.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/52836092?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/simple_repeat_regions.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/52836092?private_link=88202740beb6fcbac09d
    bed_file5:
       checksum: d150be91d8cb15199a04cf99edfbf3f5
       path: GMS560/annotation/windowmaskSdust_repetetive_regions.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/52836098?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/windowmaskSdust_repetetive_regions.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/52836098?private_link=88202740beb6fcbac09d
 
  exon_skipping:
    design_bed:
@@ -295,17 +300,20 @@
      checksum: a19ef4a67f3d370daaac4890fae25097
      path: GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/69412290?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412290?private_link=88202740beb6fcbac09d
    intervals_novaseqX:
      checksum: a19ef4a67f3d370daaac4890fae25097
      path: GMS560/purecn/targets_twist-gms-st_hg19_25000_novaseqX_24_updated_intervals.txt
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/60373418?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/targets_twist-gms-st_hg19_25000_novaseqX_24_updated_intervals.txt
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/60373418?private_link=88202740beb6fcbac09d
    intervals_novaseqX_cfDNA:
      checksum: a19ef4a67f3d370daaac4890fae25097
      path: GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_novaseqX_intervals_260928.txt
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/69412284?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/targets_twist-gms-st_hg19_25000_cfDNA_novaseqX_intervals_260928.txt
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412284?private_link=88202740beb6fcbac09d
 
  report_fusions:
    annotation_bed:
@@ -347,7 +355,8 @@
      checksum: b3dbb69ea4adeed19c01de0896295fa3
      path: GMS560/design/gatk.preprocessed.novaseqX_24_updated.interval_list
      type: file
-     url: https://figshare.com/ndownloader/files/60375116?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/gatk.preprocessed.novaseqX_24_updated.interval_list
+     # backup (figshare, browser download): https://figshare.com/ndownloader/files/60375116?private_link=88202740beb6fcbac09d
    design_intervals_gatk_cnv_novaseqX_cfDNA:
      checksum: b3dbb69ea4adeed19c01de0896295fa3
      path: GMS560/design/gatk.preprocessed.cfDNA_novaseqX_24_260928.interval_list
