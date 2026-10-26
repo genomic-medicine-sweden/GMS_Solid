@@ -450,7 +450,7 @@ files:
     analyskod:
       - ""
       - "GMS560"
-  - name: Results report small panel DNA HTML
+  - name: Results report gmsprio DNA HTML
     input: reports/general_html_report/{sample}_{type}.prio.general_report.html
     output: results/dna/{sample}_{type}/{sample}_{type}.prio.general_report.html
     types:
@@ -467,6 +467,7 @@ files:
       - "GMSURO"
       - "GMSVAS"
       - "GMSPIK"
+      - "GMSCNS"
   - name: MSI Sensor Pro filtered TSV
     input: biomarker/msisensor_pro/{sample}_{type}
     output: results/dna/{sample}_{type}/biomarker/{sample}_{type}.msisensor_pro.filtered.score.tsv

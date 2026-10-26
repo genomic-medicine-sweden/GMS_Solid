@@ -39,6 +39,7 @@ custom_data:
           min: 0
           max: 0.1
           scale: "RdYlGn-rev"
+          format: "{:,.1%}"
   somalier_dna_dna_matches:
     file_format: "tsv"
     section_name: "Somalier DNA-DNA matches"

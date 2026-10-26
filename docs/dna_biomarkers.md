@@ -95,6 +95,8 @@ The tumor DNA fraction only equals the tumor cell content (purity) at ploidy 2. 
 
 The result file has one row per method (pathology, PureCN and ichorCNA) with purity, ploidy, DNA fraction, the GIS at ploidy 2 (purity used as DNA fraction) and the GIS at the DNA fraction. Pathology has no ploidy, so only its ploidy 2 GIS is given. An estimate of 0 or missing is shown as `-`. The first row is the best estimate, which is currently PureCN's purity and ploidy. Its `manual_review` column is `yes` when the best estimate, ichorCNA (DNA fraction) and pathology (ploidy 2) give GIS values on both sides of the HRD cutoff, any of them is within the review margin of the cutoff, or the PureCN and ichorCNA DNA fractions differ by more than `dna_fraction_review_margin`. The cutoff (`hrd_cutoff`, default 42), margin (`review_margin`, default 5) and `dna_fraction_review_margin` (default 0.1) are set under `jumble_gis_score` in the config.
 
+The predicted GIS depends on the tumor content, and a higher assumed TC gives a lower GIS. The result file therefore lists the GIS at the reported TC and at each available TC estimate (pathology, PureCN and ichorCNA; an estimate of 0 or missing is shown as `-`). The `manual_review` column on the reported row is `yes` when the estimates give GIS values on both sides of the HRD cutoff, or any of them is within the review margin of the cutoff, so the HRD call depends on which TC is used. The cutoff (`hrd_cutoff`, default 42) and margin (`review_margin`, default 5) are set under `jumble_gis_score` in the config.
+
 #### Result files
 
 * `results/dna/{sample}_{type}/biomarker/{sample}_{type}.{method}.predicted_gis.txt`

@@ -1344,7 +1344,7 @@ use rule general_json_report from reports as reports_general_json_report with:
         sample="{sample}_{type}",
         pipeline_version=pipeline_version,
         pipeline_name=pipeline_name,
-        tc=reports.get_tc_general_report,
+        tc=get_report_tc_general_report,
         units=lambda wildcards: units[units["sample"] == wildcards.sample],
         reference_genome=config.get("reference", {}).get("fasta", ""),
 
@@ -1385,7 +1385,7 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
         include_cytobands=config.get("cnv_html_report", {}).get("cytobands", True),
         tc=get_tc,
         ploidy=reports.get_ploidy,
-        purity_ploidy=reports.get_purity_ploidy,
+        purity_ploidy=get_report_purity_ploidy,
         tc_method=lambda wildcards: wildcards.tc_method,
         wide_plot_width=config.get("cnv_html_report", {}).get("wide_plot_width", False),
         default_simulate_purity=config.get("cnv_html_report", {}).get("default_simulate_purity", False),
