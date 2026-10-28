@@ -22,6 +22,7 @@ extra_fn_clean_exts: ##from this until end
 
 custom_content:
   order:
+    - excluded_samples
     - qc-stats
     - fastqc
     - fastp
@@ -29,6 +30,27 @@ custom_content:
     - picard
 
 custom_data:
+  excluded_samples:
+    section_name: "Excluded samples"
+    description: "Samples left out by hydra-genetics create-input-files because their total fastq.gz size was below --min-file-size. These samples were not analysed."
+    plot_type: "table"
+    pconfig:
+      id: "excluded_samples_table"
+      namespace: "Excluded samples"
+    headers:
+      reason:
+        title: "Reason"
+        description: "Why the sample was excluded"
+      total_bytes:
+        title: "Total input"
+        description: "Total size of the sample's fastq.gz files"
+        shared_key: "base_count"
+        format: "{:,.1f}"
+      min_file_size:
+        title: "Min file size"
+        description: "The --min-file-size threshold"
+        shared_key: "base_count"
+        format: "{:,.1f}"
   contamination_table:
     file_format: "tsv"
     section_name: "Contamination"
