@@ -9,9 +9,8 @@ See the [biomarkers hydra-genetics module](https://hydra-genetics-biomarker.read
 * `results/dna/{sample}_{type}/tmb/{sample}_{type}.TMB.txt`
 * `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.tmb_cnv_aware.TMB.txt`
 * `results/dna/{sample}_{type}/msi/{sample}_{type}.msisensor_pro.score.tsv`
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt`
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt`
-* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.predicted_gis.txt`
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt`
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt`
 * `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv`
 * `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.gis.png`
 
@@ -118,8 +117,7 @@ The predicted GIS depends on the tumor content, and a higher assumed TC gives a 
 
 ### Result files
 
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt`
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt`
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt`
 
 
 ## Fragmentomics
