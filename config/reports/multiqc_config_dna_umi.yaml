@@ -62,6 +62,7 @@ custom_data:
           min: 0
           max: 0.1
           scale: "RdYlGn-rev"
+          format: "{:,.1%}"
   duplex_yield_metrics:
     file_format: "tsv"
     section_name: "Duplex Yield Metrics"

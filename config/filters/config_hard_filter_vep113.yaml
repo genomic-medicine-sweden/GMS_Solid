@@ -1,0 +1,49 @@
+filters:
+  intron:
+    description: "Hard filter intronic variants"
+    expression: "(exist[intron_variant, VEP:Consequence] and !exist[splice, VEP:Consequence] and VEP:SYMBOL != MET and VEP:SYMBOL != TERT and !exist[COSV[0-9]+, VEP:Existing_variation])"
+    soft_filter: "False"
+  noisy_gene:
+    description: "Hard filter variants in noisy genes"
+    expression: "VEP:SYMBOL = CDC27"
+    soft_filter: "False"
+  vaf:
+    description: "Hard filter variants with low vaf (AF lower than 0.01)"
+    expression: "(FORMAT:AF:0 < 0.01)"
+    soft_filter: "False"
+  artifacts_SNVs:
+    description: "Hard filter SNVs found in more than 3 normal samples"
+    expression: "(exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 3 and INFO:ArtifactNrSD:0 < 5) or (INFO:Artifact:1 > 3 and INFO:ArtifactNrSD:1 < 5)))"
+    soft_filter: "False"
+  artifacts_INDELs:
+    description: "Hard filter INDELs found in more than 3 normal samples, either clearly deviating from the panel background or sitting in a homopolymer context"
+    expression: "(!exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 3 and (INFO:ArtifactNrSD:0 < 5 or INFO:MSI > 3)) or (INFO:Artifact:1 > 3 and (INFO:ArtifactNrSD:1 < 5 or INFO:MSI > 3))))"
+    soft_filter: "False"
+  artifacts_complex:
+    description: "Hard filter complex/low-quality-signature variants (clumped multi-base, low mean read position, or high mismatch count) found in more than 3 normal samples, without the NrSD/MSI rescue used for other variant types"
+    expression: "((INFO:TYPE = Complex or INFO:PMEAN < 15 or INFO:NM > 4) and (INFO:Artifact:0 > 3 or INFO:Artifact:1 > 3))"
+    soft_filter: "False"
+  germline_by_panel:
+    description: "Hard filter variants whose panel-of-normal AF clusters near a heterozygous/homozygous fraction, indicating germline recurrence rather than technical noise"
+    expression: "((INFO:Artifact:0 > 3 and INFO:ArtifactMedian:0 > 0.3) or (INFO:Artifact:1 > 3 and INFO:ArtifactMedian:1 > 0.3))"
+    soft_filter: "False"
+  background:
+    description: "Hard filter position with where backgound distribution overlaps variant (lower than 4 SD from median)"
+    expression: "(INFO:PositionNrSD < 4 and !exist[1-hotspot, INFO:Hotspot])"
+    soft_filter: "False"
+  germline:
+    description: "Hard filter germline exon"
+    expression: "(VEP:gnomADe_AF > 0.005)"
+    soft_filter: "False"
+  ad:
+    description: "Hard filter variants with few observations (AD lower than 20)"
+    expression: "(FORMAT:AD:1 < 20 and !exist[1-hotspot, INFO:Hotspot])"
+    soft_filter: "False"
+  ad_hotspot:
+    description: "Hard filter hotspot variants with few observations (AD lower than 10)"
+    expression: "(FORMAT:AD:1 < 10 and exist[1-hotspot, INFO:Hotspot] and VEP:SYMBOL != TERT)"
+    soft_filter: "False"
+  ad_TERT:
+    description: "Hard filter TERT variants with few observations (AD lower than 4)"
+    expression: "(FORMAT:AD:1 < 4 and exist[1-hotspot, INFO:Hotspot] and VEP:SYMBOL = TERT)"
+    soft_filter: "False"

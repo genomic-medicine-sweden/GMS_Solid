@@ -7,10 +7,10 @@ See the [biomarkers hydra-genetics module](https://hydra-genetics-biomarker.read
 ## Pipeline output files:
 
 * `results/dna/{sample}_{type}/tmb/{sample}_{type}.TMB.txt`
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.tmb_cnv_aware.TMB.txt`
 * `results/dna/{sample}_{type}/msi/{sample}_{type}.msisensor_pro.score.tsv`
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt`
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt`
-* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.predicted_gis.txt`
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt`
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt`
 * `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv`
 * `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.gis.png`
 
@@ -41,6 +41,36 @@ The result is the TMB calculated using nsSNVs. However, the variants passing all
 
 * `results/dna/{sample}_{type}/tmb/{sample}_{type}.TMB.txt`
 
+## Tumor mutational burden, copy-number aware (TMB CNV-aware)
+**[tmb_cnv_aware.py](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/scripts/tmb_cnv_aware.py)** ([rule](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/rules/tmb.smk)) is a parallel, comparison TMB calculation. It runs alongside the standard TMB above (same input variants, same design-size correction) but replaces the fixed 47%-53% germline allele-frequency window with a copy-number/BAF-aware check: it looks up the local CNVkit segment (`cnv_sv/cnvkit_call/{sample}_{type}.pathology_purecn.loh.cns`) and, where CNVkit fitted a reliable segment BAF, excludes variants clustering near that BAF or its mirror (`1 - BAF`) instead of only near 50% — catching germline SNPs sitting away from 50% AF inside copy-number-altered regions (LOH, gain, loss) that the fixed-window check would miscount as somatic. Falls back to the standard fixed window wherever CNVkit could not fit a segment BAF (common in this targeted panel). It also adds two read-quality gates not present in the standard TMB: `PMEAN` (mean read position) and `NM` (mean mismatches per read), filtering out the same class of recurrent low-quality/misalignment artifacts identified in the SNV hard filters.
+
+This is not yet a replacement for the standard TMB result above — it is produced as an additional file for comparison.
+
+### Configuration
+**Software settings**
+
+| **Options** | **Value** | **Description** |
+|-|-|-|
+| af_lower_limit | 0.05 | Minimum 5% allele frequency |
+| af_upper_limit | 0.95 | Maximum 95% allele frequency |
+| af_germline_lower_limit | 0.47 | Fallback fixed germline window, used where no segment BAF is available |
+| af_germline_upper_limit | 0.53 | Fallback fixed germline window, used where no segment BAF is available |
+| cn_baf_tolerance | 0.05 | Tolerance around the segment BAF (or `1 - BAF`) for the copy-number-aware germline check |
+| pmean_limit | 15 | Minimum mean read position (VarDict `PMEAN`) |
+| nm_limit | 4 | Maximum mean mismatches per read (VarDict `NM`) |
+| artifacts | " " | Do not use artifact panel of normal |
+| background_panel | " " | Do not use background panel of normal |
+| db1000g_limit | 0.0001 | Germline filter of 0.01% population frequency |
+| dp_limit | 100 | Minimum read depth of 100 |
+| gnomad_limit | 0.0001 | Germline filter of 0.01% population frequency |
+| nssnv_tmb_correction | 0.84 | (Number of variants - nr_avg_germline_snvs) * correction factor (correction factor = 1 / adjusted design size) |
+| nr_avg_germline_snvs | 2.0 | Correction based on the average number of germline variants passing all filters |
+| vd_limit | 10 | Minimum 10 observations of variant allele |
+
+### Result file
+
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.tmb_cnv_aware.TMB.txt`
+
 ## Microsatellite instability (MSI)
 To determine MSS or MSI status of the samples the percentage of sites that have microsatellite instability are calculated using **[MSIsensor-pro](https://github.com/xjtu-omics/msisensor-pro)** v1.1.a. When more than 10% of the sites are instable the sample is determined to have MSI status. The program uses a panel of normal to determine the normal level of instability in the used sites.
 
@@ -58,7 +88,13 @@ To determine MSS or MSI status of the samples the percentage of sites that have 
 A homologous recombination deficiency score is calculated using **[scarHRD](https://github.com/sztup/scarHRD)** v20200825 using cnvkit segmentation files as input. The cnvkit panel of normal for HRD is created from a design file where the extra CNV-probes were removed as coverage in these regions tended to be more affected in low quality samples. The segmentation is sensitive to the estimated purity. Therefore, a score based on both the pathology and purecn estimated tumor content is reported. The cutoff for HRD is still to be determined but is somewhere around 50 which is slightly higher than the Myriad HRD score cutoff of 42.
 
 ### Jumble GIS (HRD) score
-**[Jumble](https://github.com/UPP-ClinicalGenomics/Jumble)** also provides a Genomic Instability Score (GIS) which is a measure of HRD. The score is calculated based on various genomic features including LOH, TAI, and LST. The rule `jumble_gis_score` extracts the predicted GIS score for the sample's current tumor content (TC).
+**[Jumble](https://github.com/UPP-ClinicalGenomics/Jumble)** also provides a Genomic Instability Score (GIS) which is a measure of HRD. The score is calculated based on various genomic features including LOH, TAI, and LST. The rule `jumble_gis_score` extracts the predicted GIS score from Jumble's GIS table, which is indexed by the tumor DNA fraction.
+
+The tumor DNA fraction only equals the tumor cell content (purity) at ploidy 2. It is calculated as purity × ploidy / (purity × ploidy + 2 × (1 − purity)), using each method's own purity and ploidy, since the two are estimated together. A higher DNA fraction gives a lower GIS.
+
+The result file has one row per method (pathology, PureCN and ichorCNA) with purity, ploidy, DNA fraction, the GIS at ploidy 2 (purity used as DNA fraction) and the GIS at the DNA fraction. Pathology has no ploidy, so only its ploidy 2 GIS is given. An estimate of 0 or missing is shown as `-`. The first row is the best estimate, which is currently PureCN's purity and ploidy. Its `manual_review` column is `yes` when the best estimate, ichorCNA (DNA fraction) and pathology (ploidy 2) give GIS values on both sides of the HRD cutoff, any of them is within the review margin of the cutoff, or the PureCN and ichorCNA DNA fractions differ by more than `dna_fraction_review_margin`. The cutoff (`hrd_cutoff`, default 42), margin (`review_margin`, default 5) and `dna_fraction_review_margin` (default 0.1) are set under `jumble_gis_score` in the config.
+
+The predicted GIS depends on the tumor content, and a higher assumed TC gives a lower GIS. The result file therefore lists the GIS at the reported TC and at each available TC estimate (pathology, PureCN and ichorCNA; an estimate of 0 or missing is shown as `-`). The `manual_review` column on the reported row is `yes` when the estimates give GIS values on both sides of the HRD cutoff, or any of them is within the review margin of the cutoff, so the HRD call depends on which TC is used. The cutoff (`hrd_cutoff`, default 42) and margin (`review_margin`, default 5) are set under `jumble_gis_score` in the config.
 
 #### Result files
 
@@ -81,8 +117,7 @@ A homologous recombination deficiency score is calculated using **[scarHRD](http
 
 ### Result files
 
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt`
-* `results/dna/{sample}_{type}/hrd/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt`
+* `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt`
 
 
 ## Fragmentomics

@@ -26,14 +26,16 @@
      checksum: 8a06c6f84bb01e4feadb92c35c556a62
      path: GMS560/PoN/gatk_cnv_nextseq_27_hg38.hdf5
      type: file
-     url: https://figshare.com/ndownloader/files/44525696?private_link=53f1597211477d840a29
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/gatk_cnv_nextseq_27_hg38.hdf5
+     # backup (figshare, browser download): https://figshare.com/ndownloader/files/44525696?private_link=53f1597211477d840a29
 
  cnvkit_batch:
    normal_reference:
      checksum: 0dd2ecd2e4bd4bd364404740b0f7a16c
      path: GMS560/PoN/cnvkit_PoN_combined_hg38.cnn
      type: file
-     url: https://figshare.com/ndownloader/files/46640131?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/cnvkit_PoN_combined_hg38.cnn
+     # backup (figshare, browser download): https://figshare.com/ndownloader/files/46640131?private_link=88202740beb6fcbac09d
 
  #cnvkit_batch_hrd:
  #  normal_reference_hrd:
@@ -54,17 +56,20 @@
      checksum: 62f5e1ce5c242013af8398ba427314d7
      path: GMS560/PoN/Msisensor_pro_reference_nextseq_noUmea_27_hg38.list_baseline
      type: file
-     url: https://figshare.com/ndownloader/files/44328716?private_link=53f1597211477d840a29
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/Msisensor_pro_reference_nextseq_noUmea_27_hg38.list_baseline
+     # backup (figshare, browser download): https://figshare.com/ndownloader/files/44328716?private_link=53f1597211477d840a29
 
  reference:
     background:
       checksum: 1180c940991a8cf9a232b364ca6934a8
       path: GMS560/Background/background_panel_nextseq_noUmea_27_dp500_af015_hg38.tsv
       type: file
-      url: https://figshare.com/ndownloader/files/44328743?private_link=53f1597211477d840a29
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/background_panel_nextseq_noUmea_27_dp500_af015_hg38.tsv
+      # backup (figshare, browser download): https://figshare.com/ndownloader/files/44328743?private_link=53f1597211477d840a29
     
     artifacts: 
       checksum: b4ca00ae1046cb13c2cd4ec38b4b7308
       path: GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv
       type: file
-      url: https://figshare.com/ndownloader/files/44328728?private_link=53f1597211477d840a29
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/artifact_panel_nextseq_noUmea_27_hg38.tsv
+      # backup (figshare, browser download): https://figshare.com/ndownloader/files/44328728?private_link=53f1597211477d840a29

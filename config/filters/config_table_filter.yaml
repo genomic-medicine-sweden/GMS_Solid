@@ -2,6 +2,14 @@ amplification:
   all_of:
     - {field: adjusted_cn, operator: ">=", value: 6.0}
     - {field: Twist_AF, operator: "<=", value: 0.15, default: 0}
+loh_gain:
+  label: "Gained LOH"
+  all_of:
+    - {field: adjusted_cn, operator: ">", value: 2.5}
+    - not:
+        all_of:
+          - {field: baf, operator: ">", value: 0.1}
+          - {field: baf, operator: "<", value: 0.9}
 duplication:
   filter: false
   all_of:
@@ -25,5 +33,5 @@ loh:
     - {field: adjusted_cn, operator: "<=", value: 2.5}
     - not:
         all_of:
-          - {field: baf, operator: ">", value: 0.3}
-          - {field: baf, operator: "<", value: 0.7}
+          - {field: baf, operator: ">", value: 0.2}
+          - {field: baf, operator: "<", value: 0.8}

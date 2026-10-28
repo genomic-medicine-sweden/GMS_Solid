@@ -104,7 +104,6 @@ def filter_deletions(
         high_probes_window_averages.append(sum(probe_data[k:k+window_size]) / window_size)
         k += 1
     # Filter deletions with too few data points outside to calculate median and standard deviations
-    print(len(high_probes_window_averages), high_probes_window_averages)
     if len(high_probes_window_averages) < 4:
         return "Too_few_outside"
     # Calculate high and low medians and stdev for high probes window averages

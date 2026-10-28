@@ -31,7 +31,7 @@ from hydra_genetics.utils.software_versions import touch_software_version_file
 from hydra_genetics.utils.software_versions import use_container
 
 
-hydra_min_version("4.1.1")
+hydra_min_version("4.2.1")
 
 min_version("7.26.0")
 
@@ -278,6 +278,22 @@ def get_tc(wildcards):
                     return "0.2"
                 else:
                     return tc
+
+
+def get_report_purity_ploidy(wildcards):
+    # ichorCNA is only shown in the report headers for designs that set ichorcna_file (GMS-Solid)
+    values = reports.get_purity_ploidy(wildcards)
+    if "ichorcna_file" not in config:
+        values["tc_ichorcna"] = None
+        values["ploidy_ichorcna"] = None
+    return values
+
+
+def get_report_tc_general_report(wildcards):
+    tc_pathology, tc_purecn, ploidy_purecn, tc_ichorcna, ploidy_ichorcna = reports.get_tc_general_report(wildcards)
+    if "ichorcna_file" not in config:
+        tc_ichorcna, ploidy_ichorcna = "NA", "NA"
+    return [tc_pathology, tc_purecn, ploidy_purecn, tc_ichorcna, ploidy_ichorcna]
 
 
 def get_tc_file(wildcards):
