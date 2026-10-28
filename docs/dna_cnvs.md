@@ -24,16 +24,8 @@ See the [cnv hydra-genetics module](https://hydra-genetics-snv-indels.readthedoc
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.cnvkit.diagram.pdf`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.cnvkit.scatter.png`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.manta_tumorSV.vcf.gz`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.amp_all_del_all.cnv_report.tsv`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.amp_all_del_validated.cnv_report.tsv`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.cnv.html`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology_purecn.amp_all_del_all.cnv_report.tsv`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology_purecn.svdb_query.vcf`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.svdb_query.vcf`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_all.cnv_report.tsv`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_validated.cnv_report.tsv`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.cnv.html`
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.svdb_query.vcf`
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt`
 
 
