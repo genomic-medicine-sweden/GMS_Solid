@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.10.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.9.0...v1.10.0) (2026-11-02)
+
+
+### Features
+
+* GMS-Solid (hg38) support ([00018df](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/00018df722e6a9a550b8a0671704e8233eed99d4))
+* include the PGX pipeline in the Miarka build ([d258169](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/d2581692a6db0863281afdc9b841fdea70ca481f))
+* include the PGX pipeline in the Miarka build ([75c8bb6](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/75c8bb605bfe9550b39a9f2784b25cba83464eae))
+* show excluded samples table in MultiQC with sizes in Mb ([10e9b79](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/10e9b79887883972144ab9c318a4b66189898561))
+
+
+### Bug Fixes
+
+* add GMSCNS to the small panel general report ([e4983f1](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/e4983f158f2adf2e329231d57f45e02ad88949c4))
+* add GMSCNS to the small panel general report ([9074635](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/9074635136efb96e2ae1c8a6089901ee460e29ca))
+* fix cnv table filtering ([88f4204](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/88f42040ee5507ad502d05d354ce18e23905cd52))
+* remove the PureCN and pathology CNV reports now that the table c… ([a752f22](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/a752f22e2119cb4bc08f304338a3b615d957a078))
+* remove the PureCN and pathology CNV reports now that the table can be adjusted in the report ([0b8c243](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/0b8c24302fe1ba956fa3f9e27691f0c382a354fb))
+* update reports module to v2.4.3 to show the live CNV type in the table hover ([47cda8b](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/47cda8bb0103977f159440bd53b93dbf73d9c1f0))
+* update reports module to v2.4.3 to show the live CNV type in the… ([29bdf3f](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/29bdf3faa01062a339cc2c472b7cac3afb70269d))
+
 ## [1.9.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.8.0...v1.9.0) (2026-10-22)
 
 
