@@ -38,14 +38,12 @@
      path: GMS560/cnv/cnvkit_germline_blacklist_20240613_hg38.bed
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.10.0/cnv/cnvkit_germline_blacklist_20240613_hg38.bed
-
- bcftools_id_snps:
-   snps_bed: 
-     checksum: 907d2ba6fcac9b33b5a4fcdef0eedb66
-     path: GMS560/design/ID_SNPs_hg38.bed
+   blacklist_GMS-Solid: 
+     checksum: 5e5541e856fc39fe54eb8c6f512fe7b9
+     path: GMS560/cnv/cnvkit_germline_blacklist_20260813_hg38_GMS-Solid.bed
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.5.0/design/ID_SNPs_hg38.bed
-  
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.33.7/cnv/cnvkit_germline_blacklist_20260813_hg38_GMS-Solid.bed
+
  call_small_cnv_amplifications:
    regions_file: 
      checksum: 75f7fd3a5e3b9b09935f17ec3d71f6f9
@@ -92,27 +90,32 @@
       checksum: a64179f1c5dae70022eabd6cbcc72bee
       path: GMS560/annotation/ENCODE_problematic_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131660?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/ENCODE_problematic_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131660?private_link=88202740beb6fcbac09d
    bed_file2:
       checksum: 9e4df395fc7fa14ce7d4c125ca3b335c
       path: GMS560/annotation/segmental_dup_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131657?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/segmental_dup_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131657?private_link=88202740beb6fcbac09d
    bed_file3:
       checksum: c2bb5114181dd5151e8ab714a6dad166
       path: GMS560/annotation/self_aligned_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131675?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/self_aligned_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131675?private_link=88202740beb6fcbac09d
    bed_file4:
       checksum: aa74d935c7766828fb1a56bf56137f26
       path: GMS560/annotation/simple_repeat_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131663?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/simple_repeat_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131663?private_link=88202740beb6fcbac09d
    bed_file5:
       checksum: 94245ab3da5279ba9150e007f405f38e
       path: GMS560/annotation/windowmaskSdust_repetetive_regions_hg38.bed
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/57131672?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/windowmaskSdust_repetetive_regions_hg38.bed
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/57131672?private_link=88202740beb6fcbac09d
 
  exon_skipping:
    design_bed:
@@ -305,10 +308,10 @@
 
  merge_cnv_json:
    cytobands:
-     checksum: 1b87bbfe572064c2a40d79683ea7a6ad
-     path: GMS560/cnv/cytoBand.hg38.txt
+     checksum: a0905562bd040bc9ad45c79ef3026755
+     path: GMS560/cnv/cytoBand.hg38.no_alt_chr.txt
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.9.0/cnv/cytoBand.hg38.txt
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.1/cnv/cytoBand.hg38.no_alt_chr.txt
 
  msisensor_pro_filter_sites:
    msi_sites_bed:
@@ -398,3 +401,4 @@
       path: GMS560/tmb/tmb_filter_genes.txt
       type: file
       url: https://raw.githubusercontent.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/v0.2.1/tmb/tmb_filter_genes.txt
+

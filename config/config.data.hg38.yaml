@@ -7,6 +7,17 @@ deduplication: "markduplicates"
 general_report: "config/reports/general_report.yaml"
 output: "config/output_files_FFPE.yaml"
 
+filter_vcf:
+  snv_soft_filter: "config/filters/config_soft_filter_vep105.yaml"
+  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
+  snv_hard_filter: "config/filters/config_hard_filter_vep105.yaml"
+  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
+  cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
+  cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
+  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
+  itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
+
 reference:
   background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_nextseq_noUmea_27_dp500_af015_hg38.tsv"
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv"
@@ -46,9 +57,6 @@ bcftools_filter_include_region:
 
 bcftools_filter_exclude_region:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20240613_hg38.bed"
-
-bcftools_id_snps:
-  snps_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/ID_SNPs_hg38.bed"
 
 bwa_mem:
   amb: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.amb"
@@ -130,6 +138,7 @@ hotspot_annotation:
   hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"
 
 hotspot_report:
+  report_config: "config/reports/hotspot_report_vep105.yaml"
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg38"
   hotspot_mutations:
     all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708_hg38.csv"
@@ -193,6 +202,10 @@ scanitd:
 scarhrd:
   reference_name: "grch38"
 
+seqtk_subsample:
+  nr_reads: 150000000
+  nr_reads_rna: 30000000
+
 somalier_ungrouped_extract:
   sites: "{{PROJECT_DESIGN_DATA}}/GMS560/design/sites.hg38.nochr.vcf.gz"
 
@@ -209,7 +222,19 @@ svdb_query:
 tmb:
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
 
+tmb_cnv_aware:
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+
 tmb_umi:
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv"
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+  filter_regions:
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/ENCODE_problematic_regions_hg38.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions_hg38.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions_hg38.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions_hg38.bed"
+
+tmb_cnv_aware_umi:
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_noUmea_27_hg38.tsv"
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
   filter_regions:

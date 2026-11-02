@@ -2,7 +2,7 @@
 
   arriba: 
     data_folder:
-      compressed_checksum: 9d02d891cd4a0c912c0ea7c2a73135d3
+      compressed_checksum: ed3e5a993d9a117ce84ad970c9113183
       path: ref_data/arriba_v2.3.0
       type: folder
       content_checksum:
@@ -10,14 +10,16 @@
         cytobands_hg19_hs37d5_GRCh37_v2.3.0.tsv: 9333eaa96c56fa22624ab432b8391b2b
         known_fusions_hg19_hs37d5_GRCh37_v2.3.0.tsv.gz: 2f063a0065c1c88d86c859b924d8d590
         protein_domains_hg19_hs37d5_GRCh37_v2.3.0.gff3: b5bc63c70c9eb08c71528ee8b0186901
-      url: https://figshare.scilifelab.se/ndownloader/files/42116952
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/arriba_v2.3.0_hg19.tar.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42116952 (compressed_checksum 9d02d891cd4a0c912c0ea7c2a73135d3)
 
   bcftools_annotate:
     annotation_db:
       checksum: 1eb85e09195f0092e389510b40765f5e
       path: ref_data/GNOMAD/small_exac_common_3.hg19.vcf.gz
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/40933373
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/small_exac_common_3.hg19.vcf.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40933373
 
   bwa:
    amb:
@@ -25,13 +27,15 @@
      link: ref_data/hg19/hg19.with.mt.amb
      path: ref_data/hg19/hg19.with.mt.fasta.amb
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/42061203
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.with.mt.fasta.amb
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061203
    ann:
      checksum: 745e9a6afe1951cc54e8cc1b6c1429ff
      link: ref_data/hg19/hg19.with.mt.ann
      path: ref_data/hg19/hg19.with.mt.fasta.ann
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/42061206
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.with.mt.fasta.ann
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061206
    bwt:
      checksum: da1a091388a038c22e1d5c555db00a8b
      link: ref_data/hg19/hg19.with.mt.bwt
@@ -43,13 +47,15 @@
      link: ref_data/hg19/hg19.with.mt.pac
      path: ref_data/hg19/hg19.with.mt.fasta.pac
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/42061221
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.with.mt.fasta.pac
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061221
    sa:
      checksum: 9acd60cb19c1dd8da83283348670c744
      link: ref_data/hg19/hg19.with.mt.sa
      path: ref_data/hg19/hg19.with.mt.fasta.sa
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/42061224
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.with.mt.fasta.sa
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061224
 
   bwa_mem2: # amb, ann and pac are identical to the bwa files above
    "0123":
@@ -68,38 +74,43 @@
       checksum: 57b812f0595dc8a446ca81fe568e142d
       path: ref_data/refGene/hg19.refGene.gtf
       type: file 
-      url: https://figshare.scilifelab.se/ndownloader/files/42061200
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.refGene.gtf
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061200
 
   fuseq_wes:
     reference:
       type: folder
-      compressed_checksum: c66a0ba6fe5b76fedf16b404f67fcda4
+      compressed_checksum: 1ce1874e9012d27cc83c4cf3c628ace7
       path: ref_data/fuseq_wes
       content_checksum:
         ensmbl_paralogs_grch37.RData: af95895660e6b09ca07ffcedcc6c7ef1
         Mitelman_fusiondb.RData: e4fbf81b5b02b9fe201161d324405822
         UCSC_hg19_wes_contigSize3000_bigLen130000_r100.json: 30d56f2305d33734e0bff3eb888b12ba
         UCSC_hg19_wes_contigSize3000_bigLen130000_r100.sqlite: 92357e04c72c06ab39b7cff59d24a852
-      url: https://figshare.scilifelab.se/ndownloader/files/42116949
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/fuseq_wes_hg19.tar.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42116949 (compressed_checksum c66a0ba6fe5b76fedf16b404f67fcda4)
 
   gatk_get_pileup_summaries:
     sites:
       checksum: 1eb85e09195f0092e389510b40765f5e
       path: ref_data/GNOMAD/small_exac_common_3.hg19.vcf.gz
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/40933373
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/small_exac_common_3.hg19.vcf.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40933373
 
     variants:
       checksum: 1eb85e09195f0092e389510b40765f5e
       path: ref_data/GNOMAD/small_exac_common_3.hg19.vcf.gz
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/40933373
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/small_exac_common_3.hg19.vcf.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40933373
 
     variants_tbi:
       checksum: a52fae234aab2fb4f0d46963f7e6de09
       path: ref_data/GNOMAD/small_exac_common_3.hg19.vcf.gz.tbi
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/42061254
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/small_exac_common_3.hg19.vcf.gz.tbi
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061254
 
   juli_annotate:
     cosmic:
@@ -145,31 +156,39 @@
       link: ref_data/hg19/hg19.with.mt.fai
       path: ref_data/hg19/hg19.with.mt.fasta.fai
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/42061218
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.with.mt.fasta.fai
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061218
     
     dict:
       checksum: bfd3a82e44e749f6864084ec51119a09
       link: ref_data/hg19/hg19.with.mt.dict
       path: ref_data/hg19/hg19.with.mt.fasta.dict
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/42061359
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.with.mt.fasta.dict
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061359
 
     2bit:
       checksum: e770665c5085271205b4603ddf615314
       path: ref_data/hg19/hg19.with.mt.2bit
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/54893057?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.with.mt.2bit
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/54893057?private_link=88202740beb6fcbac09d
 
   fusioncatcher:
     genome_path:
       compressed_checksum: 5006482f5b6b78c99e80330d2d69a239
       path: ref_data/fusioncatcher
       type: folder
+      # backup (figshare, browser download):
+      #   https://figshare.scilifelab.se/ndownloader/files/42061230: 5f4968cf58a28bfe661ee3d1207259c6
+      #   https://figshare.scilifelab.se/ndownloader/files/42061233: ad677c79617e36f85592b45918a10f21
+      #   https://figshare.scilifelab.se/ndownloader/files/42061242: b4a57d1a48b12e3302fa7d12e6ac6347
+      #   https://figshare.scilifelab.se/ndownloader/files/42061248: 1280e3204b6990b825c762ac14e4446a
       url:
-        https://figshare.scilifelab.se/ndownloader/files/42061230: 5f4968cf58a28bfe661ee3d1207259c6
-        https://figshare.scilifelab.se/ndownloader/files/42061233: ad677c79617e36f85592b45918a10f21
-        https://figshare.scilifelab.se/ndownloader/files/42061242: b4a57d1a48b12e3302fa7d12e6ac6347
-        https://figshare.scilifelab.se/ndownloader/files/42061248: 1280e3204b6990b825c762ac14e4446a
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.aa: 5f4968cf58a28bfe661ee3d1207259c6
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.ab: ad677c79617e36f85592b45918a10f21
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.ac: b4a57d1a48b12e3302fa7d12e6ac6347
+        https://downloads.sourceforge.net/project/fusioncatcher/data/human_v102.tar.gz.ad: 1280e3204b6990b825c762ac14e4446a
       content_checksum:
         human_v102/ucsc_genes_header.txt : 9aa055ae6c632068ddc0f4c60ad9c82f
         human_v102/synonyms.txt : dbaea5a7e374e110b4fbb57c2bea3063
@@ -370,11 +389,12 @@
       checksum: 57b812f0595dc8a446ca81fe568e142d
       path: ref_data/refGene/hg19.refGene.gtf
       type: file 
-      url: https://figshare.scilifelab.se/ndownloader/files/42061200
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/hg19.refGene.gtf
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061200
       
   star-fusion:
     genome_path:
-      compressed_checksum: c9ab06c106d7bfc2bb2aa945a4d722ea
+      compressed_checksum: 3c747d7a80220e20b15bd2e16ca0a2ed
       path: ref_data/star-fusion
       type: folder
       content_checksum:
@@ -418,11 +438,19 @@
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/PFAM.domtblout.dat.gz: e7cad012bb29bc95e1b0db14482ae57e
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/ref_annot.cdsplus.fa.idx: 843f3fa391225ba9f691713fc42e1ccb
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/ref_genome.fa.nin: 95033ab5b8d395d9ddb5e761e37021d7
+      url: https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/__genome_libs_StarFv1.10/GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play.tar.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/59433110?private_link=88202740beb6fcbac09d (incl. the CTAT-Splicing files, compressed_checksum c9ab06c106d7bfc2bb2aa945a4d722ea)
+
+    genome_path_ctat_splicing:
+      compressed_checksum: 0accac943c294a4105f026202286db49
+      path: ref_data/star-fusion
+      type: folder
+      content_checksum:
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/refGene.bed: 4f40681c556eb6c3a3774c72dae8afed
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/refGene.sort.bed.gz: 155505d932c82de288ac9f827892179a
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/refGene.sort.bed.gz.tbi: 1fe188ee81eefb644264fefe009a7a5b
         GRCh37_gencode_v19_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/cancer_splicing_lib/cancer_splicing.idx: dbdcc2036e2f077da954ac696dc60af2
-      url: https://figshare.scilifelab.se/ndownloader/files/59433110?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/ctat_splicing_GRCh37_gencode_v19_CTAT_lib_Mar012021_251021.tar.gz
       
   vep:
     vep_cache:
@@ -9303,6 +9331,7 @@
         homo_sapiens_refseq/105_GRCh37/LRG_101/all_vars.gz: 709872fc2910431b1e8b7074bfe38c67
         homo_sapiens_refseq/105_GRCh37/LRG_101/all_vars.gz.csi: e56c94d2b47dd51557b553b568e7ffb8
         homo_sapiens_refseq/105_GRCh37/LRG_101/1-1000000_reg.gz: 4f392c9ffd12398df8a51b73ebd23c36
-      url: https://figshare.scilifelab.se/ndownloader/files/42061335
+      url: https://ftp.ensembl.org/pub/grch37/release-105/variation/indexed_vep_cache/homo_sapiens_refseq_vep_105_GRCh37.tar.gz
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/42061335
       
 

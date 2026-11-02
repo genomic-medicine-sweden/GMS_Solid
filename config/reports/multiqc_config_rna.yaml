@@ -26,11 +26,36 @@ use_filename_as_sample_name:
 
 custom_content:
   order:
+    - excluded
     - qc-stats
     - fastqc
     - fastp
     - samtools
     - picard
+
+custom_data:
+  # regex_keep above trims the id of excluded_samples_mqc.tsv to "excluded"
+  excluded:
+    section_name: "Excluded samples"
+    description: "Samples left out by hydra-genetics create-input-files because their total fastq.gz size was below --min-file-size. These samples were not analysed."
+    plot_type: "table"
+    pconfig:
+      id: "excluded_samples_table"
+      namespace: "Excluded samples"
+    headers:
+      reason:
+        title: "Reason"
+        description: "Why the sample was excluded"
+      total_bytes:
+        title: "Total input"
+        description: "Total size of the sample's fastq.gz files"
+        shared_key: "base_count"
+        format: "{:,.1f}"
+      min_file_size:
+        title: "Min file size"
+        description: "The --min-file-size threshold"
+        shared_key: "base_count"
+        format: "{:,.1f}"
 
 table_columns_visible:
   "Picard: HsMetrics":

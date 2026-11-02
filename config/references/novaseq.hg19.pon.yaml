@@ -4,40 +4,47 @@
      checksum: 076f3a9bec5e9941eb4bbbf4594c0037
      path: GMS560/PoN/SVDB/all_TN_292_svdb_0.8_20220505.vcf
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/40882898
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/all_TN_292_svdb_0.8_20220505.vcf
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40882898
 
  purecn:
    extra: 
      checksum: eb311461a92b53a9494bba9625ecd4c3
      path: GMS560/PoN/purecn/mapping_bias_nextseq_27_hg19.rds
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/40882865
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/mapping_bias_nextseq_27_hg19.rds
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40882865
    extra_novaseqX:
      checksum: a793888e88fe232035b4718cc76c4f39
      path: GMS560/PoN/purecn/mapping_bias_novaseqX_24_updated.rds
      type: file
-     url: https://figshare.com/ndownloader/files/60373421?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/mapping_bias_novaseqX_24_updated.rds
+     # backup (figshare, browser download): https://figshare.com/ndownloader/files/60373421?private_link=88202740beb6fcbac09d
    extra_cfDNA_novaseqX:
      checksum: e834c636311bd305250b5e81b517e98e
      path: GMS560/PoN/purecn/mapping_bias_cfDNA_novaseqX_24_260928.rds
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/69412287?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/mapping_bias_cfDNA_novaseqX_24_260928.rds
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412287?private_link=88202740beb6fcbac09d
 
    normaldb:
      checksum: d77528e5bfeec40791235e52dcbed7ef
      path: GMS560/PoN/purecn/normalDB_nextseq_27_hg19.rds
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/40882874
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/normalDB_nextseq_27_hg19.rds
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40882874
    normaldb_novaseqX:
      checksum: 7776f1f73299370bb13f272e93e12c37
      path: GMS560/PoN/purecn/normalDB_novaseqX_24_updated.rds
      type: file
-     url: https://figshare.com/ndownloader/files/60373427?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/normalDB_novaseqX_24_updated.rds
+     # backup (figshare, browser download): https://figshare.com/ndownloader/files/60373427?private_link=88202740beb6fcbac09d
    normaldb_cfDNA_novaseqX:
      checksum: 9657af711eb90e99ff5ab914feff5915
      path: GMS560/PoN/purecn/normalDB_cfDNA_novaseqX_24_260928.rds
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/69412296?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/normalDB_cfDNA_novaseqX_24_260928.rds
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412296?private_link=88202740beb6fcbac09d
 
 
  gatk_denoise_read_counts:
@@ -45,17 +52,20 @@
       checksum: ab0a2f3276125c8695b72a2b2c5779ea
       path: GMS560/PoN/gatk_cnv_novaseq_13.hdf5
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/40882862
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/gatk_cnv_novaseq_13.hdf5
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40882862
    normal_reference_novaseqX:
       checksum: da197d7aa245c6d7bd423cc7b292cf37
       path: GMS560/PoN/gatk_cnv_novaseqX_24_updated.hdf5
       type: file
-      url: https://figshare.com/ndownloader/files/60373466?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/gatk_cnv_novaseqX_24_updated.hdf5
+      # backup (figshare, browser download): https://figshare.com/ndownloader/files/60373466?private_link=88202740beb6fcbac09d
    normal_reference_cfDNA_novaseqX:
       checksum: 520810fc5be3b558a743c426e4d466f5
       path: GMS560/PoN/gatk_cnv_cfDNA_novaseqX_24_260928.hdf5
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/69412266?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/gatk_cnv_cfDNA_novaseqX_24_260928.hdf5
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412266?private_link=88202740beb6fcbac09d
 
  ichorcna_offtarget_run:
    normal_panel_novaseqX:
@@ -74,53 +84,62 @@
      checksum: 203d8e695b6324f8a5c27e2c7882f3d2
      path: GMS560/PoN/cnvkit_PoN_combined_hg19.cnn
      type: file
-     url: https://figshare.com/ndownloader/files/46640134?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/cnvkit_PoN_combined_hg19.cnn
+     # backup (figshare, browser download): https://figshare.com/ndownloader/files/46640134?private_link=88202740beb6fcbac09d
    normal_reference_novaseqX:
       checksum: de50b7d3a00796e6115c7c6bac268659
       path: GMS560/PoN/cnvkit_novaseqX_24_updated.cnn
       type: file
-      url: https://figshare.com/ndownloader/files/60373469?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/cnvkit_novaseqX_24_updated.cnn
+      # backup (figshare, browser download): https://figshare.com/ndownloader/files/60373469?private_link=88202740beb6fcbac09d
    normal_reference_cfDNA_novaseqX:
       checksum: 0141afc874251097eb85a6c3fad5963a
       path: GMS560/PoN/cnvkit_cfDNA_novaseqX_24_260928.cnn
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/69412902?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/cnvkit_cfDNA_novaseqX_24_260928.cnn
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412902?private_link=88202740beb6fcbac09d
 
  cnvkit_batch_hrd:
    normal_reference_hrd:
       checksum: e7853030e7a6b0ccbeffb7c008983a29
       path: GMS560/PoN/cnvkit_novaseq_13_HRD.cnn
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/40914854
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/cnvkit_novaseq_13_HRD.cnn
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40914854
 
  jumble_run:
    normal_reference:
      checksum: 359d535c1d2443c5feb30c3c31649398
      path: GMS560/PoN/jumble_combined_62_260925.RDS
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/69336878?private_link=88202740beb6fcbac09d
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/jumble_combined_62_260925.RDS
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69336878?private_link=88202740beb6fcbac09d
    normal_reference_novaseqX:
       checksum: f356462e4ace7a18b55dcde00ef14a95
       path: GMS560/PoN/jumble_novaseqX_24_260925.RDS
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/69336875?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/jumble_novaseqX_24_260925.RDS
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69336875?private_link=88202740beb6fcbac09d
    normal_reference_cfDNA_novaseqX:
       checksum: e684bb53ef84da64ec43d25d556bde4f
       path: GMS560/PoN/jumble/jumble_cfDNA_novaseqX_24_260928.RDS
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/69412254?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/jumble_cfDNA_novaseqX_24_260928.RDS
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412254?private_link=88202740beb6fcbac09d
 
  msisensor_pro_filter_sites:
    PoN:
      checksum: 40bda778c9208a366b39ec0e6cefde11
      path: GMS560/PoN/Msisensor_pro_reference_novaseq_13.list_baseline
      type: file
-     url: https://figshare.scilifelab.se/ndownloader/files/40882871
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/Msisensor_pro_reference_novaseq_13.list_baseline
+     # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40882871
    PoN_novaseqX:
       checksum: 2f6f7b35f34bd645772c9c3552160723
       path: GMS560/PoN/Msisensor_pro_reference_novaseqX_24_updated.list_baseline
       type: file
-      url: https://figshare.com/ndownloader/files/60373463?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/Msisensor_pro_reference_novaseqX_24_updated.list_baseline
+      # backup (figshare, browser download): https://figshare.com/ndownloader/files/60373463?private_link=88202740beb6fcbac09d
    PoN_cfDNA_novaseqX:
       checksum: 494793f80a9825739669ee4a3502f6dc
       path: GMS560/PoN/Msisensor_pro_reference_cfDNA_novaseqX_24_260928.list_baseline
@@ -132,32 +151,38 @@
       checksum: 563aa06990d90ed3ef33b4da1aac3c2e
       path: GMS560/Background/background_panel_novaseq_13_dp500_af015.tsv
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/40882844
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/background_panel_novaseq_13_dp500_af015.tsv
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40882844
     background_novaseqX:
       checksum: db686c06b0741ceb20efa454559484be
       path: GMS560/Background/background_panel_novaseqX_24_updated.tsv
       type: file
-      url: https://figshare.com/ndownloader/files/60373409?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/background_panel_novaseqX_24_updated.tsv
+      # backup (figshare, browser download): https://figshare.com/ndownloader/files/60373409?private_link=88202740beb6fcbac09d
     background_cfDNA_novaseqX:
       checksum: b1dc17124fdea4bf2d3e394008ecf860
       path: GMS560/Background/background_panel_cfDNA_novaseqX_24_260928.tsv
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/69412248?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/background_panel_cfDNA_novaseqX_24_260928.tsv
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412248?private_link=88202740beb6fcbac09d
     
     artifacts: 
       checksum: 6d589735a4b922a6f7e852539f44a539
       path: GMS560/Artifact/artifact_panel_novaseq_13.tsv
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/40882838
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/artifact_panel_novaseq_13.tsv
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/40882838
     artifacts_novaseqX:
       checksum: 76647f5a454a4bd5c5fc26b1fd20931b
       path: GMS560/Artifact/artifact_panel_novaseqX_24_updated.tsv
       type: file
-      url: https://figshare.com/ndownloader/files/60373400?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/artifact_panel_novaseqX_24_updated.tsv
+      # backup (figshare, browser download): https://figshare.com/ndownloader/files/60373400?private_link=88202740beb6fcbac09d
     artifacts_cfDNA_novaseqX:
       checksum: de55d72b7b8d56f9c4726d03368f906d
       path: GMS560/Artifact/artifact_panel_cfDNA_novaseqX_24_260928.tsv
       type: file
-      url: https://figshare.scilifelab.se/ndownloader/files/69412242?private_link=88202740beb6fcbac09d
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261026/artifact_panel_cfDNA_novaseqX_24_260928.tsv
+      # backup (figshare, browser download): https://figshare.scilifelab.se/ndownloader/files/69412242?private_link=88202740beb6fcbac09d
       
 
