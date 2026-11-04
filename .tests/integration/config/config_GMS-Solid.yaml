@@ -1,0 +1,3 @@
+# Test data for the GMS-Solid (hg38) paths not already replaced by config/config.yaml
+merge_cnv_json:
+  ref_genes: "reference/hg19.refGene.gtf"

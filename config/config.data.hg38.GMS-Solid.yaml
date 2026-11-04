@@ -19,8 +19,8 @@ filter_vcf:
   itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
 
 reference:
-  background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_novaseq_13_dp500_af015_hg38.tsv"
-  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_novaseq_13_hg38.tsv"
+  background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv"
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv"
   fasta: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta"
   fasta_rna: "{{PROJECT_REF_DATA}}/ref_data/star-fusion/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir/ref_genome.fa"
   fasta_2bit: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.2bit"
@@ -28,7 +28,7 @@ reference:
   fai: "{{PROJECT_REF_DATA}}/ref_data/GRCh38-GIABv3/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta.fai"
   design_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded.bed"
   design_intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.padded.interval_list"
-  design_intervals_gatk_cnv: "{{PROJECT_DESIGN_DATA}}/GMS560/design/gatk.design.hg38.preprocessed.interval_list"
+  design_intervals_gatk_cnv: "{{PROJECT_DESIGN_DATA}}/GMS560/design/gatk.preprocessed.novaseqX_GMS-Solid_Uppsala_8_hg38.interval_list"
   design_bed_rna: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_Design5.annotated.hg38.bed"
   design_intervals_rna: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_Design5.annotated.hg38.interval_list"
   merge_contigs:
@@ -96,10 +96,10 @@ call_small_cnv_amplifications:
   regions_file: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_amplification_genes_hg38_240307.tsv"
 
 cnvkit_batch:
-  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_PoN_combined_hg38.cnn"
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv"
 
 cnvkit_batch_hrd:
-  normal_reference_hrd: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_nextseq_27_HRD.cnn"
+  normal_reference_hrd: "{{PROJECT_PON_DATA}}/GMS560/PoN/cnvkit_novaseqX_GMS-Solid_Uppsala_8_hg38.tsv"
 
 cnv_tsv_report:
   chrom_arm_size: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/chromosome_arm_size_hg38.tsv"
@@ -146,7 +146,7 @@ gatk_collect_allelic_counts:
   SNP_interval: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/GMS_Solid_backbone_GnomAD_sites.fixed.interval_list"
 
 gatk_denoise_read_counts:
-  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_novaseq_13_hg38.hdf5"
+  normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_novaseqX_GMS-Solid_Uppsala_8_hg38.hdf5"
 
 ichorcna_offtarget_run:
   gc_wig: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/gc_hg38_100kb.wig"
@@ -209,12 +209,12 @@ merge_cnv_json:
   ref_genes: "{{PROJECT_REF_DATA}}/ref_data/refGene/hg38.refGene.gtf"
 
 msisensor_pro_filter_sites:
-  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_novaseq_13_hg38.list_baseline"
+  PoN: "{{PROJECT_PON_DATA}}/GMS560/PoN/Msisensor_pro_reference_novaseqX_GMS-Solid_Uppsala_8_hg38.list_baseline"
   msi_sites_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/GMS_Solid_target_annotated_hg38.MSI.bed"
 
 purecn:
-  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/PoN/purecn/mapping_bias_hg38.rds"
-  normaldb: "{{PROJECT_PON_DATA}}/GMS560/PoN/purecn/normalDB_hg38.rds"
+  extra: "--model betabin --mapping-bias-file {{PROJECT_PON_DATA}}/GMS560/PoN/purecn/mapping_bias_novaseqX_GMS-Solid_Uppsala_8_hg38.rds"
+  normaldb: "{{PROJECT_PON_DATA}}/GMS560/PoN/purecn/normalDB_novaseqX_GMS-Solid_Uppsala_8_hg38.rds"
   intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg38_25000_intervals.txt"
 
 purecn_coverage:
@@ -248,7 +248,7 @@ star_fusion:
   genome_path: "{{PROJECT_REF_DATA}}/ref_data/star-fusion/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir"
 
 svdb_query:
-  db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/novaseq_13_svdb_0.8_hg38.vcf --out_frq Twist_AF --out_occ Twist_OCC"
+  db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/normal_novaseqX_GMS-Solid_Uppsala_8_hg38.vcf --out_frq Twist_AF --out_occ Twist_OCC"
 
 tmb:
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"

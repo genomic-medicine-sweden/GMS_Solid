@@ -17,6 +17,16 @@ export TMPDIR=/PATH_TO_STORAGE
 
 ```
 
+### GMS-Solid (hg38)
+```bash
+hydra-genetics --debug references download -o design_and_ref_files -v config/references/design_files.hg38.GMS-Solid.yaml -v config/references/novaseq.hg38.GMS-Solid.pon.yaml -v config/references/references.hg38.GMS-Solid.yaml
+```
+Include `config/config.data.hg38.GMS-Solid.yaml` instead of `config/config.data.hg19.yaml` when running.
+
+The panel of normals in `novaseq.hg38.GMS-Solid.pon.yaml` is built from 8 Uppsala normal samples (NovaSeq X). It works for other sites, but a panel of normals from the site's own normal samples is recommended.
+
+The BWA and BWA-MEM2 indexes and the STAR index for hg38 are still hosted on figshare, which blocks scripted downloads. Download them with a browser from the link in each entry of `references.hg38.GMS-Solid.yaml` and place them at the entry's `path`. The STAR index is a tar.gz archive that is unpacked into its `path`.
+
 ### Validate if data requires update
 
 To validate if all design and reference files are up to date the following command can be run, assuming that they are store at the same parent folder.
