@@ -94,7 +94,7 @@
       checksum: f04dabcde121b2f5e95224c352be371a
       path: ref_data/fuseq_wes/ensmbl_paralogs_grch38.RData
       type: file
-      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/design/ensmbl_paralogs_grch38.RData
+      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.28.0/fuseq_wes/ensmbl_paralogs_grch38.RData
 
   gatk_get_pileup_summaries:
     sites:
