@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.11.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.10.0...v1.11.0) (2026-11-04)
+
+
+### Features
+
+* Added GMS-solid PoN files ([67624a3](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/67624a3316cf212a7f02eb273d1a5346b3a5cb84))
+
+
+### Bug Fixes
+
+* use the Uppsala GMS-Solid PoN for GMS-Solid and fix the paralogs download URL ([1e6307a](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/1e6307a3ba0743438d8c47e2119fbac370db9d78))
+
+
+### Documentation
+
+* add GMS-Solid reference download and config setup ([ae34534](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/ae34534100462f9dbe2e74a7b6f40a4fd667e94d))
+
 ## [1.10.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.9.0...v1.10.0) (2026-11-02)
 
 
