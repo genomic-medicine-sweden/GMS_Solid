@@ -71,11 +71,15 @@ pip install -r requirements.txt
 # will be required to fetch reference data
 # export TMPDIR=/PATH_TO_STORAGE
 hydra-genetics --debug --verbose references download -o design_and_ref_files  -v config/references/references.hg19.yaml -v config/references/design_files.hg19.yaml -v config/references/nextseq.hg19.pon.yaml
+
+# GMS-Solid (hg38)
+hydra-genetics --debug --verbose references download -o design_and_ref_files  -v config/references/references.hg38.GMS-Solid.yaml -v config/references/design_files.hg38.GMS-Solid.yaml -v config/references/novaseq.hg38.GMS-Solid.pon.yaml
 ```
+See [References](references.md#gms-solid-hg38) for files that have to be downloaded with a browser.
 
 **Update config**
 ```yaml 
-# file config/config.data.hg19.yaml
+# file config/config.data.hg19.yaml (config/config.data.hg38.GMS-Solid.yaml for GMS-Solid)
 # change rows:
 PROJECT_DESIGN_DATA: "PATH_TO/design_and_ref_files" # parent folder for GMS560 design, ex GMS560/design
 PROJECT_PON_DATA: "PATH_TO/design_and_ref_files" # artifact/background/PoN, ex GMS560/PoN
@@ -104,6 +108,11 @@ For ctDNA samples, an additional configuration file is required to enable UMI pr
 - `config/config.yaml`
 - `config/config.data.<genome_build>.yaml`
 - `config/config.data.ctdna.<genome_build>.yaml`
+
+### GMS-Solid samples
+GMS-Solid (hg38) uses its own data config instead of `config/config.data.<genome_build>.yaml`:
+- `config/config.yaml`
+- `config/config.data.hg38.GMS-Solid.yaml`
 
 ### Specific sequencer configuration (optional)
 For specific sequencers, an additional configuration file can be added:
