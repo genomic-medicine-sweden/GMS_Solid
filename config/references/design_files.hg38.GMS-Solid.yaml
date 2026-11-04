@@ -19,10 +19,10 @@
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/design/GMS_Solid_target_annotated_hg38.padded.interval_list
 
    design_intervals_gatk_cnv:
-     checksum: 58088e1c88e02f7b0cfd5211eabc01cd
-     path: GMS560/design/gatk.design.hg38.preprocessed.interval_list
+     checksum: ff12ecf769279e7d6004c457a99467f0
+     path: GMS560/design/gatk.preprocessed.novaseqX_GMS-Solid_Uppsala_8_hg38.interval_list
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/design/gatk.design.hg38.preprocessed.interval_list
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/releases/download/references-20261104/gatk.preprocessed.novaseqX_GMS-Solid_Uppsala_8_hg38.interval_list
 
    design_bed_rna:
      checksum: 75299f3690fd91d8e42e7db3743896b2
