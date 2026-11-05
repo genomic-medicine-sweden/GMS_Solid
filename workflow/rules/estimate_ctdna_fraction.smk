@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule estimate_ctdna_fraction:
     input:
-        vcf="snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf",
+        vcf=get_estimate_ctdna_fraction_vcf_input,
         cnvkit_cns="cnv_sv/cnvkit_batch/{sample}/{sample}_{type}.cns",
         cnvkit_cnr="cnv_sv/cnvkit_batch/{sample}/{sample}_{type}.cnr",
         loh_cns="cnv_sv/cnvkit_call/{sample}_{type}.pathology_purecn.loh.cns",
