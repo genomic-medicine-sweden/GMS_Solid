@@ -49,9 +49,6 @@ annotate_cnv:
   cnv_loh_genes_validated: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_uppsala_genes_hg38.bed"
   cnv_loh_genes_all: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnv_loh_genes_240618_hg38.bed"
 
-bcftools_annotate:
-  annotation_db: "{{PROJECT_REF_DATA}}/ref_data/GNOMAD/small_exac_common_3.hg38.vcf.gz"
-
 bcftools_filter_include_region:
   exon: "{{PROJECT_DESIGN_DATA}}/GMS560/design/pool1_pool2.sort.merged.padded20.cnv200.hg38.split_fusion_genes.MUC6_31_rm.exon_only.reannotated.230222.bed"
 
