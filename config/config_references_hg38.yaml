@@ -2,6 +2,9 @@ resources_references: "config/resources_references.yaml"
 
 output: "config/output_reference_files.yaml"
 
+modules:
+  references: "v1.2.0"
+  misc: "v0.2.0"
 
 cnvkit_create_targets:
   container: "docker://hydragenetics/cnvkit:0.9.9"
@@ -24,12 +27,31 @@ collect_read_counts:
 create_read_count_panel_of_normals:
   container: "docker://hydragenetics/gatk4:4.2.2.0"
 
+ichorcna_offtarget_read_counter:
+  container: "docker://hydragenetics/ichorcna:v260817"
+
+ichorcna_offtarget_wig_list:
+  container: "docker://hydragenetics/ichorcna:v260817"
+
+ichorcna_offtarget_panel_of_normals:
+  container: "docker://hydragenetics/ichorcna:v260817"
+  gc_wig: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/gc_hg38_100kb.wig"
+  map_wig: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/map_hg38_100kb.wig"
+  centromere: "/data/ref_genomes/GRCh38/GRCh38-GIABv3/ichorcna_offtarget/GRCh38.centromere.txt"
+  # createPanelOfNormals.R never forwards --genomeStyle to its own call to
+  # loadReadCountsFromWig(), which defaults to NCBI internally regardless -
+  # so the sample counts get force-converted to NCBI style no matter what.
+  # Setting NCBI here too keeps chrs/centromere consistent with that, rather
+  # than mismatching against a UCSC-styled chrs (see ichorcna_offtarget_run's
+  # genome_style, which is unaffected - that's a different script).
+  genome_style: "NCBI"
+
 jumble_count:
   container: "docker://hydragenetics/jumble:0.5.4"
 
 jumble_reference:
   container: "docker://hydragenetics/jumble:0.5.4"
-  annotation: "biomart"
+  annotation: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/jumble_annotation/jumble_annotation_hg38_ensembl116.RDS"
 
 msisensor_pro_scan:
   container: "docker://hydragenetics/msisensor_pro:1.2.0"

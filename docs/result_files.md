@@ -25,7 +25,6 @@ Files defined in `output_files_FFPE.yaml`.
 | `results/dna/{sample}_{type}/vcf/{sample}_{type}.annotated.exon_only.filter.hard_filter.codon_snv.vcf` | Codon SNV VCF |
 | `results/dna/{sample}_{type}/vcf/{sample}_{type}.annotated.exon_only.filter.hard_filter.codon_snv.qci.vcf` | QCI VCF |
 | `results/dna/{sample}_{type}/additional_files/vcf/{caller}_{sample}_{type}.vcf.gz` | Caller VCF |
-| `results/dna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf` | ID-SNP VCF DNA |
 
 #### QC
 | **File** | **Description** |
@@ -61,10 +60,8 @@ Files defined in `output_files_FFPE.yaml`.
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.msisensor_pro.filtered.score.tsv` | MSI Sensor Pro filtered TSV |
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.msisensor_pro.unfiltered.score.tsv` | MSI Sensor Pro unfiltered TSV |
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.TMB.txt` | TMB |
-| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.purecn.scarhrd_cnvkit_score.txt` | HRD score - PureCN |
-| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.pathology.scarhrd_cnvkit_score.txt` | HRD score - pathology |
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt` | HRD score - pathology_purecn |
-| `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt` | Predicted GIS score |
+| `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt` | Predicted GIS for a best estimate and for the pathology, PureCN and ichorCNA estimates, at ploidy 2 and at the tumor DNA fraction, with a manual review flag |
 
 #### Fusions
 | **File** | **Description** |
@@ -79,23 +76,13 @@ Files defined in `output_files_FFPE.yaml`.
 |---|---|
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.cnvkit.scatter.png` | CNVkit scatter PNG |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.cnvkit.diagram.pdf` | CNVkit diagram PDF |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.svdb_query.vcf` | SVDB query - PureCN |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.svdb_query.vcf` | SVDB query - pathology |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology_purecn.svdb_query.vcf` | SVDB query - pathology_purecn |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.cnv.html` | CNV HTML report - PureCN |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.cnv.html` | CNV HTML report - pathology |
 | `results/dna/{sample}_{type}/cnv/{sample}_{type}.pathology_purecn.cnv.html` | CNV HTML report - pathology_purecn |
 | `results/dna/{sample}_{type}/cnv/{sample}_{type}.purecn_purity_ploidity.csv` | PureCN purity |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_all.cnv_report.tsv` | CNV TSV report - PureCN |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.amp_all_del_all.cnv_report.tsv` | CNV TSV report - pathology |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology_purecn.amp_all_del_all.cnv_report.tsv` | CNV TSV report - pathology_purecn |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.amp_all_del_validated.cnv_report.tsv` | CNV TSV report validated - PureCN |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.amp_all_del_validated.cnv_report.tsv` | CNV TSV report validated - pathology |
 | `results/dna/{sample}_{type}/cnv/{sample}_{type}.pathology_purecn.amp_all_del_validated.cnv_report.tsv` | CNV TSV report validated - pathology_purecn |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.deletions.tsv` | Small CNV deletions |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.amplifications.tsv` | Small CNV amplifications |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology.jumble.vcf` | Jumble vcf pathology |
-| `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.purecn.jumble.vcf` | Jumble vcf purecn |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.pathology_purecn.jumble.vcf` | Jumble vcf pathology_purecn |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.germline.vcf.gz` | Germline vcf used in CNV analysis |
 | `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.manta_tumorSV.vcf.gz` | Manta VCF |
@@ -111,17 +98,11 @@ Files defined in `output_files_FFPE.yaml`.
 | `bam_rna/{sample}_{type}.star_fusion.bam` | STAR Fusion BAM |
 | `bam_rna/{sample}_{type}.star_fusion.bam.bai` | STAR Fusion BAM index |
 
-#### SNV and INDELs
-| **File** | **Description** |
-|---|---|
-| `results/rna/{sample}_{type}/id_snps/{sample}_{type}.id_snps.vcf` | ID-SNP VCF RNA |
-
 #### QC
 | **File** | **Description** |
 |---|---|
 | `results/rna/{sample}_{type}/qc/{sample}_{type}.house_keeping_gene_coverage.tsv` | Housekeeping gene coverage |
 | `results/rna/qc/multiqc_RNA.html` | MultiQC RNA HTML |
-| `results/sample_mixup_check.tsv` | RNA DNA sample mixup report |
 
 #### Fusions
 | **File** | **Description** |

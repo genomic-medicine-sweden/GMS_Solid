@@ -7,6 +7,17 @@ deduplication: "markduplicates"
 general_report: "config/reports/general_report.yaml"
 output: "config/output_files_FFPE.yaml"
 
+filter_vcf:
+  snv_soft_filter: "config/filters/config_soft_filter_vep105.yaml"
+  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
+  snv_hard_filter: "config/filters/config_hard_filter_vep105.yaml"
+  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
+  cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
+  cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
+  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
+  itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
+
 reference:
   background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_nextseq_noUmea_27_dp500_af015.tsv"
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"
@@ -46,9 +57,6 @@ bcftools_filter_include_region:
 
 bcftools_filter_exclude_region:
   blacklist: "{{PROJECT_DESIGN_DATA}}/GMS560/cnv/cnvkit_germline_blacklist_20240613.bed"
-
-bcftools_id_snps:
-  snps_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/ID_SNPs.bed"
 
 bwa_mem:
   amb: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.amb"
@@ -130,6 +138,7 @@ hotspot_annotation:
   hotspots: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708.csv"
 
 hotspot_report:
+  report_config: "config/reports/hotspot_report_vep105.yaml"
   chr_translation_file: "config/reports/hotspot_report.chr.translation.hg19"
   hotspot_mutations:
     all: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Hotspots_combined_regions_nodups.20260708.csv"
@@ -145,6 +154,21 @@ hotspot_report:
     TYR: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_MTC_20260223.csv"
     PIK: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_PIK_20260223.csv"
     VAS: "{{PROJECT_DESIGN_DATA}}/GMS560/reports/Mutations_VAS_20260610.csv"
+
+ichorcna_offtarget_read_counter:
+  window: 500000
+
+ichorcna_offtarget_run:
+  # ichorCNA ships pre-built hg19 GC/mappability wigs and a centromere file directly in the image
+  gc_wig: "/opt/ichorCNA/inst/extdata/gc_hg19_500kb.wig"
+  map_wig: "/opt/ichorCNA/inst/extdata/map_hg19_500kb.wig"
+  centromere: "/opt/ichorCNA/inst/extdata/GRCh37.p13_centromere_UCSC-gapTable.txt"
+  genome_build: "hg19"
+  genome_style: "UCSC"
+  # No FFPE PoN built for NextSeq2000 yet - reuse the NovaSeqX FFPE PoN as a stand-in so
+  # ichorCNA has a normal panel instead of failing/crashing without one. Replace with a
+  # NextSeq2000-specific PoN once built.
+  normal_panel: "{{PROJECT_PON_DATA}}/GMS560/PoN/ichorcna_offtarget_novaseqX_24.rds"
 
 juli_annotate:
   cosmic: "{{PROJECT_REF_DATA}}/ref_data/juli/CosmicFusionExport_V76.tsv"
@@ -194,6 +218,10 @@ scanitd:
 scarhrd:
   reference_name: "grch37"
 
+seqtk_subsample:
+  nr_reads: 150000000
+  nr_reads_rna: 30000000
+
 somalier_ungrouped_extract:
   sites: "{{PROJECT_DESIGN_DATA}}/GMS560/design/sites.hg19.vcf.gz"
 
@@ -208,6 +236,9 @@ svdb_query:
   db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/all_TN_292_svdb_0.8_20220505.vcf --out_frq Twist_AF --out_occ Twist_OCC"
 
 tmb:
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+
+tmb_cnv_aware:
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
 
 vep:

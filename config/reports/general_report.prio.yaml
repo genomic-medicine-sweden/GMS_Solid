@@ -37,7 +37,11 @@ files:
     nav_header: Biomarkers
   - name: Jumble HRD GIS score
     type: file_table
-    description: HRD Genomic Instability Score (GIS) predicted by Jumble
+    description: >-
+      HRD Genomic Instability Score (GIS) predicted by Jumble (cutoff 42). Jumble's GIS depends on the tumor DNA
+      fraction, which is calculated from each method's purity and ploidy. The first row is the best estimate (PureCN).
+      GIS_ploidy_2 assumes ploidy 2. manual_review is yes when the estimates give different HRD calls, any GIS is within
+      5 of the cutoff, or the PureCN and ichorCNA DNA fractions differ by more than 0.1.
     input: results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt
     nav_header: Biomarkers
   - name: Jumble HRD GIS complete table
@@ -50,6 +54,11 @@ files:
     type: file_table
     input: results/dna/{sample}_{type}/cnv/{sample}_{type}.purecn_purity_ploidity.csv
     description: TC estimated by purecn
+    nav_header: CNV
+  - name: ichorCNA purity (off-target)
+    type: file_table
+    input: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt
+    description: Additional, exploratory tumor fraction/ploidy estimate from ichorCNA off-target read coverage. A high GC-Map correction MAD means noisy coverage.
     nav_header: CNV
   - name: CNV html
     type: file_link

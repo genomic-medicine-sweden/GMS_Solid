@@ -31,7 +31,7 @@ from hydra_genetics.utils.software_versions import touch_software_version_file
 from hydra_genetics.utils.software_versions import use_container
 
 
-hydra_min_version("4.1.1")
+hydra_min_version("4.2.1")
 
 min_version("7.26.0")
 
@@ -225,6 +225,44 @@ def get_estimate_ctdna_fraction_vcf_input(wildcards):
     return template.format(sample=wildcards.sample, type=wildcards.type)
 
 
+def get_multiqc_input_files(wildcards):
+    """
+    Same file-resolution logic as the qc module's own multiqc rule (config["multiqc"]["reports"][...]
+    ["qc_files"], per-sample/type expanded), plus excluded_samples_mqc.tsv when it actually exists.
+    That file is only ever written by `hydra-genetics create-input-files --min-file-size ...` when that
+    flag is used, so it can't be a plain config["multiqc"]["reports"][...]["qc_files"] entry: Snakemake
+    requires every listed input to exist, and this one doesn't when --min-file-size isn't in use.
+    """
+    files = set(
+        [
+            file.format(
+                sample=sample,
+                type=u.type,
+                lane=u.lane,
+                flowcell=u.flowcell,
+                barcode=u.barcode,
+                read=read,
+                ext=ext,
+            )
+            for file in config["multiqc"]["reports"][wildcards.report]["qc_files"]
+            for sample in get_samples(samples)
+            for u in units.loc[sample].dropna().itertuples()
+            if u.type in config["multiqc"]["reports"][wildcards.report]["included_unit_types"]
+            for read in ["fastq1", "fastq2"]
+            for ext in config.get("picard_collect_multiple_metrics", {}).get("output_ext", [""])
+            if "{sample}" in file or "{type}" in file
+        ]
+        + [
+            file
+            for file in config["multiqc"]["reports"][wildcards.report]["qc_files"]
+            if "{sample}" not in file and "{type}" not in file
+        ]
+    )
+    if os.path.isfile("excluded_samples_mqc.tsv"):
+        files.add("excluded_samples_mqc.tsv")
+    return files
+
+
 def get_flowcell(units, wildcards):
     flowcells = set([u.flowcell for u in get_units(units, wildcards)])
     if len(flowcells) > 1:
@@ -263,6 +301,22 @@ def get_tc(wildcards):
                     return "0.2"
                 else:
                     return tc
+
+
+def get_report_purity_ploidy(wildcards):
+    # ichorCNA is only shown in the report headers for designs that set ichorcna_file (GMS-Solid)
+    values = reports.get_purity_ploidy(wildcards)
+    if "ichorcna_file" not in config:
+        values["tc_ichorcna"] = None
+        values["ploidy_ichorcna"] = None
+    return values
+
+
+def get_report_tc_general_report(wildcards):
+    tc_pathology, tc_purecn, ploidy_purecn, tc_ichorcna, ploidy_ichorcna = reports.get_tc_general_report(wildcards)
+    if "ichorcna_file" not in config:
+        tc_ichorcna, ploidy_ichorcna = "NA", "NA"
+    return [tc_pathology, tc_purecn, ploidy_purecn, tc_ichorcna, ploidy_ichorcna]
 
 
 def get_tc_file(wildcards):

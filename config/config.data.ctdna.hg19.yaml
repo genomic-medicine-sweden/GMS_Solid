@@ -8,6 +8,20 @@ deduplication: "umi"
 general_report: "config/reports/general_report.umi.yaml"
 output: "config/output_files_ctDNA.yaml"
 
+filter_vcf:
+  snv_soft_filter: "config/filters/config_soft_filter_vep105.yaml"
+  snv_soft_filter_umi: "config/filters/config_soft_filter_umi_vep105.yaml"
+  snv_hard_filter: "config/filters/config_hard_filter_vep105.yaml"
+  snv_hard_filter_umi: "config/filters/config_hard_filter_umi_vep105.yaml"
+  snv_hard_filter_purecn: "config/filters/config_hard_filter_purecn.yaml"
+  cnv_hard_filter_amp: "config/filters/config_hard_filter_cnv_amp.yaml"
+  cnv_hard_filter_loh: "config/filters/config_hard_filter_cnv_loh.yaml"
+  germline: "config/filters/config_hard_filter_germline_vep105.yaml"
+  itd_hard_filter: "config/filters/config_hard_filter_scanitd.yaml"
+
+hotspot_report:
+  report_config: "config/reports/hotspot_report_vep105.yaml"
+
 reference:
   background: "{{PROJECT_PON_DATA}}/GMS560/Background/background_panel_cfDNA_nextseq2000_24_260928.tsv"
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_cfDNA_nextseq2000_24_260928.tsv"
@@ -40,6 +54,18 @@ fgbio_call_overlapping_consensus_bases:
   agrement_strategy: "Consensus"
   disagrement_strategy: "Consensus"
 
+ichorcna_offtarget_read_counter:
+  window: 500000
+
+ichorcna_offtarget_run:
+  # ichorCNA ships pre-built hg19 GC/mappability wigs and a centromere file directly in the image
+  gc_wig: "/opt/ichorCNA/inst/extdata/gc_hg19_500kb.wig"
+  map_wig: "/opt/ichorCNA/inst/extdata/map_hg19_500kb.wig"
+  centromere: "/opt/ichorCNA/inst/extdata/GRCh37.p13_centromere_UCSC-gapTable.txt"
+  genome_build: "hg19"
+  genome_style: "UCSC"
+  normal_panel: "{{PROJECT_PON_DATA}}/GMS560/PoN/ichorcna_offtarget_cfDNA_nextseq2000_24.rds"
+
 gatk_denoise_read_counts:
   normal_reference: "{{PROJECT_PON_DATA}}/GMS560/PoN/gatk_cnv_cfDNA_nextseq2000_24_260928.hdf5"
 
@@ -60,10 +86,22 @@ purecn:
 purecn_coverage:
   intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg19_25000_cfDNA_intervals_260928.txt"
 
+seqtk_subsample:
+  nr_reads: 200000000
+
 svdb_query:
   db_string: "--db {{PROJECT_PON_DATA}}/GMS560/PoN/SVDB/all_TN_292_svdb_0.8_20220505.vcf --out_frq Twist_AF --out_occ Twist_OCC"
 
 tmb_umi:
+  artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"
+  filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
+  filter_regions:
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/ENCODE_problematic_regions.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/segmental_dup_regions.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/simple_repeat_regions.bed"
+    - "{{PROJECT_DESIGN_DATA}}/GMS560/annotation/windowmaskSdust_repetetive_regions.bed"
+
+tmb_cnv_aware_umi:
   artifacts: "{{PROJECT_PON_DATA}}/GMS560/Artifact/artifact_panel_nextseq_36.tsv"
   filter_genes: "{{PROJECT_DESIGN_DATA}}/GMS560/tmb/tmb_filter_genes.txt"
   filter_regions:

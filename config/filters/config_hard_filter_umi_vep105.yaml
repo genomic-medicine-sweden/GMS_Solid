@@ -9,11 +9,19 @@ filters:
     soft_filter: "False"
   artifacts_SNVs:
     description: "Hard filter SNVs found in 3 or more normal samples"
-    expression: "(exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:0 < 6) or (INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:1 < 6)))"
+    expression: "(exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:0 < 6) or (INFO:Artifact:1 > 2 and INFO:ArtifactNrSD:1 < 6)))"
     soft_filter: "False"
   artifacts_INDELs:
-    description: "Hard filter INDELs found in 3 or more normal samples"
-    expression: "(!exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:0 < 6) or (INFO:Artifact:0 > 2 and INFO:ArtifactNrSD:1 < 6)))"
+    description: "Hard filter INDELs found in 3 or more normal samples, either clearly deviating from the panel background or sitting in a homopolymer context"
+    expression: "(!exist[SNV, VEP:VARIANT_CLASS] and ((INFO:Artifact:0 > 2 and (INFO:ArtifactNrSD:0 < 6 or INFO:MSI > 3)) or (INFO:Artifact:1 > 2 and (INFO:ArtifactNrSD:1 < 6 or INFO:MSI > 3))))"
+    soft_filter: "False"
+  artifacts_complex:
+    description: "Hard filter complex/low-quality-signature variants (clumped multi-base, low mean read position, or high mismatch count) found in 3 or more normal samples, without the NrSD/MSI rescue used for other variant types"
+    expression: "((INFO:TYPE = Complex or INFO:PMEAN < 15 or INFO:NM > 4) and (INFO:Artifact:0 > 2 or INFO:Artifact:1 > 2))"
+    soft_filter: "False"
+  germline_by_panel:
+    description: "Hard filter variants whose panel-of-normal AF clusters near a heterozygous/homozygous fraction, indicating germline recurrence rather than technical noise"
+    expression: "((INFO:Artifact:0 > 2 and INFO:ArtifactMedian:0 > 0.3) or (INFO:Artifact:1 > 2 and INFO:ArtifactMedian:1 > 0.3))"
     soft_filter: "False"
   background:
     description: "Hard filter variants with AF not over background noise"
