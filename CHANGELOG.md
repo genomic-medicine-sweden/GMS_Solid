@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.11.1](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.11.0...v1.11.1) (2026-11-09)
+
+
+### Bug Fixes
+
+* mark cnv html report templates as ancient to avoid reruns from t… ([09880ab](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/09880abede33820c7203b0bfa7d4d0535018cb80))
+* mark cnv html report templates as ancient to avoid reruns from template mtimes ([d482171](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/d4821716f15b4255422227a889d016e8bcde421e))
+* only hard filter CDC27 variants with low PMEAN or found in the n… ([03e68d7](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/03e68d79ffd8b02ef7a9e578131203edb3eaad4e))
+* only hard filter CDC27 variants with low PMEAN or found in the normal panel ([3f232a2](https://github.com/genomic-medicine-sweden/GMS_Solid/commit/3f232a2888d3fac1c76603f46f54e54459b12710))
+
 ## [1.11.0](https://github.com/genomic-medicine-sweden/GMS_Solid/compare/v1.10.0...v1.11.0) (2026-11-04)
 
 
