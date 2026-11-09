@@ -5,8 +5,8 @@ filters:
     soft_filter_flag: "Intronic"
     soft_filter: "True"
   noisy_gene:
-    description: "Soft filter variants in noisy genes"
-    expression: "VEP:SYMBOL = CDC27"
+    description: "Soft filter variants in noisy genes found mostly near read starts or in more than 3 normal samples"
+    expression: "VEP:SYMBOL = CDC27 and (INFO:PMEAN < 20 or INFO:Artifact:0 > 3 or INFO:Artifact:1 > 3)"
     soft_filter_flag: "noisy_gene"
     soft_filter: "True"
   vaf:

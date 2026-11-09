@@ -4,8 +4,8 @@ filters:
     expression: "(exist[intron_variant, VEP:Consequence] and !exist[splice, VEP:Consequence] and VEP:SYMBOL != MET and VEP:SYMBOL != TERT and !exist[COSV[0-9]+, VEP:Existing_variation])"
     soft_filter: "False"
   noisy_gene:
-    description: "Hard filter variants in noisy genes"
-    expression: "VEP:SYMBOL = CDC27"
+    description: "Hard filter variants in noisy genes found mostly near read starts or in more than 3 normal samples"
+    expression: "VEP:SYMBOL = CDC27 and (INFO:PMEAN < 20 or INFO:Artifact:0 > 3 or INFO:Artifact:1 > 3)"
     soft_filter: "False"
   vaf:
     description: "Hard filter variants with low vaf (AF lower than 0.01)"

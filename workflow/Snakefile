@@ -1364,18 +1364,18 @@ use rule general_html_report from reports as reports_general_html_report_prio wi
 use rule cnv_html_report from reports as reports_cnv_html_report with:
     input:
         json=workflow.get_rule("reports_cnv_html_report").input.json,
-        html_template=workflow.get_rule("reports_cnv_html_report").input.html_template,
+        html_template=ancient(workflow.get_rule("reports_cnv_html_report").input.html_template),
         js_files=[
-            workflow.get_rule("reports_cnv_html_report").input.js_files[0],
-            workflow.get_rule("reports_cnv_html_report").input.js_files[1],
-            workflow.get_rule("reports_cnv_html_report").input.js_files[2],
-            workflow.get_rule("reports_cnv_html_report").input.js_files[3],
-            workflow.get_rule("reports_cnv_html_report").input.js_files[4],
-            workflow.get_rule("reports_cnv_html_report").input.js_files[5],
+            ancient(workflow.get_rule("reports_cnv_html_report").input.js_files[0]),
+            ancient(workflow.get_rule("reports_cnv_html_report").input.js_files[1]),
+            ancient(workflow.get_rule("reports_cnv_html_report").input.js_files[2]),
+            ancient(workflow.get_rule("reports_cnv_html_report").input.js_files[3]),
+            ancient(workflow.get_rule("reports_cnv_html_report").input.js_files[4]),
+            ancient(workflow.get_rule("reports_cnv_html_report").input.js_files[5]),
         ],
         css_files=[
-            workflow.get_rule("reports_cnv_html_report").input.css_files[0],
-            workflow.get_rule("reports_cnv_html_report").input.css_files[1],
+            ancient(workflow.get_rule("reports_cnv_html_report").input.css_files[0]),
+            ancient(workflow.get_rule("reports_cnv_html_report").input.css_files[1]),
         ],
         tc_file=get_tc_file,
         ploidy_file=lambda wildcards: f"cnv_sv/purecn/{wildcards.sample}_{wildcards.type}.csv",
