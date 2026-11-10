@@ -4,6 +4,7 @@ digraph snakemake_dag {
     node[shape=box, style=rounded, fontname=sans,                 fontsize=10, penwidth=2];
     edge[penwidth=2, color=grey];
 	93[label = "biomarker_tmb", color = "0.46 0.6 0.85", style="rounded"];
+	94[label = "biomarker_tmb_cnv_aware", color = "0.46 0.6 0.85", style="rounded"];
 	97[label = "biomarker_msisensor_pro", color = "0.46 0.6 0.85", style="rounded"];
 	109[label = "biomarker_fix_scarhrd_output", color = "0.13 0.6 0.85", style="rounded"];
 	110[label = "biomarker_scarhrd", color = "0.38 0.6 0.85", style="rounded"];
@@ -14,13 +15,19 @@ digraph snakemake_dag {
 	// Jumble GIS
 	114[label = "cnv_sv_jumble_run", color = "0.40 0.6 0.85", style="rounded"];
 	115[label = "jumble_gis_score", color = "0.40 0.6 0.85", style="rounded"];
+	// UV hotspots (experimental, GMS-Solid)
+	116[label = "uv_hotspots", color = "0.40 0.6 0.85", style="rounded"];
 	
 	200[label = "VCF: annotated", color = "0.0 0.0 0.0", style="dotted"];
 	201[label = "BAM", color = "0.0 0.0 0.0", style="dotted"];
 	202[label = "CNS: cnvkit", color = "0.0 0.0 0.0", style="dotted"];
 	203[label = "VCF: germline", color = "0.0 0.0 0.0", style="dotted"];
+	204[label = "PureCN: purity/ploidy", color = "0.0 0.0 0.0", style="dotted"];
+	205[label = "ichorCNA: params", color = "0.0 0.0 0.0", style="dotted"];
 	
 	200 -> 93
+	200 -> 94
+	202 -> 94
 	201 -> 97
 	202 -> 111
 	110 -> 109
@@ -31,4 +38,8 @@ digraph snakemake_dag {
 	201 -> 114
 	203 -> 114
 	114 -> 115
-}            
+	204 -> 115
+	205 -> 115
+
+	201 -> 116
+}
