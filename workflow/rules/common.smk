@@ -127,11 +127,23 @@ else:
     )
 
 
+def config_value_set(key):
+    """True when the dot-separated config key exists and its value is not empty."""
+    value = config
+    for part in key.split("."):
+        if not isinstance(value, dict) or not value.get(part):
+            return False
+        value = value[part]
+    return True
+
+
 def compile_output_list(wildcards):
     output_files = []
     types = set([unit.type for unit in units.itertuples()])
     dedup_types = set([])
     for filedef in output_spec["files"]:
+        if "config_key" in filedef and not config_value_set(filedef["config_key"]):
+            continue
         output_files += set(
             [
                 filedef["output"].format(sample=sample, type=unit_type, caller=caller)

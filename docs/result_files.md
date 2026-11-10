@@ -62,6 +62,10 @@ Files defined in `output_files_FFPE.yaml`.
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.TMB.txt` | TMB |
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt` | HRD score - pathology_purecn |
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt` | Predicted GIS for a best estimate and for the pathology, PureCN and ichorCNA estimates, at ploidy 2 and at the tumor DNA fraction, with a manual review flag |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.call.tsv` | UV hotspots call with provisional cut-offs (experimental, GMS-Solid only) |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.summary.tsv` | UV hotspots summary (experimental, GMS-Solid only) |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.sites.tsv` | UV hotspots sites (experimental, GMS-Solid only) |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.positions.tsv` | UV hotspots positions (experimental, GMS-Solid only) |
 
 #### Fusions
 | **File** | **Description** |
@@ -143,6 +147,10 @@ Files defined in `output_files_ctDNA.yaml` that differ or are specific to ctDNA.
 | `results/dna/{sample}_{type}/biomarker/{sample}_{type}.umi.TMB.txt` | TMB umi |
 | `results/dna/{sample}_{type}/hla/{sample}_{type}_hla_type_result.tsv` | HLA optitype |
 | `results/dna/{sample}_{type}/hla/{sample}_{type}_hla_type_coverage_plot.pdf` | HLA coverage optitype |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.call.tsv` | UV hotspots call with provisional cut-offs (experimental, GMS-Solid only) |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.summary.tsv` | UV hotspots summary (experimental, GMS-Solid only) |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.sites.tsv` | UV hotspots sites (experimental, GMS-Solid only) |
+| `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.positions.tsv` | UV hotspots positions (experimental, GMS-Solid only) |
 
 ### Fusions
 | **File** | **Description** |

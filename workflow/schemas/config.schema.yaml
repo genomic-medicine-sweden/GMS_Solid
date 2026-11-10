@@ -781,6 +781,43 @@ properties:
           trusting a local CN read at a purity where the read itself can't be
           trusted; also the lower bound of the self-consistent-purity search
 
+  uv_hotspots:
+    type: object
+    description: parameters for the experimental UV hotspot analysis (GMS-Solid hg38 only)
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      positions:
+        type: string
+        description: >-
+          UV hotspot position table; the UV hotspot output files are only produced when this is set
+      min_alt:
+        type: integer
+        description: minimum C>T fragments for a hit (default 3)
+      min_vaf:
+        type: number
+        description: minimum C>T fraction for a hit (default 0.02)
+      uv_sites_hit:
+        type: integer
+        description: provisional cut-off, this many sites with a somatic hit or more gives UV_call "yes" (default 3)
+      possible_sites_hit:
+        type: integer
+        description: provisional cut-off, this many sites with a somatic hit or more gives UV_call "possible" (default 1)
+      elevated_ratio:
+        type: number
+        description: >-
+          provisional cut-off, low_frequency_ratio (C>T at hotspot positions without a hit vs the non-CpG
+          flank) at or above this (with elevated_p) is "elevated", which raises UV_call "no" to "possible"
+          (default 1.5)
+      elevated_p:
+        type: number
+        description: >-
+          provisional cut-off, one-sided binomial p-value of the low_frequency_ratio C>T count against the
+          flank rate below this (with elevated_ratio) is "elevated" (default 0.01)
 
 required:
   - samples
