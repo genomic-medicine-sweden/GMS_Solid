@@ -370,9 +370,9 @@
  report_fusions:
    annotation_bed:
      checksum: 49ae9bf1bc071b5faa9f8e5024c95689
-     path: GMS560/design/Twist_RNA_fusionpartners_hg38.bed
+     path: GMS560/rna_fusion/Twist_RNA_fusionpartners_hg38.bed
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/design/Twist_RNA_fusionpartners_hg38.bed
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/rna_fusion/Twist_RNA_fusionpartners_hg38.bed
 
    fp_fusions:
      checksum: 3886104b8c9c0c73ec8edb40b8d1428d

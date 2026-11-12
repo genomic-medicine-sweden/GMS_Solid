@@ -221,7 +221,7 @@ purecn_coverage:
   intervals: "{{PROJECT_DESIGN_DATA}}/GMS560/purecn/targets_twist-gms-st_hg38_25000_intervals.txt"
 
 report_fusions:
-  annotation_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/design/Twist_RNA_fusionpartners_hg38.bed"
+  annotation_bed: "{{PROJECT_DESIGN_DATA}}/GMS560/rna_fusion/Twist_RNA_fusionpartners_hg38.bed"
   fp_fusions: "{{PROJECT_DESIGN_DATA}}/GMS560/rna_fusion/filter_rna_fusions_20240923.txt"
 
 report_gene_fuse:
