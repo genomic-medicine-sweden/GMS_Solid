@@ -390,3 +390,26 @@ Takes the somalier relate pairs output and finds the best DNA-DNA match for each
 #### Resources settings (`resources.yaml`)
 
 #RESOURCESSCHEMA__somalier_dna_dna_report#
+
+---
+
+## uv_hotspots
+Experimental: count C>T at UV hotspot positions (YYTTCCG ETS promoter sites) per fragment, with the in-sample flank C>T background, and make a provisional UV call. Only run when `uv_hotspots: positions` is set (GMS-Solid).
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__uv_hotspots__uv_hotspots#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__uv_hotspots__uv_hotspots#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__uv_hotspots#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__uv_hotspots#

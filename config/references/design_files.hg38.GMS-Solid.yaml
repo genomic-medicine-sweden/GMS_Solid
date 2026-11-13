@@ -413,6 +413,14 @@
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/tmb/tmb_filter_genes.txt
 
 
+ uv_hotspots:
+   positions:
+     checksum: 7f3f9eedeb6e6e4a94bd319998f18c38
+     path: GMS560/design/GMS_Solid_UV_hotspot_positions_20261110_hg38.tsv
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.38.0/design/GMS_Solid_UV_hotspot_positions_20261110_hg38.tsv
+
+
  manta_config_t:
    design_bed_gz:
      checksum: ef889edf318991a4800b353285cdbcf6

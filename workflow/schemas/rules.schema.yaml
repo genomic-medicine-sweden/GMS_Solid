@@ -408,3 +408,47 @@ properties:
           report:
             type: string
             description: Somalier DNA-DNA best match report
+
+  uv_hotspots:
+    type: object
+    description: input and output parameters for uv_hotspots
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          bam:
+            type: string
+            description: final deduplicated (or UMI consensus) BAM file
+          bai:
+            type: string
+            description: index of the BAM file
+          positions:
+            type: string
+            description: >-
+              UV hotspot position table (site, gene, rank, motif, motif_strand, cls, chr, pos, ref, alt, CpG) with
+              Y1/Y2 hotspot, C5 and flank positions of the YYTTCCG ETS promoter sites
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          positions:
+            type: string
+            description: >-
+              per position fragment counts on the pyrimidine strand (C, C>T, C>A, C>G), C>T fraction, read
+              orientation of C>T fragments, discordant mate pairs, hit and flank exclusion flags
+          sites:
+            type: string
+            description: >-
+              per site hotspot C>T counts, hit and possible germline flags, CC>TT fragments, C5 counts and the
+              non-CpG and CpG flank C>T background
+          summary:
+            type: string
+            description: >-
+              one-row sample summary with sites hit, hotspot, C5 and flank C>T rates and the hotspot vs non-CpG
+              flank ratio
+          call:
+            type: string
+            description: >-
+              call table (metric, value, cutoff, result) with the provisional UV call, supporting and warning
+              metrics, the low-frequency hotspot vs flank result and a manual review flag

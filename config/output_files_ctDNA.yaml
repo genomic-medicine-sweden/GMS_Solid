@@ -478,6 +478,34 @@ files:
     types:
       - T
       - N
+  - name: UV hotspots call
+    input: biomarker/uv_hotspots/{sample}_{type}.uv_hotspots.call.tsv
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.call.tsv
+    config_key: uv_hotspots.positions
+    types:
+      - T
+      - N
+  - name: UV hotspots summary
+    input: biomarker/uv_hotspots/{sample}_{type}.uv_hotspots.summary.tsv
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.summary.tsv
+    config_key: uv_hotspots.positions
+    types:
+      - T
+      - N
+  - name: UV hotspots sites
+    input: biomarker/uv_hotspots/{sample}_{type}.uv_hotspots.sites.tsv
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.sites.tsv
+    config_key: uv_hotspots.positions
+    types:
+      - T
+      - N
+  - name: UV hotspots positions
+    input: biomarker/uv_hotspots/{sample}_{type}.uv_hotspots.positions.tsv
+    output: results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.positions.tsv
+    config_key: uv_hotspots.positions
+    types:
+      - T
+      - N
   - name: HRD score - pathology_purecn
     input: biomarker/scarhrd/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt
     output: results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt
