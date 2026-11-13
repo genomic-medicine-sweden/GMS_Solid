@@ -139,6 +139,7 @@ def compile_output_list(wildcards):
                 if "analyskod" not in filedef or samples.loc[sample].get("analyskod", "") in filedef["analyskod"]
                 for unit_type in get_unit_types(units, sample)
                 if unit_type in set(filedef["types"]).intersection(types)
+                if include_output_for_matched_normal(filedef, sample, unit_type)
                 for caller in config["bcbio_variation_recall_ensemble"]["callers"]
             ]
         )
@@ -193,6 +194,37 @@ def get_deduplication_bam_chr_input(wildcards):
 
 def get_deduplication_bam_chr_input_bai(wildcards):
     return get_deduplication_bam_chr_input(wildcards) + ".bai"
+
+
+def get_matched_normal(sample):
+    if "matched_normal" not in samples.columns:
+        return None
+
+    normal = samples.loc[sample].get("matched_normal", "")
+    if pd.isna(normal) or normal in ["", ".", "NA"]:
+        return None
+
+    return normal
+
+
+def get_matched_normal_bam_chr_input(wildcards):
+    matched_normal = get_matched_normal(wildcards.sample)
+    if matched_normal is None:
+        raise ValueError(f"No matched normal defined for sample '{wildcards.sample}'")
+    if config.get("deduplication") == "umi":
+        return f"alignment/samtools_extract_reads_umi/{matched_normal}_N_{wildcards.chr}.umi.bam"
+    return f"alignment/picard_mark_duplicates/{matched_normal}_N_{wildcards.chr}.bam"
+
+
+def get_matched_normal_bam_chr_input_bai(wildcards):
+    return get_matched_normal_bam_chr_input(wildcards) + ".bai"
+
+
+def include_output_for_matched_normal(filedef, sample, unit_type):
+    if not filedef.get("requires_matched_normal", False):
+        return True
+
+    return unit_type == "T" and get_matched_normal(sample) is not None
 
 
 def get_vardict_min_af(wildcards):

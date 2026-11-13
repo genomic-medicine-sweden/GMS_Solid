@@ -35,6 +35,9 @@ properties:
           items:
             type: string
             enum: [N, T, R]
+        requires_matched_normal:
+          description: Only include this output for tumor samples with a matched normal.
+          type: boolean
       required:
         - name
         - input
