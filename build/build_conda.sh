@@ -38,18 +38,19 @@
 set -euo pipefail
 
 # Steps in execution order. Forcing a step also invalidates every step after it.
-# The pgx_* steps do nothing unless PGX_VERSION is set.
+# The pgx_* steps do nothing unless PGX_VERSION is set. They run before the main env is
+# created, so the main env is never active while the PGX env is built.
 STEPS=(
     clone_pipeline
-    create_env
     stage_pipeline
-    install_requirements
-    install_executors
-    pack_env
     clone_pgx
     create_pgx_env
     install_pgx_requirements
     pack_pgx_env
+    create_env
+    install_requirements
+    install_executors
+    pack_env
     clone_wrappers
     clone_modules
     clone_config
@@ -409,8 +410,12 @@ invalidate_from() {
     done
 }
 
-# A state directory only describes the build it was created for.
+# A state directory only describes the build it was created for. PGX is part of the
+# fingerprint, so turning it on or off for an existing state directory requires --force.
 FINGERPRINT="${PIPELINE_NAME} ${TAG_OR_BRANCH} ${CONFIG_NAME:-none} ${CONFIG_VERSION:-none} ${PYTHON_VERSION}"
+if pgx_enabled; then
+    FINGERPRINT+=" pgx=${PGX_VERSION} pgx_python=${PGX_PYTHON_VERSION}"
+fi
 FINGERPRINT_FILE=${STATE_DIR}/build.fingerprint
 if [[ -f $FINGERPRINT_FILE && $(cat "$FINGERPRINT_FILE") != "$FINGERPRINT" && $FORCE_ALL == false ]]; then
     die "$(
@@ -422,42 +427,7 @@ if [[ -f $FINGERPRINT_FILE && $(cat "$FINGERPRINT_FILE") != "$FINGERPRINT" && $F
 fi
 if [[ $DRY_RUN == false ]]; then
     mkdir -p "$STATE_DIR"
-
-    # A state directory only describes the build it was created for. PGX is part of the
-    # fingerprint, so turning it on or off for an existing state directory requires --force.
-    FINGERPRINT="${PIPELINE_NAME} ${TAG_OR_BRANCH} ${CONFIG_NAME:-none} ${CONFIG_VERSION:-none} ${PYTHON_VERSION}"
-    if pgx_enabled; then
-        FINGERPRINT+=" pgx=${PGX_VERSION} pgx_python=${PGX_PYTHON_VERSION}"
-    fi
-    FINGERPRINT_FILE=${STATE_DIR}/build.fingerprint
-    if [[ -f $FINGERPRINT_FILE && $(cat "$FINGERPRINT_FILE") != "$FINGERPRINT" ]]; then
-        if [[ $FORCE_ALL == true ]]; then
-            printf '%s\n' "$FINGERPRINT" >"$FINGERPRINT_FILE"
-        else
-            die "$(
-                printf 'state directory %s belongs to a different build:\n' "$STATE_DIR"
-                printf '  existing: %s\n' "$(cat "$FINGERPRINT_FILE")"
-                printf '  current:  %s\n' "$FINGERPRINT"
-                printf 'Rerun with --force, or pass --state-dir for this build.'
-            )"
-        fi
-    else
-        printf '%s\n' "$FINGERPRINT" >"$FINGERPRINT_FILE"
-    fi
-
-    if [[ $FORCE_ALL == true ]]; then
-        log "--force given, clearing all markers"
-        invalidate_from "${STEPS[0]}"
-    fi
-
-    for step in ${FORCED_STEPS[@]+"${FORCED_STEPS[@]}"}; do
-        log "--force-step ${step}, clearing it and every later step"
-        invalidate_from "$step"
-    done
-
-    for step in ${ONLY_STEPS[@]+"${ONLY_STEPS[@]}"}; do
-        clear_marker "$step"
-    done
+    printf '%s\n' "$FINGERPRINT" >"$FINGERPRINT_FILE"
 fi
 
 # In a dry run clear_marker only records the marker, so the run below reports what would be redone.
@@ -495,15 +465,30 @@ set +u
 eval "$(conda shell.bash hook)"
 set -u
 
-ENV_ACTIVE=false
-ensure_env_active() {
-    [[ $ENV_ACTIVE == true ]] && return 0
-    [[ -d $ENV_DIR ]] || die "conda env ${ENV_DIR} is missing; rerun with --force-step create_env"
+# Prefix of the env this script activated, empty when none. At most one is active at a time.
+ACTIVE_ENV=""
+
+deactivate_env() {
+    [[ -n $ACTIVE_ENV ]] || return 0
     set +u
-    conda activate "$ENV_DIR"
+    conda deactivate
     set -u
-    ENV_ACTIVE=true
+    ACTIVE_ENV=""
 }
+
+activate_env() {
+    # activate_env <prefix> <step that creates it>
+    local prefix=$1 step=$2
+    [[ $ACTIVE_ENV == "$prefix" ]] && return 0
+    [[ -d $prefix ]] || die "conda env ${prefix} is missing; rerun with --force-step ${step}"
+    deactivate_env
+    set +u
+    conda activate "$prefix"
+    set -u
+    ACTIVE_ENV=$prefix
+}
+
+ensure_env_active() { activate_env "$ENV_DIR" create_env; }
 
 require_dir() {
     local path=$1 step=$2
@@ -666,8 +651,9 @@ step_pack_env() {
 }
 
 # The PGX add-on pipeline is staged next to the main pipeline and gets its own env,
-# packed as pgx_env.tar.gz. These steps come after stage_pipeline because that step
-# wipes STAGE_DIR.
+# packed as pgx_env.tar.gz. These steps come after stage_pipeline, because that step
+# wipes STAGE_DIR, and before create_env, so the main env cannot leak into the PGX env.
+# The PGX env is only active while its requirements are installed.
 
 step_clone_pgx() {
     if ! pgx_enabled; then
@@ -683,6 +669,7 @@ step_create_pgx_env() {
         log "  PGX_VERSION not set, nothing to do"
         return 0
     fi
+    deactivate_env
     rm -rf "$PGX_ENV_DIR"
     mamba create --prefix "$PGX_ENV_DIR" "python=${PGX_PYTHON_VERSION}" -y
 }
@@ -693,9 +680,11 @@ step_install_pgx_requirements() {
         return 0
     fi
     require_dir "$PGX_DIR" clone_pgx
-    require_dir "$PGX_ENV_DIR" create_pgx_env
-    # Call the env's pip directly; the main env stays the active one.
-    "${PGX_ENV_DIR}/bin/pip3" install --no-cache-dir -I -r "${PGX_DIR}/requirements.txt"
+    activate_env "$PGX_ENV_DIR" create_pgx_env
+    # No -I/--ignore-installed: it reinstalls the conda-managed pip/setuptools and conda pack
+    # then refuses the env (see step_install_requirements).
+    "${PGX_ENV_DIR}/bin/pip3" install --no-cache-dir -r "${PGX_DIR}/requirements.txt"
+    deactivate_env
 }
 
 step_pack_pgx_env() {
@@ -704,7 +693,8 @@ step_pack_pgx_env() {
         return 0
     fi
     require_dir "$PGX_ENV_DIR" create_pgx_env
-    ensure_env_active
+    # conda pack comes from the build env; no pipeline env needs to be active.
+    deactivate_env
     conda pack --prefix "$PGX_ENV_DIR" -o "${STAGE_DIR}/pgx_env.tar.gz" --force
 }
 
@@ -835,12 +825,7 @@ step_cleanup() {
         log "  --keep-workdir given, keeping ${dirs[*]}"
         return 0
     fi
-    if [[ $ENV_ACTIVE == true ]]; then
-        set +u
-        conda deactivate
-        set -u
-        ENV_ACTIVE=false
-    fi
+    deactivate_env
     rm -rf "${dirs[@]}"
 }
 

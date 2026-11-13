@@ -102,8 +102,12 @@ The build is a linear list of steps, run in this order (`bash build_conda.sh --l
 | Step | What it does |
 | --- | --- |
 | `clone_pipeline` | clones the pipeline into `<PIPELINE_NAME>/` (kept if already present); the build runs from there |
-| `create_env` | creates the conda env `<PIPELINE_NAME>/<PIPELINE_NAME>_<TAG>_env` with `mamba` |
 | `stage_pipeline` | clones the pipeline again into the staging directory `<PIPELINE_NAME>/<PIPELINE_NAME>_<TAG>/` (the bundle content) |
+| `clone_pgx` | `PGX_VERSION` set: clones the PGX pipeline into `<staging>/pgx_<PGX_VERSION>/` |
+| `create_pgx_env` | `PGX_VERSION` set: creates the PGX conda env `<PIPELINE_NAME>/pgx_<PGX_VERSION>_env` (runs before `create_env`, so no other env is active) |
+| `install_pgx_requirements` | `PGX_VERSION` set: activates the PGX env, `pip install -r requirements.txt`, deactivates it again |
+| `pack_pgx_env` | `PGX_VERSION` set: `conda pack` the PGX env into `<staging>/pgx_env.tar.gz` |
+| `create_env` | creates the conda env `<PIPELINE_NAME>/<PIPELINE_NAME>_<TAG>_env` with `mamba` |
 | `install_requirements` | `pip install -r requirements.txt` into the env |
 | `install_executors` | installs/removes executor plugins so the env matches `EXECUTOR_PLUGINS` |
 | `pack_env` | `conda pack` the env into `<staging>/env.tar.gz` |
