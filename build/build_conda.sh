@@ -28,9 +28,10 @@
 #   PGX_PYTHON_VERSION        python version for the PGX env (default: PYTHON_VERSION)
 #   EXECUTOR_PLUGINS          comma-separated Snakemake executor plugins to add to the env:
 #                             drmaa, slurm, sge, or "none". A plugin may carry a pip version
-#                             spec, e.g. slurm==2.8.0. Needs PYTHON_VERSION >= 3.11. When unset,
-#                             the script asks; without a terminal it keeps the previous choice
-#                             (none on a first build).
+#                             spec, e.g. slurm==2.8.0. Needs PYTHON_VERSION >= 3.11 (and
+#                             PGX_PYTHON_VERSION >= 3.11 with PGX, whose env gets the same
+#                             plugins). When unset, the script asks; without a terminal it keeps
+#                             the previous choice (none on a first build).
 #
 # Any positional arguments are reference/design config files passed to
 # `hydra-genetics references download`.
@@ -46,6 +47,7 @@ STEPS=(
     clone_pgx
     create_pgx_env
     install_pgx_requirements
+    install_pgx_executors
     pack_pgx_env
     create_env
     install_requirements
@@ -343,6 +345,7 @@ fi
 
 # -------------------------------------------------------------------- executor plugins
 PREVIOUS_EXECUTORS_FILE=${STATE_DIR}/install_executors/plugins
+PREVIOUS_PGX_EXECUTORS_FILE=${STATE_DIR}/install_pgx_executors/plugins
 # The previous choice, as short names (slurm==2.8.0), for the default answer.
 PREVIOUS_EXECUTORS=$(sed 's/snakemake-executor-plugin-//g' "$PREVIOUS_EXECUTORS_FILE" 2>/dev/null || true)
 
@@ -386,9 +389,16 @@ for spec in $(split_list "$EXECUTOR_PLUGINS"); do
 done
 if [[ ${#EXECUTOR_REQUIREMENTS[@]} -gt 0 ]]; then
     # Every executor plugin requires python >= 3.11; fail now rather than deep inside pip.
-    IFS=. read -r py_major py_minor _ <<<"$PYTHON_VERSION"
-    if ((py_major < 3 || (py_major == 3 && ${py_minor:-0} < 11))); then
-        die "executor plugins need PYTHON_VERSION >= 3.11 (got ${PYTHON_VERSION})"
+    check_executor_python() {
+        local name=$1 version=$2 py_major py_minor
+        IFS=. read -r py_major py_minor _ <<<"$version"
+        if ((py_major < 3 || (py_major == 3 && ${py_minor:-0} < 11))); then
+            die "executor plugins need ${name} >= 3.11 (got ${version})"
+        fi
+    }
+    check_executor_python PYTHON_VERSION "$PYTHON_VERSION"
+    if pgx_enabled; then
+        check_executor_python PGX_PYTHON_VERSION "$PGX_PYTHON_VERSION"
     fi
 fi
 # Sorted, so the same set in a different order counts as unchanged.
@@ -453,6 +463,18 @@ if { is_done install_executors &&
     { ! is_done install_executors && [[ -n $EXECUTOR_SET ]] && is_done pack_env; }; then
     log "executor plugins changed, redoing install_executors and every later step"
     invalidate_from install_executors
+fi
+
+# The same for the PGX env. Only the PGX plugin and pack steps are cleared, plus everything from
+# pack_bundle on, so the main env is not rebuilt for a PGX-only change.
+if pgx_enabled &&
+    { { is_done install_pgx_executors &&
+        [[ $(cat "$PREVIOUS_PGX_EXECUTORS_FILE" 2>/dev/null) != "$EXECUTOR_SET" ]]; } ||
+        { ! is_done install_pgx_executors && [[ -n $EXECUTOR_SET ]] && is_done pack_pgx_env; }; }; then
+    log "executor plugins changed, redoing install_pgx_executors, pack_pgx_env and the bundle"
+    clear_marker install_pgx_executors
+    clear_marker pack_pgx_env
+    invalidate_from pack_bundle
 fi
 
 # ------------------------------------------------------------------------- environment
@@ -612,42 +634,62 @@ step_install_requirements() {
         -r "${STAGE_DIR}/${PIPELINE_NAME}/requirements.txt"
 }
 
-step_install_executors() {
-    local package
-    ensure_env_active
+install_executor_plugins() {
+    # install_executor_plugins <env prefix> <requirements.txt> <file recording the installed set>
+    # The env must be active.
+    local env_dir=$1 requirements=$2 record=$3 package
     # Drop known plugins that are no longer requested, so the env matches EXECUTOR_PLUGINS.
     for package in "${KNOWN_EXECUTORS[@]}"; do
         package=snakemake-executor-plugin-${package}
         if ! printf '%s\n' ${EXECUTOR_REQUIREMENTS[@]+"${EXECUTOR_REQUIREMENTS[@]}"} |
             grep -qE "^${package}([<>=!~]|$)" &&
-            "${ENV_DIR}/bin/pip3" show --quiet "$package" >/dev/null 2>&1; then
+            "${env_dir}/bin/pip3" show --quiet "$package" >/dev/null 2>&1; then
             log "  removing ${package}"
-            "${ENV_DIR}/bin/pip3" uninstall --yes "$package"
+            "${env_dir}/bin/pip3" uninstall --yes "$package"
         fi
     done
 
     if [[ ${#EXECUTOR_REQUIREMENTS[@]} -eq 0 ]]; then
         log "  no executor plugins selected, nothing to install"
     else
-        require_dir "${STAGE_DIR}/${PIPELINE_NAME}" stage_pipeline
+        [[ -f $requirements ]] || die "${requirements} is missing"
         log "  installing ${EXECUTOR_REQUIREMENTS[*]}"
-        # requirements.txt goes along so pip keeps its pins (snakemake>=9,<10) while resolving
-        # the plugins' snakemake-interface-* dependencies.
-        "${ENV_DIR}/bin/pip3" install --no-cache-dir \
-            -r "${STAGE_DIR}/${PIPELINE_NAME}/requirements.txt" \
-            "${EXECUTOR_REQUIREMENTS[@]}"
+        # requirements.txt goes along so pip keeps its pins (e.g. snakemake>=9,<10) while
+        # resolving the plugins' snakemake-interface-* dependencies.
+        "${env_dir}/bin/pip3" install --no-cache-dir -r "$requirements" "${EXECUTOR_REQUIREMENTS[@]}"
     fi
 
-    mkdir -p "$(dirname "$PREVIOUS_EXECUTORS_FILE")"
-    printf '%s\n' "$EXECUTOR_SET" >"$PREVIOUS_EXECUTORS_FILE"
+    mkdir -p "$(dirname "$record")"
+    printf '%s\n' "$EXECUTOR_SET" >"$record"
+}
+
+step_install_executors() {
+    require_dir "${STAGE_DIR}/${PIPELINE_NAME}" stage_pipeline
+    ensure_env_active
+    install_executor_plugins "$ENV_DIR" "${STAGE_DIR}/${PIPELINE_NAME}/requirements.txt" \
+        "$PREVIOUS_EXECUTORS_FILE"
+}
+
+pack_conda_env() {
+    # pack_conda_env <env prefix> <output tar.gz>
+    # --ignore-missing-files, because conda pack otherwise aborts on files it believes are gone:
+    #  - requirements.txt pins packages that conda also ships in the prefix (setuptools), so pip
+    #    replaces some conda-managed files no matter what;
+    #  - conda-pack < 0.7.0 maps python 3.10+ to lib/python3.1/site-packages and reports every
+    #    noarch package (pip, ...) as deleted.
+    # Files pip installed are still packed (conda pack includes unmanaged files in the prefix),
+    # so the env is complete.
+    local prefix=$1 output=$2 version
+    version=$(conda pack --version 2>/dev/null | awk '{print $NF}')
+    if [[ -n $version && $(printf '%s\n' "$version" 0.7.0 | sort -V | head -n1) != 0.7.0 ]]; then
+        log "  WARNING: conda-pack ${version} mishandles python >= 3.10; consider upgrading to >= 0.7.0"
+    fi
+    conda pack --prefix "$prefix" -o "$output" --force --ignore-missing-files
 }
 
 step_pack_env() {
     ensure_env_active
-    # requirements.txt pins packages that conda also ships in the prefix (setuptools), so pip
-    # replaces some conda-managed files no matter what. The packed env is complete and only ever
-    # used offline, so let conda pack proceed instead of aborting the build.
-    conda pack --prefix "$ENV_DIR" -o "${STAGE_DIR}/env.tar.gz" --force --ignore-missing-files
+    pack_conda_env "$ENV_DIR" "${STAGE_DIR}/env.tar.gz"
 }
 
 # The PGX add-on pipeline is staged next to the main pipeline and gets its own env,
@@ -687,6 +729,18 @@ step_install_pgx_requirements() {
     deactivate_env
 }
 
+step_install_pgx_executors() {
+    # The PGX pipeline is run on the same cluster, so its env gets the same executor plugins.
+    if ! pgx_enabled; then
+        log "  PGX_VERSION not set, nothing to do"
+        return 0
+    fi
+    require_dir "$PGX_DIR" clone_pgx
+    activate_env "$PGX_ENV_DIR" create_pgx_env
+    install_executor_plugins "$PGX_ENV_DIR" "${PGX_DIR}/requirements.txt" "$PREVIOUS_PGX_EXECUTORS_FILE"
+    deactivate_env
+}
+
 step_pack_pgx_env() {
     if ! pgx_enabled; then
         log "  PGX_VERSION not set, nothing to do"
@@ -695,7 +749,7 @@ step_pack_pgx_env() {
     require_dir "$PGX_ENV_DIR" create_pgx_env
     # conda pack comes from the build env; no pipeline env needs to be active.
     deactivate_env
-    conda pack --prefix "$PGX_ENV_DIR" -o "${STAGE_DIR}/pgx_env.tar.gz" --force
+    pack_conda_env "$PGX_ENV_DIR" "${STAGE_DIR}/pgx_env.tar.gz"
 }
 
 step_clone_wrappers() {
@@ -846,7 +900,7 @@ run_step() {
         return 0
     fi
     if [[ $DRY_RUN == true ]]; then
-        if [[ $step == install_executors ]]; then
+        if [[ $step == install_executors || $step == install_pgx_executors ]]; then
             log "would run ${step} (${EXECUTOR_SET:-no plugins})"
         else
             log "would run ${step}"
