@@ -63,6 +63,7 @@ files handed to `hydra-genetics references download`.
 | `PATH_TO_apptainer_cache` | with `build`/`update` | path of the container cache *on the target system* |
 | `EXECUTOR_PLUGINS` | no | comma-separated Snakemake executor plugins to add to the env: `drmaa`, `slurm`, `sge` or `none`. A version spec is allowed, e.g. `slurm==2.8.0`. Needs `PYTHON_VERSION >= 3.11`. When unset the script asks interactively; without a terminal it reuses the previous choice (`none` on a first build). |
 | `GIT_CLONE_RETRIES` | no | attempts per git clone (default `3`) |
+| `CONDA_PACK_SPEC` | no | version spec of the conda-pack the build installs into `<PIPELINE_NAME>/conda_pack_env` (default `>=0.7.1`). The system conda-pack is not used, since versions before 0.7.0 break envs with python >= 3.10. |
 
 ### Building without a config repo
 
@@ -106,11 +107,11 @@ The build is a linear list of steps, run in this order (`bash build_conda.sh --l
 | `clone_pgx` | `PGX_VERSION` set: clones the PGX pipeline into `<staging>/pgx_<PGX_VERSION>/` |
 | `create_pgx_env` | `PGX_VERSION` set: creates the PGX conda env `<PIPELINE_NAME>/pgx_<PGX_VERSION>_env` (runs before `create_env`, so no other env is active) |
 | `install_pgx_requirements` | `PGX_VERSION` set: activates the PGX env, `pip install -r requirements.txt`, deactivates it again |
-| `pack_pgx_env` | `PGX_VERSION` set: `conda pack` the PGX env into `<staging>/pgx_env.tar.gz` |
+| `pack_pgx_env` | `PGX_VERSION` set: `conda-pack` the PGX env into `<staging>/pgx_env.tar.gz` |
 | `create_env` | creates the conda env `<PIPELINE_NAME>/<PIPELINE_NAME>_<TAG>_env` with `mamba` |
 | `install_requirements` | `pip install -r requirements.txt` into the env |
 | `install_executors` | installs/removes executor plugins so the env matches `EXECUTOR_PLUGINS` |
-| `pack_env` | `conda pack` the env into `<staging>/env.tar.gz` |
+| `pack_env` | `conda-pack` the env into `<staging>/env.tar.gz`. conda-pack comes from its own env, `<PIPELINE_NAME>/conda_pack_env`, created from conda-forge on first use |
 | `clone_wrappers` | clones `snakemake-wrappers` into the staging directory |
 | `clone_modules` | clones the hydra-genetics modules into `<staging>/hydra-genetics/` |
 | `clone_config` | clones the config repo into `<staging>/<CONFIG_NAME>_<CONFIG_VERSION>/` |
@@ -118,7 +119,7 @@ The build is a linear list of steps, run in this order (`bash build_conda.sh --l
 | `containers` | `APPT_CACHE_STATUS=build`: downloads containers into `<PIPELINE_NAME>/apptainer_cache/`; `build`/`update`: rewrites container paths in the staged `config/config.yaml` to `PATH_TO_apptainer_cache` |
 | `pack_bundle` | tars the staging directory into `<PIPELINE_NAME>/<PIPELINE_NAME>_<TAG>.tar.gz` |
 | `references` | downloads the reference configs into `design_and_ref_files/` and packs `design_and_ref_files.tar.gz` |
-| `cleanup` | removes the conda env and the staging directory (skip with `--keep-workdir`) |
+| `cleanup` | removes the conda envs (including `conda_pack_env`) and the staging directory (skip with `--keep-workdir`) |
 
 ## Resuming and re-running steps
 

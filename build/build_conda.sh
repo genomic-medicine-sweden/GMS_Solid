@@ -32,6 +32,9 @@
 #                             PGX_PYTHON_VERSION >= 3.11 with PGX, whose env gets the same
 #                             plugins). When unset, the script asks; without a terminal it keeps
 #                             the previous choice (none on a first build).
+#   CONDA_PACK_SPEC           version spec for the conda-pack the build installs into its own
+#                             env (<PIPELINE_NAME>/conda_pack_env), default ">=0.7.1". The
+#                             system conda-pack is not used.
 #
 # Any positional arguments are reference/design config files passed to
 # `hydra-genetics references download`.
@@ -296,6 +299,8 @@ STAGED_CONFIG=${STAGE_DIR}/${PIPELINE_NAME}/config/config.yaml
 PGX_ENV_DIR=${WORK_DIR}/pgx_${PGX_VERSION}_env
 PGX_DIR=${STAGE_DIR}/pgx_${PGX_VERSION}
 PGX_STAGED_CONFIG=${PGX_DIR}/config/config.yaml
+CONDA_PACK_ENV_DIR=${WORK_DIR}/conda_pack_env
+CONDA_PACK_SPEC=${CONDA_PACK_SPEC:->=0.7.1}
 APPT_CACHE_DIR=${WORK_DIR}/apptainer_cache
 REF_DATA_DIR=${WORK_DIR}/design_and_ref_files
 # Every step uses absolute paths, so a resumed run does not depend on the working directory.
@@ -670,21 +675,31 @@ step_install_executors() {
         "$PREVIOUS_EXECUTORS_FILE"
 }
 
+ensure_conda_pack() {
+    # conda-pack comes from an env of its own rather than from the system conda: conda-pack < 0.7.0
+    # maps python 3.10+ to lib/python3.1/site-packages, which breaks the packed env, and the
+    # system copy cannot always be upgraded. Created on first use, reused while it exists.
+    local bin=${CONDA_PACK_ENV_DIR}/bin/conda-pack
+    if [[ -x $bin ]]; then
+        return 0
+    fi
+    log "  creating conda-pack env ${CONDA_PACK_ENV_DIR} (conda-pack${CONDA_PACK_SPEC})"
+    rm -rf "$CONDA_PACK_ENV_DIR"
+    mamba create --prefix "$CONDA_PACK_ENV_DIR" -c conda-forge --override-channels \
+        "conda-pack${CONDA_PACK_SPEC}" -y
+    [[ -x $bin ]] || die "conda-pack was not installed into ${CONDA_PACK_ENV_DIR}"
+}
+
 pack_conda_env() {
     # pack_conda_env <env prefix> <output tar.gz>
-    # --ignore-missing-files, because conda pack otherwise aborts on files it believes are gone:
-    #  - requirements.txt pins packages that conda also ships in the prefix (setuptools), so pip
-    #    replaces some conda-managed files no matter what;
-    #  - conda-pack < 0.7.0 maps python 3.10+ to lib/python3.1/site-packages and reports every
-    #    noarch package (pip, ...) as deleted.
-    # Files pip installed are still packed (conda pack includes unmanaged files in the prefix),
-    # so the env is complete.
-    local prefix=$1 output=$2 version
-    version=$(conda pack --version 2>/dev/null | awk '{print $NF}')
-    if [[ -n $version && $(printf '%s\n' "$version" 0.7.0 | sort -V | head -n1) != 0.7.0 ]]; then
-        log "  WARNING: conda-pack ${version} mishandles python >= 3.10; consider upgrading to >= 0.7.0"
-    fi
-    conda pack --prefix "$prefix" -o "$output" --force --ignore-missing-files
+    # --ignore-missing-files, because requirements.txt pins packages that conda also ships in the
+    # prefix (setuptools), so pip replaces some conda-managed files no matter what, and conda pack
+    # would otherwise abort on them. Files pip installed are still packed (conda pack includes
+    # unmanaged files in the prefix), so the env is complete.
+    local prefix=$1 output=$2
+    ensure_conda_pack
+    log "  using $("${CONDA_PACK_ENV_DIR}/bin/conda-pack" --version 2>&1)"
+    "${CONDA_PACK_ENV_DIR}/bin/conda-pack" --prefix "$prefix" -o "$output" --force --ignore-missing-files
 }
 
 step_pack_env() {
@@ -871,7 +886,7 @@ step_references() {
 }
 
 step_cleanup() {
-    local -a dirs=("$ENV_DIR" "$STAGE_DIR")
+    local -a dirs=("$ENV_DIR" "$STAGE_DIR" "$CONDA_PACK_ENV_DIR")
     if pgx_enabled; then
         dirs+=("$PGX_ENV_DIR")
     fi
