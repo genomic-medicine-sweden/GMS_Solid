@@ -44,7 +44,7 @@ bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.17-s9"
 
 bwa_mem2:
-  container: "docker://hydragenetics/bwa_mem2:2.3"
+  container: "docker://hydragenetics/bwa_mem2:2.3-s9"
 
 bwa_mem_merge:
   extra: "-c -p"
