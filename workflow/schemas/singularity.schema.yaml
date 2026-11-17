@@ -37,7 +37,7 @@ properties:
         type: string
         description: name or path to a default docker/singularity container
         pattern: >-
-            hydragenetics/bwa_mem2:2\.3$|hydragenetics__bwa_mem2_2\.3\.sif$
+            hydragenetics/bwa_mem2:2\.3-s9$|hydragenetics__bwa_mem2_2\.3-s9\.sif$
     required:
       - container
 
