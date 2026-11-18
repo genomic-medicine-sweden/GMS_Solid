@@ -127,11 +127,23 @@ else:
     )
 
 
+def config_value_set(key):
+    """True when the dot-separated config key exists and its value is not empty."""
+    value = config
+    for part in key.split("."):
+        if not isinstance(value, dict) or not value.get(part):
+            return False
+        value = value[part]
+    return True
+
+
 def compile_output_list(wildcards):
     output_files = []
     types = set([unit.type for unit in units.itertuples()])
     dedup_types = set([])
     for filedef in output_spec["files"]:
+        if "config_key" in filedef and not config_value_set(filedef["config_key"]):
+            continue
         output_files += set(
             [
                 filedef["output"].format(sample=sample, type=unit_type, caller=caller)
@@ -147,7 +159,7 @@ def compile_output_list(wildcards):
 
 def get_hotspot_report_vcf_input(wildcards):
     if config["deduplication"] == "umi":
-        return "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted"
+        return "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.duplex_annotated.include.exon.filter.snv_hard_filter_umi.codon_snvs.sorted"
     else:
         return "snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.codon_snvs.sorted"
 
@@ -200,6 +212,29 @@ def get_vardict_min_af(wildcards):
         return config.get("vardict", {}).get("allele_frequency_threshold_umi", "0.001")
     else:
         return config.get("vardict", {}).get("allele_frequency_threshold", "0.01")
+
+
+def get_vardict_extra(wildcards):
+    extra = config.get("vardict", {}).get("extra", "-Q 1")
+    if config["deduplication"] == "umi":
+        extra += " -UN"
+    return extra
+
+
+def get_estimate_ctdna_fraction_vcf_input(wildcards):
+    if config["deduplication"] == "umi":
+        template = (
+            "snv_indels/bcbio_variation_recall_ensemble/{{sample}}_{{type}}.ensembled.vep_annotated."
+            "artifact_annotated.hotspot_annotated.background_annotated.duplex_annotated.include.exon."
+            "filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"
+        )
+    else:
+        template = (
+            "snv_indels/bcbio_variation_recall_ensemble/{{sample}}_{{type}}.ensembled.vep_annotated."
+            "artifact_annotated.hotspot_annotated.background_annotated.include.exon."
+            "filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"
+        )
+    return template.format(sample=wildcards.sample, type=wildcards.type)
 
 
 def get_multiqc_input_files(wildcards):
@@ -310,9 +345,15 @@ def resolve_dynamic_analyskod_path(wildcards, file_def):
     """
     Calculates and returns the fully resolved path for the 'analyskod' file.
     """
-    analyskod = get_sample(samples, wildcards)["analyskod"][3:]
-    if analyskod == "MTC":
-        analyskod = "TYR"
+    analyskod = get_sample(samples, wildcards).get("analyskod", "")
+    if pd.isna(analyskod) or analyskod in ["", "GMS560"]:
+        # Samples without a specific analysis type get the full panel file
+        analyskod = "GMS560"
+    else:
+        # Strip the "GMS" prefix, e.g. GMSBRC -> BRC
+        analyskod = analyskod[3:]
+        if analyskod == "MTC":
+            analyskod = "TYR"
     full_path = file_def["input"].format(sample=wildcards.sample, type=wildcards.type, analyskod_placeholder=analyskod)
     return full_path
 

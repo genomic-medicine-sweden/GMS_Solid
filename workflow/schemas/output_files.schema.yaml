@@ -29,6 +29,11 @@ properties:
             allowed.
           type: string
           format: uri-reference
+        config_key:
+          description: >
+            Dot-separated config key, e.g. `uv_hotspots.positions`. The output file
+            is only included when this config value is set and not empty.
+          type: string
         types:
           description: Used to filter which sample types will be included.
           type: array

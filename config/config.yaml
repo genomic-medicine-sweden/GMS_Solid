@@ -40,10 +40,6 @@ bcbio_variation_recall_ensemble:
     - vardict
     - gatk_mutect2
 
-bcftools_annotate:
-  output_type: "z"
-  annotation_string: "-m DB"
-
 bwa_mem:
   container: "docker://hydragenetics/bwa_mem:0.7.17"
 

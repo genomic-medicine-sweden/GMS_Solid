@@ -430,7 +430,7 @@ PureCN uses a filtered (`config/config_hard_filter_purecn.yaml`) and germline an
 
 ### Result file
 
-* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt` - tab-separated table with the selected solution: tumor fraction, ploidy, subclone fraction (NA when no subclonal events are found) and noise (GC-Map correction MAD). A high MAD means noisy off-target coverage and a less reliable estimate
+* `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt` - tab-separated table with the selected solution: tumor fraction, ploidy, subclone fraction (NA when no subclonal events are found) and noise (GC-Map correction MAD). A MAD around 0.2 is typical for clinical FFPE samples and did not reduce accuracy in the validation; above 0.25 the coverage is unusually noisy and the estimate less reliable
 * `results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_params.txt` - full ichorCNA parameter file with model fit details and all evaluated solutions
 
 ## Manta

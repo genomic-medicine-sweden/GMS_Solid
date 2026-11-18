@@ -58,7 +58,7 @@ files:
   - name: ichorCNA purity (off-target)
     type: file_table
     input: results/dna/{sample}_{type}/additional_files/cnv/{sample}_{type}.ichorcna_purity.txt
-    description: Additional, exploratory tumor fraction/ploidy estimate from ichorCNA off-target read coverage. A high GC-Map correction MAD means noisy coverage.
+    description: Additional, exploratory tumor fraction/ploidy estimate from ichorCNA off-target read coverage. GC-Map correction MAD measures coverage noise - around 0.2 is typical for clinical FFPE samples, above 0.25 is unusually noisy.
     nav_header: CNV
   - name: CNV html
     type: file_link
