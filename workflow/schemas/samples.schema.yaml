@@ -7,6 +7,9 @@ properties:
   tumor_content:
     type: string
     description: tumor content
+  matched_normal:
+    type: string
+    description: optional, sample id of the matched normal sample
   deduplication:
     type: string
     description: optional, what type of deduplication should be used (umi = umi-deduplication, not specified or not umi = picard mark duplicate)

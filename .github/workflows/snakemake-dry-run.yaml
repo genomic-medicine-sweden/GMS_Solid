@@ -39,6 +39,14 @@ jobs:
         working-directory: .tests/integration
         run: |
           snakemake -n -s ../../workflow/Snakefile --configfiles ../../config/config.yaml config/config.yaml config/config_ctDNA.yaml
+      - name: snakemake dry run paired ffpe
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfiles ../../config/config.yaml config/config.yaml --config samples=samples_paired.tsv
+      - name: snakemake dry run paired ctDNA
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile --configfiles ../../config/config.yaml config/config.yaml config/config_ctDNA.yaml --config samples=samples_paired.tsv
       - name: snakemake dry run GMS-Solid ffpe
         working-directory: .tests/integration
         run: |
