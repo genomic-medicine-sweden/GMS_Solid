@@ -91,15 +91,21 @@ properties:
       amp_chr_arm_cn_limit:
         type: number
         description: Lower limit of copy number to be included in calculation of chr_arm_fraction for duplications
+      amp_cn_limit:
+        type: number
+        description: Small amplifications with a copy number above this limit are reported
       baseline_fraction_limit:
         type: number
         description: Lower limit of fraction with neutral copy segments and neutral BAF values. A warning of potentially incorrect baseline is reported otherwise.
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      chrom_arm_size:
+        type: string
+        description: File with start and end positions of the chromosome arms
       container:
         type: string
         description: name or path to docker/singularity container
-      call_small_amplifications_cn_limit:
-        type: number
-        description: Upper limit of copy number to be reported as a small amplification.
       chr_arm_fraction:
         type: number
         description: Fraction of the chromosome arms that needs to be deleted

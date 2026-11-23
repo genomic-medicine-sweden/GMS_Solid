@@ -16,7 +16,6 @@ class TestGetCaller(unittest.TestCase):
         cnv = tempfile.mkdtemp() + "/tcnv.txt"
         out_additional_only = open(tempfile.mkdtemp() + "/out_additional_only.txt", "w")
         out_tsv_chrom_arms = tempfile.mkdtemp() + "/cnv_chromosome_arms.tsv"
-        out_vcf_filename = tempfile.mkdtemp() + "/out_vcf.vcf"
         create_tsv_report(
             [".tests/units/vcf/test.cnv1.vcf"],
             [".tests/units/vcf/test.cnv2.vcf"],
@@ -27,7 +26,6 @@ class TestGetCaller(unittest.TestCase):
             cnv,
             out_additional_only,
             out_tsv_chrom_arms,
-            out_vcf_filename,
             1.5,
             0.5,
             0.3,
