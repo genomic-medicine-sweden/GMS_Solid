@@ -7,7 +7,7 @@ log = logging.getLogger()
 
 def create_tsv_report(
     input_vcfs, input_org_vcfs, input_del, input_amp, in_chrom_arm_size, amp_cn_limit,
-    output_txt, out_additional_only, out_tsv_chrom_arms, out_vcf_filename, del_1p19q_cn, del_1p19q_chr_arm_fraction,
+    output_txt, out_additional_only, out_tsv_chrom_arms, del_1p19q_cn, del_1p19q_chr_arm_fraction,
     chr_arm_fraction, del_chr_arm_cn_limit, amp_chr_arm_cn_limit, normal_cn_lower_limit, normal_cn_upper_limit,
     normal_baf_lower_limit, normal_baf_upper_limit, baseline_fraction_limit, polyploidy_fraction_limit, TC,
 ):
@@ -176,15 +176,11 @@ def create_tsv_report(
 
             file1 = False
 
-        file_nr = 0
         for input_vcf in input_vcfs:
             gene_variant_dict = {}
             log.info(f"Opening vcf file: {input_vcf}")
             variants = VariantFile(input_vcf)
             samples = list(variants.header.samples)
-            if file_nr == 1:
-                header = variants.header
-                out_vcf = VariantFile(out_vcf_filename, "w", header=header)
             if len(samples) > 1:
                 raise Exception(f"Unable to process vcf with more then one sample: {samples}")
             counter = 0
@@ -205,8 +201,6 @@ def create_tsv_report(
                     if gene not in gene_variant_dict:
                         gene_variant_dict[gene] = []
                     gene_variant_dict[gene].append([chr, start, end, caller, cn, AF])
-                if file_nr == 1:
-                    out_vcf.write(variant)
                 output_list.append(f"\n{genes}\t{chr}\t{start}-{end}\t{caller}\t{AF:.2f}\t{cn:.2f}")
                 counter += 1
 
@@ -231,10 +225,6 @@ def create_tsv_report(
                             ):
                                 output_string = f"\n{gene}\t{chr}\t{start}-{end}\t{new_caller}\t{AF:.2f}\t{cn:.2f}"
                                 output_list.append(output_string)
-
-            if file_nr == 1:
-                out_vcf.close()
-            file_nr += 1
         log.info(f"Processed {counter} variants")
 
         deletions = open(input_del)
@@ -317,7 +307,6 @@ if __name__ == "__main__":
     amp_cn_limit = snakemake.params.call_small_amplifications_cn_limit
     out_tsv = snakemake.output.tsv
     out_tsv_chrom_arms = snakemake.output.tsv_chrom_arms
-    out_vcf_filename = snakemake.output.vcf_del
     del_1p19q_cn = snakemake.params.del_1p19q_cn_limit
     del_1p19q_chr_arm_fraction = snakemake.params.del_1p19q_chr_arm_fraction
     chr_arm_fraction = snakemake.params.chr_arm_fraction
@@ -341,7 +330,6 @@ if __name__ == "__main__":
             out_tsv,
             out_additional_only,
             out_tsv_chrom_arms,
-            out_vcf_filename,
             del_1p19q_cn,
             del_1p19q_chr_arm_fraction,
             chr_arm_fraction,
