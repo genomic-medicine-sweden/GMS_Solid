@@ -13,6 +13,7 @@ See the [biomarkers hydra-genetics module](https://hydra-genetics-biomarker.read
 * `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.predicted_gis.txt`
 * `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.jumble_gis.csv`
 * `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.gis.png`
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.{call,summary,sites,positions}.tsv` (GMS-Solid only)
 
 ## Tumor mutational burden (TMB)
 TMB is a measure of the frequency of somatic mutations and is usually measured as mutations per megabase. The size of design of the exons is approximately 1.55Mb. However, by validating the TMB for GMS560 against Foundation One and TSO500 TMB the effective design size is adjusted to 1.19Mb. This is based on the slope (0.84) of the correlation between TSO500 data and the number of variants in the TMB analysis. The TMB is calculated using the in-house script **[tmb.py](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/scripts/tmb.py)** ([rule](https://github.com/hydra-genetics/biomarker/blob/develop/workflow/rules/tmb.smk)) which counts the number of nsSNVs and divide by the adjusted design size. Variants must fulfill the following criteria to be counted:
@@ -118,6 +119,101 @@ The predicted GIS depends on the tumor content, and a higher assumed TC gives a 
 ### Result files
 
 * `results/dna/{sample}_{type}/biomarker/{sample}_{type}.pathology_purecn.scarhrd_cnvkit_score.txt`
+
+
+## UV hotspot mutations - experimental
+UV light joins neighbouring pyrimidines into dimers, and a cytosine in a dimer mutates C>T (CC>TT when both
+cytosines are hit). In front of ETS-bound `TTCCG` promoter elements, dimers form far more often than elsewhere
+in the genome, so the `YY` dipyrimidine in `YYTTCCG` is one of the most recurrently mutated positions in
+melanoma ([Elliott et al. 2018](https://doi.org/10.1371/journal.pgen.1007849)). These mutations are passengers,
+and the number of mutated hotspots tracks the UV mutation load of the tumour.
+
+The GMS-Solid panel captures 100 such sites: the 150 most recurrently mutated in melanoma, minus those where the
+main hotspot overlaps a known SNP (dbSNP 155). For each site the in-house script
+**[uv_hotspots.py](https://github.com/genomic-medicine-sweden/Twist_Solid/blob/develop/workflow/scripts/uv_hotspots.py)**
+counts fragments at:
+
+* **Y1/Y2**: the cytosines of the `YY` dipyrimidine, the main hotspot (164 positions)
+* **C5**: the cytosine after `TT`, a weaker hotspot that has not been checked against dbSNP, reported separately (100 positions)
+* **flank**: all other C/G positions within 15 bp, the in-sample background for C>T errors. Positions that look
+  germline in the sample are left out, and CpG positions are reported separately as they are noisier
+
+Bases are counted per fragment on the C (pyrimidine) strand, so G>A on the reference is reported as C>T.
+Overlapping mates count once when they agree and are dropped when they disagree. C>T fragments are split by read
+orientation, as FFPE deamination artefacts tend to appear in one orientation only. At CC sites, fragments with
+C>T at both positions (CC>TT) are counted.
+
+The analysis is experimental and its results are collected for evaluation, not reported. Only C>T is used for
+hits and rates, C>A and C>G are reported per position. In the GMS-Solid validation samples (no skin tumours) no
+site was hit, the hotspot C>T rate was about 2 x 10<sup>-4</sup> per fragment, and the hotspot rate was about
+0.75 times the non-CpG flank rate. Samples with UV exposure are expected to have hits and a higher hotspot vs flank
+ratio, but this has not yet been tested on UV-positive samples.
+
+The output is only produced when `uv_hotspots: positions` is set, which is done in
+`config.data.hg38.GMS-Solid.yaml`.
+
+### Normal background
+There is no per-position normal background (as used for SNV filtering) in this analysis. It could be added later as
+a reference file with the C>T level of each hotspot position in normal samples, so that a hit must also be above
+the normal level. It may not be needed:
+
+* **The in-sample flank is the background.** Hotspot and flank C>T rates follow each other closely between
+  samples (Spearman 0.88 in the validation samples), so most of the noise is a property of the sample, which the
+  hotspot vs flank ratio corrects for without any reference file. This works the same way for FFPE and ctDNA.
+* **The noise is flat across positions.** In the validation normals, no hotspot position was recurrently noisy
+  and no position had more than 4 C>T fragments, so a per-position background would contain about 0 everywhere
+  and add little to the `min_alt`/`min_vaf` thresholds.
+* **It would need a good base.** Eight validation normals give mostly 0-1 C>T fragments per position, and
+  UMI-collapsed ctDNA data would need its own background.
+
+If recurrently noisy positions show up in the collected data, a background can be built from the collected
+results of many runs; non-UV clinical samples serve as background too.
+
+### UV call and cut-offs (provisional)
+The call file gives an overall UV call with the supporting numbers, in the form `metric`, `value`, `cutoff`,
+`result`. The cut-offs are **provisional**: they are set from the GMS-Solid validation samples, none of them UV
+exposed, so they are known to give no false positives there (all 32 samples are called `no`) but their sensitivity
+is unknown. They should be recalibrated when UV-positive samples (melanoma, cutaneous SCC) are available.
+
+| **Metric** | **Cut-off** | **Result** | **Basis** |
+|-|-|-|-|
+| UV_call | from `sites_covered`, `sites_hit` and `low_frequency_ratio` | `yes`, `possible`, `no` or `not evaluable` | `yes` needs clonal hits; an elevated `low_frequency_ratio` alone gives at most `possible` |
+| sites_covered | >= 80 of 100 sites with >= 100 fragments at every hotspot position | below gives `not evaluable` | all validation samples had 98-100 |
+| sites_hit | >= 3 sites gives `yes`, 1-2 `possible`, 0 `no`. A hit is >= 3 C>T fragments and >= 2% C>T at Y1 or Y2; possible germline hits are not counted | | no hits in any validation sample. 2% catches a clonal heterozygous mutation from about 4% tumour content. A single hit can come from a very high TMB without UV, which is why 1-2 hits need review |
+| sites_possible_germline | hits with >= 35% C>T, not counted as hits | `review` | tumour-only samples; such a hit may be a SNP |
+| dnv_CCTT_fragments | >= 1 | `supports UV` | CC>TT in one fragment is very specific to UV; 0-1 in the validation samples |
+| hotspot_alt_F1R2_fraction | outside 0.1-0.9 with >= 10 C>T fragments | `possible FFPE artefact` | FFPE deamination tends to sit in one read orientation; 0.3-0.75 in the validation samples |
+| low_frequency_ratio, low_frequency_p | C>T rate at Y1/Y2 positions without a hit against the non-CpG flank rate: ratio >= 1.5 and one-sided binomial p < 0.01 | `elevated` raises `no` to `possible` | ratio 0.46-1.27 and lowest p 0.08 in the validation samples. Hit positions are left out so clonal hits do not drive it; it picks up hotspot mutations below the 2% hit threshold, e.g. at low tumour content. It may also reflect UV-damaged normal skin in the sample rather than the tumour, so it never gives `yes` on its own |
+| manual_review | | `yes` with the reasons | a `possible` call (from hits or from an elevated ratio), possible germline hits, or an orientation bias together with hits |
+
+### Configuration
+
+**Software settings**
+
+| **Options** | **Default** | **Description** |
+|-|-|-|
+| positions | (not set) | UV hotspot position table, the analysis only runs when set |
+| min_alt | 3 | Minimum C>T fragments for a hit |
+| min_vaf | 0.02 | Minimum C>T fraction for a hit |
+| uv_sites_hit | 3 | Sites with a somatic hit for UV_call `yes` |
+| possible_sites_hit | 1 | Sites with a somatic hit for UV_call `possible` |
+| elevated_ratio | 1.5 | `low_frequency_ratio` for `elevated` |
+| elevated_p | 0.01 | Binomial p-value for `elevated` |
+
+The other thresholds are fixed in the script: base quality >= 30, mapping quality >= 20, >= 100 fragments for a
+covered site and a hit, possible germline at >= 35% C>T, flank positions left out at >= 10% non-reference, and the
+call's coverage (80 sites) and orientation (0.1-0.9, >= 10 fragments) checks.
+
+### Result files
+
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.call.tsv`: UV call with
+  metrics, cut-offs and a manual review flag, meant for the general report
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.summary.tsv`: one row
+  per sample with sites hit, CC>TT fragments, hotspot, C5 and flank C>T counts and rates, and the hotspot vs flank
+  ratio
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.sites.tsv`: one row per site
+* `results/dna/{sample}_{type}/additional_files/biomarker/{sample}_{type}.uv_hotspots.positions.tsv`: one row per
+  position with fragment counts, read orientation of C>T fragments and hit/flank flags
 
 
 ## Fragmentomics

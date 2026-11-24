@@ -370,9 +370,9 @@
  report_fusions:
    annotation_bed:
      checksum: 49ae9bf1bc071b5faa9f8e5024c95689
-     path: GMS560/design/Twist_RNA_fusionpartners_hg38.bed
+     path: GMS560/rna_fusion/Twist_RNA_fusionpartners_hg38.bed
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/design/Twist_RNA_fusionpartners_hg38.bed
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/rna_fusion/Twist_RNA_fusionpartners_hg38.bed
 
    fp_fusions:
      checksum: 3886104b8c9c0c73ec8edb40b8d1428d
@@ -399,10 +399,10 @@
 
  somalier_ungrouped_extract:
    sites:
-     checksum: 1418584cc118ac7d063ec35889bebd2a
-     path: GMS560/design/sites.hg38.nochr.vcf.gz
+     checksum: aba14164be7c2c2ed7458277374bb95c
+     path: GMS560/design/sites.hg38.vcf.gz
      type: file
-     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/design/sites.hg38.nochr.vcf.gz
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.38.1/design/sites.hg38.vcf.gz
 
 
  tmb:
@@ -411,6 +411,14 @@
      path: GMS560/tmb/tmb_filter_genes.txt
      type: file
      url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.35.1/tmb/tmb_filter_genes.txt
+
+
+ uv_hotspots:
+   positions:
+     checksum: 7f3f9eedeb6e6e4a94bd319998f18c38
+     path: GMS560/design/GMS_Solid_UV_hotspot_positions_20261110_hg38.tsv
+     type: file
+     url: https://github.com/genomic-medicine-sweden/Twist_Solid_pipeline_files/raw/v0.38.0/design/GMS_Solid_UV_hotspot_positions_20261110_hg38.tsv
 
 
  manta_config_t:
