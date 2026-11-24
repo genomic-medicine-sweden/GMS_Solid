@@ -204,7 +204,7 @@ seqtk_subsample:
   nr_reads_rna: 30000000
 
 somalier_ungrouped_extract:
-  sites: "{{PROJECT_DESIGN_DATA}}/GMS560/design/sites.hg38.nochr.vcf.gz"
+  sites: "{{PROJECT_DESIGN_DATA}}/GMS560/design/sites.hg38.vcf.gz"
 
 star:
   genome_index: "{{PROJECT_REF_DATA}}/ref_data/star/STAR_v2.7.10a_v2.7.10a_GRCh38-GIABv3/"
