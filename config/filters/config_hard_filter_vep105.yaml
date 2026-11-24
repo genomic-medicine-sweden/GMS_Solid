@@ -47,3 +47,7 @@ filters:
     description: "Hard filter TERT variants with few observations (AD lower than 4)"
     expression: "(FORMAT:AD:1 < 4 and exist[1-hotspot, INFO:Hotspot] and VEP:SYMBOL = TERT)"
     soft_filter: "False"
+  sv_artifact:
+    description: "Hard filter VarDict SV calls (DEL/DUP/INV) with weak or paralog-like support: fewer than 5 spanning read pairs, more than 2 mismatches per read on average, or shorter than 1000 bp"
+    expression: "((INFO:SVTYPE = DEL or INFO:SVTYPE = DUP or INFO:SVTYPE = INV) and (INFO:SPANPAIR < 5 or INFO:NM > 2 or INFO:SVLEN < 1000))"
+    soft_filter: "False"

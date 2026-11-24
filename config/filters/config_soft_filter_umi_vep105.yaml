@@ -123,3 +123,8 @@ filters:
     expression: "INFO:CALLERS:0 = gatk_mutect2"
     soft_filter_flag: "only_mutect2"
     soft_filter: "True"
+  sv_artifact:
+    description: "Soft filter VarDict SV calls (DEL/DUP/INV) with weak or paralog-like support: fewer than 5 spanning read pairs, more than 2 mismatches per read on average, or shorter than 1000 bp"
+    expression: "((INFO:SVTYPE = DEL or INFO:SVTYPE = DUP or INFO:SVTYPE = INV) and (INFO:SPANPAIR < 5 or INFO:NM > 2 or INFO:SVLEN < 1000))"
+    soft_filter_flag: "SV_artifact"
+    soft_filter: "True"
