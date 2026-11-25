@@ -232,7 +232,7 @@ def get_estimate_ctdna_fraction_vcf_input(wildcards):
         template = (
             "snv_indels/bcbio_variation_recall_ensemble/{{sample}}_{{type}}.ensembled.vep_annotated."
             "artifact_annotated.hotspot_annotated.background_annotated.include.exon."
-            "filter.snv_hard_filter_umi.codon_snvs.sorted.vep_annotated.qci.vcf"
+            "filter.snv_hard_filter.codon_snvs.sorted.vep_annotated.qci.vcf"
         )
     return template.format(sample=wildcards.sample, type=wildcards.type)
 
