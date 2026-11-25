@@ -89,6 +89,7 @@ cnv_html_report:
   show_table: true
   cytobands: true
   default_gene_focus: true
+  default_show_somatic_variants: true
   extra_tables:
     - name: Small CNVs and 1p19q
       description: >
@@ -295,6 +296,7 @@ merge_af_complex_variants:
 merge_cnv_json:
   cancer_genes: "config/reports/cancer_genes.csv"
   germline_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz
+  somatic_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.vcf
   unfiltered_cnv_vcfs:
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_amp_genes.vcf.gz
     - cnv_sv/svdb_query/{sample}_{type}.{tc_method}.svdb_query.annotate_cnv.cnv_loh_genes_all.vcf.gz

@@ -5,3 +5,7 @@ deduplication: "umi"
 fgbio_call_overlapping_consensus_bases:
   agrement_strategy: "Consensus"
   disagrement_strategy: "Consensus"
+
+merge_cnv_json:
+  somatic_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.duplex_annotated.include.exon.filter.snv_hard_filter_umi.vcf
+  somatic_min_af: 0

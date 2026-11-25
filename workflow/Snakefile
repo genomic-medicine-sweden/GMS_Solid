@@ -1419,6 +1419,7 @@ use rule cnv_html_report from reports as reports_cnv_html_report with:
         default_absolute_copy_number=config.get("cnv_html_report", {}).get("default_absolute_copy_number", False),
         default_gene_focus=config.get("cnv_html_report", {}).get("default_gene_focus", False),
         default_show_all_datapoints=config.get("cnv_html_report", {}).get("default_show_all_datapoints", False),
+        default_show_somatic_variants=config.get("cnv_html_report", {}).get("default_show_somatic_variants", False),
 
 
 use rule merge_cnv_json from reports as reports_merge_cnv_json with:
@@ -1427,6 +1428,7 @@ use rule merge_cnv_json from reports as reports_merge_cnv_json with:
         fai=config.get("reference", {}).get("fai", ""),
         annotation_bed=config.get("merge_cnv_json", {}).get("annotations", []),
         germline_vcf=config.get("merge_cnv_json", {}).get("germline_vcf", []),
+        somatic_vcf=config.get("merge_cnv_json", {}).get("somatic_vcf", []),
         cnv_vcfs=config.get("merge_cnv_json", {}).get("unfiltered_cnv_vcfs", []),
         cnv_vcfs_tbi=config.get("merge_cnv_json", {}).get("unfiltered_cnv_vcfs_tbi", []),
         cytobands=config.get("merge_cnv_json", {}).get("cytobands", []),

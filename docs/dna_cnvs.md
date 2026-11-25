@@ -256,6 +256,7 @@ In addition to the tsv report, an interactive HTML report is generated which pro
 | CNV results table | Filtered and unfiltered CNV calls from all callers, togglable per caller |
 | Extra tables | Additional TSV-based tables (e.g. small CNVs, 1p19q, chromosomal arm events) |
 | Gene color toggle | Toggle to apply per-gene role colors to annotated genes in the chromosome plot |
+| Somatic variants | Hard-filtered somatic SNVs/indels shown as markers below the log₂-ratio panel in the chromosome plot; hover shows gene, protein (or cDNA) change, position and VAF. Only cancer genes are shown unless **All genes** is checked. Synonymous and non-coding variants are left out |
 
 ### Configuration
 
@@ -267,6 +268,7 @@ cnv_html_report:
   show_table: true       # Include the CNV results table (requires filtered/unfiltered VCF inputs)
   cytobands: true        # Display cytoband annotation in the chromosome plot
   wide_plot_width: false # Set to an integer (pixels) to force a fixed plot width; false = non-fixed width but max width is half of browser width
+  default_show_somatic_variants: true # Show the somatic variant markers when the report is opened
   extra_tables:
     - name: Small CNVs and 1p19q
       description: >
@@ -310,6 +312,12 @@ merge_cnv_json:
 
   # Germline VCF used to show BAF (heterozygous SNP allele frequencies) in the plots
   germline_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.filter.germline.exclude.blacklist.vcf.gz
+
+  # Somatic VCF shown as variant markers in the chromosome plot. The ctDNA configs use the
+  # UMI hard-filtered VCF (..duplex_annotated.include.exon.filter.snv_hard_filter_umi.vcf) with somatic_min_af: 0
+  somatic_vcf: snv_indels/bcbio_variation_recall_ensemble/{sample}_{type}.ensembled.vep_annotated.artifact_annotated.hotspot_annotated.background_annotated.include.exon.filter.snv_hard_filter.vcf
+  # somatic_min_af: 0.05             # Minimum VAF for a variant to be shown (module default 0.05)
+  # somatic_exclude_consequences: [] # Override the default list of left-out consequences (synonymous and non-coding)
 
   # Filtered CNV VCFs: calls shown as "called" in the results table
   filtered_cnv_vcfs:
